@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok — Autorizzazione completata</title>
+<style>
+body{font-family:sans-serif;background:#1a0f0a;color:#faf6f0;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+.box{text-align:center;background:#2c1810;padding:40px;border-radius:16px;border:2px solid #c8956c;max-width:500px}
+h1{color:#c8956c;font-size:1.5em}
+.code{background:#0a0604;border:2px dashed #c8956c;border-radius:12px;padding:16px;margin:20px 0;font-family:monospace;font-size:1.1em;word-break:break-all;color:#e8c9a0}
+p{color:#aaa;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>✅ TikTok Autorizzato!</h1>
+<p>Copia questo codice e mandalo a JARVIS:</p>
+<div class="code" id="code">Caricamento...</div>
+<p style="font-size:.85em;color:#888">Questo codice scade in 10 minuti.</p>
+</div>
+<script>
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+const error = params.get('error');
+const el = document.getElementById('code');
+if (code) {
+  el.textContent = code;
+} else if (error) {
+  el.textContent = 'Errore: ' + error + ' — ' + (params.get('error_description') || '');
+  el.style.color = '#e74c3c';
+} else {
+  el.textContent = 'Nessun codice ricevuto';
+}
+</script>
+</body>
+</html>

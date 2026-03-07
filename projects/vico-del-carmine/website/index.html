@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Vico del Carmine — Pizzeria Napoletana · Firenze</title>
+<meta name="description" content="Menu della Pizzeria Napoletana Vico del Carmine, Via Pisana 40/r, San Frediano, Firenze.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--wine:#7B1E2A;--wine-dark:#5A1520;--cream:#FDF5E6;--gold:#C8A951;--gold-light:#E8D592;--charcoal:#2C2C2C;--text:#3A3A3A;--text-light:#6B6B6B;--white:#FFF;--shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 4px 24px rgba(0,0,0,.12)}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text);line-height:1.6;min-height:100vh;padding-top:60px}
+.lang-bar{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--wine-dark);display:flex;justify-content:center;align-items:center;gap:2px;padding:10px 8px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.lang-btn{background:transparent;border:2px solid transparent;color:rgba(255,255,255,.7);font-family:'Lato',sans-serif;font-size:14px;font-weight:700;padding:6px 12px;border-radius:24px;cursor:pointer;transition:all .3s ease;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.lang-btn:hover{color:var(--white);background:rgba(255,255,255,.1)}
+.lang-btn.active{color:var(--white);background:var(--wine);border-color:var(--gold)}
+.lang-flag{font-size:18px}
+.header{background:linear-gradient(135deg,var(--wine-dark),var(--wine));color:var(--white);text-align:center;padding:48px 20px 40px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.hc{position:relative;z-index:1;max-width:600px;margin:0 auto}
+.hi{font-size:48px;margin-bottom:12px;display:block}
+.header h1{font-family:'Playfair Display',serif;font-size:clamp(32px,7vw,48px);letter-spacing:3px;margin-bottom:4px;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+.hs{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(14px,3.5vw,18px);color:var(--gold-light);margin-bottom:20px}
+.hd{width:60px;height:2px;background:var(--gold);margin:0 auto 16px;border-radius:1px}
+.hinfo{font-size:14px;color:rgba(255,255,255,.85);line-height:1.8}
+.hinfo .ic{margin-right:4px}
+.mc{max-width:680px;margin:0 auto;padding:16px 12px 32px}
+.ms{margin-bottom:16px;background:var(--white);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .3s}
+.ms:hover{box-shadow:var(--shadow-lg)}
+.sh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;user-select:none;-webkit-user-select:none;background:linear-gradient(135deg,var(--wine),var(--wine-dark));color:var(--white);transition:background .3s}
+.sh:active{background:var(--wine-dark)}
+.st{font-family:'Playfair Display',serif;font-size:clamp(16px,4vw,20px);font-weight:700;letter-spacing:1px;display:flex;align-items:center;gap:10px}
+.si{font-size:22px}
+.sc{font-size:20px;transition:transform .35s cubic-bezier(.4,0,.2,1);color:var(--gold-light);flex-shrink:0;margin-left:8px}
+.ms.open .sc{transform:rotate(180deg)}
+.sb{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1),opacity .35s;opacity:0}
+.ms.open .sb{opacity:1}
+.dl{padding:8px 0}
+.di{padding:14px 20px;border-bottom:1px solid rgba(0,0,0,.05);transition:background .2s}
+.di:last-child{border-bottom:none}
+.dr{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dn{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--charcoal);flex:1;line-height:1.3}
+.dp{font-family:'Lato',sans-serif;font-weight:700;font-size:16px;color:var(--wine);white-space:nowrap;flex-shrink:0}
+.dd{flex:1;min-width:20px;border-bottom:1px dotted rgba(0,0,0,.15);margin:0 6px;align-self:baseline;position:relative;top:-4px}
+.ds{font-size:13px;color:var(--text-light);margin-top:4px;line-height:1.5;font-style:italic}
+.dt{font-size:12px;color:var(--gold);margin-top:2px;font-weight:700}
+.nb{background:linear-gradient(135deg,var(--wine),var(--wine-dark));color:var(--white);text-align:center;padding:24px 20px;margin:24px 0;border-radius:12px;box-shadow:var(--shadow)}
+.nb .ni{font-size:32px;display:block;margin-bottom:8px}
+.nb p{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(14px,3.5vw,16px);line-height:1.6;color:var(--gold-light)}
+.footer{background:var(--charcoal);color:rgba(255,255,255,.7);text-align:center;padding:32px 20px}
+.fn{font-family:'Playfair Display',serif;font-size:20px;color:var(--white);margin-bottom:4px;letter-spacing:2px}
+.fs{font-size:13px;color:var(--gold-light);margin-bottom:20px;font-style:italic}
+.sl{display:flex;justify-content:center;gap:24px;margin-bottom:16px;flex-wrap:wrap}
+.sla{display:flex;align-items:center;gap:6px;color:var(--white);text-decoration:none;font-size:14px;padding:8px 16px;border:1px solid rgba(255,255,255,.2);border-radius:24px;transition:all .3s}
+.sla:hover{border-color:var(--gold);color:var(--gold-light);background:rgba(255,255,255,.05)}
+.sli{font-size:18px}
+.fc{font-size:12px;margin-top:12px;opacity:.5}
+@media(min-width:768px){body{padding-top:64px}.lang-bar{gap:6px;padding:12px 16px}.lang-btn{font-size:15px;padding:8px 16px}.header{padding:56px 32px 48px}.mc{padding:24px 16px 40px}.di{padding:16px 24px}.sh{padding:18px 24px}}
+@media(max-width:360px){.lang-btn{font-size:12px;padding:5px 8px;gap:2px}.lang-flag{font-size:15px}}
+@media print{.lang-bar{display:none}body{padding-top:0}.ms .sb{max-height:none!important;opacity:1!important}}
+</style>
+</head>
+<body>
+<nav class="lang-bar" role="navigation" aria-label="Language selector">
+  <button class="lang-btn active" data-lang="it" aria-label="Italiano"><span class="lang-flag">🇮🇹</span> IT</button>
+  <button class="lang-btn" data-lang="en" aria-label="English"><span class="lang-flag">🇬🇧</span> EN</button>
+  <button class="lang-btn" data-lang="fr" aria-label="Français"><span class="lang-flag">🇫🇷</span> FR</button>
+  <button class="lang-btn" data-lang="de" aria-label="Deutsch"><span class="lang-flag">🇩🇪</span> DE</button>
+  <button class="lang-btn" data-lang="es" aria-label="Español"><span class="lang-flag">🇪🇸</span> ES</button>
+</nav>
+<header class="header"><div class="hc">
+  <img src="logo.jpg" alt="Vico del Carmine" style="width:130px;height:auto;margin-bottom:8px;border-radius:12px">
+  <h1>VICO DEL CARMINE</h1>
+  <p class="hs" data-i18n="subtitle">Osteria Pizzeria Napoletana · Firenze</p>
+  <div class="hd"></div>
+  <div class="hinfo">
+    <div><span class="ic">📍</span> Via Pisana 40/r — San Frediano, Firenze</div>
+    <div><span class="ic">🕐</span> <span data-i18n="hours">Aperto ogni sera 19:00–23:30</span></div>
+  </div>
+</div></header>
+<main class="mc" id="menuContainer"></main>
+<div class="mc"><div class="nb"><span class="ni">🤌</span><p data-i18n="lievitazione">La nostra pizza è ricca e digeribile — lievitazione naturale di 72 ore</p></div></div>
+<footer class="footer">
+  <div class="fn">VICO DEL CARMINE</div>
+  <div class="fs">Pizzeria Napoletana · Firenze</div>
+  <div class="sl">
+    <a class="sla" href="https://instagram.com/vico.del.carmine" target="_blank" rel="noopener"><span class="sli">📸</span> @vico.del.carmine</a>
+    <a class="sla" href="https://facebook.com/vicodelcarmineFi" target="_blank" rel="noopener"><span class="sli">👥</span> vicodelcarmineFi</a>
+  </div>
+  <div class="fc">© 2025 Vico del Carmine · Firenze</div>
+</footer>
+<script>
+const i18n={
+  subtitle:{it:"Pizzeria Napoletana · Firenze",en:"Neapolitan Pizzeria · Florence",fr:"Pizzeria Napolitaine · Florence",de:"Neapolitanische Pizzeria · Florenz",es:"Pizzería Napolitana · Florencia"},
+  hours:{it:"Aperto ogni sera 19:00–23:30",en:"Open every evening 19:00–23:30",fr:"Ouvert tous les soirs 19:00–23:30",de:"Täglich geöffnet 19:00–23:30",es:"Abierto cada noche 19:00–23:30"},
+  lievitazione:{it:"La nostra pizza è ricca e digeribile — lievitazione naturale di 72 ore",en:"Our pizza is rich and digestible — 72-hour natural leavening",fr:"Notre pizza est riche et digeste — levée naturelle de 72 heures",de:"Unsere Pizza ist reichhaltig und bekömmlich — 72 Stunden natürliche Gärung",es:"Nuestra pizza es rica y digestiva — fermentación natural de 72 horas"}
+};
+const secT={
+  antipasti:{it:"Antipasti",en:"Starters",fr:"Entrées",de:"Vorspeisen",es:"Entrantes"},
+  antipasti_mare:{it:"Antipasti di Mare",en:"Seafood Starters",fr:"Entrées de la Mer",de:"Meeresfrüchte-Vorspeisen",es:"Entrantes del Mar"},
+  primi:{it:"Primi",en:"First Courses",fr:"Premiers Plats",de:"Erste Gänge",es:"Primeros Platos"},
+  secondi:{it:"Secondi",en:"Main Courses",fr:"Plats Principaux",de:"Hauptgerichte",es:"Segundos Platos"},
+  pesce:{it:"Pesce",en:"Fish",fr:"Poisson",de:"Fisch",es:"Pescado"},
+  pizze_classiche:{it:"Pizze Classiche",en:"Classic Pizzas",fr:"Pizzas Classiques",de:"Klassische Pizzen",es:"Pizzas Clásicas"},
+  pizze_specialita:{it:"Pizze Specialità",en:"Specialty Pizzas",fr:"Pizzas Spéciales",de:"Spezial-Pizzen",es:"Pizzas Especiales"},
+  dolci:{it:"Dolci",en:"Desserts",fr:"Desserts",de:"Desserts",es:"Postres"},
+  bevande:{it:"Bevande",en:"Drinks",fr:"Boissons",de:"Getränke",es:"Bebidas"}
+};
+const secI={antipasti:"🥖",antipasti_mare:"🐟",primi:"🍝",secondi:"🥩",pesce:"🐙",pizze_classiche:"🍕",pizze_specialita:"⭐",dolci:"🍰",bevande:"🍷"};
+const secOrder=["antipasti","antipasti_mare","primi","secondi","pesce","pizze_classiche","pizze_specialita","dolci","bevande"];
+const M={"antipasti": [{"n": "Crostini Misti dello Chef", "p": "12,00", "d": {"it": "Crostini misti preparati dallo chef con guarnizioni di stagione", "en": "Mixed crostini with seasonal toppings", "fr": "Crostini variés avec garnitures de saison", "de": "Verschiedene Crostini mit saisonalen Belägen", "es": "Crostini variados con guarniciones de temporada"}}, {"n": "Montanara Pomodoro e Mozzarella", "p": "10,00", "d": {"it": "Pasta fritta napoletana con pomodoro e mozzarella", "en": "Traditional Neapolitan fried dough with tomato sauce and mozzarella", "fr": "Pâte frite napolitaine garnie de sauce tomate et mozzarella", "de": "Neapolitanischer frittierter Teig mit Tomatensauce und Mozzarella", "es": "Masa frita napolitana cubierta con salsa de tomate y mozzarella"}}, {"n": "Il Solito", "p": "14,00", "t": {"it": "Coccoli, Crudo e Burrata", "en": "Fried Dough, Prosciutto & Burrata", "fr": "Beignets, Jambon Cru et Burrata", "de": "Frittierte Teigbällchen, Rohschinken & Burrata", "es": "Buñuelos, Jamón Crudo y Burrata"}, "d": {"it": "Coccoli fritti con prosciutto crudo e burrata cremosa", "en": "Crispy fried dough balls with cured ham and creamy burrata", "fr": "Beignets frits croustillants avec jambon cru et burrata crémeuse", "de": "Knusprige frittierte Teigbällchen mit rohem Schinken und cremiger Burrata", "es": "Crujientes bolitas de masa frita con jamón crudo y burrata cremosa"}}, {"n": "Bruschette al Pomodoro", "p": "8,00", "d": {"it": "Pane tostato con pomodoro fresco, aglio, basilico e olio extravergine", "en": "Toasted bread with fresh tomato, garlic, basil and extra virgin olive oil", "fr": "Pain grillé avec tomate fraîche, ail, basilic et huile d'olive vierge extra", "de": "Geröstetes Brot mit frischer Tomate, Knoblauch, Basilikum und nativem Olivenöl extra", "es": "Pan tostado con tomate fresco, ajo, albahaca y aceite de oliva virgen extra"}}, {"n": "Gran Tagliere di Salumi e Formaggi", "p": "21,00", "t": {"it": "Consigliato per 2", "en": "Recommended for 2", "fr": "Recommandé pour 2", "de": "Empfohlen für 2", "es": "Recomendado para 2"}, "d": {"it": "Grande tagliere con selezione di salumi e formaggi toscani", "en": "Large board with a selection of Tuscan cured meats and cheeses", "fr": "Grande planche avec une sélection de charcuteries et fromages toscans", "de": "Große Platte mit einer Auswahl toskanischer Wurstwaren und Käse", "es": "Gran tabla con una selección de embutidos y quesos toscanos"}}], "antipasti_mare": [{"n": "Guazzetto di Mare Caldo in Terrina", "p": "15,00", "d": {"it": "Guazzetto caldo di pesce e frutti di mare servito in terrina", "en": "Warm mixed seafood stew served in a terrine dish", "fr": "Ragoût chaud de poissons et fruits de mer servi en terrine", "de": "Warmer gemischter Meeresfrüchte-Eintopf in einer Terrine serviert", "es": "Guiso caliente de pescado y mariscos variados servido en terrina"}}, {"n": "Insalata di Baccalà", "p": "12,00", "t": {"it": "con Limone, Olive e Pomodori Freschi", "en": "with Lemon, Olives & Fresh Tomatoes", "fr": "Citron, Olives et Tomates Fraîches", "de": "mit Zitrone, Oliven und frischen Tomaten", "es": "con Limón, Aceitunas y Tomates Frescos"}, "d": {"it": "Insalata di baccalà con limone, olive e pomodori freschi", "en": "Flaked salt cod salad with lemon, olives and fresh tomatoes", "fr": "Salade de morue avec citron, olives et tomates fraîches", "de": "Stockfischsalat mit Zitrone, Oliven und frischen Tomaten", "es": "Ensalada de bacalao con limón, aceitunas y tomates frescos"}}, {"n": "Pepata di Cozze e Bruschette", "p": "13,00", "d": {"it": "Cozze al pepe in brodo con bruschette", "en": "Mussels in a peppery broth served with toasted bread", "fr": "Moules au poivre dans un bouillon servies avec du pain grillé", "de": "Muscheln in einer Pfefferbrühe, serviert mit geröstetem Brot", "es": "Mejillones en caldo con pimienta, servidos con pan tostado"}}], "primi": [{"n": "Pasta Fresca Vongole e Bottarga", "p": "16,00", "d": {"it": "Pasta fresca con vongole veraci e bottarga di muggine", "en": "Fresh pasta with clams and cured mullet roe", "fr": "Pâtes fraîches avec palourdes et boutargue de mulet", "de": "Frische Pasta mit Venusmuscheln und getrocknetem Meeräschenrogen", "es": "Pasta fresca con almejas y huevas curadas de mújol"}}, {"n": "Gnocchi di Patate, Ceci e Cozze", "p": "13,00", "d": {"it": "Gnocchi di patate con ceci e cozze", "en": "Potato gnocchi with chickpeas and mussels", "fr": "Gnocchi de pommes de terre avec pois chiches et moules", "de": "Kartoffelgnocchi mit Kichererbsen und Muscheln", "es": "Ñoquis de patata con garbanzos y mejillones"}}, {"n": "Pennette Pesto, Gamberi e Pomodoro", "p": "14,00", "d": {"it": "Pennette con pesto, gamberi e pomodoro fresco", "en": "Small penne with basil pesto, prawns and fresh tomato", "fr": "Petites penne au pesto de basilic, crevettes et tomate fraîche", "de": "Kleine Penne mit Basilikum-Pesto, Garnelen und frischer Tomate", "es": "Pasta penne pequeña con pesto de albahaca, gambas y tomate fresco"}}, {"n": "Chitarrina allo Scoglio", "p": "16,00", "d": {"it": "Chitarrina con frutti di mare misti", "en": "Square-cut fresh pasta with mixed seafood", "fr": "Pâtes fraîches carrées aux fruits de mer", "de": "Frische eckige Pasta mit gemischten Meeresfrüchten", "es": "Pasta fresca de corte cuadrado con mariscos variados"}}, {"n": "Chitarrina alla Carbonara di Mare", "p": "15,00", "d": {"it": "Chitarrina con uovo, pecorino e frutti di mare", "en": "Square-cut pasta with egg, pecorino and seafood", "fr": "Pâtes carrées à l'œuf, pecorino et fruits de mer", "de": "Eckige Pasta mit Ei, Pecorino und Meeresfrüchten", "es": "Pasta de corte cuadrado con huevo, queso pecorino y mariscos"}}, {"n": "Tagliatelle allo Scoglio Napoletano", "p": "15,00", "d": {"it": "Tagliatelle fresche con frutti di mare in salsa napoletana", "en": "Fresh tagliatelle with seafood in Neapolitan sauce", "fr": "Tagliatelles fraîches aux fruits de mer en sauce napolitaine", "de": "Frische Tagliatelle mit Meeresfrüchten in neapolitanischer Sauce", "es": "Tagliatelle frescos con mariscos en salsa napolitana"}}, {"n": "Chitarrina alla Carrettiera", "p": "13,00", "d": {"it": "Chitarrina con pomodoro, aglio, tonno, olive e capperi", "en": "Square-cut pasta with tomato, garlic, tuna, olives and capers", "fr": "Pâtes carrées avec tomate, ail, thon, olives et câpres", "de": "Eckige Pasta mit Tomate, Knoblauch, Thunfisch, Oliven und Kapern", "es": "Pasta de corte cuadrado con tomate, ajo, atún, aceitunas y alcaparras"}}, {"n": "Gnocchi alla Sorrentina", "p": "14,00", "d": {"it": "Gnocchi di patate con sugo di pomodoro, mozzarella e basilico, gratinati al forno", "en": "Potato gnocchi baked with tomato sauce, mozzarella and basil", "fr": "Gnocchi de pommes de terre gratinés avec sauce tomate, mozzarella et basilic", "de": "Überbackene Kartoffelgnocchi mit Tomatensauce, Mozzarella und Basilikum", "es": "Ñoquis de patata gratinados con salsa de tomate, mozzarella y albahaca"}}, {"n": "Pennette al Pomodoro e Basilico", "p": "12,00", "d": {"it": "Pennette con pomodoro fresco e basilico", "en": "Small penne with fresh tomato sauce and basil", "fr": "Petites penne à la sauce tomate fraîche et basilic", "de": "Kleine Penne mit frischer Tomatensauce und Basilikum", "es": "Pasta penne pequeña con salsa de tomate fresco y albahaca"}}, {"n": "Chitarrina alla Carbonara", "p": "15,00", "d": {"it": "Chitarrina con guanciale, uovo, pecorino e pepe nero", "en": "Square-cut pasta with cured pork cheek, egg, pecorino and black pepper", "fr": "Pâtes carrées avec joue de porc, œuf, pecorino et poivre noir", "de": "Eckige Pasta mit Schweinebacke, Ei, Pecorino und schwarzem Pfeffer", "es": "Pasta de corte cuadrado con carrillera de cerdo, huevo, pecorino y pimienta negra"}}], "secondi": [{"n": "Agnello Scottadito", "p": "19,00", "d": {"it": "Costolette di agnello alla griglia", "en": "Chargrilled lamb chops", "fr": "Côtelettes d'agneau grillées", "de": "Gegrillte Lammkoteletts", "es": "Chuletas de cordero a la brasa"}}, {"n": "Tagliata di Manzo ai Ferri", "p": "19,00", "d": {"it": "Tagliata di manzo alla griglia, servita a fette", "en": "Grilled beef sliced with rocket and Parmesan shavings", "fr": "Bœuf grillé tranché avec roquette et parmesan", "de": "Gegrilltes Rindfleisch in Scheiben mit Rucola und Parmesan", "es": "Ternera a la parrilla en lonchas con rúcula y parmesano"}}, {"n": "Entrecôte al Chianti", "p": "19,00", "d": {"it": "Entrecôte di manzo con salsa al Chianti", "en": "Beef rib-eye with Chianti red wine reduction", "fr": "Entrecôte de bœuf avec réduction au Chianti", "de": "Rinder-Entrecôte mit Chianti-Rotweinreduktion", "es": "Entrecot de ternera con reducción de vino Chianti"}}, {"n": "Straccetti di Pollo Saltati", "p": "16,00", "d": {"it": "Straccetti di pollo saltati in padella con verdure", "en": "Pan-sautéed chicken strips with vegetables", "fr": "Émincés de poulet sautés avec légumes", "de": "Gebratene Hähnchenstreifen mit Gemüse", "es": "Tiras de pollo salteadas con verduras"}}, {"n": "Polpette di Carne al Sugo", "p": "15,00", "d": {"it": "Polpette di carne fatte in casa in sugo di pomodoro", "en": "Homemade beef meatballs in tomato sauce", "fr": "Boulettes de bœuf maison en sauce tomate", "de": "Hausgemachte Fleischbällchen in Tomatensauce", "es": "Albóndigas caseras en salsa de tomate"}}, {"n": "Pallotte Cacio e Ova", "p": "15,00", "d": {"it": "Polpette tradizionali abruzzesi di formaggio e uova in sugo", "en": "Traditional Abruzzese cheese and egg balls in tomato sauce", "fr": "Boulettes traditionnelles au fromage et œuf en sauce tomate", "de": "Traditionelle Käse-Ei-Bällchen in Tomatensauce", "es": "Bolitas tradicionales de queso y huevo en salsa de tomate"}}, {"n": "Hamburger Classico con Patatine", "p": "15,00", "d": {"it": "Hamburger classico servito al piatto con patatine fritte", "en": "Classic beef burger with French fries", "fr": "Hamburger classique avec frites", "de": "Klassischer Hamburger mit Pommes Frites", "es": "Hamburguesa clásica con patatas fritas"}}], "pesce": [{"n": "Spigola o Orata alla Griglia", "p": "18,00", "d": {"it": "Spigola o orata alla griglia (da porzione)", "en": "Grilled sea bass or sea bream", "fr": "Bar ou dorade grillé(e)", "de": "Gegrillter Wolfsbarsch oder Goldbrasse", "es": "Lubina o dorada a la parrilla"}}, {"n": "Baccalà con Pomodoro, Olive e Capperi", "p": "17,00", "d": {"it": "Baccalà con pomodoro fresco, olive e capperi", "en": "Salt cod with fresh tomatoes, olives and capers", "fr": "Morue avec tomates fraîches, olives et câpres", "de": "Stockfisch mit frischen Tomaten, Oliven und Kapern", "es": "Bacalao con tomates frescos, aceitunas y alcaparras"}}, {"n": "Salmone alla Griglia", "p": "19,00", "d": {"it": "Filetto di salmone alla griglia", "en": "Grilled salmon fillet", "fr": "Filet de saumon grillé", "de": "Gegrilltes Lachsfilet", "es": "Filete de salmón a la parrilla"}}, {"n": "Zuppa di Moscardini alla Luciana", "p": "19,00", "d": {"it": "Moscardini in umido con pomodoro, olive e capperi", "en": "Neapolitan-style baby octopus stew with tomato, olives and capers", "fr": "Ragoût de petits poulpes à la napolitaine", "de": "Neapolitanischer Oktopus-Eintopf mit Tomate und Kapern", "es": "Guiso de pulpitos a la napolitana con tomate y alcaparras"}}, {"n": "Baccalà alla Crema di Limone", "p": "18,00", "d": {"it": "Baccalà con crema di limone delicata", "en": "Salt cod with delicate lemon cream sauce", "fr": "Morue avec crème de citron délicate", "de": "Stockfisch mit feiner Zitronencreme", "es": "Bacalao con delicada crema de limón"}}, {"n": "Bistecca di Spada alla Mediterranea", "p": "21,00", "d": {"it": "Pesce spada con pomodorini, olive, capperi e erbe mediterranee", "en": "Swordfish steak with cherry tomatoes, olives, capers and herbs", "fr": "Espadon avec tomates cerises, olives, câpres et herbes", "de": "Schwertfischsteak mit Kirschtomaten, Oliven und Kapern", "es": "Pez espada con tomates cherry, aceitunas y alcaparras"}}], "pizze_classiche": [{"n": "Margherita", "p": "8,00", "d": {"it": "Pomodoro, mozzarella, basilico", "en": "Tomato sauce, mozzarella, fresh basil", "fr": "Sauce tomate, mozzarella, basilic frais", "de": "Tomatensauce, Mozzarella, frisches Basilikum", "es": "Salsa de tomate, mozzarella, albahaca fresca"}}, {"n": "Napoli", "p": "10,00", "d": {"it": "Pomodoro, mozzarella, capperi, acciughe, origano", "en": "Tomato, mozzarella, capers, anchovies, oregano", "fr": "Tomate, mozzarella, câpres, anchois, origan", "de": "Tomate, Mozzarella, Kapern, Sardellen, Oregano", "es": "Tomate, mozzarella, alcaparras, anchoas, orégano"}}, {"n": "A' Filetto", "p": "11,50", "d": {"it": "Bianca con bufala e pomodori datterini", "en": "White pizza with buffalo mozzarella and cherry tomatoes", "fr": "Pizza blanche avec mozzarella di bufala et tomates datterini", "de": "Weiße Pizza mit Büffelmozzarella und Datteltomaten", "es": "Pizza blanca con mozzarella de búfala y tomates datterini"}}, {"n": "Salsiccia e Friarielli", "p": "11,50", "d": {"it": "Mozzarella, salsiccia, friarielli (broccoli napoletani)", "en": "Mozzarella, Italian sausage, Neapolitan broccoli rabe", "fr": "Mozzarella, saucisse italienne, brocoli-rave napolitain", "de": "Mozzarella, italienische Wurst, neapolitanischer Stängelkohl", "es": "Mozzarella, salchicha italiana, grelos napolitanos"}}, {"n": "Capricciosa", "p": "12,00", "d": {"it": "Pomodoro, mozzarella, prosciutto cotto, funghi, carciofi, olive", "en": "Tomato, mozzarella, ham, mushrooms, artichokes, olives", "fr": "Tomate, mozzarella, jambon, champignons, artichauts, olives", "de": "Tomate, Mozzarella, Schinken, Champignons, Artischocken, Oliven", "es": "Tomate, mozzarella, jamón, champiñones, alcachofas, aceitunas"}}, {"n": "Mediterraneo", "p": "11,50", "d": {"it": "Pomodoro, mozzarella, olive, pomodorini, acciughe, origano", "en": "Tomato, mozzarella, olives, cherry tomatoes, anchovies, oregano", "fr": "Tomate, mozzarella, olives, tomates cerises, anchois, origan", "de": "Tomate, Mozzarella, Oliven, Kirschtomaten, Sardellen, Oregano", "es": "Tomate, mozzarella, aceitunas, tomates cherry, anchoas, orégano"}}, {"n": "Positano", "p": "10,50", "d": {"it": "Mozzarella, scamorza, melanzane fritte, pomodorini, basilico", "en": "Mozzarella, smoked scamorza, fried aubergine, cherry tomatoes, basil", "fr": "Mozzarella, scamorza fumée, aubergines frites, tomates cerises, basilic", "de": "Mozzarella, Scamorza, gebratene Aubergine, Kirschtomaten, Basilikum", "es": "Mozzarella, scamorza ahumada, berenjenas fritas, tomates cherry, albahaca"}}, {"n": "Diavola 🌶️", "p": "10,50", "d": {"it": "Pomodoro, mozzarella, salamino piccante, olive, basilico", "en": "Tomato, mozzarella, spicy salami, olives, basil", "fr": "Tomate, mozzarella, salami piquant, olives, basilic", "de": "Tomate, Mozzarella, scharfe Salami, Oliven, Basilikum", "es": "Tomate, mozzarella, salami picante, aceitunas, albahaca"}}, {"n": "4 Formaggi", "p": "12,00", "d": {"it": "Mozzarella, scamorza, gorgonzola, emmental", "en": "Mozzarella, scamorza, gorgonzola, emmental", "fr": "Mozzarella, scamorza, gorgonzola, emmental", "de": "Mozzarella, Scamorza, Gorgonzola, Emmentaler", "es": "Mozzarella, scamorza, gorgonzola, emmental"}}], "pizze_specialita": [{"n": "Vegetariana 🌿", "p": "13,00", "d": {"it": "Pomodoro, mozzarella, melanzane, zucchine grigliate, rucola", "en": "Tomato, mozzarella, aubergine, grilled courgette, rocket", "fr": "Tomate, mozzarella, aubergine, courgettes grillées, roquette", "de": "Tomate, Mozzarella, Aubergine, gegrillte Zucchini, Rucola", "es": "Tomate, mozzarella, berenjena, calabacín a la parrilla, rúcula"}}, {"n": "Bell'Italia", "p": "15,00", "d": {"it": "Pomodoro, rucola, prosciutto crudo, burrata", "en": "Tomato, rocket, Parma ham, creamy burrata", "fr": "Tomate, roquette, jambon de Parme, burrata crémeuse", "de": "Tomate, Rucola, Parmaschinken, cremige Burrata", "es": "Tomate, rúcula, jamón de Parma, burrata cremosa"}}, {"n": "Vico ⭐", "p": "16,00", "t": {"it": "La Specialità della Casa", "en": "House Special", "fr": "Spécialité de la Maison", "de": "Hausspezialität", "es": "Especialidad de la Casa"}, "d": {"it": "Pomodoro, mozzarella, salsiccia, friarielli, salame Napoli, ricotta", "en": "Tomato, mozzarella, sausage, broccoli rabe, Neapolitan salami, ricotta", "fr": "Tomate, mozzarella, saucisse, brocoli-rave, salami napolitain, ricotta", "de": "Tomate, Mozzarella, Wurst, Stängelkohl, neapolitanische Salami, Ricotta", "es": "Tomate, mozzarella, salchicha, grelos, salami napolitano, ricotta"}}, {"n": "Vesuvio", "p": "14,00", "d": {"it": "Pomodoro, mozzarella, ricotta, funghi, prosciutto cotto, salamino", "en": "Tomato, mozzarella, ricotta, mushrooms, cooked ham, salami", "fr": "Tomate, mozzarella, ricotta, champignons, jambon cuit, salami", "de": "Tomate, Mozzarella, Ricotta, Champignons, Schinken, Salami", "es": "Tomate, mozzarella, ricotta, champiñones, jamón cocido, salami"}}, {"n": "Cilentana", "p": "13,00", "d": {"it": "Pomodoro, mozzarella, tonno, cipolla, olive", "en": "Tomato, mozzarella, tuna, onion, olives", "fr": "Tomate, mozzarella, thon, oignon, olives", "de": "Tomate, Mozzarella, Thunfisch, Zwiebel, Oliven", "es": "Tomate, mozzarella, atún, cebolla, aceitunas"}}], "dolci": [{"n": "Babà al Rum", "p": "7,00", "d": {"it": "Classico babà napoletano imbevuto di rum", "en": "Classic Neapolitan rum-soaked babà cake", "fr": "Babà napolitain classique imbibé de rhum", "de": "Klassischer neapolitanischer Rum-Babà", "es": "Clásico babà napolitano empapado en ron"}}, {"n": "Tiramisù della Casa", "p": "7,00", "d": {"it": "Tiramisù fatto in casa con mascarpone e caffè", "en": "Homemade tiramisù with mascarpone and coffee", "fr": "Tiramisù maison au mascarpone et café", "de": "Hausgemachtes Tiramisù mit Mascarpone und Kaffee", "es": "Tiramisù casero con mascarpone y café"}}, {"n": "Panna Cotta ai Frutti di Bosco", "p": "6,00", "d": {"it": "Panna cotta con coulis di frutti di bosco", "en": "Panna cotta with mixed berry coulis", "fr": "Panna cotta avec coulis de fruits rouges", "de": "Panna Cotta mit Waldfrucht-Coulis", "es": "Panna cotta con coulis de frutos del bosque"}}, {"n": "Delizia al Limone", "p": "7,00", "d": {"it": "Soffice dolce al limone tipico della costiera", "en": "Soft lemon cake from the Amalfi Coast", "fr": "Gâteau moelleux au citron de la côte amalfitaine", "de": "Weiches Zitronenküchlein von der Amalfiküste", "es": "Suave bizcocho de limón de la costa amalfitana"}}, {"n": "Torta al Cioccolato", "p": "7,00", "d": {"it": "Tortino caldo al cioccolato fondente con cuore morbido", "en": "Warm dark chocolate cake with molten centre", "fr": "Fondant chaud au chocolat noir avec cœur coulant", "de": "Warmes Schokoladentörtchen mit flüssigem Kern", "es": "Bizcocho caliente de chocolate negro con corazón fundente"}}], "bevande": [{"n": "Acqua Minerale (0,75L)", "p": "3,00", "d": {"it": "Naturale o frizzante", "en": "Still or sparkling", "fr": "Plate ou gazeuse", "de": "Still oder mit Kohlensäure", "es": "Natural o con gas"}}, {"n": "Coca-Cola / Fanta / Sprite", "p": "3,50", "d": {"it": "Lattina 33cl", "en": "33cl can", "fr": "Canette 33cl", "de": "33cl Dose", "es": "Lata 33cl"}}, {"n": "Birra Artigianale alla Spina (0,4L)", "p": "6,00", "d": {"it": "Birra artigianale alla spina", "en": "Craft beer on tap", "fr": "Bière artisanale pression", "de": "Craft-Bier vom Fass", "es": "Cerveza artesanal de barril"}}, {"n": "Birra Peroni (0,33L)", "p": "4,00", "d": {"it": "Birra Peroni in bottiglia", "en": "Peroni beer bottle", "fr": "Bière Peroni en bouteille", "de": "Peroni Bier Flasche", "es": "Cerveza Peroni en botella"}}, {"n": "Vino della Casa (0,5L)", "p": "8,00", "d": {"it": "Rosso o bianco toscano", "en": "Tuscan red or white", "fr": "Rouge ou blanc toscan", "de": "Toskanischer Rot- oder Weißwein", "es": "Tinto o blanco toscano"}}, {"n": "Vino della Casa (1L)", "p": "14,00", "d": {"it": "Rosso o bianco toscano — caraffa", "en": "Tuscan red or white — carafe", "fr": "Rouge ou blanc toscan — carafe", "de": "Toskanischer Rot- oder Weißwein — Karaffe", "es": "Tinto o blanco toscano — jarra"}}, {"n": "Prosecco (calice)", "p": "5,00", "d": {"it": "Calice di Prosecco", "en": "Glass of Prosecco", "fr": "Verre de Prosecco", "de": "Glas Prosecco", "es": "Copa de Prosecco"}}, {"n": "Caffè Espresso", "p": "1,50", "d": {"it": "Caffè espresso napoletano", "en": "Neapolitan espresso coffee", "fr": "Café expresso napolitain", "de": "Neapolitanischer Espresso", "es": "Café espresso napolitano"}}, {"n": "Limoncello / Amaro", "p": "4,00", "d": {"it": "Limoncello o amaro — digestivo", "en": "Limoncello or amaro — digestif", "fr": "Limoncello ou amaro — digestif", "de": "Limoncello oder Amaro — Digestif", "es": "Limoncello o amaro — digestivo"}}]};
+let curLang="it";
+
+function renderMenu(){
+  const c=document.getElementById("menuContainer");
+  c.innerHTML="";
+  secOrder.forEach((key,idx)=>{
+    const sec=document.createElement("div");
+    sec.className="ms"+(idx===0?" open":"");
+    const title=secT[key][curLang]||secT[key].it;
+    const icon=secI[key];
+    sec.innerHTML='<div class="sh" onclick="toggleSection(this)"><div class="st"><span class="si">'+icon+'</span>'+title+'</div><span class="sc">▼</span></div><div class="sb"><div class="dl">'+renderDishes(M[key])+'</div></div>';
+    c.appendChild(sec);
+  });
+  document.querySelectorAll(".ms.open .sb").forEach(b=>{b.style.maxHeight=b.scrollHeight+"px"});
+}
+
+function renderDishes(dishes){
+  return dishes.map(d=>{
+    const desc=d.d[curLang]||d.d.it;
+    const tag=d.t?(d.t[curLang]||d.t.it):"";
+    let h='<div class="di"><div class="dr"><span class="dn">'+d.n+'</span><span class="dd"></span><span class="dp">€'+d.p+'</span></div>';
+    if(tag) h+='<div class="dt">'+tag+'</div>';
+    h+='<div class="ds">'+desc+'</div></div>';
+    return h;
+  }).join("");
+}
+
+function toggleSection(header){
+  const sec=header.parentElement;
+  const body=sec.querySelector(".sb");
+  if(sec.classList.contains("open")){
+    body.style.maxHeight="0";
+    sec.classList.remove("open");
+  }else{
+    sec.classList.add("open");
+    body.style.maxHeight=body.scrollHeight+"px";
+  }
+}
+
+function setLang(lang){
+  curLang=lang;
+  document.querySelectorAll(".lang-btn").forEach(b=>{b.classList.toggle("active",b.dataset.lang===lang)});
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key=el.dataset.i18n;
+    if(i18n[key]&&i18n[key][lang]) el.textContent=i18n[key][lang];
+  });
+  const openSecs=new Set();
+  document.querySelectorAll(".ms").forEach((s,i)=>{if(s.classList.contains("open"))openSecs.add(i)});
+  renderMenu();
+  document.querySelectorAll(".ms").forEach((s,i)=>{
+    const body=s.querySelector(".sb");
+    if(openSecs.has(i)){s.classList.add("open");body.style.maxHeight=body.scrollHeight+"px"}
+    else{s.classList.remove("open");body.style.maxHeight="0"}
+  });
+}
+
+document.querySelectorAll(".lang-btn").forEach(b=>{b.addEventListener("click",()=>setLang(b.dataset.lang))});
+renderMenu();
+const bl=(navigator.language||"it").slice(0,2).toLowerCase();
+if(["en","fr","de","es"].includes(bl))setLang(bl);
+</script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Flyer Vico del Carmine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Lato:wght@400;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .flyer {
+            width: 500px;
+            height: 700px;
+            background: #1a0f0a;
+            border: 10px solid #c8956c;
+            padding: 40px;
+            box-sizing: border-box;
+            text-align: center;
+            color: #faf6f0;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: #c8956c;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+        .header p {
+            font-family: 'Lato', sans-serif;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-top: 5px;
+            color: #aaa;
+        }
+        .cta-box {
+            margin: 40px 0;
+        }
+        .cta-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .cta-box .highlight {
+            color: #c8956c;
+            display: block;
+            font-size: 50px;
+            margin-top: 10px;
+        }
+        .qr-wrapper {
+            background: #fff;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 20px;
+            border: 5px solid #c8956c;
+            position: relative;
+            margin: 20px 0;
+        }
+        #qrcode img {
+            display: block;
+        }
+        .logo-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .footer-text {
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+            color: #888;
+            margin-top: 30px;
+        }
+        .footer-text strong {
+            color: #c8956c;
+        }
+    </style>
+</head>
+<body>
+    <div class="flyer">
+        <div class="header">
+            <h1>VICO DEL CARMINE</h1>
+            <p>Osteria Pizzeria</p>
+        </div>
+
+        <div class="cta-box">
+            <h2>TENTA LA <span class="highlight">FORTUNA!</span></h2>
+            <p style="color:#fff; font-size: 20px; margin-top: 15px;">Inquadra e vinci un premio<br>per la tua cena di stasera!</p>
+        </div>
+
+        <div class="qr-wrapper">
+            <div id="qrcode"></div>
+            <img src="https://vicodelcarmine.github.io/menu/logo.jpg" class="logo-center">
+        </div>
+
+        <div class="footer-text">
+            📍 Via Pisana 40/r, San Frediano<br>
+            <strong>PIZZA RICCA E DIGERIBILE</strong>
+        </div>
+    </div>
+
+    <script>
+        new QRCode(document.getElementById("qrcode"), {
+            text: "https://vicodelcarmine.github.io/menu/fortuna.html",
+            width: 200,
+            height: 200,
+            colorDark : "#1a0f0a",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vico del Carmine — La tua opinione</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a0f0a;
+            --gold: #c8956c;
+            --gold-light: #e8c9a0;
+            --red: #8b2500;
+            --cream: #faf6f0;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg);
+            background-image: linear-gradient(rgba(26, 15, 10, 0.95), rgba(26, 15, 10, 0.95)), url('https://vicodelcarmine.github.io/menu/logo.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--cream);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            padding: 30px;
+            background: rgba(26, 15, 10, 0.9);
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 20px;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+        .stars {
+            font-size: 40px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .star {
+            cursor: pointer;
+            transition: transform 0.2s;
+            filter: grayscale(1);
+        }
+        .star:hover {
+            transform: scale(1.2);
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 50px;
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), #a87a50);
+            color: #1a0f0a;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #555;
+            color: #888;
+            font-size: 12px;
+        }
+        #feedback-form {
+            display: none;
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            background: #0a0604;
+            border: 1px solid var(--gold);
+            color: white;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-step">
+        <img src="https://vicodelcarmine.github.io/menu/logo.jpg" alt="Logo" style="width:80px; border-radius:10px; margin-bottom:15px;">
+        <h1>Ti è piaciuta la cena?</h1>
+        <p>La tua opinione è preziosa per noi. Come valuteresti la tua esperienza da Vico del Carmine?</p>
+        
+        <div class="stars">
+            <span class="star" onclick="handleStar(1)">⭐</span>
+            <span class="star" onclick="handleStar(2)">⭐</span>
+            <span class="star" onclick="handleStar(3)">⭐</span>
+            <span class="star" onclick="handleStar(4)" style="filter: none;">⭐</span>
+            <span class="star" onclick="handleStar(5)" style="filter: none;">⭐</span>
+        </div>
+
+        <div id="positive-actions">
+            <p style="font-size: 14px; color: var(--gold-light);">Votaci 5 stelle su Google per sbloccare il <strong>RADDOPPIO</strong> del premio!</p>
+            <a href="https://search.google.com/local/writereview?placeid=ChIJN80L8rJRKhMRe5E-O-G5M8M" class="btn btn-gold" onclick="triggerReward()">VOTA E RICEVI IL PREMIO</a>
+        </div>
+
+        <div id="feedback-form">
+            <p>Ci dispiace che qualcosa non sia andato bene. Aiutaci a migliorare:</p>
+            <textarea id="msg" rows="4" placeholder="Cosa possiamo fare meglio?"></textarea>
+            <button class="btn btn-gold" onclick="sendPrivateFeedback()">INVIA FEEDBACK PRIVATO</button>
+        </div>
+        
+        <a href="#" class="btn btn-outline" style="margin-top: 20px;">Continua senza premio</a>
+    </div>
+
+    <script>
+        function handleStar(rating) {
+            if (rating >= 4) {
+                document.getElementById('positive-actions').style.display = 'block';
+                document.getElementById('feedback-form').style.display = 'none';
+            } else {
+                document.getElementById('positive-actions').style.display = 'none';
+                document.getElementById('feedback-form').style.display = 'block';
+            }
+        }
+
+        function triggerReward() {
+            // Qui il Worker registrerà il clic e manderà il premio dopo 5 min
+            console.log("Utente inviato a Google. Premio attivato.");
+        }
+
+        function sendPrivateFeedback() {
+            const msg = document.getElementById('msg').value;
+            alert("Grazie per la segnalazione. Ivo leggerà il tuo messaggio personalmente per migliorare il servizio.");
+            // Qui invieremo il messaggio al tuo Telegram bot
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vico del Carmine — Flyer Hotel</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+@page{size:A5 portrait;margin:0}
+
+body{
+  font-family:'Lato',sans-serif;
+  background:white;
+  color:#2c1810;
+  width:148mm;
+  min-height:210mm;
+  margin:0 auto;
+  padding:12mm;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Decorative border */
+body::before{
+  content:'';
+  position:absolute;
+  top:5mm;left:5mm;right:5mm;bottom:5mm;
+  border:2px solid #c8956c;
+  border-radius:8px;
+  pointer-events:none;
+}
+
+.header{text-align:center;margin-bottom:6mm}
+.header img{width:28mm;height:28mm;border-radius:8px;margin-bottom:3mm}
+.header h1{font-family:'Playfair Display',serif;font-size:18pt;color:#8b2500;letter-spacing:2px}
+.header .sub{font-family:'Playfair Display',serif;font-size:9pt;color:#c8956c;letter-spacing:1.5px;margin-top:1mm}
+
+.divider{width:40mm;height:1px;background:linear-gradient(90deg,transparent,#c8956c,transparent);margin:4mm auto}
+
+/* Italian section */
+.section-it{margin-bottom:5mm}
+.section-it h2{font-family:'Playfair Display',serif;font-size:11pt;color:#8b2500;margin-bottom:2mm;text-align:center}
+.section-it p{font-size:8.5pt;line-height:1.6;text-align:center;color:#444}
+.section-it .highlights{display:flex;justify-content:center;gap:4mm;margin:3mm 0;flex-wrap:wrap}
+.section-it .highlights span{font-size:8pt;color:#2c1810;background:#faf6f0;padding:2mm 3mm;border-radius:4px;border:1px solid #e8c9a0}
+
+/* English section */
+.section-en{margin-bottom:5mm}
+.section-en h2{font-family:'Playfair Display',serif;font-size:10pt;color:#8b2500;margin-bottom:2mm;text-align:center}
+.section-en p{font-size:8pt;line-height:1.6;text-align:center;color:#666;font-style:italic}
+
+/* QR codes */
+.qr-row{display:flex;justify-content:center;gap:8mm;margin:5mm 0}
+.qr-box{text-align:center}
+.qr-box img{width:25mm;height:25mm;border:1px solid #e8c9a0;border-radius:4px;padding:1mm}
+.qr-box .label{font-size:7pt;color:#8b2500;font-weight:700;margin-top:1.5mm;text-transform:uppercase;letter-spacing:.5px}
+
+/* Menu fissi */
+.menu-fissi{display:flex;justify-content:center;gap:4mm;margin:4mm 0}
+.fisso{text-align:center;background:#faf6f0;border:1px solid #e8c9a0;border-radius:6px;padding:2.5mm 4mm;flex:1;max-width:35mm}
+.fisso .price{font-family:'Playfair Display',serif;font-size:14pt;color:#8b2500;font-weight:900}
+.fisso .name{font-size:7pt;color:#666;margin-top:1mm}
+
+/* Info */
+.info{text-align:center;margin-top:4mm;padding-top:3mm;border-top:1px solid #e8c9a0}
+.info p{font-size:8pt;line-height:1.7;color:#444}
+.info .address{font-weight:700;color:#2c1810}
+.info .social{font-size:7pt;color:#999;margin-top:2mm}
+
+/* WhatsApp */
+.whatsapp{text-align:center;margin-top:3mm}
+.whatsapp a{display:inline-block;background:#25D366;color:white;text-decoration:none;padding:2mm 5mm;border-radius:20px;font-size:8pt;font-weight:700}
+
+/* Game promo */
+.game-promo{text-align:center;margin:4mm 0;background:linear-gradient(135deg,#2c1810,#1a0f0a);color:#faf6f0;padding:4mm;border-radius:8px}
+.game-promo h3{font-family:'Playfair Display',serif;font-size:10pt;color:#e8c9a0;margin-bottom:1.5mm}
+.game-promo p{font-size:7.5pt;color:#ccc;line-height:1.5}
+
+@media print{
+  body{width:148mm;height:210mm;padding:12mm}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="img/logo.jpg" alt="Vico del Carmine">
+  <h1>VICO DEL CARMINE</h1>
+  <div class="sub">Osteria Pizzeria Napoletana</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section-it">
+  <h2>🍕 La vera pizza napoletana a Firenze</h2>
+  <p>Impasto a lievitazione naturale di 72 ore, ingredienti selezionati<br>e la tradizione della cucina italiana nel cuore di San Frediano.</p>
+  <div class="highlights">
+    <span>🍕 27+ Pizze</span>
+    <span>🐟 Pesce fresco</span>
+    <span>🍝 Pasta fresca</span>
+    <span>🍰 Dolci fatti in casa</span>
+  </div>
+</div>
+
+<div class="section-en">
+  <h2>🇬🇧 Authentic Neapolitan Pizza in Florence</h2>
+  <p>72-hour naturally leavened dough, selected ingredients and Italian culinary tradition<br>in the heart of San Frediano. Menu available in 5 languages!</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="menu-fissi">
+  <div class="fisso">
+    <div class="price">20€</div>
+    <div class="name">Menu Essenziale<br>Antipasto + Primo</div>
+  </div>
+  <div class="fisso">
+    <div class="price">25€</div>
+    <div class="name">Menu Tradizione<br>Antipasto + Primo + Secondo</div>
+  </div>
+  <div class="fisso">
+    <div class="price">30€</div>
+    <div class="name">Menu Esperienza<br>Percorso completo</div>
+  </div>
+</div>
+
+<div class="game-promo">
+  <h3>🎰 Tenta la Fortuna!</h3>
+  <p>Scan the QR and win a prize! 🍰🥂🍹<br>Scansiona il QR e vinci un premio per stasera!</p>
+</div>
+
+<div class="qr-row">
+  <div class="qr-box">
+    <img src="qr-menu.png" alt="QR Menu">
+    <div class="label">📋 Menu</div>
+  </div>
+  <div class="qr-box">
+    <img src="qr-fortuna.png" alt="QR Tenta la Fortuna">
+    <div class="label">🎰 Win a Prize!</div>
+  </div>
+</div>
+
+<div class="info">
+  <p class="address">📍 Via Pisana 40/r — San Frediano, Firenze</p>
+  <p>🕖 Every evening / Ogni sera 19:00 — 23:30<br>
+  🚶 5 min walk from Ponte Vecchio</p>
+  <div class="social">📸 @vico.del.carmine · 📘 facebook.com/vicodelcarmineFi</div>
+</div>
+
+<div class="whatsapp">
+  <a href="https://wa.me/393514002503">📱 WhatsApp: +39 351 400 2503</a>
+</div>
+
+</body>
+</html>
