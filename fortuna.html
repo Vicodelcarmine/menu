@@ -388,7 +388,7 @@ function spin() {
       resultDiv.className = 'result win';
       resultDiv.style.display = 'block';
       
-      // Prepariamo il link WhatsApp
+      // Prepariamo il link WhatsApp per riscattare il premio
       const waNumber = "393514002503";
       const waText = encodeURIComponent(`Ciao! Ho appena vinto un ${prize.name} con la Ruota della Fortuna! 🎰\nIl mio codice è: ${fullCode}\n\nPosso riscattarlo stasera? 🍕`);
       const waLink = `https://wa.me/${waNumber}?text=${waText}`;
@@ -398,28 +398,23 @@ function spin() {
         <div class="prize-emoji">${prize.emoji}${prize.emoji}${prize.emoji}</div>
         <div class="prize-name">${prize.name}</div>
         <div class="prize-desc">${prize.desc}</div>
-        <div class="code">${fullCode}</div>
-        <div id="qrcode-container" style="margin:20px auto; padding:15px; background:white; border-radius:12px; display:inline-block;"></div>
-        <div class="validity">⏰ Scansiona per inviare il premio su WhatsApp!</div>
         
-        <a href="${waLink}" target="_blank" class="menu-btn" style="background:linear-gradient(135deg,#25D366,#128C7E);margin:15px auto;font-size:1em;padding:14px 24px">
-          📲 INVIA SU WHATSAPP
-        </a>
+        <div class="prize-note" style="margin-top:20px; border: 2px solid var(--gold);">
+          <p style="font-size:1.1em; color:white; font-weight:700; margin-bottom:10px;">📲 PER RISCATTARE IL PREMIO:</p>
+          <a href="${waLink}" target="_blank" class="menu-btn" style="background:linear-gradient(135deg,#25D366,#128C7E); width:100%; margin:10px 0; font-size:1.1em; display:flex; align-items:center; justify-content:center; gap:10px;">
+            <span style="font-size:1.3em;">💬</span> INVIA SU WHATSAPP
+          </a>
+          <p style="font-size:0.85em; color:#aaa; margin-top:10px;">Oppure mostra questo codice al cameriere:</p>
+          <div class="code" style="margin:10px auto; font-size:1.5em; letter-spacing:2px;">${fullCode}</div>
+        </div>
 
-        <div class="prize-note">
+        <div class="validity" style="margin-top:20px;">⏰ Valido SOLO STASERA fino alle 23:30!</div>
+        
+        <div class="prize-note" style="background:rgba(255,255,255,0.05);">
           <div class="icon">🍽️</div>
           <p>Il premio ti aspetta a tavola!<br>Valido con consumazione al ristorante.</p>
         </div>
       `;
-      
-      new QRCode(document.getElementById("qrcode-container"), {
-        text: waLink,
-        width: 160,
-        height: 160,
-        colorDark : "#000000",
-        colorLight : "#ffffff",
-        correctLevel : QRCode.CorrectLevel.H
-      });
       
       btn.style.display = 'none';
       
