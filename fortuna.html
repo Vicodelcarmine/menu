@@ -387,6 +387,12 @@ function spin() {
       const resultDiv = document.getElementById('result');
       resultDiv.className = 'result win';
       resultDiv.style.display = 'block';
+      
+      // Prepariamo il link WhatsApp
+      const waNumber = "393514002503";
+      const waText = encodeURIComponent(`Ciao! Ho appena vinto un ${prize.name} con la Ruota della Fortuna! 🎰\nIl mio codice è: ${fullCode}\n\nPosso riscattarlo stasera? 🍕`);
+      const waLink = `https://wa.me/${waNumber}?text=${waText}`;
+
       resultDiv.innerHTML = `
         <h3>🎉 HAI VINTO!</h3>
         <div class="prize-emoji">${prize.emoji}${prize.emoji}${prize.emoji}</div>
@@ -394,26 +400,20 @@ function spin() {
         <div class="prize-desc">${prize.desc}</div>
         <div class="code">${fullCode}</div>
         <div id="qrcode-container" style="margin:20px auto; padding:15px; background:white; border-radius:12px; display:inline-block;"></div>
-        <div class="validity">⏰ Scansiona in cassa per riscattare!</div>
+        <div class="validity">⏰ Scansiona per inviare il premio su WhatsApp!</div>
+        
+        <a href="${waLink}" target="_blank" class="menu-btn" style="background:linear-gradient(135deg,#25D366,#128C7E);margin:15px auto;font-size:1em;padding:14px 24px">
+          📲 INVIA SU WHATSAPP
+        </a>
+
         <div class="prize-note">
           <div class="icon">🍽️</div>
           <p>Il premio ti aspetta a tavola!<br>Valido con consumazione al ristorante.</p>
         </div>
-        <div class="cta">Mostra questo codice al cameriere per riscattare il premio</div>
-        <div class="email-box" style="margin:20px 0 8px;padding:16px;background:rgba(200,149,108,.1);border:1px solid rgba(200,149,108,.25);border-radius:12px">
-          <p style="font-size:.85em;color:var(--gold-light);margin-bottom:10px">📬 Vuoi ricevere offerte esclusive e sorprese?</p>
-          <input type="email" id="email-input" placeholder="La tua email (opzionale)" 
-            style="width:100%;padding:12px 16px;border-radius:25px;border:1px solid rgba(200,149,108,.3);background:#0a0604;color:var(--cream);font-size:.95em;font-family:'Lato',sans-serif;outline:none;text-align:center"
-            onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(200,149,108,.3)'">
-          <button onclick="saveEmail('${fullCode}')" 
-            style="margin-top:10px;background:var(--gold);color:var(--dark);border:none;padding:10px 28px;border-radius:25px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer;font-size:.9em">ISCRIVIMI</button>
-          <p id="email-thanks" style="display:none;color:var(--gold);font-size:.85em;margin-top:8px">✅ Grazie! Ti terremo aggiornato!</p>
-        </div>
-        <button class="show-staff" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();this.style.display='none'">📱 MOSTRA AL CAMERIERE</button>
       `;
       
       new QRCode(document.getElementById("qrcode-container"), {
-        text: "https://vico-del-carmine.workers.dev/redeem?code=" + fullCode + "&ts=" + Date.now(),
+        text: waLink,
         width: 160,
         height: 160,
         colorDark : "#000000",
