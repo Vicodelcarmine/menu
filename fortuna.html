@@ -316,7 +316,7 @@ function generateCode(prize) {
   const d = new Date();
   const day = String(d.getDate()).padStart(2,'0');
   const month = String(d.getMonth()+1).padStart(2,'0');
-  return `${prize.code}-${rand}-${day}${month}`;
+  return `${prize.id}-${rand}-${day}${month}`;
 }
 
 function launchConfetti() {
