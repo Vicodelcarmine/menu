@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>🎰 Vico del Carmine — Tenta la Fortuna!</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#1a0f0a;--gold:#c8956c;--gold-light:#e8c9a0;--red:#8b2500;--cream:#faf6f0;--dark:#2c1810}
@@ -394,17 +395,6 @@ function spin() {
         <div class="code">${fullCode}</div>
         <div id="qrcode-container" style="margin:20px auto; padding:15px; background:white; border-radius:12px; display:inline-block;"></div>
         <div class="validity">⏰ Scansiona in cassa per riscattare!</div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-        <script>
-          new QRCode(document.getElementById("qrcode-container"), {
-            text: "https://vico-del-carmine.workers.dev/redeem?code=" + "${fullCode}" + "&ts=" + Date.now(),
-            width: 160,
-            height: 160,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-          });
-        </script>
         <div class="prize-note">
           <div class="icon">🍽️</div>
           <p>Il premio ti aspetta a tavola!<br>Valido con consumazione al ristorante.</p>
@@ -421,6 +411,15 @@ function spin() {
         </div>
         <button class="show-staff" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();this.style.display='none'">📱 MOSTRA AL CAMERIERE</button>
       `;
+      
+      new QRCode(document.getElementById("qrcode-container"), {
+        text: "https://vico-del-carmine.workers.dev/redeem?code=" + fullCode + "&ts=" + Date.now(),
+        width: 160,
+        height: 160,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
       
       btn.style.display = 'none';
       
