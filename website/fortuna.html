@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🎰 Vico del Carmine — Tenta la Fortuna!</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a0f0a;--gold:#c8956c;--gold-light:#e8c9a0;--red:#8b2500;--cream:#faf6f0;--dark:#2c1810}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden}
+
+.container{max-width:420px;margin:0 auto;padding:16px;text-align:center}
+
+header{padding:20px 0 10px}
+header h1{font-family:'Playfair Display',serif;font-size:1.6em;color:var(--gold);letter-spacing:2px}
+header .sub{font-size:.85em;color:#aaa;margin-top:4px}
+
+.card{background:linear-gradient(145deg,#2a1a10,#1a0f08);border:2px solid var(--gold);border-radius:20px;padding:28px 20px;margin:20px 0;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(200,149,108,.05),transparent,rgba(200,149,108,.08),transparent);animation:shimmer 8s linear infinite}
+@keyframes shimmer{to{transform:rotate(360deg)}}
+
+.card h2{font-family:'Playfair Display',serif;font-size:1.5em;color:var(--gold-light);margin-bottom:8px;position:relative}
+.card p{color:#ccc;font-size:.95em;line-height:1.5;position:relative}
+
+.slot-machine{margin:24px 0;position:relative}
+.slots{display:flex;justify-content:center;gap:8px;margin:16px 0}
+.slot{width:80px;height:90px;background:#0a0604;border:2px solid var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2.5em;overflow:hidden;position:relative}
+.slot.spinning .slot-inner{animation:spin .15s linear infinite}
+@keyframes spin{0%{transform:translateY(0)}100%{transform:translateY(-100%)}}
+.slot-inner{transition:transform .1s}
+
+#spin-btn{background:linear-gradient(135deg,#8b2500,#c0392b);color:white;border:none;padding:16px 48px;font-size:1.2em;font-weight:900;border-radius:50px;cursor:pointer;font-family:'Lato',sans-serif;letter-spacing:1px;text-transform:uppercase;box-shadow:0 4px 20px rgba(139,37,0,.5);transition:all .2s;margin-top:12px}
+#spin-btn:hover{transform:scale(1.05);box-shadow:0 6px 30px rgba(139,37,0,.7)}
+#spin-btn:active{transform:scale(.98)}
+#spin-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.result{display:none;margin:20px 0;padding:24px;border-radius:16px;animation:fadeIn .5s ease}
+@keyframes fadeIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+
+.result.win{background:linear-gradient(135deg,#2a1a00,#1a1000);border:2px solid var(--gold)}
+.result h3{font-family:'Playfair Display',serif;font-size:1.6em;margin-bottom:8px}
+.result .prize-emoji{font-size:3em;margin:8px 0}
+.result .prize-name{font-size:1.3em;font-weight:900;color:var(--gold-light);margin:8px 0}
+.result .prize-desc{color:#ccc;font-size:.9em;margin:8px 0}
+.result .code{background:#0a0604;border:2px dashed var(--gold);border-radius:12px;padding:14px;margin:16px 0;font-family:monospace;font-size:1.4em;letter-spacing:4px;color:var(--gold-light)}
+.result .validity{color:#e74c3c;font-weight:700;font-size:.95em;margin-top:8px}
+.result .cta{margin-top:16px;font-size:.9em;color:#aaa}
+
+.show-staff{background:var(--gold);color:var(--dark);border:none;padding:14px 36px;font-size:1em;font-weight:900;border-radius:50px;cursor:pointer;font-family:'Lato',sans-serif;margin-top:16px;text-transform:uppercase;letter-spacing:1px}
+
+.timer{color:var(--gold);font-size:1.1em;font-weight:700;margin:12px 0}
+.timer span{font-size:1.4em}
+
+.info{margin-top:24px;padding:16px;background:rgba(200,149,108,.08);border-radius:12px;border:1px solid rgba(200,149,108,.2)}
+.info p{font-size:.82em;color:#888;line-height:1.5}
+.info a{color:var(--gold)}
+
+.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999}
+.confetti-piece{position:absolute;width:10px;height:10px;top:-10px;animation:confetti-fall 3s ease-in forwards}
+@keyframes confetti-fall{to{top:110vh;transform:rotate(720deg)}}
+
+.already-played{text-align:center;padding:40px 20px}
+.already-played h2{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.5em;margin-bottom:12px}
+.already-played p{color:#aaa;font-size:.95em}
+
+.menu-btn{display:block;margin:24px auto 0;padding:18px 32px;background:linear-gradient(135deg,var(--gold),#a87a50);color:var(--dark);font-size:1.2em;font-weight:900;font-family:'Lato',sans-serif;text-transform:uppercase;letter-spacing:2px;text-decoration:none;border-radius:50px;box-shadow:0 4px 20px rgba(200,149,108,.4);transition:all .2s;text-align:center;max-width:340px}
+.menu-btn:hover{transform:scale(1.05);box-shadow:0 6px 30px rgba(200,149,108,.6)}
+.menu-btn:active{transform:scale(.98)}
+
+.prize-note{background:rgba(200,149,108,.12);border:1px solid rgba(200,149,108,.3);border-radius:12px;padding:14px 18px;margin:16px 0 0;text-align:center}
+.prize-note p{font-size:.88em;color:var(--gold-light);line-height:1.5;margin:0}
+.prize-note .icon{font-size:1.3em;margin-bottom:4px}
+
+footer{margin-top:30px;padding:16px;text-align:center;font-size:.8em;color:#555}
+footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <img src="logo.jpg" alt="Vico del Carmine" style="width:120px;height:auto;margin-bottom:8px;border-radius:12px">
+    <h1>VICO DEL CARMINE</h1>
+    <div class="sub">Osteria Pizzeria Napoletana · San Frediano, Firenze</div>
+  </header>
+
+  <div id="game-area">
+    <div class="card">
+      <h2>🎰 Tenta la Fortuna!</h2>
+      <p>Gira la slot e scopri il tuo premio!<br>Valido <strong>solo stasera</strong> — mostralo al cameriere!</p>
+    </div>
+
+    <div class="slot-machine">
+      <div class="slots">
+        <div class="slot" id="s1"><div class="slot-inner">🍕</div></div>
+        <div class="slot" id="s2"><div class="slot-inner">🎰</div></div>
+        <div class="slot" id="s3"><div class="slot-inner">🍕</div></div>
+      </div>
+      <button id="spin-btn" onclick="spin()">🎰 GIRA!</button>
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <div id="already" class="already-played" style="display:none">
+    <h2>Hai già giocato oggi! 🎰</h2>
+    <p>Torna domani per tentare di nuovo la fortuna!</p>
+    <div id="last-prize" style="margin-top:16px"></div>
+  </div>
+
+  <div class="info">
+    <p>
+      📍 Via Pisana 40/r — San Frediano, Firenze<br>
+      🕖 Stasera dalle 19:00 alle 23:30<br>
+      📸 <a href="https://www.instagram.com/vico.del.carmine/" target="_blank">@vico.del.carmine</a> · 
+      📘 <a href="https://www.facebook.com/vicodelcarmineFi" target="_blank">Facebook</a><br>
+      📱 <a href="https://wa.me/393514002503?text=Ciao!%20Vorrei%20prenotare" target="_blank">Prenota su WhatsApp</a><br><br>
+      🍕 La nostra pizza è ricca e digeribile — lievitazione naturale di 72 ore!<br>
+      Cucina della tradizione italiana: pasta fresca, pesce, carne alla griglia e dolci fatti in casa.
+    </p>
+  </div>
+
+  <a href="https://vicodelcarmine.github.io/menu/" class="menu-btn">📋 SCOPRI IL NOSTRO MENU</a>
+
+  <footer>
+    © 2026 Vico del Carmine
+  </footer>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+const translations = {
+  it: {
+    title: "🎰 Tenta la Fortuna!",
+    sub: "Gira la slot e scopri il tuo premio!<br>Valido <strong>solo stasera</strong> — mostralo al cameriere!",
+    spin: "🎰 GIRA!",
+    spinning: "🎰 GIRANDO...",
+    already: "Hai già giocato oggi! 🎰",
+    return: "Torna domani per tentare di nuovo la fortuna!",
+    validity: "⏰ Valido SOLO STASERA fino alle 23:30!",
+    staff: "📱 MOSTRA AL CAMERIERE",
+    win: "🎉 HAI VINTO!",
+    note: "Il premio ti aspetta a tavola!<br>Valido con consumazione al ristorante.",
+    cta: "Mostra questo codice al cameriere per riscattare il premio",
+    menu: "📋 SCOPRI IL NOSTRO MENU",
+    prizes: {
+      DOLCE: { name: "DOLCE OMAGGIO!", desc: "Un dolce della casa offerto da noi!" },
+      VENTI: { name: "-20% SUL CONTO!", desc: "Sconto del 20% sul conto totale di stasera!" },
+      DIECI: { name: "-10% SUL CONTO!", desc: "Sconto del 10% sul conto totale di stasera!" },
+      BOLLE: { name: "PROSECCO OMAGGIO!", desc: "Un calice di prosecco offerto dalla casa!" },
+      SPRITZ: { name: "SPRITZ OMAGGIO!", desc: "Uno Spritz Aperol o Hugo offerto da noi!" },
+      CAFFE: { name: "CAFFÈ + DOLCETTO!", desc: "Caffè e un dolcetto della casa offerti!" },
+      QUINDICI: { name: "-15% SUL CONTO!", desc: "Sconto del 15% sul conto totale di stasera!" }
+    }
+  },
+  en: {
+    title: "🎰 Try Your Luck!",
+    sub: "Spin the slot and discover your prize!<br>Valid <strong>tonight only</strong> — show it to the waiter!",
+    spin: "🎰 SPIN!",
+    spinning: "🎰 SPINNING...",
+    already: "You already played today! 🎰",
+    return: "Come back tomorrow to try your luck again!",
+    validity: "⏰ Valid TONIGHT ONLY until 11:30 PM!",
+    staff: "📱 SHOW TO WAITER",
+    win: "🎉 YOU WON!",
+    note: "Your prize is waiting at the table!<br>Valid with a meal at the restaurant.",
+    cta: "Show this code to the waiter to redeem your prize",
+    menu: "📋 DISCOVER OUR MENU",
+    prizes: {
+      DOLCE: { name: "FREE DESSERT!", desc: "A homemade dessert on the house!" },
+      VENTI: { name: "-20% OFF!", desc: "20% discount on your total bill tonight!" },
+      DIECI: { name: "-10% OFF!", desc: "10% discount on your total bill tonight!" },
+      BOLLE: { name: "FREE PROSECCO!", desc: "A glass of Prosecco offered by us!" },
+      SPRITZ: { name: "FREE SPRITZ!", desc: "An Aperol or Hugo Spritz on the house!" },
+      CAFFE: { name: "COFFEE + TREAT!", desc: "Coffee and a small dessert offered!" },
+      QUINDICI: { name: "-15% OFF!", desc: "15% discount on your total bill tonight!" }
+    }
+  },
+  de: {
+    title: "🎰 Versuchen Sie Ihr Glück!",
+    sub: "Drehen Sie den Slot und gewinnen Sie!<br>Nur <strong>heute Abend</strong> gültig — dem Kellner zeigen!",
+    spin: "🎰 DREHEN!",
+    spinning: "🎰 DREHT...",
+    already: "Sie haben heute schon gespielt! 🎰",
+    return: "Kommen Sie morgen wieder!",
+    validity: "⏰ Nur HEUTE ABEND bis 23:30 Uhr gültig!",
+    staff: "📱 DEM KELLNER ZEIGEN",
+    win: "🎉 GEWONNEN!",
+    note: "Ihr Preis wartet am Tisch!<br>Gültig bei Verzehr im Restaurant.",
+    cta: "Zeigen Sie diesen Code dem Kellner, um ihn einzulösen",
+    menu: "📋 SPEISEKARTE ANSEHEN",
+    prizes: {
+      DOLCE: { name: "GRATIS DESSERT!", desc: "Ein hausgemachtes Dessert des Hauses!" },
+      VENTI: { name: "-20% RABATT!", desc: "20% Rabatt auf die gesamte Rechnung!" },
+      DIECI: { name: "-10% RABATT!", desc: "10% Rabatt auf die gesamte Rechnung!" },
+      BOLLE: { name: "GRATIS PROSECCO!", desc: "Ein Glas Prosecco vom Haus!" },
+      SPRITZ: { name: "GRATIS SPRITZ!", desc: "Ein Aperol oder Hugo Spritz gratis!" },
+      CAFFE: { name: "KAFFEE + GEBÄCK!", desc: "Kaffee und ein kleines Dessert gratis!" },
+      QUINDICI: { name: "-15% RABATT!", desc: "15% Rabatt auf die gesamte Rechnung!" }
+    }
+  },
+  fr: {
+    title: "🎰 Tentez votre Chance !",
+    sub: "Lancez la machine et découvrez votre prix !<br>Valable <strong>ce soir seulement</strong> — à montrer au serveur !",
+    spin: "🎰 JOUER !",
+    spinning: "🎰 ÇA TOURNE...",
+    already: "Vous avez déjà joué aujourd'hui ! 🎰",
+    return: "Revenez demain per tenter votre chance !",
+    validity: "⏰ Valable CE SOIR jusqu'à 23h30 !",
+    staff: "📱 MONTRER AU SERVEUR",
+    win: "🎉 VOUS AVEZ GAGNÉ !",
+    note: "Votre prix vous attend à table !<br>Valable pour une consommation au restaurant.",
+    cta: "Montrez ce code au serveur pour en profiter",
+    menu: "📋 VOIR NOTRE CARTE",
+    prizes: {
+      DOLCE: { name: "DESSERT OFFERT !", desc: "Un dessert maison offert par la maison !" },
+      VENTI: { name: "-20% SUR L'ADDITION !", desc: "20% de réduction sur votre note ce soir !" },
+      DIECI: { name: "-10% SUR L'ADDITION !", desc: "10% de réduction sur votre note ce soir !" },
+      BOLLE: { name: "PROSECCO OFFERT !", desc: "Une coupe de prosecco offerte !" },
+      SPRITZ: { name: "SPRITZ OFFERT !", desc: "Un Spritz Aperol o Hugo offert !" },
+      CAFFE: { name: "CAFÉ + DOUCEUR !", desc: "Un café et une petite douceur offerts !" },
+      QUINDICI: { name: "-15% SUR L'ADDITION !", desc: "15% de réduction sur votre note ce soir !" }
+    }
+  },
+  es: {
+    title: "🎰 ¡Prueba tu Suerte!",
+    sub: "¡Gira la tragamonedas y descubre tu premio!<br>Válido <strong>solo esta noche</strong> — ¡muéstralo al camarero!",
+    spin: "🎰 ¡GIRAR!",
+    spinning: "🎰 GIRANDO...",
+    already: "¡Ya has jugado hoy! 🎰",
+    return: "¡Vuelve mañana para probar suerte de nuevo!",
+    validity: "⏰ ¡Válido SOLO ESTA NOCHE hasta las 23:30!",
+    staff: "📱 MOSTRAR AL CAMARERO",
+    win: "🎉 ¡HAS GANADO!",
+    note: "¡Tu premio te espera en la mesa!<br>Válido con consumición en el restaurante.",
+    cta: "Muestra este código al camarero para canjear el premio",
+    menu: "📋 VER NUESTRO MENÚ",
+    prizes: {
+      DOLCE: { name: "¡POSTRE GRATIS!", desc: "¡Un postre casero cortesía de la casa!" },
+      VENTI: { name: "¡-20% DE DESCUENTO!", desc: "¡20% de descuento en tu cuenta de esta noche!" },
+      DIECI: { name: "¡-10% DE DESCUENTO!", desc: "10% de descuento en tu cuenta de esta noche!" },
+      BOLLE: { name: "¡PROSECCO GRATIS!", desc: "¡Una copa de prosecco por cuenta de la casa!" },
+      SPRITZ: { name: "¡SPRITZ GRATIS!", desc: "¡Un Spritz Aperol o Hugo de regalo!" },
+      CAFFE: { name: "¡CAFÉ + DULCE!", desc: "¡Café y un dulce de la casa de regalo!" },
+      QUINDICI: { name: "¡-15% DE DESCUENTO!", desc: "15% de descuento en tu cuenta de esta noche!" }
+    }
+  }
+};
+
+let userLang = navigator.language.split('-')[0];
+if (!translations[userLang]) userLang = 'en'; // Default to English for others
+const t = translations[userLang];
+
+// Update UI Text
+document.querySelector('.card h2').innerHTML = t.title;
+document.querySelector('.card p').innerHTML = t.sub;
+document.getElementById('spin-btn').textContent = t.spin;
+document.querySelector('.menu-btn').textContent = t.menu;
+
+const prizes = [
+  { emoji:"🍰", id:"DOLCE", weight:15 },
+  { emoji:"🔥", id:"VENTI", weight:8 },
+  { emoji:"🍕", id:"DIECI", weight:25 },
+  { emoji:"🥂", id:"BOLLE", weight:15 },
+  { emoji:"🍹", id:"SPRITZ", weight:10 },
+  { emoji:"🧁", id:"CAFFE", weight:20 },
+  { emoji:"⭐", id:"QUINDICI", weight:7 }
+];
+
+const slotEmojis = ["🍕","🍝","🍰","🥂","🍹","🔥","⭐","🎰","🧁","🇮🇹"];
+
+function getTodayKey() {
+  const d = new Date();
+  return `vico_${d.getFullYear()}_${d.getMonth()}_${d.getDate()}`;
+}
+
+function checkAlreadyPlayed() {
+  const key = getTodayKey();
+  const saved = localStorage.getItem(key);
+  if (saved) {
+    document.getElementById('game-area').style.display = 'none';
+    document.getElementById('already').style.display = 'block';
+    const data = JSON.parse(saved);
+    document.getElementById('last-prize').innerHTML = `
+      <div style="font-size:2em">${data.emoji}</div>
+      <div style="color:var(--gold);font-weight:700;margin:8px 0">${t.prizes[data.id].name}</div>
+      <div class="code" style="background:#0a0604;border:2px dashed var(--gold);border-radius:12px;padding:14px;margin:12px auto;font-family:monospace;font-size:1.4em;letter-spacing:4px;color:var(--gold-light);max-width:250px">${data.fullCode}</div>
+      <div style="color:#e74c3c;font-weight:700;font-size:.9em">⏰ Valido solo stasera fino alle 23:30!</div>
+      <div style="background:rgba(200,149,108,.12);border:1px solid rgba(200,149,108,.3);border-radius:12px;padding:12px 16px;margin-top:14px">
+        <div style="font-size:1.2em">🍽️</div>
+        <p style="font-size:.85em;color:var(--gold-light);line-height:1.4;margin:4px 0 0">Il premio ti aspetta a tavola!<br>Valido con consumazione al ristorante.</p>
+      </div>
+    `;
+    return true;
+  }
+  return false;
+}
+
+function pickPrize() {
+  const total = prizes.reduce((s,p) => s + p.weight, 0);
+  let r = Math.random() * total;
+  for (const p of prizes) {
+    r -= p.weight;
+    if (r <= 0) return p;
+  }
+  return prizes[0];
+}
+
+function generateCode(prize) {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let rand = '';
+  for (let i = 0; i < 4; i++) rand += chars[Math.floor(Math.random() * chars.length)];
+  const d = new Date();
+  const day = String(d.getDate()).padStart(2,'0');
+  const month = String(d.getMonth()+1).padStart(2,'0');
+  // Prize IDs in IT: DOLCE, VENTI, DIECI, BOLLE, SPRITZ, CAFFE, QUINDICI
+  // Prize IDs in object: DOLCE, VENTI, DIECI, BOLLE, SPRITZ, CAFFE, QUINDICI
+  return `${prize.id}-${rand}-${day}${month}`;
+}
+
+function launchConfetti() {
+  const container = document.getElementById('confetti');
+  const colors = ['#c8956c','#8b2500','#e8c9a0','#fff','#c0392b','#f39c12'];
+  for (let i = 0; i < 50; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = Math.random() * 2 + 's';
+    piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    piece.style.width = (6 + Math.random() * 8) + 'px';
+    piece.style.height = (6 + Math.random() * 8) + 'px';
+    container.appendChild(piece);
+  }
+  setTimeout(() => container.innerHTML = '', 4000);
+}
+
+let spinning = false;
+
+function spin() {
+  if (spinning) return;
+  spinning = true;
+  
+  const btn = document.getElementById('spin-btn');
+  btn.disabled = true;
+  btn.textContent = '🎰 GIRANDO...';
+  
+  const prize = pickPrize();
+  const fullCode = generateCode(prize);
+  const slots = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3')];
+  
+  // Start spinning
+  slots.forEach(s => s.classList.add('spinning'));
+  
+  // Randomize during spin
+  const spinInterval = setInterval(() => {
+    slots.forEach(s => {
+      s.querySelector('.slot-inner').textContent = slotEmojis[Math.floor(Math.random() * slotEmojis.length)];
+    });
+  }, 100);
+  
+  // Stop slot 1
+  setTimeout(() => {
+    slots[0].classList.remove('spinning');
+    slots[0].querySelector('.slot-inner').textContent = prize.emoji;
+  }, 1000);
+  
+  // Stop slot 2
+  setTimeout(() => {
+    slots[1].classList.remove('spinning');
+    slots[1].querySelector('.slot-inner').textContent = prize.emoji;
+  }, 1500);
+  
+  // Stop slot 3 and show result
+  setTimeout(() => {
+    clearInterval(spinInterval);
+    slots[2].classList.remove('spinning');
+    slots[2].querySelector('.slot-inner').textContent = prize.emoji;
+    
+    // Show result
+    setTimeout(() => {
+      launchConfetti();
+      
+      const now = new Date();
+      const resultDiv = document.getElementById('result');
+      resultDiv.className = 'result win';
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `
+        <h3>🎉 HAI VINTO!</h3>
+        <div class="prize-emoji">${prize.emoji}${prize.emoji}${prize.emoji}</div>
+        <div class="prize-name">${t.prizes[prize.id].name}</div>
+        <div class="prize-desc">${t.prizes[prize.id].desc}</div>
+        <div class="code">${fullCode}</div>
+        <div id="qrcode-container" style="margin:20px auto; padding:15px; background:white; border-radius:12px; display:inline-block;"></div>
+        <div class="validity">⏰ Scansiona in cassa per riscattare!</div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <script>
+          new QRCode(document.getElementById("qrcode-container"), {
+            text: "https://vico-del-carmine.workers.dev/redeem?code=" + "${fullCode}" + "&ts=" + Date.now(),
+            width: 160,
+            height: 160,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+          });
+        </script>
+        <div class="prize-note">
+          <div class="icon">🍽️</div>
+          <p>Il premio ti aspetta a tavola!<br>Valido con consumazione al ristorante.</p>
+        </div>
+        <div class="cta">Mostra questo codice al cameriere per riscattare il premio</div>
+        <div class="email-box" style="margin:20px 0 8px;padding:16px;background:rgba(200,149,108,.1);border:1px solid rgba(200,149,108,.25);border-radius:12px">
+          <p style="font-size:.85em;color:var(--gold-light);margin-bottom:10px">📬 Ricevi il tuo premio su WhatsApp e sblocca offerte extra!</p>
+          <input type="tel" id="phone-input" placeholder="Il tuo numero WhatsApp" 
+            style="width:100%;padding:12px 16px;border-radius:25px;border:1px solid rgba(200,149,108,.3);background:#0a0604;color:var(--cream);font-size:.95em;font-family:'Lato',sans-serif;outline:none;text-align:center;margin-bottom:10px"
+            onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(200,149,108,.3)'">
+          <input type="email" id="email-input" placeholder="La tua email (opzionale)" 
+            style="width:100%;padding:12px 16px;border-radius:25px;border:1px solid rgba(200,149,108,.3);background:#0a0604;color:var(--cream);font-size:.95em;font-family:'Lato',sans-serif;outline:none;text-align:center"
+            onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(200,149,108,.3)'">
+          <button onclick="saveContact('${fullCode}')" 
+            style="margin-top:10px;background:var(--gold);color:var(--dark);border:none;padding:10px 28px;border-radius:25px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer;font-size:.9em">RICEVI PREMIO</button>
+          <p id="contact-thanks" style="display:none;color:var(--gold);font-size:.85em;margin-top:8px">✅ Grazie! Ti abbiamo inviato un messaggio!</p>
+        </div>
+        <button class="show-staff" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();this.style.display='none'">📱 MOSTRA AL CAMERIERE</button>
+      `;
+      
+      btn.style.display = 'none';
+      
+      // Save to localStorage
+      localStorage.setItem(getTodayKey(), JSON.stringify({
+        emoji: prize.emoji,
+        id: prize.id,
+        fullCode: fullCode,
+        time: now.toISOString()
+      }));
+      
+      spinning = false;
+    }, 300);
+  }, 2000);
+}
+
+// Check on load
+checkAlreadyPlayed();
+
+// Save contact function
+function saveContact(code) {
+  const phoneInput = document.getElementById('phone-input');
+  const emailInput = document.getElementById('email-input');
+  const phone = phoneInput.value.trim();
+  const email = emailInput.value.trim();
+  
+  if (!phone && !email) {
+    phoneInput.style.borderColor = '#e74c3c';
+    return;
+  }
+  
+  // Send to Telegram bot (lightweight webhook)
+  fetch('https://api.telegram.org/bot8697095945:AAGnbdjMFvEOnGm5bZapz1lYHVSnPNOMNxU/sendMessage', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: '1300371958',
+      text: '🎰 Nuova vincita registrata!\n\n📱 WhatsApp: ' + (phone || 'N/A') + '\n📧 Email: ' + (email || 'N/A') + '\n🎰 Premio: ' + code + '\n📅 ' + new Date().toLocaleString('it-IT')
+    })
+  }).catch(() => {});
+  
+  // UI feedback
+  document.getElementById('contact-thanks').style.display = 'block';
+  phoneInput.style.display = 'none';
+  emailInput.style.display = 'none';
+  document.querySelector('.email-box button').style.display = 'none';
+  document.querySelector('.email-box p:first-child').textContent = '📬 Contatto salvato con successo!';
+}
+</script>
+</body>
+</html>
