@@ -1,122 +1,170 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu - Vico del Carmine</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --gold: #c8956c; --dark: #1a0f0a; --cream: #faf6f0; --red: #8b2500; }
-        body { font-family: 'Lato', sans-serif; background: var(--dark); color: var(--cream); margin: 0; padding: 20px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 40px; padding: 20px; border-bottom: 2px solid var(--gold); }
-        h1 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 2.5em; margin: 0; }
-        .subtitle { color: #888; margin-top: 10px; }
-        h2 { font-family: 'Playfair Display', serif; color: var(--gold); border-bottom: 1px solid var(--gold); padding-bottom: 10px; margin-top: 40px; }
-        .menu-section { margin-bottom: 30px; }
-        .dish { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 1px solid rgba(200,149,108,0.2); }
-        .dish-name { font-weight: 700; font-size: 1.1em; }
-        .dish-desc { font-size: 0.9em; color: #aaa; display: block; margin-top: 4px; }
-        .dish-price { font-weight: 700; color: var(--gold); font-size: 1.2em; }
-        .note { font-size: 0.85em; color: #888; margin-top: 20px; text-align: center; font-style: italic; }
-        footer { text-align: center; margin-top: 50px; padding: 20px; color: #666; font-size: 0.9em; }
-        a { color: var(--gold); }
-        .special-box { background: rgba(200,149,108,0.15); padding: 25px; border-radius: 12px; margin: 20px 0 40px; border: 2px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .special-box h2 { border-bottom: none; margin-top: 0; text-align: center; font-size: 1.8em; letter-spacing: 2px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Vico del Carmine — Pizzeria Napoletana · Firenze</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--wine:#7B1E2A;--wine-dark:#5A1520;--cream:#FDF5E6;--gold:#C8A951;--gold-light:#E8D592;--charcoal:#2C2C2C;--text:#3A3A3A;--text-light:#6B6B6B;--white:#FFF;--shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 4px 24px rgba(0,0,0,.12)}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text);line-height:1.6;min-height:100vh;padding-top:60px}
+.lang-bar{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--wine-dark);display:flex;justify-content:center;align-items:center;gap:2px;padding:10px 8px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.lang-btn{background:transparent;border:2px solid transparent;color:rgba(255,255,255,.7);font-family:'Lato',sans-serif;font-size:14px;font-weight:700;padding:6px 12px;border-radius:24px;cursor:pointer;transition:all .3s ease;white-space:nowrap}
+.lang-btn.active{color:var(--white);background:var(--wine);border-color:var(--gold)}
+.header{background:linear-gradient(135deg,var(--wine-dark),var(--wine));color:var(--white);text-align:center;padding:48px 20px 40px;position:relative;overflow:hidden}
+.header h1{font-family:'Playfair Display',serif;font-size:clamp(32px,7vw,48px);letter-spacing:3px;margin-bottom:4px}
+.hs{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(14px,3.5vw,18px);color:var(--gold-light);margin-bottom:20px}
+.hd{width:60px;height:2px;background:var(--gold);margin:0 auto 16px}
+.mc{max-width:680px;margin:0 auto;padding:16px 12px 32px}
+.ms{margin-bottom:16px;background:var(--white);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.sh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;background:linear-gradient(135deg,var(--wine),var(--wine-dark));color:var(--white)}
+.st{font-family:'Playfair Display',serif;font-size:clamp(16px,4vw,20px);font-weight:700;letter-spacing:1px;display:flex;align-items:center;gap:10px}
+.sc{font-size:20px;transition:transform .35s;color:var(--gold-light)}
+.ms.open .sc{transform:rotate(180deg)}
+.sb{max-height:0;overflow:hidden;transition:max-height .45s,opacity .35s;opacity:0}
+.ms.open .sb{max-height:2000px;opacity:1;padding:8px 0}
+.di{padding:14px 20px;border-bottom:1px solid rgba(0,0,0,.05)}
+.dr{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dn{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--charcoal)}
+.dp{font-family:'Lato',sans-serif;font-weight:700;font-size:16px;color:var(--wine);white-space:nowrap}
+.ds{font-size:13px;color:var(--text-light);margin-top:4px;font-style:italic}
+.special-section{border:2px solid var(--gold);background:rgba(200,169,81,0.05)}
+.special-header{background:linear-gradient(135deg,var(--gold),var(--wine)) !important}
+.footer{background:var(--charcoal);color:rgba(255,255,255,.7);text-align:center;padding:32px 20px}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>VICO DEL CARMINE</h1>
-            <div class="subtitle">Osteria Pizzeria Napoletana · San Frediano, Firenze</div>
-            <div class="subtitle">📍 Via Pisana 40/r · 🕐 Aperto 19:00-23:30</div>
-        </header>
+<nav class="lang-bar">
+  <button class="lang-btn active">IT</button>
+  <button class="lang-btn">EN</button>
+  <button class="lang-btn">FR</button>
+  <button class="lang-btn">DE</button>
+  <button class="lang-btn">ES</button>
+</nav>
+<header class="header">
+  <img src="logo.jpg" alt="Vico del Carmine" style="width:130px;height:auto;margin-bottom:8px;border-radius:12px">
+  <h1>VICO DEL CARMINE</h1>
+  <p class="hs">Osteria Pizzeria Napoletana · Firenze</p>
+  <div class="hd"></div>
+  <div style="font-size:14px;color:rgba(255,255,255,.85)">
+    <div>📍 Via Pisana 40/r — San Frediano, Firenze</div>
+    <div>🕐 Aperto ogni sera 19:00–23:30</div>
+  </div>
+</header>
 
-        <div class="special-box">
-            <h2>✨ LE NOSTRE SPECIALITÀ</h2>
-            
-            <h3 style="color:var(--gold);margin-top:20px;border-bottom:1px solid rgba(200,149,108,0.3);">Antipasti Speciali</h3>
-            <div class="dish"><span class="dish-name">Tagliere del Carmine</span><span class="dish-price">18€</span></div>
-            <div class="dish-desc">Selezione di salumi e formaggi campani, sott'oli e specialità dello chef</div>
-            
-            <h3 style="color:var(--gold);margin-top:20px;border-bottom:1px solid rgba(200,149,108,0.3);">Primi Speciali</h3>
-            <div class="dish"><span class="dish-name">Pacco alla Vico</span><span class="dish-price">16€</span></div>
-            <div class="dish-desc">Paccheri con ragù napoletano verace, ricotta salata e basilico</div>
-            
-            <h3 style="color:var(--gold);margin-top:20px;border-bottom:1px solid rgba(200,149,108,0.3);">Secondi Speciali</h3>
-            <div class="dish"><span class="dish-name">Grigliata Mista del Carmine</span><span class="dish-price">22€</span></div>
-            <div class="dish-desc">Assortimento di carni pregiate alla griglia con verdure di stagione</div>
-        </div>
-
-        <div class="menu-section">
-            <h2>🍕 PIZZE</h2>
-            <div class="dish"><span class="dish-name">Vegetariana</span><span class="dish-price">13€</span></div>
-            <div class="dish-desc">Salsa di pomodoro, mozzarella, melanzane e zucchine grigliate, rucola</div>
-            <div class="dish"><span class="dish-name">Bell'Italia</span><span class="dish-price">15€</span></div>
-            <div class="dish-desc">Salsa di pomodoro, rucola, prosciutto crudo, burrata</div>
-            <div class="dish"><span class="dish-name">Vico</span><span class="dish-price">16€</span></div>
-            <div class="dish-desc">Salsa di pomodoro, mozzarella, salsiccia, friarielli, salame napoli, ricotta</div>
-            <div class="dish"><span class="dish-name">Vesuvio</span><span class="dish-price">14€</span></div>
-            <div class="dish-desc">Salsa di pomodoro, mozzarella, ricotta, funghi, cotto, salamino</div>
-            <div class="dish"><span class="dish-name">Cilentana</span><span class="dish-price">11,5€</span></div>
-            <div class="dish-desc">Mozzarella di bufala, salsa di pomodoro fresco aromatico, basilico</div>
-            <div class="dish"><span class="dish-name">Palinuro</span><span class="dish-price">14€</span></div>
-            <div class="dish-desc">Mozzarella, salsa cilentana, salsiccia, melanzane fritte, scamorza</div>
-            <div class="dish"><span class="dish-name">Partenopea</span><span class="dish-price">13,5€</span></div>
-            <div class="dish-desc">Salsa di pomodoro, pomodorini, stracciatella, basilico</div>
-            <div class="dish"><span class="dish-name">Chiummenzana</span><span class="dish-price">13,5€</span></div>
-            <div class="dish-desc">Mozzarella, scamorza, pomodorini, basilico, bordo ripieno di ricotta</div>
-            <div class="dish"><span class="dish-name">Verdurella</span><span class="dish-price">13,5€</span></div>
-            <div class="dish-desc">Mozzarella, scamorza, pomodorini, zucchine grigliate, basilico</div>
-            <div class="dish"><span class="dish-name">Calzone</span><span class="dish-price">12€</span></div>
-            <div class="dish-desc">Mozzarella, ricotta, funghi, prosciutto cotto</div>
-            <div class="note">Per ogni aggiunta supplemento di 2€ · Burrata o stracciatella +5€ · Impasti speciali +1,5€</div>
-        </div>
-
-        <div class="menu-section">
-            <h2>🍝 PRIMI</h2>
-            <div class="dish"><span class="dish-name">Chitarrina allo scoglio</span><span class="dish-price">16€</span></div>
-            <div class="dish"><span class="dish-name">Chitarrina alla carbonara di mare</span><span class="dish-price">15€</span></div>
-            <div class="dish"><span class="dish-name">Tagliatelle allo scoglio napoletano</span><span class="dish-price">15€</span></div>
-            <div class="dish"><span class="dish-name">Chitarrina alla carrettiera</span><span class="dish-price">13€</span></div>
-            <div class="dish"><span class="dish-name">Gnocchi alla sorrentina</span><span class="dish-price">14€</span></div>
-            <div class="dish"><span class="dish-name">Pennette al pomodoro e basilico</span><span class="dish-price">12€</span></div>
-            <div class="dish"><span class="dish-name">Chitarrina alla carbonara</span><span class="dish-price">15€</span></div>
-        </div>
-
-        <div class="menu-section">
-            <h2>🥩 SECONDI</h2>
-            <div class="dish"><span class="dish-name">Straccetti di pollo saltati</span><span class="dish-price">16€</span></div>
-            <div class="dish"><span class="dish-name">Polpette di carne al sugo</span><span class="dish-price">15€</span></div>
-            <div class="dish"><span class="dish-name">Pallotte cacio e ova</span><span class="dish-price">15€</span></div>
-            <div class="dish"><span class="dish-name">Hamburger classico al piatto con patatine</span><span class="dish-price">15€</span></div>
-            <div class="dish"><span class="dish-name">Zuppa di moscardini alla luciana</span><span class="dish-price">19€</span></div>
-            <div class="dish"><span class="dish-name">Baccalà alla crema di limone</span><span class="dish-price">18€</span></div>
-            <div class="dish"><span class="dish-name">Bistecca di spada alla mediterranea</span><span class="dish-price">21€</span></div>
-        </div>
-
-        <div class="menu-section">
-            <h2>🍷 VINI</h2>
-            <h3 style="color:var(--gold);margin:20px 0 10px;">Rossi</h3>
-            <div class="dish"><span class="dish-name">Chianti</span><span class="dish-price">20€</span></div>
-            <div class="dish"><span class="dish-name">Chianti classico</span><span class="dish-price">25€</span></div>
-            <div class="dish"><span class="dish-name">Brunello di Montalcino</span><span class="dish-price">55€</span></div>
-            <div class="dish"><span class="dish-name">Rosso di Montalcino</span><span class="dish-price">35€</span></div>
-            <div class="dish"><span class="dish-name">Montepulciano</span><span class="dish-price">22€</span></div>
-            <div class="dish"><span class="dish-name">Chianti riserva</span><span class="dish-price">30€</span></div>
-            <div class="dish"><span class="dish-name">Morellino di Scansano</span><span class="dish-price">35€</span></div>
-            <h3 style="color:var(--gold);margin:20px 0 10px;">Bianchi</h3>
-            <div class="dish"><span class="dish-name">Falanghina</span><span class="dish-price">20€</span></div>
-            <div class="dish"><span class="dish-name">Passerina</span><span class="dish-price">25€</span></div>
-            <div class="dish"><span class="dish-name">Pecorino</span><span class="dish-price">25€</span></div>
-            <div class="dish"><span class="dish-name">Vermentino</span><span class="dish-price">21€</span></div>
-            <div class="dish"><span class="dish-name">Chardonnay</span><span class="dish-price">23€</span></div>
-        </div>
-
-        <footer>
-            <p>© 2026 Vico del Carmine</p>
-        </footer>
+<main class="mc">
+  <!-- SEZIONE SPECIALITÀ IN CIMA -->
+  <div class="ms special-section open">
+    <div class="sh special-header" onclick="toggleSection(this)">
+      <div class="st"><span>✨</span> LE NOSTRE SPECIALITÀ</div>
+      <span class="sc">▼</span>
     </div>
+    <div class="sb">
+      <div style="padding:10px 20px; font-weight:bold; color:var(--wine); text-transform:uppercase; font-size:12px; letter-spacing:1px; border-bottom:1px solid var(--gold-light)">Antipasti</div>
+      <div class="di"><div class="dr"><span class="dn">Tagliere del Carmine</span><span class="dp">18€</span></div><p class="ds">Selezione di salumi e formaggi campani, sott'oli e specialità dello chef</p></div>
+      
+      <div style="padding:10px 20px; font-weight:bold; color:var(--wine); text-transform:uppercase; font-size:12px; letter-spacing:1px; border-bottom:1px solid var(--gold-light); margin-top:10px">Primi</div>
+      <div class="di"><div class="dr"><span class="dn">Pacco alla Vico</span><span class="dp">16€</span></div><p class="ds">Paccheri con ragù napoletano verace, ricotta salata e basilico</p></div>
+      
+      <div style="padding:10px 20px; font-weight:bold; color:var(--wine); text-transform:uppercase; font-size:12px; letter-spacing:1px; border-bottom:1px solid var(--gold-light); margin-top:10px">Secondi</div>
+      <div class="di"><div class="dr"><span class="dn">Grigliata Mista del Carmine</span><span class="dp">22€</span></div><p class="ds">Assortimento di carni pregiate alla griglia con verdure di stagione</p></div>
+    </div>
+  </div>
+
+  <!-- PIZZE -->
+  <div class="ms">
+    <div class="sh" onclick="toggleSection(this)">
+      <div class="st"><span>🍕</span> PIZZE</div>
+      <span class="sc">▼</span>
+    </div>
+    <div class="sb">
+      <div class="di"><div class="dr"><span class="dn">A'Pizza Vegetariana</span><span class="dp">13€</span></div><p class="ds">salsa di pomodoro, mozzarella, melanzane e zucchine grigliate, rucola</p></div>
+      <div class="di"><div class="dr"><span class="dn">Bell'Italia</span><span class="dp">15€</span></div><p class="ds">salsa di pomodoro, rucola, crudo, burrata</p></div>
+      <div class="di"><div class="dr"><span class="dn">Vico</span><span class="dp">16€</span></div><p class="ds">salsa di pomodoro, mozzarella, salsiccia, friarielli, salame napoli, ricotta</p></div>
+      <div class="di"><div class="dr"><span class="dn">Vesuvio</span><span class="dp">14€</span></div><p class="ds">salsa di pomodoro, mozzarella, ricotta, funghi, cotto, salamino</p></div>
+      <div class="di"><div class="dr"><span class="dn">Cilentana</span><span class="dp">11,5€</span></div><p class="ds">mozzarella di bufala, salsa di pomodoro fresco aromatico, basilico</p></div>
+      <div class="di"><div class="dr"><span class="dn">Palinuro</span><span class="dp">14€</span></div><p class="ds">mozzarella, salsa cilentana, salsiccia, melanzane fritte, scamorza</p></div>
+      <div class="di"><div class="dr"><span class="dn">Partenopea</span><span class="dp">13,5€</span></div><p class="ds">salsa di pomodoro, pomodorini, stracciatella, basilico</p></div>
+      <div class="di"><div class="dr"><span class="dn">Chiummenzana</span><span class="dp">13,5€</span></div><p class="ds">mozzarella, scamorza, pomodorini, basilico, con bordo ripieno di ricotta</p></div>
+      <div class="di"><div class="dr"><span class="dn">Verdurella</span><span class="dp">13,5€</span></div><p class="ds">mozzarella, scamorza, pomodorini, zucchine grigliate, basilico</p></div>
+      <div class="di"><div class="dr"><span class="dn">Calzone</span><span class="dp">12€</span></div><p class="ds">mozzarella, ricotta, funghi, prosciutto cotto</p>
+      <div style="padding:10px 20px; font-size:11px; color:var(--text-light); text-align:center">Supplementi: 2€ · Burrata/Stracciatella 5€ · Impasti speciali 1,5€</div>
+    </div>
+  </div>
+
+  <!-- PRIMI -->
+  <div class="ms">
+    <div class="sh" onclick="toggleSection(this)">
+      <div class="st"><span>🍝</span> PRIMI</div>
+      <span class="sc">▼</span>
+    </div>
+    <div class="sb">
+      <div class="di"><div class="dr"><span class="dn">Chitarrina allo scoglio</span><span class="dp">16€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Chitarrina alla carbonara di mare</span><span class="dp">15€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Tagliatelle allo scoglio napoletano</span><span class="dp">15€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Chitarrina alla carrettiera</span><span class="dp">13€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Gnocchi alla sorrentina</span><span class="dp">14€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Pennette al pomodoro e basilico</span><span class="dp">12€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Chitarrina alla carbonara</span><span class="dp">15€</span></div></div>
+    </div>
+  </div>
+
+  <!-- SECONDI -->
+  <div class="ms">
+    <div class="sh" onclick="toggleSection(this)">
+      <div class="st"><span>🥩</span> SECONDI</div>
+      <span class="sc">▼</span>
+    </div>
+    <div class="sb">
+      <div class="di"><div class="dr"><span class="dn">Straccetti di pollo saltati</span><span class="dp">16€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Polpette di carne al sugo</span><span class="dp">15€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Pallotte cacio e ova</span><span class="dp">15€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Hamburger classico al piatto con patatine</span><span class="dp">15€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Zuppa di moscardini alla luciana</span><span class="dp">19€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Baccalà alla crema di limone</span><span class="dp">18€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Bistecca di spada alla mediterranea</span><span class="dp">21€</span></div></div>
+    </div>
+  </div>
+
+  <!-- VINI -->
+  <div class="ms">
+    <div class="sh" onclick="toggleSection(this)">
+      <div class="st"><span>🍷</span> VINI</div>
+      <span class="sc">▼</span>
+    </div>
+    <div class="sb">
+      <div style="padding:10px 20px; font-weight:bold; color:var(--wine); font-size:12px; border-bottom:1px solid rgba(0,0,0,0.05)">ROSSI</div>
+      <div class="di"><div class="dr"><span class="dn">Chianti</span><span class="dp">20,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Chianti Classico</span><span class="dp">25,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Brunello di Montalcino</span><span class="dp">55,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Rosso di Montalcino</span><span class="dp">35,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Montepulciano</span><span class="dp">22,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Chianti Riserva</span><span class="dp">30,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Morellino di Scansano</span><span class="dp">35,00€</span></div></div>
+      
+      <div style="padding:10px 20px; font-weight:bold; color:var(--wine); font-size:12px; border-bottom:1px solid rgba(0,0,0,0.05); margin-top:10px">BIANCHI</div>
+      <div class="di"><div class="dr"><span class="dn">Falanghina</span><span class="dp">20,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Passerina</span><span class="dp">25,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Pecorino</span><span class="dp">25,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Vermentino</span><span class="dp">21,00€</span></div></div>
+      <div class="di"><div class="dr"><span class="dn">Chardonnay</span><span class="dp">23,00€</span></div></div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="fn">VICO DEL CARMINE</div>
+  <p>© 2026 Vico del Carmine</p>
+</footer>
+
+<script>
+function toggleSection(el) {
+  const ms = el.parentElement;
+  ms.classList.toggle('open');
+}
+</script>
 </body>
 </html>
