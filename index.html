@@ -4,154 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vico del Carmine - Menù Digitale</title>
-    <!-- Font Eleganti -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
-        :root {
-            --primary: #800020;
-            --gold: #D4AF37;
-            --dark: #1a1a1a;
-            --light: #fdfdfd;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--dark);
-            color: var(--light);
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            text-align: center;
-            background-color: #f7f3e9; /* Sfondo chiaro per l'illustrazione acquerello */
-            border-bottom: 3px solid var(--gold);
-        }
-
-        .hero-img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .location-bar {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-weight: 600;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-            border-bottom: 1px solid var(--gold);
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .category {
-            margin-bottom: 40px;
-        }
-
-        .category-title {
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            font-size: 1.8rem;
-            border-bottom: 1px solid var(--gold);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .item {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 15px;
-        }
-
-        .item-info {
-            flex: 1;
-        }
-
-        .item-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--light);
-        }
-
-        .item-desc {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-top: 4px;
-            display: block;
-        }
-
-        .item-price {
-            font-weight: 600;
-            color: var(--gold);
-            margin-left: 15px;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 40px;
-            background-color: #111;
-            font-size: 0.8rem;
-            color: #666;
-        }
-
+        :root { --primary: #800020; --gold: #D4AF37; --dark: #1a1a1a; --light: #fdfdfd; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--dark); color: var(--light); margin: 0; padding: 0; }
+        header { text-align: center; background-color: #f7f3e9; border-bottom: 3px solid var(--gold); }
+        .hero-img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        .lang-bar { background: #000; padding: 10px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid #333; }
+        .lang-btn { background: none; border: 1px solid var(--gold); color: var(--gold); padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+        .lang-btn.active { background: var(--gold); color: black; }
+        .location-bar { background-color: var(--primary); color: white; padding: 15px; text-align: center; font-weight: 600; font-size: 0.9rem; border-bottom: 1px solid var(--gold); }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .category { margin-bottom: 40px; }
+        .category-title { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.8rem; border-bottom: 1px solid var(--gold); padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+        .item { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 15px; }
+        .item-name { font-weight: 600; font-size: 1.1rem; color: var(--light); }
+        .item-desc { font-size: 0.9rem; color: #aaa; margin-top: 4px; display: block; }
+        .item-price { font-weight: 600; color: var(--gold); margin-left: 15px; }
+        .footer { text-align: center; padding: 40px; background-color: #111; font-size: 0.8rem; color: #666; }
         [x-cloak] { display: none !important; }
-
-        /* Social Icons mimic from image */
-        .social-links {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .item { flex-direction: row-reverse; }
     </style>
 </head>
-<body x-data="{ menu: {}, loading: true }" x-init="fetch('./menu.json').then(res => res.json()).then(data => { menu = data; loading = false; })">
+<body x-data="{ menu: {}, loading: true, lang: 'it', 
+    get currentMenu() { return this.menu.categorie || [] } 
+}" x-init="fetch('./menu.json').then(res => res.json()).then(data => { menu = data; loading = false; })" :dir="lang === 'ar' ? 'rtl' : 'ltr'">
 
-    <header>
-        <img src="hero.png" alt="Vico del Carmine - Carminiello" class="hero-img">
-    </header>
+    <header><img src="hero.png" alt="Header" class="hero-img"></header>
+
+    <div class="lang-bar">
+        <template x-for="l in ['it','en','fr','de','es','pt','ja','ar']">
+            <button class="lang-btn" :class="lang === l ? 'active' : ''" @click="lang = l" x-text="l.toUpperCase()"></button>
+        </template>
+    </div>
 
     <div class="location-bar">
-        📍 <span x-text="menu.location || 'Via Pisana 40/r, Firenze'"></span> | 📞 055 2336862
+        📍 <span x-text="menu.location"></span> | 📞 055 2336862
     </div>
 
     <div class="container" x-cloak x-show="!loading">
-        <template x-for="cat in menu.categorie" :key="cat.slug">
+        <template x-for="cat in currentMenu" :key="cat.slug">
             <div class="category">
-                <h2 class="category-title" x-text="cat.nome"></h2>
+                <h2 class="category-title" x-text="cat.nome[lang] || cat.nome['it'] || cat.nome"></h2>
                 
                 <template x-for="item in cat.piatti" :key="item.nome">
                     <div class="item">
                         <div class="item-info">
                             <span class="item-name" x-text="item.nome"></span>
-                            <span class="item-desc" x-show="item.descrizione" x-text="item.descrizione"></span>
+                            <span class="item-desc" x-show="item.descrizione" x-text="typeof item.descrizione === 'object' ? item.descrizione[lang] : item.descrizione"></span>
                         </div>
                         <div class="item-price" x-text="item.prezzo.toFixed(2) + ' €'"></div>
-                    </div>
-                </template>
-
-                <template x-for="sez in cat.sezioni" :key="sez.tipo">
-                    <div style="margin-top: 20px;">
-                        <h3 style="color: var(--gold); font-size: 1.2rem; text-align: center;" x-text="sez.tipo"></h3>
-                        <template x-for="item in sez.piatti" :key="item.nome">
-                            <div class="item">
-                                <div class="item-info">
-                                    <span class="item-name" x-text="item.nome"></span>
-                                </div>
-                                <div class="item-price" x-text="item.prezzo.toFixed(2) + ' €'"></div>
-                            </div>
-                        </template>
                     </div>
                 </template>
             </div>
@@ -159,10 +63,7 @@
     </div>
 
     <div class="footer">
-        <p>Tutti i nostri dolci sono fatti in casa.</p>
-        <p x-text="'Coperto: ' + (menu.note ? menu.note.coperto.toFixed(2) : '2.50') + ' €'"></p>
         <p>&copy; 2026 Vico del Carmine. Osteria Pizzeria Napoletana.</p>
     </div>
-
 </body>
 </html>
