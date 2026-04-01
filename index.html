@@ -9,7 +9,7 @@
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
         :root {
-            --primary: #800020; /* Amaranto Vico */
+            --primary: #800020;
             --gold: #D4AF37;
             --dark: #1a1a1a;
             --light: #fdfdfd;
@@ -25,27 +25,26 @@
 
         header {
             text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://vicodelcarmine.github.io/menu/img/locale.jpg');
-            background-size: cover;
-            background-position: center;
+            background-color: #f7f3e9; /* Sfondo chiaro per l'illustrazione acquerello */
             border-bottom: 3px solid var(--gold);
         }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            font-size: 2.5rem;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .hero-img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
-        .location {
-            font-style: italic;
-            color: #ccc;
-            margin-top: 10px;
-            display: block;
+        .location-bar {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--gold);
         }
 
         .container {
@@ -101,27 +100,37 @@
         .footer {
             text-align: center;
             padding: 40px;
+            background-color: #111;
             font-size: 0.8rem;
             color: #666;
         }
 
-        /* Loading animation */
         [x-cloak] { display: none !important; }
+
+        /* Social Icons mimic from image */
+        .social-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
     </style>
 </head>
 <body x-data="{ menu: {}, loading: true }" x-init="fetch('./menu.json').then(res => res.json()).then(data => { menu = data; loading = false; })">
 
     <header>
-        <h1>Vico del Carmine</h1>
-        <span class="location" x-text="menu.location || 'Via Pisana 40/r, Firenze'"></span>
+        <img src="hero.png" alt="Vico del Carmine - Carminiello" class="hero-img">
     </header>
+
+    <div class="location-bar">
+        📍 <span x-text="menu.location || 'Via Pisana 40/r, Firenze'"></span> | 📞 055 2336862
+    </div>
 
     <div class="container" x-cloak x-show="!loading">
         <template x-for="cat in menu.categorie" :key="cat.slug">
             <div class="category">
                 <h2 class="category-title" x-text="cat.nome"></h2>
                 
-                <!-- Piatti standard -->
                 <template x-for="item in cat.piatti" :key="item.nome">
                     <div class="item">
                         <div class="item-info">
@@ -132,10 +141,9 @@
                     </div>
                 </template>
 
-                <!-- Sezioni speciali (come i Vini) -->
                 <template x-for="sez in cat.sezioni" :key="sez.tipo">
                     <div style="margin-top: 20px;">
-                        <h3 style="color: var(--gold); font-size: 1.2rem;" x-text="sez.tipo"></h3>
+                        <h3 style="color: var(--gold); font-size: 1.2rem; text-align: center;" x-text="sez.tipo"></h3>
                         <template x-for="item in sez.piatti" :key="item.nome">
                             <div class="item">
                                 <div class="item-info">
@@ -151,8 +159,9 @@
     </div>
 
     <div class="footer">
-        <p>&copy; 2026 Vico del Carmine. Prezzi espressi in Euro.</p>
+        <p>Tutti i nostri dolci sono fatti in casa.</p>
         <p x-text="'Coperto: ' + (menu.note ? menu.note.coperto.toFixed(2) : '2.50') + ' €'"></p>
+        <p>&copy; 2026 Vico del Carmine. Osteria Pizzeria Napoletana.</p>
     </div>
 
 </body>
