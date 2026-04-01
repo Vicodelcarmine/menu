@@ -75,7 +75,7 @@
       "slug": "pizze",
       "piatti": [
         { "nome": "Margherita", "prezzo": 8.00, "descrizione": "salsa di pomodoro, mozzarella, basilico", "descrizione_en": "tomato sauce, mozzarella, basil" },
-        { "nome": "Napoli", "prezzo": 10.00, "descrizione": "salsa di pomodoro, mozzarella capperi, acciughe, origano", "descrizione_en": "tomato sauce, mozzarella, capers, anchovies, origan" },
+        { "nome": "Napoli", "prezzo": 10.00, "descrizione": "salsa di pomodoro, mozzarella capperi, acciughe, origano", "descrizione_en": "tomato sauce, mozzarella, capers, anthovies, origan" },
         { "nome": "A’ Filetto", "prezzo": 11.50, "descrizione": "bianca, bufala pomodori datterini", "descrizione_en": "tomato sauce, mozzarella, basil" },
         { "nome": "Salsiccia e friarielli", "prezzo": 11.50, "descrizione": "mozzarella salsiccia e friarielli", "descrizione_en": "mozzarella sausage and friarielli" },
         { "nome": "Capricciosa", "prezzo": 12.00, "descrizione": "salsa di pomodoro, mozzarella, cotto, funghi carciofi e olive", "descrizione_en": "tomato sauce, mozzarella, cooked ham, mushrooms, olives, basil" },
@@ -104,6 +104,16 @@
       ]
     },
     {
+      "nome": "Birre Poretti",
+      "slug": "birre",
+      "piatti": [
+        { "nome": "Poretti 4 Luppoli (Piccola)", "prezzo": 4.50 },
+        { "nome": "Poretti 4 Luppoli (Media)", "prezzo": 6.00 },
+        { "nome": "Poretti 9 Luppoli IPA (Bottiglia)", "prezzo": 6.00 },
+        { "nome": "Poretti 6 Luppoli Rossa (Bottiglia)", "prezzo": 6.50 }
+      ]
+    },
+    {
       "nome": "Bevande & Soft Drinks",
       "slug": "bevande",
       "piatti": [
@@ -120,16 +130,6 @@
         { "nome": "The alla pesca", "prezzo": 3.50 },
         { "nome": "Caffè", "prezzo": 2.00 },
         { "nome": "Amari", "prezzo": 3.00 }
-      ]
-    },
-    {
-      "nome": "Birre",
-      "slug": "birre",
-      "piatti": [
-        { "nome": "Poretti 4 Luppoli (Piccola)", "prezzo": 4.50 },
-        { "nome": "Poretti 4 Luppoli (Media)", "prezzo": 6.00 },
-        { "nome": "Poretti 9 Luppoli IPA (Bottiglia)", "prezzo": 6.00 },
-        { "nome": "Poretti 6 Luppoli Rossa (Bottiglia)", "prezzo": 6.50 }
       ]
     },
     {
