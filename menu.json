@@ -1,0 +1,124 @@
+{
+  "ristorante": "Vico del Carmine",
+  "location": "Via Pisana 40/r, Firenze",
+  "ultimo_aggiornamento": "2026-04-01",
+  "valuta": "EUR",
+  "note": {
+    "aggiunte": 2.50,
+    "burrata_stracciatella": 5.00,
+    "impasti_speciali": 1.50
+  },
+  "categorie": [
+    {
+      "nome": "Specialità Gourmet",
+      "slug": "specialita",
+      "piatti": [
+        {
+          "nome": "Pizza NERETO",
+          "prezzo": 14.50,
+          "descrizione": "Crema di zucchine, fior di latte, scamorza, guanciale e cipolle rosse caramellate",
+          "allergeni": ["glutine", "lattosio"]
+        }
+      ]
+    },
+    {
+      "nome": "Primi Piatti",
+      "slug": "primi",
+      "piatti": [
+        { "nome": "Chitarrina allo scoglio", "prezzo": 16.00 },
+        { "nome": "Chitarrina alla carbonara di mare", "prezzo": 15.00 },
+        { "nome": "Tagliatelle allo scoglio napoletano", "prezzo": 15.00 },
+        { "nome": "Chitarrina alla carrettiera", "prezzo": 13.00 },
+        { "nome": "Gnocchi alla sorrentina", "prezzo": 14.00 },
+        { "nome": "Pennette al pomodoro e basilico", "prezzo": 12.00 },
+        { "nome": "Chitarrina alla carbonara", "prezzo": 15.00 }
+      ]
+    },
+    {
+      "nome": "Secondi Piatti",
+      "slug": "secondi",
+      "piatti": [
+        { "nome": "Straccetti di pollo saltati", "prezzo": 16.00 },
+        { "nome": "Polpette di carne al sugo", "prezzo": 15.00 },
+        { "nome": "Pallotte cacio e ova", "prezzo": 15.00 },
+        { "nome": "Hamburger classico al piatto con patatine", "prezzo": 15.00 },
+        { "nome": "Zuppa di moscardini alla luciana", "prezzo": 19.00 },
+        { "nome": "Baccalà alla crema di limone", "prezzo": 18.00 },
+        { "nome": "Bistecca di spada alla mediterranea", "prezzo": 21.00 }
+      ]
+    },
+    {
+      "nome": "Insalatone",
+      "slug": "insalatone",
+      "piatti": [
+        { "nome": "Insalata nizzarda", "prezzo": 14.00, "descrizione": "Insalata, uova sode, pomodori ciliegini, olive nere a rondelle e acciughe" },
+        { "nome": "Insalata caprese di burrata", "prezzo": 12.00, "descrizione": "Pomodori freschi, burrata pugliese, basilico e origano" },
+        { "nome": "Insalata classica", "prezzo": 12.00, "descrizione": "Insalata, pomodoro frescho, mozzarella e tonno" },
+        { "nome": "Insalata rustichella", "prezzo": 14.00, "descrizione": "Insalata, pomoro fresco, zucchine, prosciutto cotto e scamorza" }
+      ]
+    },
+    {
+      "nome": "Contorni",
+      "slug": "contorni",
+      "piatti": [
+        { "nome": "Spinaci saltati", "prezzo": 6.00 },
+        { "nome": "Fagioli cannellini", "prezzo": 6.00 },
+        { "nome": "Patatine fritte", "prezzo": 5.00 },
+        { "nome": "Verdure grigliate", "prezzo": 7.00 },
+        { "nome": "Friarielli ripassati", "prezzo": 7.00 }
+      ]
+    },
+    {
+      "nome": "Pizze Classiche & Speciali (Pagine 1-3)",
+      "slug": "pizze",
+      "piatti": [
+        { "nome": "Margherita", "prezzo": 8.00, "descrizione": "salsa di pomodoro, mozzarella, basilico", "descrizione_en": "tomato sauce, mozzarella, basil" },
+        { "nome": "Napoli", "prezzo": 10.00, "descrizione": "salsa di pomodoro, mozzarella capperi, acciughe, origano", "descrizione_en": "tomato sauce, mozzarella, capers, anchovies, origan" },
+        { "nome": "A’ Filetto", "prezzo": 11.50, "descrizione": "bianca, bufala pomodori datterini", "descrizione_en": "tomato sauce, mozzarella, basil" },
+        { "nome": "Salsiccia e friarielli", "prezzo": 11.50, "descrizione": "mozzarella salsiccia e friarielli", "descrizione_en": "mozzarella sausage and friarielli" },
+        { "nome": "Capricciosa", "prezzo": 12.00, "descrizione": "salsa di pomodoro, mozzarella, cotto, funghi carciofi e olive", "descrizione_en": "tomato sauce, mozzarella, cooked ham, mushrooms, olives, basil" },
+        { "nome": "Mediterraneo", "prezzo": 11.50, "descrizione": "salsa di pomodoro, mozzarella, olive, pomodorini, acciughe e origano", "descrizione_en": "tomato sauce, mozzarella, olives, cherry tomatoes, anchovies, origan" },
+        { "nome": "Positano", "prezzo": 10.50, "descrizione": "mozzarella, scamorza, melanzane fritte, pomodorini", "descrizione_en": "mozzarella, smoked cheese, fried eggplants, cherry tomatoes, basil" },
+        { "nome": "Diavola", "prezzo": 10.50, "descrizione": "salsa di pomodoro, mozzarella, salamino, olive basilico", "descrizione_en": "tomato sauce, mozzarella, salami, olives, basil" },
+        { "nome": "4 Formaggi", "prezzo": 12.00, "descrizione": "mozzarella, scamorza, gorgonzola, emmental", "descrizione_en": "mozzarella, scamorza, gorgonzola, emmental" },
+        { "nome": "Caprese", "prezzo": 13.50, "descrizione": "rucola pom. fresco condito, mozz e basilico", "descrizione_en": "rocket salad, pom. fresh seasoned, mozz. cheese and basil" },
+        { "nome": "Fungaccia", "prezzo": 12.50, "descrizione": "mozzarella, champignon, salsiccia, basilico", "descrizione_en": "mozzarella, mushrooms, sausage, basil" },
+        { "nome": "Salina", "prezzo": 11.50, "descrizione": "marinara con capperi, acciughe, datterini, basilico", "descrizione_en": "marinara with capers, anchovies, datterini, basil" },
+        { "nome": "O’ Sole Mio", "prezzo": 14.00, "descrizione": "acciughe, zucchine, mozzarella, scorza di limone", "descrizione_en": "anchovies, zucchine, mozzarella, lemon zest" },
+        { "nome": "Americana", "prezzo": 13.50, "descrizione": "patate, mozz, scamorza, pancetta", "descrizione_en": "potatoes, mozzarella, smoked cheese, bacon" },
+        { "nome": "Maialina", "prezzo": 13.00, "descrizione": "pom, mozzarella, cotto, salamino picc, wurstel, salsiccia", "descrizione_en": "tomato, mozzarella, cooked ham, small salami, wurstel, sausage" },
+        { "nome": "Tartufina", "prezzo": 16.00, "descrizione": "mozzarella, cotto, olive, salsa al tartufo", "descrizione_en": "mozzarella, cooked ham, olives, truffle sauce" },
+        { "nome": "Fagotto", "prezzo": 16.00, "descrizione": "calzone con ricotta, mozz, scamorza, pom, salame napoli", "descrizione_en": "calzone with ricotta, mozzarella, scamorza cheese, tomatoes and napoli salami" },
+        { "nome": "Vegetariana", "prezzo": 13.00, "descrizione": "salsa di pomodoro, mozzarella, melanzane e zucchine grigliate, rucola", "descrizione_en": "tomato sauce, mozzarella, eggplants and zucchine, grilled, rocket" },
+        { "nome": "Bell’Italia", "prezzo": 15.00, "descrizione": "salsa di pomodoro, rucola, crudo, burrata", "descrizione_en": "tomato sauce, rocket, raw ham, burrata" },
+        { "nome": "Vico", "prezzo": 16.00, "descrizione": "salsa di pomodoro, mozzarella, salsiccia, friarielli, salame napoli, ricotta", "descrizione_en": "tomato sauce, mozzarella, sausage, broccoli, napoli salami, ricotta" },
+        { "nome": "Vesuvio", "prezzo": 14.00, "descrizione": "salsa di pomodoro, mozzarella, ricotta, funghi, cotto, salamino", "descrizione_en": "tomato sauce, mozzarella, ricotta, mushrooms, cooked ham, salami" },
+        { "nome": "Cilentana", "prezzo": 11.50, "descrizione": "mozzarella di bufala, salsa di pomodoro fresco aromatico", "descrizione_en": "buffalo mozzarella, fresh aromatic tomato sauce, basil" },
+        { "nome": "Palinuro", "prezzo": 14.00, "descrizione": "mozzarella, salsa cilentana, salsiccia, melanzane fritte, scamorza", "descrizione_en": "mozzarella, Cilento sauce, sausage, fried eggplants, scamorza cheese" },
+        { "nome": "Partenopea", "prezzo": 13.50, "descrizione": "salsa di pomodoro, pomodorini, stracciatella, basilico", "descrizione_en": "tomato sauce, cherry tomatoes, stracciatella cheese, basil" },
+        { "nome": "Chiummenzana", "prezzo": 13.50, "descrizione": "mozzarella, scamorza, pomodorini, basilico con bordo ripieno di ricotta", "descrizione_en": "mozzarella, smoked cheese, cherry tomatoes, basil, with ricotta-stuffed rim" },
+        { "nome": "Verdurella", "prezzo": 13.50, "descrizione": "mozzarella, scamorza, pomodorini zucchine grill., basilico", "descrizione_en": "mozzarella, smoked cheese, grilled zucchini tomatoes, basil" },
+        { "nome": "Calzone", "prezzo": 12.00, "descrizione": "mozzarella, ricotta, funghi, prosciutto cotto", "descrizione_en": "mozzarella, ricotta, mushrooms, cooked ham" }
+      ]
+    },
+    {
+      "nome": "Birre",
+      "slug": "birre",
+      "piatti": [
+        { "nome": "Poretti 4 Luppoli (Piccola)", "prezzo": 4.50 },
+        { "nome": "Poretti 4 Luppoli (Media)", "prezzo": 6.00 },
+        { "nome": "Poretti 9 Luppoli IPA (Bottiglia)", "prezzo": 6.00 },
+        { "nome": "Poretti 6 Luppoli Rossa (Bottiglia)", "prezzo": 6.50 }
+      ]
+    },
+    {
+      "nome": "Menù Fissi",
+      "slug": "menu-fissi",
+      "piatti": [
+        { "nome": "Menù Degustazione Base", "prezzo": 20.00 },
+        { "nome": "Menù Vico Special", "prezzo": 25.00 },
+        { "nome": "Menù Full Experience", "prezzo": 30.00 }
+      ]
+    }
+  ]
+}
