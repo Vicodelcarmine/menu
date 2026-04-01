@@ -1,218 +1,159 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>Vico del Carmine — Menu Multilingua 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--wine:#7B1E2A;--wine-dark:#5A1520;--cream:#FDF5E6;--gold:#C8A951;--gold-light:#E8D592;--charcoal:#2C2C2C;--text:#3A3A3A;--text-light:#6B6B6B;--white:#FFF;--shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 4px 24px rgba(0,0,0,.12)}
-body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text);line-height:1.6;min-height:100vh;padding-top:110px;padding-bottom:40px}
-
-/* Language Bar */
-.lang-bar{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--wine-dark);display:flex;justify-content:center;align-items:center;gap:4px;padding:12px 8px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.lang-btn{background:transparent;border:2px solid transparent;color:rgba(255,255,255,.7);font-family:'Lato',sans-serif;font-size:14px;font-weight:900;padding:8px 12px;border-radius:24px;cursor:pointer;transition:all .3s ease;white-space:nowrap;display:flex;align-items:center;gap:4px}
-.lang-btn:hover{color:var(--white);background:rgba(255,255,255,.1)}
-.lang-btn.active{color:var(--white);background:var(--wine);border-color:var(--gold)}
-.lang-flag{font-size:18px}
-
-/* Header */
-.header{background:linear-gradient(135deg,var(--wine-dark),var(--wine));color:var(--white);text-align:center;padding:40px 20px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-.header h1{font-family:'Playfair Display',serif;font-size:clamp(32px,8vw,48px);letter-spacing:3px;margin-bottom:4px;font-weight:900}
-.hs{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:var(--gold-light);margin-bottom:15px}
-.hd{width:80px;height:2px;background:var(--gold);margin:0 auto 15px}
-
-/* Main Content */
-.mc{max-width:720px;margin:0 auto;padding:16px 12px}
-.ms{margin-bottom:35px;background:var(--white);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(0,0,0,0.05)}
-.sh{padding:22px;background:linear-gradient(135deg,var(--wine),var(--wine-dark));color:var(--white);font-family:'Playfair Display',serif;font-size:24px;font-weight:700;text-align:center;letter-spacing:1.5px;text-transform:uppercase}
-.special-header{background:linear-gradient(135deg,var(--gold),#8a6d1d) !important;color:var(--wine-dark) !important;font-size:26px !important;padding:25px !important}
-
-/* Menu Items */
-.di{padding:18px 24px;border-bottom:1px solid rgba(0,0,0,.05)}
-.di:last-child{border-bottom:none}
-.dr{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.dn{font-family:'Playfair Display',serif;font-weight:900;font-size:20px;color:var(--charcoal);flex:1}
-.dp{font-family:'Lato',sans-serif;font-weight:900;font-size:20px;color:var(--wine);white-space:nowrap}
-.ds{font-size:15px;color:var(--text-light);margin-top:4px;font-style:italic;line-height:1.4;font-weight:400}
-.section-label{padding:10px 24px;background:var(--cream);color:var(--wine-dark);font-weight:900;text-transform:uppercase;font-size:13px;letter-spacing:2px;border-bottom:1px solid var(--gold-light)}
-
-/* Fixed Menu Box */
-.fixed-menu-box{background:var(--wine);color:white;padding:20px;margin:15px 24px;border-radius:15px;text-align:center;box-shadow:var(--shadow)}
-.fixed-menu-box h4{font-family:'Playfair Display',serif;color:var(--gold-light);font-size:22px;margin-bottom:5px}
-.fixed-menu-box p{font-size:16px;font-weight:700}
-
-/* Footer */
-.footer{background:var(--charcoal);color:rgba(255,255,255,.7);text-align:center;padding:40px 20px;margin-top:30px}
-
-/* Responsive */
-@media(max-width:480px){
-  body{padding-top:100px}
-  .dn, .dp{font-size:18px}
-  .sh{font-size:20px}
-  .special-header{font-size:22px !important}
-}
-</style>
-</head>
-<body>
-
-<nav class="lang-bar" role="navigation">
-  <button class="lang-btn active" onclick="setLanguage('it')"><span class="lang-flag">🇮🇹</span> IT</button>
-  <button class="lang-btn" onclick="setLanguage('en')"><span class="lang-flag">🇬🇧</span> EN</button>
-  <button class="lang-btn" onclick="setLanguage('fr')"><span class="lang-flag">🇫🇷</span> FR</button>
-  <button class="lang-btn" onclick="setLanguage('de')"><span class="lang-flag">🇩🇪</span> DE</button>
-  <button class="lang-btn" onclick="setLanguage('es')"><span class="lang-flag">🇪🇸</span> ES</button>
-  <button class="lang-btn" onclick="setLanguage('pt')"><span class="lang-flag">🇵🇹</span> PT</button>
-</nav>
-
-<header class="header">
-  <img src="logo.jpg" alt="Vico del Carmine" style="width:150px;height:auto;margin-bottom:15px;border-radius:15px;box-shadow:var(--shadow-lg)">
-  <h1 id="brand-name">VICO DEL CARMINE</h1>
-  <p class="hs" id="subtitle">Osteria Pizzeria Napoletana · Firenze</p>
-  <div class="hd"></div>
-  <div style="font-size:15px;color:rgba(255,255,255,.9)">
-    <div>📍 Via Pisana 40/r — San Frediano, Firenze</div>
-    <div id="hours">🕐 Aperto ogni sera 19:00–23:30</div>
-  </div>
-</header>
-
-<main class="mc" id="menu-container"></main>
-
-<footer class="footer">
-  <div style="font-family:'Playfair Display',serif;font-size:22px;color:white;margin-bottom:10px;font-weight:900">VICO DEL CARMINE</div>
-  <p id="copyright">© 2026 Vico del Carmine · Firenze</p>
-</footer>
-
-<script>
-const menuData = {
-  sections: [
-    {
-      id: "specialties",
-      title: { it: "✨ LE NOSTRE SPECIALITÀ", en: "✨ OUR SPECIALTIES", fr: "✨ NOS SPÉCIALITÉS", de: "✨ UNSERE SPEZIALITÄTEN", es: "✨ NUESTRAS ESPECIALIDADES", pt: "✨ NOSSAS ESPECIALIDADES" },
-      isSpecial: true,
-      items: [
-        { label: { it: "Antipasti", en: "Starters", fr: "Entrées", de: "Vorspeisen", es: "Entrantes", pt: "Entradas" } },
-        { name: { it: "Guazzetto di mare caldo", en: "Warm Seafood Stew", fr: "Ragoût de Mer Chaud", de: "Warmer Meeresfrüchte-Eintopf", es: "Guiso de Marisco Caliente", pt: "Guisado de Frutos do Mar Quente" }, price: "15,00€" },
-        { name: { it: "Insalata di baccalà e olive", en: "Cod and Olive Salad", fr: "Salade de Morue et Olives", de: "Kabeljau- und Olivensalat", es: "Ensalada de Bacalao y Olivas", pt: "Salada de Bacalhau e Azeitonas" }, price: "12,00€" },
-        { name: { it: "Pepata di cozze", en: "Peppered Mussels", fr: "Moules au Poivre", de: "Gepfefferte Miesmuscheln", es: "Mejillones a la Pimienta", pt: "Mexilhões com Pimenta" }, price: "13,00€" },
-        { label: { it: "Primi", en: "First Courses", fr: "Plats de Pâtes", de: "Erste Gänge", es: "Primeros Platos", pt: "Primeiros Pratos" } },
-        { name: { it: "Pasta fresca vongole e bottarga", en: "Fresh Pasta with Clams & Bottarga", fr: "Pâtes Fraîches aux Palourdes & Poutargue", de: "Frische Nudeln mit Muscheln & Bottarga", es: "Pasta Fresca con Almejas y Bottarga", pt: "Massa Fresca com Ameijoas e Bottarga" }, price: "16,00€" },
-        { name: { it: "Gnocchi patate ceci e cozze", en: "Gnocchi with Chickpeas & Mussels", fr: "Gnocchi aux Pois Chiches & Moules", de: "Gnocchi mit Kichererbsen & Miesmuscheln", es: "Gnocchi con Garbanzos y Mejillones", pt: "Gnocchi com Grão de Bico e Mexilhões" }, price: "13,00€" },
-        { label: { it: "Secondi", en: "Main Courses", fr: "Plats de Résistance", de: "Hauptgerichte", es: "Segundos Platos", pt: "Pratos Principais" } },
-        { name: { it: "Spigola o Orata alla griglia", en: "Grilled Sea Bass or Sea Bream", fr: "Bar ou Daurade Grillé", de: "Wolfsbarsch oder Goldbrasse vom Grill", es: "Lubina o Dorada a la Brasa", pt: "Robalo ou Dourada Grelhada" }, price: "18,00€" },
-        { label: { it: "Le Pizze Speciali", en: "Special Pizzas", fr: "Pizzas Spéciales", de: "Spezielle Pizzas", es: "Pizzas Especiales", pt: "Pizzas Especiais" } },
-        { name: { it: "⭐ NERETO", en: "⭐ NERETO", fr: "⭐ NERETO", de: "⭐ NERETO", es: "⭐ NERETO", pt: "⭐ NERETO" }, price: "14,50€", desc: { it: "crema di zucchine, fior di latte, scamorza, guanciale e cipolle rosse caramellate", en: "zucchini cream, mozzarella, scamorza cheese, guanciale pork and caramelized red onions", fr: "crème de courgettes, mozzarella, fromage scamorza, guanciale et oignons rouges caramélisés", de: "Zucchini-Creme, Mozzarella, Scamorza-Käse, Guanciale-Speck und karamellisierte rote Zwiebeln", es: "crema de calabacines, fior di latte, queso scamorza, guanciale y cebollas rojas caramelizadas", pt: "creme de abobrinha, fior di latte, queijo scamorza, guanciale e cebolas roxas caramelizadas" } }
-      ]
-    },
-    {
-      id: "cocktails",
-      title: { it: "🍹 COCKTAILS & SPRITZ", en: "🍹 COCKTAILS & SPRITZ", fr: "🍹 COCKTAILS & SPRITZ", de: "🍹 COCKTAILS & SPRITZ", es: "🍹 CÓCTELES Y SPRITZ", pt: "🍹 COQUETÉIS E SPRITZ" },
-      items: [
-        { name: { it: "Spritz (Tutti i tipi)", en: "Spritz (All types)", fr: "Spritz (Tous types)", de: "Spritz (Alle Sorten)", es: "Spritz (Todos tipos)", pt: "Spritz (Todos os tipos)" }, price: "8,00€", desc: { it: "Campari, Select, Aperol, Cynar, Hugo, Bianco, Martini", en: "Campari, Select, Aperol, Cynar, Hugo, White, Martini", fr: "Campari, Select, Aperol, Cynar, Hugo, Blanc, Martini", de: "Campari, Select, Aperol, Cynar, Hugo, Weiß, Martini", es: "Campari, Select, Aperol, Cynar, Hugo, Blanco, Martini", pt: "Campari, Select, Aperol, Cynar, Hugo, Branco, Martini" } },
-        { name: { it: "I Classici", en: "The Classics", fr: "Les Classiques", de: "Die Klassiker", es: "Los Clásicos", pt: "Os Clássicos" }, price: "8,00€", desc: { it: "Negroni, Americano, Gin Tonic, Vodka Tonic, Cuba Libre", en: "Negroni, Americano, Gin Tonic, Vodka Tonic, Cuba Libre", fr: "Negroni, Americano, Gin Tonic, Vodka Tonic, Cuba Libre", de: "Negroni, Americano, Gin Tonic, Vodka Tonic, Cuba Libre", es: "Negroni, Americano, Gin Tonic, Vodka Tonic, Cuba Libre", pt: "Negroni, Americano, Gin Tonic, Vodka Tonic, Cuba Libre" } }
-      ]
-    },
-    {
-      id: "starters",
-      title: { it: "🍽️ ANTIPASTI", en: "🍽️ STARTERS", fr: "🍽️ ENTRÉES", de: "🍽️ VORSPEISEN", es: "🍽️ ENTRANTES", pt: "🍽️ ENTRADAS" },
-      items: [
-        { name: { it: "Crostini misti dello chef", en: "Chef's mixed Crostini", fr: "Crostini mixtes du chef", de: "Gemischte Crostini des Küchenchefs", es: "Crostini mixtos del chef", pt: "Crostini mistos do chef" }, price: "12,00€" },
-        { name: { it: "Montanara", en: "Montanara fried pizza", fr: "Montanara pizza frite", de: "Montanara frittierte Pizza", es: "Montanara pizza frita", pt: "Montanara pizza frita" }, price: "10,00€" },
-        { name: { it: "Il Solito (Coccoli, Crudo, Burrata)", en: "The Usual (Coccoli, Ham, Burrata)", fr: "L'Habituel (Coccoli, Jambon, Burrata)", de: "Das Übliche (Coccoli, Schinken, Burrata)", es: "El Habitual (Coccoli, Jamón, Burrata)", pt: "O de Sempre (Coccoli, Presunto, Burrata)" }, price: "14,00€" },
-        { name: { it: "Bruschette al pomodoro", en: "Tomato Bruschetta", fr: "Bruschetta aux tomates", de: "Tomaten-Bruschetta", es: "Bruschettas al tomate", pt: "Bruschettas de tomate" }, price: "8,00€" },
-        { name: { it: "Gran Tagliere (x2)", en: "Large Platter (for 2)", fr: "Grand Plateau (pour 2)", de: "Große Platte (für 2)", es: "Gran Tabla (para 2)", pt: "Tábua Grande (para 2)" }, price: "21,00€" }
-      ]
-    },
-    {
-      id: "pizza1",
-      title: { it: "🍕 PIZZE 1", en: "🍕 PIZZAS 1", fr: "🍕 PIZZAS 1", de: "🍕 PIZZAS 1", es: "🍕 PIZZAS 1", pt: "🍕 PIZZAS 1" },
-      items: [
-        { name: { it: "Margherita", en: "Margherita", fr: "Margherita", de: "Margherita", es: "Margherita", pt: "Margherita" }, price: "8,00€", desc: { it: "pomodoro, mozzarella, basilico", en: "tomato, mozzarella, basil", fr: "tomate, mozzarella, basilic", de: "Tomaten, Mozzarella, Basilikum", es: "tomate, mozzarella, albahaca", pt: "tomate, mozzarella, manjericão" } },
-        { name: { it: "Napoli", en: "Napoli", fr: "Napoli", de: "Napoli", es: "Napoli", pt: "Napoli" }, price: "10,00€", desc: { it: "pomodoro, mozzarella, capperi, acciughe, origano", en: "tomato, mozzarella, capers, anchovies, oregano", fr: "tomate, mozzarella, câpres, anchois, origan", de: "Tomaten, Mozzarella, Kapern, Sardellen, Oregano", es: "tomate, mozzarella, alcaparras, anchoas, orégano", pt: "tomate, mozzarella, alcaparras, anchovas, orégano" } },
-        { name: { it: "Positano", en: "Positano", fr: "Positano", de: "Positano", es: "Positano", pt: "Positano" }, price: "10,50€", desc: { it: "mozzarella, scamorza, melanzane fritte, pomodorini", en: "mozzarella, scamorza, fried eggplants, cherry tomatoes", fr: "mozzarella, scamorza, aubergines frites, tomates cerises", de: "Mozzarella, Scamorza, frittierte Auberginen, Kirschtomaten", es: "mozzarella, scamorza, berenjenas fritas, tomates cherry", pt: "mozzarella, scamorza, beringelas fritas, tomates cereja" } }
-      ]
-    },
-    {
-      id: "beers",
-      title: { it: "🍺 BIRRE ALLA SPINA", en: "🍺 DRAUGHT BEERS", fr: "🍺 BIÈRES À LA PRESSION", de: "🍺 BIER VOM FASS", es: "🍺 CERVEZAS DE BARRIL", pt: "🍺 CERVEJAS DE PRESSÃO" },
-      items: [
-        { name: { it: "Angelo Poretti 4 Luppoli (Lager)", en: "Angelo Poretti 4 Luppoli (Lager)", fr: "Angelo Poretti 4 Luppoli (Lager)", de: "Angelo Poretti 4 Luppoli (Lager)", es: "Angelo Poretti 4 Luppoli (Lager)", pt: "Angelo Poretti 4 Luppoli (Lager)" }, price: "4,50€ / 6,00€", desc: { it: "0.20L / 0.40L", en: "Small / Large", fr: "Petit / Grand", de: "Klein / Groß", es: "Pequeña / Grande", pt: "Pequena / Grande" } },
-        { name: { it: "Angelo Poretti 9 Luppoli (IPA)", en: "Angelo Poretti 9 Luppoli (IPA)", fr: "Angelo Poretti 9 Luppoli (IPA)", de: "Angelo Poretti 9 Luppoli (IPA)", es: "Angelo Poretti 9 Luppoli (IPA)", pt: "Angelo Poretti 9 Luppoli (IPA)" }, price: "6,00€", desc: { it: "Bottiglia 0.33L", en: "0.33L Bottle", fr: "Bouteille 0.33L", de: "0.33L Flasche", es: "Botella 0.33L", pt: "Garrafa 0.33L" } },
-        { name: { it: "Angelo Poretti 6 Luppoli (Rossa)", en: "Angelo Poretti 6 Luppoli (Red)", fr: "Angelo Poretti 6 Luppoli (Rouge)", de: "Angelo Poretti 6 Luppoli (Rot)", es: "Angelo Poretti 6 Luppoli (Roja)", pt: "Angelo Poretti 6 Luppoli (Ruiva)" }, price: "6,50€", desc: { it: "Media 0.40L", en: "Medium 0.40L", fr: "Moyenne 0.40L", de: "Mittel 0.40L", es: "Mediana 0.40L", pt: "Média 0.40L" } }
-      ]
-    },
-    {
-      id: "fixed-menus",
-      title: { it: "🍱 MENÙ FISSI", en: "🍱 FIXED MENUS", fr: "🍱 MENUS FIXES", de: "🍱 MENÜS", es: "🍱 MENÚS FIJOS", pt: "🍱 MENUS FIXOS" },
-      items: [
-        { isFixed: true, name: { it: "Menu Essenziale", en: "Essential Menu", fr: "Menu Essentiel", de: "Basis Menü", es: "Menú Esencial", pt: "Menu Essencial" }, price: "20€", desc: { it: "Antipasto + Primo o Pizza", en: "Starter + Pasta or Pizza", fr: "Entrée + Pâtes ou Pizza", de: "Vorspeise + Nudeln oder Pizza", es: "Entrante + Pasta o Pizza", pt: "Entrada + Massa ou Pizza" } },
-        { isFixed: true, name: { it: "Menu Tradizione", en: "Tradition Menu", fr: "Menu Tradition", de: "Tradition Menü", es: "Menú Tradición", pt: "Menu Tradição" }, price: "25€", desc: { it: "Antipasto o Primo + Secondo", en: "Starter or Pasta + Main Course", fr: "Entrée ou Pâtes + Plat", de: "Vorspeise oder Nudeln + Hauptgericht", es: "Entrante o Pasta + Segundo", pt: "Entrada ou Massa + Prato Principal" } },
-        { isFixed: true, name: { it: "Menu Esperienza", en: "Experience Menu", fr: "Menu Expérience", de: "Erlebnis Menü", es: "Menú Experiencia", pt: "Menu Experiência" }, price: "30€", desc: { it: "Antipasto + Primo + Secondo", en: "Starter + Pasta + Main Course", fr: "Entrée + Pâtes + Plat", de: "Vorspeise + Nudeln + Hauptgericht", es: "Entrante + Pasta + Segundo", pt: "Entrada + Massa + Prato Principal" } }
-      ]
-    }
-  ]
-};
-
-let currentLang = 'it';
-
-function setLanguage(lang) {
-  currentLang = lang;
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('onclick').includes(lang));
-  });
-  renderMenu();
-}
-
-function renderMenu() {
-  const container = document.getElementById('menu-container');
-  container.innerHTML = '';
-
-  menuData.sections.forEach(section => {
-    const sectionDiv = document.createElement('div');
-    sectionDiv.className = 'ms';
-    if(section.isSpecial) sectionDiv.style.border = '3px solid var(--gold)';
-
-    const header = document.createElement('div');
-    header.className = 'sh' + (section.isSpecial ? ' special-header' : '');
-    header.innerText = section.title[currentLang];
-    sectionDiv.appendChild(header);
-
-    const body = document.createElement('div');
-    section.items.forEach(item => {
-      if (item.label) {
-        const label = document.createElement('div');
-        label.className = 'section-label';
-        label.innerText = item.label[currentLang];
-        body.appendChild(label);
-      } else if (item.isFixed) {
-        const box = document.createElement('div');
-        box.className = 'fixed-menu-box';
-        box.innerHTML = `<h4>${item.name[currentLang]} – ${item.price}</h4><p>${item.desc[currentLang]}</p>`;
-        body.appendChild(box);
-      } else {
-        const di = document.createElement('div');
-        di.className = 'di';
-        di.innerHTML = `<div class="dr"><span class="dn">${item.name[currentLang]}</span><span class="dp">${item.price}</span></div>`;
-        if (item.desc) {
-          di.innerHTML += `<p class="ds">${item.desc[currentLang]}</p>`;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vico del Carmine - Menù Digitale</title>
+    <!-- Font Eleganti -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        :root {
+            --primary: #800020; /* Amaranto Vico */
+            --gold: #D4AF37;
+            --dark: #1a1a1a;
+            --light: #fdfdfd;
         }
-        body.appendChild(di);
-      }
-    });
-    sectionDiv.appendChild(body);
-    container.appendChild(sectionDiv);
-  });
-}
 
-// Auto-detect language
-const userLang = navigator.language.substring(0, 2).toLowerCase();
-if (['en', 'fr', 'de', 'es', 'pt'].includes(userLang)) {
-  currentLang = userLang;
-}
-setLanguage(currentLang);
-</script>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://vicodelcarmine.github.io/menu/img/locale.jpg');
+            background-size: cover;
+            background-position: center;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 2.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .location {
+            font-style: italic;
+            color: #ccc;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 15px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--light);
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: var(--gold);
+            margin-left: 15px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Loading animation */
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body x-data="{ menu: {}, loading: true }" x-init="fetch('./menu.json').then(res => res.json()).then(data => { menu = data; loading = false; })">
+
+    <header>
+        <h1>Vico del Carmine</h1>
+        <span class="location" x-text="menu.location || 'Via Pisana 40/r, Firenze'"></span>
+    </header>
+
+    <div class="container" x-cloak x-show="!loading">
+        <template x-for="cat in menu.categorie" :key="cat.slug">
+            <div class="category">
+                <h2 class="category-title" x-text="cat.nome"></h2>
+                
+                <!-- Piatti standard -->
+                <template x-for="item in cat.piatti" :key="item.nome">
+                    <div class="item">
+                        <div class="item-info">
+                            <span class="item-name" x-text="item.nome"></span>
+                            <span class="item-desc" x-show="item.descrizione" x-text="item.descrizione"></span>
+                        </div>
+                        <div class="item-price" x-text="item.prezzo.toFixed(2) + ' €'"></div>
+                    </div>
+                </template>
+
+                <!-- Sezioni speciali (come i Vini) -->
+                <template x-for="sez in cat.sezioni" :key="sez.tipo">
+                    <div style="margin-top: 20px;">
+                        <h3 style="color: var(--gold); font-size: 1.2rem;" x-text="sez.tipo"></h3>
+                        <template x-for="item in sez.piatti" :key="item.nome">
+                            <div class="item">
+                                <div class="item-info">
+                                    <span class="item-name" x-text="item.nome"></span>
+                                </div>
+                                <div class="item-price" x-text="item.prezzo.toFixed(2) + ' €'"></div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 Vico del Carmine. Prezzi espressi in Euro.</p>
+        <p x-text="'Coperto: ' + (menu.note ? menu.note.coperto.toFixed(2) : '2.50') + ' €'"></p>
+    </div>
+
 </body>
 </html>
