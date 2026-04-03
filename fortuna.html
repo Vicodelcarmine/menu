@@ -48,8 +48,6 @@ header .sub{font-size:.85em;color:#aaa;margin-top:4px}
 .result .validity{color:#e74c3c;font-weight:700;font-size:.95em;margin-top:8px}
 .result .cta{margin-top:16px;font-size:.9em;color:#aaa}
 
-.show-staff{background:var(--gold);color:var(--dark);border:none;padding:14px 36px;font-size:1em;font-weight:900;border-radius:50px;cursor:pointer;font-family:'Lato',sans-serif;margin-top:16px;text-transform:uppercase;letter-spacing:1px}
-
 .timer{color:var(--gold);font-size:1.1em;font-weight:700;margin:12px 0}
 .timer span{font-size:1.4em}
 
@@ -178,83 +176,13 @@ const translations = {
       CAFFE: { name: "COFFEE + TREAT!", desc: "Coffee and a small dessert offered!" },
       QUINDICI: { name: "-15% OFF!", desc: "15% discount on your total bill tonight!" }
     }
-  },
-  de: {
-    title: "🎰 Versuchen Sie Ihr Glück!",
-    sub: "Drehen Sie den Slot und gewinnen Sie!<br>Nur <strong>heute Abend</strong> gültig — dem Kellner zeigen!",
-    spin: "🎰 DREHEN!",
-    spinning: "🎰 DREHT...",
-    already: "Sie haben heute schon gespielt! 🎰",
-    return: "Kommen Sie morgen wieder!",
-    validity: "⏰ Nur HEUTE ABEND bis 23:30 Uhr gültig!",
-    staff: "📱 DEM KELLNER ZEIGEN",
-    win: "🎉 GEWONNEN!",
-    note: "Ihr Preis wartet am Tisch!<br>Gültig bei Verzehr im Restaurant.",
-    cta: "Zeigen Sie diesen Code dem Kellner, um ihn einzulösen",
-    menu: "📋 SPEISEKARTE ANSEHEN",
-    prizes: {
-      DOLCE: { name: "GRATIS DESSERT!", desc: "Ein hausgemachtes Dessert des Hauses!" },
-      VENTI: { name: "-20% RABATT!", desc: "20% Rabatt auf die gesamte Rechnung!" },
-      DIECI: { name: "-10% RABATT!", desc: "10% Rabatt auf die gesamte Rechnung!" },
-      BOLLE: { name: "GRATIS PROSECCO!", desc: "Ein Glas Prosecco vom Haus!" },
-      SPRITZ: { name: "GRATIS SPRITZ!", desc: "Ein Aperol oder Hugo Spritz gratis!" },
-      CAFFE: { name: "KAFFEE + GEBÄCK!", desc: "Kaffee und ein kleines Dessert gratis!" },
-      QUINDICI: { name: "-15% RABATT!", desc: "15% Rabatt auf die gesamte Rechnung!" }
-    }
-  },
-  fr: {
-    title: "🎰 Tentez votre Chance !",
-    sub: "Lancez la machine et découvrez votre prix !<br>Valable <strong>ce soir seulement</strong> — à montrer au serveur !",
-    spin: "🎰 JOUER !",
-    spinning: "🎰 ÇA TOURNE...",
-    already: "Vous avez déjà joué aujourd'hui ! 🎰",
-    return: "Revenez demain per tenter votre chance !",
-    validity: "⏰ Valable CE SOIR jusqu'à 23h30 !",
-    staff: "📱 MONTRER AU SERVEUR",
-    win: "🎉 VOUS AVEZ GAGNÉ !",
-    note: "Votre prix vous attend à table !<br>Valable pour une consommation au restaurant.",
-    cta: "Montrez ce code au serveur pour en profiter",
-    menu: "📋 VOIR NOTRE CARTE",
-    prizes: {
-      DOLCE: { name: "DESSERT OFFERT !", desc: "Un dessert maison offert par la maison !" },
-      VENTI: { name: "-20% SUR L'ADDITION !", desc: "20% de réduction sur votre note ce soir !" },
-      DIECI: { name: "-10% SUR L'ADDITION !", desc: "10% de réduction sur votre note ce soir !" },
-      BOLLE: { name: "PROSECCO OFFERT !", desc: "Une coupe de prosecco offerte !" },
-      SPRITZ: { name: "SPRITZ OFFERT !", desc: "Un Spritz Aperol o Hugo offert !" },
-      CAFFE: { name: "CAFÉ + DOUCEUR !", desc: "Un café et une petite douceur offerts !" },
-      QUINDICI: { name: "-15% SUR L'ADDITION !", desc: "15% de réduction sur votre note ce soir !" }
-    }
-  },
-  es: {
-    title: "🎰 ¡Prueba tu Suerte!",
-    sub: "¡Gira la tragamonedas y descubre tu premio!<br>Válido <strong>solo esta noche</strong> — ¡muéstralo al camarero!",
-    spin: "🎰 ¡GIRAR!",
-    spinning: "🎰 GIRANDO...",
-    already: "¡Ya has jugado hoy! 🎰",
-    return: "¡Vuelve mañana para probar suerte de nuevo!",
-    validity: "⏰ ¡Válido SOLO ESTA NOCHE hasta las 23:30!",
-    staff: "📱 MOSTRAR AL CAMARERO",
-    win: "🎉 ¡HAS GANADO!",
-    note: "¡Tu premio te espera en la mesa!<br>Válido con consumición en el restaurante.",
-    cta: "Muestra este código al camarero para canjear el premio",
-    menu: "📋 VER NUESTRO MENÚ",
-    prizes: {
-      DOLCE: { name: "¡POSTRE GRATIS!", desc: "¡Un postre casero cortesía de la casa!" },
-      VENTI: { name: "¡-20% DE DESCUENTO!", desc: "¡20% de descuento en tu cuenta de esta noche!" },
-      DIECI: { name: "¡-10% DE DESCUENTO!", desc: "10% de descuento en tu cuenta de esta noche!" },
-      BOLLE: { name: "¡PROSECCO GRATIS!", desc: "¡Una copa de prosecco por cuenta de la casa!" },
-      SPRITZ: { name: "¡SPRITZ GRATIS!", desc: "¡Un Spritz Aperol o Hugo de regalo!" },
-      CAFFE: { name: "¡CAFÉ + DULCE!", desc: "¡Café y un dulce de la casa de regalo!" },
-      QUINDICI: { name: "¡-15% DE DESCUENTO!", desc: "15% de descuento en tu cuenta de esta noche!" }
-    }
   }
 };
 
 let userLang = navigator.language.split('-')[0];
-if (!translations[userLang]) userLang = 'en'; // Default to English for others
+if (!translations[userLang]) userLang = 'en';
 const t = translations[userLang];
 
-// Update UI Text
 document.querySelector('.card h2').innerHTML = t.title;
 document.querySelector('.card p').innerHTML = t.sub;
 document.getElementById('spin-btn').textContent = t.spin;
@@ -345,86 +273,79 @@ function spin() {
   
   const btn = document.getElementById('spin-btn');
   btn.disabled = true;
-  btn.textContent = '🎰 GIRANDO...';
+  btn.textContent = t.spinning;
   
   const prize = pickPrize();
   const fullCode = generateCode(prize);
   const slots = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3')];
   
-  // Start spinning
   slots.forEach(s => s.classList.add('spinning'));
   
-  // Randomize during spin
   const spinInterval = setInterval(() => {
     slots.forEach(s => {
       s.querySelector('.slot-inner').textContent = slotEmojis[Math.floor(Math.random() * slotEmojis.length)];
     });
   }, 100);
   
-  // Stop slot 1
   setTimeout(() => {
     slots[0].classList.remove('spinning');
     slots[0].querySelector('.slot-inner').textContent = prize.emoji;
   }, 1000);
   
-  // Stop slot 2
   setTimeout(() => {
     slots[1].classList.remove('spinning');
     slots[1].querySelector('.slot-inner').textContent = prize.emoji;
   }, 1500);
   
-  // Stop slot 3 and show result
   setTimeout(() => {
     clearInterval(spinInterval);
     slots[2].classList.remove('spinning');
     slots[2].querySelector('.slot-inner').textContent = prize.emoji;
     
-    // Show result
     setTimeout(() => {
       launchConfetti();
-      
-      const now = new Date();
       const resultDiv = document.getElementById('result');
       resultDiv.className = 'result win';
       resultDiv.style.display = 'block';
       
-      // Prepariamo il link WhatsApp per riscattare il premio
+      const prizeData = t.prizes[prize.id];
       const waNumber = "393514002503";
-      const waText = encodeURIComponent(`Ciao! Ho appena vinto un ${prize.name} con la Ruota della Fortuna! 🎰\nIl mio codice è: ${fullCode}\n\nPosso riscattarlo stasera? 🍕`);
+      const waText = encodeURIComponent(`Ciao! Ho appena vinto un ${prizeData.name} con la Ruota della Fortuna! 🎰
+Il mio codice è: ${fullCode}
+
+Posso riscattarlo stasera? 🍕`);
       const waLink = `https://wa.me/${waNumber}?text=${waText}`;
 
       resultDiv.innerHTML = `
-        <h3>🎉 HAI VINTO!</h3>
+        <h3>${t.win}</h3>
         <div class="prize-emoji">${prize.emoji}${prize.emoji}${prize.emoji}</div>
-        <div class="prize-name">${prize.name}</div>
-        <div class="prize-desc">${prize.desc}</div>
+        <div class="prize-name">${prizeData.name}</div>
+        <div class="prize-desc">${prizeData.desc}</div>
         
         <div class="prize-note" style="margin-top:20px; border: 2px solid var(--gold);">
           <p style="font-size:1.1em; color:white; font-weight:700; margin-bottom:10px;">📲 PER RISCATTARE IL PREMIO:</p>
           <a href="${waLink}" target="_blank" class="menu-btn" style="background:linear-gradient(135deg,#25D366,#128C7E); width:100%; margin:10px 0; font-size:1.1em; display:flex; align-items:center; justify-content:center; gap:10px;">
             <span style="font-size:1.3em;">💬</span> INVIA SU WHATSAPP
           </a>
-          <p style="font-size:0.85em; color:#aaa; margin-top:10px;">Oppure mostra questo codice al cameriere:</p>
+          <p style="font-size:0.85em; color:#aaa; margin-top:10px;">${t.cta}:</p>
           <div class="code" style="margin:10px auto; font-size:1.5em; letter-spacing:2px;">${fullCode}</div>
         </div>
 
-        <div class="validity" style="margin-top:20px;">⏰ Valido SOLO STASERA fino alle 23:30!</div>
+        <div class="validity" style="margin-top:20px;">${t.validity}</div>
         
         <div class="prize-note" style="background:rgba(255,255,255,0.05);">
           <div class="icon">🍽️</div>
-          <p>Il premio ti aspetta a tavola!<br>Valido con consumazione al ristorante.</p>
+          <p>${t.note}</p>
         </div>
       `;
       
-      btn.style.display = 'none';
+      document.getElementById('spin-btn').style.display = 'none';
       
-      // Save to localStorage
       localStorage.setItem(getTodayKey(), JSON.stringify({
         emoji: prize.emoji,
-        name: prize.name,
-        code: prize.code,
+        name: prizeData.name,
         fullCode: fullCode,
-        time: now.toISOString()
+        time: new Date().toISOString()
       }));
       
       spinning = false;
@@ -432,40 +353,7 @@ function spin() {
   }, 2000);
 }
 
-// Check on load
 checkAlreadyPlayed();
-
-// Save email function
-function saveEmail(code) {
-  const emailInput = document.getElementById('email-input');
-  const email = emailInput.value.trim();
-  if (!email || !email.includes('@')) {
-    emailInput.style.borderColor = '#e74c3c';
-    emailInput.placeholder = 'Inserisci un\'email valida';
-    return;
-  }
-  
-  // Save locally as backup
-  const emails = JSON.parse(localStorage.getItem('vico_emails') || '[]');
-  emails.push({ email, code, date: new Date().toISOString() });
-  localStorage.setItem('vico_emails', JSON.stringify(emails));
-  
-  // Send to Telegram bot (lightweight webhook)
-  fetch('https://api.telegram.org/bot8697095945:AAGnbdjMFvEOnGm5bZapz1lYHVSnPNOMNxU/sendMessage', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: '1300371958',
-      text: '📬 Nuova email raccolta!\n\n📧 ' + email + '\n🎰 Premio: ' + code + '\n📅 ' + new Date().toLocaleString('it-IT')
-    })
-  }).catch(() => {});
-  
-  // UI feedback
-  document.getElementById('email-thanks').style.display = 'block';
-  emailInput.style.display = 'none';
-  document.querySelector('.email-box button').style.display = 'none';
-  document.querySelector('.email-box p:first-child').textContent = '📬 Grazie per esserti iscritto!';
-}
 </script>
 </body>
 </html>
