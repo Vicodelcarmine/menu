@@ -15,108 +15,123 @@
       "nome": { "it": "Le Specialità di Stagione", "en": "Seasonal Specialties", "fr": "Spécialités de Saison", "de": "Saisonale Spezialitäten", "es": "Especialidades de Temporada", "pt": "Especialidades da Estação", "ja": "季節の特選料理", "ar": "التخصصات الموسمية" },
       "slug": "specialita-stagione",
       "piatti": [
-        { "nome": "⭐ Guazzetto di mare caldo in terrina", "prezzo": 15.00, "descrizione": { "it": "Antipasto di mare caldo", "en": "Hot seafood stew", "fr": "Ragoût de mer chaud", "de": "Warmer Meeresfrüchte-Eintopf", "es": "Guiso de marisco caliente", "pt": "Guisado de marisco quente", "ja": "温かいシーフードシチュー", "ar": "يخنة المأكولات البحرية الساخنة" } },
-        { "nome": "⭐ Insalata di baccalà, limone, olive e pomodori freschi", "prezzo": 12.00, "descrizione": { "it": "Antipasto", "en": "Cod salad with lemon, olives, and fresh tomatoes", "fr": "Salade de morue au citron", "de": "Kabeljausalat mit Zitrone", "es": "Ensalada de bacalao con limón", "pt": "Salada de bacalhau con limão", "ja": "タラのサラダ、レモン、オリーブ、フレッシュトマト添え", "ar": "سلطة السمك القد مع الليمون والزيتون والطماطم الطازجة" } },
-        { "nome": "⭐ Pepata di cozze e bruschette", "prezzo": 13.00, "descrizione": { "it": "Antipasto", "en": "Peppered mussels with bruschetta", "fr": "Moules poivrées et bruschetta", "de": "Gepfefferte Muscheln mit Bruschetta", "es": "Mejillones a la pimienta con bruschetta", "pt": "Mexilhões con pimenta e bruschetta", "ja": "ムールの胡椒蒸し e ブルスケッタ", "ar": "بلح البحر بالفلفل مع البروسكيتا" } },
-        { "nome": "⭐ Pasta fresca vongole e bottarga", "prezzo": 16.00, "descrizione": { "it": "Primo piatto", "en": "Fresh pasta with clams and bottarga", "fr": "Pâtes fraîches aux palourdes et bottarga", "de": "Frische Nudeln mit Muscheln und Bottarga", "es": "Pasta fresca con almejas y botarga", "pt": "Massa fresca com amêijoas e bottarga", "ja": "アサリ e カラスミ di 生パスタ", "ar": "باستا طازجة مع المحار والبوتارجا" } },
-        { "nome": "⭐ Gnocchi di patate ceci e cozze", "prezzo": 13.00, "descrizione": { "it": "Primo piatto", "en": "Potato gnocchi with chickpeas and mussels", "fr": "Gnocchis de pommes de terre aux pois chiches et moules", "de": "Kartoffel-Gnocchi mit Kichererbsen und Muscheln", "es": "Gnocchi de patata con garbanzos y mejillones", "pt": "Gnocchi de batata con grão-de-bico e mexilhões", "ja": "ジャガイモのニョッキ、ひよこ豆とムール貝添え", "ar": "نيوكي البطاطس مع الحمص وبلح البحر" } },
-        { "nome": "⭐ Pennette pesto gamberi pomodoro fresco", "prezzo": 14.00, "descrizione": { "it": "Primo piatto", "en": "Pennette with shrimp pesto and fresh tomato", "fr": "Pennette au pesto di crevettes et tomate fraîche", "de": "Pennette mit Garnelenpesto und frischen Tomaten", "es": "Pennette con pesto de gambas y tomate fresco", "pt": "Pennette com pesto de camarão e tomate fresco", "ja": "エビのジェノベーゼ e フレッシュトマトのペンネッテ", "ar": "بينيتي مع بيستو الروبيان والطماطم الطازجة" } },
-        { "nome": "⭐ Spigola o Orata alla griglia", "prezzo": 18.00, "descrizione": { "it": "Secondo piatto", "en": "Grilled Sea Bass or Sea Bream", "fr": "Bar ou Daurade grillée", "de": "Gegrillter Wolfsbarsch oder Goldbrasse", "es": "Lubina o Dorada a la parrilla", "pt": "Robalo ou Dourada grelhada", "ja": "スズキまたはタイのグリル", "ar": "سيباس أو أوراتا مشوية" } },
-        { "nome": "⭐ Baccalà con pomodoro fresco, olive e capperi", "prezzo": 17.00, "descrizione": { "it": "Secondo piatto", "en": "Cod with fresh tomato, olives, and capers", "fr": "Morue à la tomate fraîche, olives et câpres", "de": "Kabeljau mit frischen Tomaten, Oliven und Kapern", "es": "Bacalao con tomate fresco, olivas y alcaparras", "pt": "Bacalhau con tomate fresco, azeitonas e alcaparras", "ja": "タラのフレッシュトマト、オリーブ、ケッパー煮", "ar": "السمك القد مع الطماطم الطازجة والزيتون والكبار" } },
-        { "nome": "⭐ Salmone alla griglia", "prezzo": 19.00, "descrizione": { "it": "Secondo piatto", "en": "Grilled salmon", "fr": "Saumon grillé", "de": "Gegrillter Lachs", "es": "Salmón a la parrilla", "pt": "Salmão grelhado", "ja": "サーモンのグリル", "ar": "سلمون משوي" } },
-        { "nome": "⭐ Agnello scottadito", "prezzo": 19.00, "image": "img/agnello-scottadito.jpg", "descrizione": { "it": "Secondo piatto", "en": "Grilled lamb chops", "fr": "Côtelettes d'agneau grillées", "de": "Gegrillte Lammkoteletts", "es": "Chuletas de cordero a la brasa", "pt": "Costeletas de cordeiro grelhadas", "ja": "ラムチョップのグリル", "ar": "ريش غنم مشوية" } },
-        { "nome": "⭐ Tagliata di manzo ai ferri", "prezzo": 19.00, "image": "img/tagliata-manzo.jpg", "descrizione": { "it": "Secondo piatto", "en": "Grilled sliced beef", "fr": "Tagliata de bœuf grillée", "de": "Gegrillte Rinder-Tagliata", "es": "Tagliata de ternera a la parrilla", "pt": "Tagliata de carne bovina grelhada", "ja": "牛肉のタリアータ（網焼き）", "ar": "تاجلياتة لحم بقري مشوي" } },
-        { "nome": "⭐ Entrecote al chianti", "prezzo": 19.00, "image": "img/entrecote-chianti.jpg", "descrizione": { "it": "Secondo piatto", "en": "Entrecote with Chianti wine sauce", "fr": "Entrecôte à la sauce au vin Chianti", "de": "Entrecote mit Chianti-Weinsauce", "es": "Entrecot con salsa de vino Chianti", "pt": "Entrecosto con molho di vino Chianti", "ja": "リブロースステーキ、キアンティワインソース添え", "ar": "إنتركوت مع صلصة نبيذ كيانتي" } }
+        { "nome": "⭐ Guazzetto di mare caldo in terrina", "prezzo": 15.00, "descrizione": { "it": "Antipasto di mare caldo", "en": "Hot seafood stew" } },
+        { "nome": "⭐ Insalata di baccalà, limone, olive e pomodori freschi", "prezzo": 12.00, "descrizione": { "it": "Antipasto", "en": "Cod salad with lemon, olives, and fresh tomatoes" } },
+        { "nome": "⭐ Pepata di cozze e bruschette", "prezzo": 13.00, "descrizione": { "it": "Antipasto", "en": "Peppered mussels with bruschetta" } },
+        { "nome": "⭐ Pasta fresca vongole e bottarga", "prezzo": 16.00, "descrizione": { "it": "Primo piatto", "en": "Fresh pasta with clams and bottarga" } },
+        { "nome": "⭐ Gnocchi di patate ceci e cozze", "prezzo": 13.00, "descrizione": { "it": "Primo piatto", "en": "Potato gnocchi with chickpeas and mussels" } },
+        { "nome": "⭐ Pennette pesto gamberi pomodoro fresco", "prezzo": 14.00, "descrizione": { "it": "Primo piatto", "en": "Pennette with shrimp pesto and fresh tomato" } },
+        { "nome": "⭐ Spigola o Orata alla griglia", "prezzo": 18.00, "descrizione": { "it": "Secondo piatto", "en": "Grilled Sea Bass or Sea Bream" } },
+        { "nome": "⭐ Baccalà con pomodoro fresco, olive e capperi", "prezzo": 17.00, "descrizione": { "it": "Secondo piatto", "en": "Cod with fresh tomato, olives, and capers" } },
+        { "nome": "⭐ Salmone alla griglia", "prezzo": 19.00, "descrizione": { "it": "Secondo piatto", "en": "Grilled salmon" } },
+        { "nome": "⭐ Agnello scottadito", "prezzo": 19.00, "image": "img/agnello-scottadito.jpg", "descrizione": { "it": "Secondo piatto", "en": "Grilled lamb chops" } },
+        { "nome": "⭐ Tagliata di manzo ai ferri", "prezzo": 19.00, "image": "img/tagliata-manzo.jpg", "descrizione": { "it": "Secondo piatto", "en": "Grilled sliced beef" } },
+        { "nome": "⭐ Entrecote al chianti", "prezzo": 19.00, "image": "img/entrecote-chianti.jpg", "descrizione": { "it": "Secondo piatto", "en": "Entrecote with Chianti wine sauce" } }
       ]
     },
     {
       "nome": { "it": "Antipasti Classici", "en": "Classic Appetizers", "fr": "Entrées Classiques", "de": "Klassische Vorspeisen", "es": "Entrantes Clásicos", "pt": "Entradas Clássicas", "ja": "クラシックな前菜", "ar": "المقبلات الكلاسيكية" },
       "slug": "antipasti",
       "piatti": [
-        { "nome": "Crostini misti dello chef", "prezzo": 12.00, "descrizione": { "it": "", "en": "Chef's mixed crostini", "fr": "Crostinis mixtes du chef", "de": "Gemischte Crostini des Küchenchefs", "es": "Crostini mixtos del chef", "pt": "Crostini mistos do chef", "ja": "シェフのお任せクロスティーニ", "ar": "كروستيني مشكل من اختيار الشيف" } },
-        { "nome": "Montanara pomodoro e mozzarella", "prezzo": 10.00, "descrizione": { "it": "Pizza fritta", "en": "Montanara (fried pizza) with tomato and mozzarella", "fr": "Montanara tomate et mozzarella", "de": "Montanara mit Tomaten und Mozzarella", "es": "Montanara con tomate y mozzarella", "pt": "Montanara com tomate e mozzarella", "ja": "モンタナラ（揚げピザ）、トマト e モッツァレラ", "ar": "مونتانara بالطماطم والموزاريلا" } },
-        { "nome": "Il Solito", "prezzo": 14.00, "descrizione": { "it": "Coccoli, crudo e burrata", "en": "Fried dough balls with raw ham and burrata", "fr": "Coccoli, jambon cru et burrata", "de": "Coccoli, Rohschinken und Burrata", "es": "Coccoli, jamón crudo e burrata", "pt": "Coccoli, presunto cru e burrata", "ja": "揚げパン、生ハム、ブッラータ", "ar": "عجين مقلي مع لحم خام وبوراتا" } },
-        { "nome": "Bruschette al pomodoro", "prezzo": 8.00, "descrizione": { "it": "", "en": "Tomato bruschetta", "fr": "Bruschetta à la tomate", "de": "Tomaten-Bruschetta", "es": "Bruschetta al tomate", "pt": "Bruschettas di tomate", "ja": "トマトのブルskeッタ", "ar": "بروسكيتا بالطماطم" } },
-        { "nome": "Gran tagliere di salumi e formaggi", "prezzo": 21.00, "descrizione": { "it": "Consigliato x2", "en": "Large cold cut and cheese platter (recommended for 2)", "fr": "Grand plateau de charcuterie et fromage (recommandé pour 2)", "de": "Große Wurst- und Käseplatte (empfohlen für 2 Personen)", "es": "Gran tabla de embutidos y quesos (recomendada per 2)", "pt": "Tábua grande di carnes frias e queijos (recomendado per 2)", "ja": "生ハム e チーズの盛り合わせ大（2名様推奨）", "ar": "طبق كبير من اللحوم الباردة والأجبان (ينصح به لشخصين)" } }
+        { "nome": "Crostini misti dello chef", "prezzo": 12.00, "descrizione": { "it": "", "en": "Chef's mixed crostini" } },
+        { "nome": "Montanara pomodoro e mozzarella", "prezzo": 10.00, "descrizione": { "it": "Pizza fritta", "en": "Montanara (fried pizza) with tomato and mozzarella" } },
+        { "nome": "Il Solito", "prezzo": 14.00, "descrizione": { "it": "Coccoli, crudo e burrata", "en": "Fried dough balls with raw ham and burrata" } },
+        { "nome": "Bruschette al pomodoro", "prezzo": 8.00, "descrizione": { "it": "", "en": "Tomato bruschetta" } },
+        { "nome": "Gran tagliere di salumi e formaggi", "prezzo": 21.00, "descrizione": { "it": "Consigliato x2", "en": "Large cold cut platter" } }
       ]
     },
     {
       "nome": { "it": "Primi Piatti", "en": "First Courses", "fr": "Entrées", "de": "Erste Gänge", "es": "Primeros Platos", "pt": "Primeiros Pratos", "ja": "第一のコース", "ar": "الأطباق الأولى" },
       "slug": "primi",
       "piatti": [
-        { "nome": "Chitarrina allo scoglio", "prezzo": 16.00, "descrizione": { "it": "", "en": "Spaghetti with mixed seafood", "fr": "Spaghettis aux fruits de mer", "de": "Spaghetti mit Meeresfrüchten", "es": "Espaguetis con marisco", "pt": "Espaguete con frutos do mar", "ja": "シーフードパスタ", "ar": "باستا المأكولات البحرية" } },
-        { "nome": "Chitarrina alla carbonara di mare", "prezzo": 15.00, "descrizione": { "it": "", "en": "Seafood carbonara", "fr": "Carbonara de mer", "de": "Meeresfrüchte-Carbonara", "es": "Carbonara de marisco", "pt": "Carbonara de frutos do mar", "ja": "シーフードカルボナーラ", "ar": "كاربونارا المأكولات البحرية" } },
-        { "nome": "Tagliatelle allo scoglio napoletano", "prezzo": 15.00, "descrizione": { "it": "", "en": "Neapolitan seafood tagliatelle", "fr": "Tagliatelles aux fruits de mer napolitaines", "de": "Neapolitanische Meeresfrüchte-Tagliatelle", "es": "Tallarines de marisco napolitanos", "pt": "Tagliatelle di frutos do mar napolitano", "ja": "ナポリ風シーフードタリアテッレ", "ar": "تاغلياتيل المأكولات البحرية النابولية" } },
-        { "nome": "Chitarrina alla carrettiera", "prezzo": 13.00, "descrizione": { "it": "", "en": "Chitarrina with garlic, oil, and chili", "fr": "Chitarrina à l'ail e piment", "de": "Chitarrina mit Knoblauch und Chili", "es": "Chitarrina con ajo y guindilla", "pt": "Chitarrina com alho e pimenta", "ja": "ニンニク e 唐辛子のパスタ", "ar": "شيتارينا بالثوم والفلفل" } },
-        { "nome": "Gnocchi alla sorrentina", "prezzo": 14.00, "image": "img/gnocchi-sorrentina.jpg", "descrizione": { "it": "", "en": "Gnocchi with tomato and mozzarella", "fr": "Gnocchis à la sorrentine", "de": "Gnocchi alla sorrentina", "es": "Gnocchi a la sorrentina", "pt": "Gnocchi alla sorrentina", "ja": "ソレント風ニョッキ", "ar": "نيوكي سورينتينا" } },
-        { "nome": "Pennette al pomodoro e basilico", "prezzo": 12.00, "descrizione": { "it": "", "en": "Pennette with tomato and basil", "fr": "Pennette tomate et basilic", "de": "Pennette mit Tomaten und Basilikum", "es": "Pennette con tomate y albahaca", "pt": "Pennette com tomate e manjericão", "ja": "トマトとバジルのペンneッテ", "ar": "بينيتي بالطماطم والريحان" } },
-        { "nome": "Chitarrina alla carbonara", "prezzo": 15.00, "descrizione": { "it": "", "en": "Carbonara with egg and guanciale", "fr": "Carbonara classique", "de": "Klassische Carbonara", "es": "Carbonara clásica", "pt": "Carbonara clássica", "ja": "カルボナーラ", "ar": "كاربونارا كلاسيكية" } }
+        { "nome": "Chitarrina allo scoglio", "prezzo": 16.00, "descrizione": { "it": "", "en": "Spaghetti with mixed seafood" } },
+        { "nome": "Chitarrina alla carbonara di mare", "prezzo": 15.00, "descrizione": { "it": "", "en": "Seafood carbonara" } },
+        { "nome": "Tagliatelle allo scoglio napoletano", "prezzo": 15.00, "descrizione": { "it": "", "en": "Neapolitan seafood tagliatelle" } },
+        { "nome": "Chitarrina alla carrettiera", "prezzo": 13.00, "descrizione": { "it": "", "en": "Chitarrina with garlic, oil, and chili" } },
+        { "nome": "Gnocchi alla sorrentina", "prezzo": 14.00, "image": "img/gnocchi-sorrentina.jpg", "descrizione": { "it": "", "en": "Gnocchi with tomato and mozzarella" } },
+        { "nome": "Pennette al pomodoro e basilico", "prezzo": 12.00, "descrizione": { "it": "", "en": "Pennette with tomato and basil" } },
+        { "nome": "Chitarrina alla carbonara", "prezzo": 15.00, "descrizione": { "it": "", "en": "Carbonara with egg and guanciale" } }
       ]
     },
     {
       "nome": { "it": "Secondi Piatti", "en": "Main Courses", "fr": "Plats Principaux", "de": "Hauptspeisen", "es": "Segundos Platos", "pt": "Segundos Pratos", "ja": "メインコース", "ar": "الأطباق الرئيسية" },
       "slug": "secondi",
       "piatti": [
-        { "nome": "Straccetti di pollo saltati", "prezzo": 16.00, "descrizione": { "it": "", "en": "Sautéed chicken strips", "fr": "Lanières de poulet sautées", "de": "Sautierte Hähnchenstreifen", "es": "Tiras de pollo salteadas", "pt": "Tiras de frango salteadas", "ja": "鶏肉の細切り炒め", "ar": "شرائح دجاج مقلية" } },
-        { "nome": "Polpette di carne al sugo", "prezzo": 15.00, "descrizione": { "it": "", "en": "Meatballs in tomato sauce", "fr": "Boulettes de viande en sauce", "de": "Fleischbällchen in Sauce", "es": "Albóndigas en salsa", "pt": "Almôndegas ao molho", "ja": "ミートボールのトマトソース煮", "ar": "كرات لحم بالصلصة" } },
-        { "nome": "Pallotte cacio e ova", "prezzo": 15.00, "descrizione": { "it": "", "en": "Cheese and egg balls (traditional)", "fr": "Boulettes fromage et œufs", "de": "Käse-Eier-Bällchen", "es": "Albóndigas de queso y huevo", "pt": "Almôndegas de queijo e ovo", "ja": "チーズ e 卵の団子（伝統料理）", "ar": "كرات الجبن والبيض التقليدية" } },
-        { "nome": "Hamburger classico al piatto con patatine", "prezzo": 15.00, "descrizione": { "it": "", "en": "Burger on plate with fries", "fr": "Hamburger à l'assiette con frites", "de": "Burger auf dem Teller mit Pommes", "es": "Hamburguesa al piatto con patatas", "pt": "Hambúrguer no prato con batatas", "ja": "ハンバーグステーキ e フライドポテト", "ar": "هامبرغر مع البطاطس المقلية" } },
-        { "nome": "Zuppa di moscardini alla luciana", "prezzo": 19.00, "descrizione": { "it": "", "en": "Baby octopus stew Luciana style", "fr": "Poulpes à la luciana", "de": "Moscardini nach Luciana-Art", "es": "Pulpitos a la luciana", "pt": "Polvinhos à luciana", "ja": "イイダコのルチアーナ風煮込み", "ar": "يخنة الأخطبوط الصغير على طريقة لوتشيانا" } },
-        { "nome": "Baccalà alla crema di limone", "prezzo": 18.00, "descrizione": { "it": "", "en": "Cod with lemon cream", "fr": "Morue à la crème de citron", "de": "Kabeljau in Zitronencreme", "es": "Bacalao a la crema de limón", "pt": "Bacalhau ao creme di limão", "ja": "タラのレモンクリーム添え", "ar": "السمك القد بكريمة الليمون" } },
-        { "nome": "Bistecca di spada alla mediterranea", "prezzo": 21.00, "descrizione": { "it": "", "en": "Swordfish Mediterranean style", "fr": "Espadon à la méditerranéenne", "de": "Schwertfisch nach mediterraner Art", "es": "Pez espada a la mediterránea", "pt": "Peixe-espada à mediterrânea", "ja": "地中海風メカジキのステーキ", "ar": "ستيك سمك السياف على طريقة البحر المتوسط" } }
+        { "nome": "Straccetti di pollo saltati", "prezzo": 16.00, "descrizione": { "it": "", "en": "Sautéed chicken strips" } },
+        { "nome": "Polpette di carne al sugo", "prezzo": 15.00, "descrizione": { "it": "", "en": "Meatballs in tomato sauce" } },
+        { "nome": "Pallotte cacio e ova", "prezzo": 15.00, "descrizione": { "it": "", "en": "Cheese and egg balls" } },
+        { "nome": "Hamburger classico al piatto con patatine", "prezzo": 15.00, "descrizione": { "it": "", "en": "Burger on plate with fries" } },
+        { "nome": "Zuppa di moscardini alla luciana", "prezzo": 19.00, "descrizione": { "it": "", "en": "Baby octopus stew Luciana style" } },
+        { "nome": "Baccalà alla crema di limone", "prezzo": 18.00, "descrizione": { "it": "", "en": "Cod with lemon cream" } },
+        { "nome": "Bistecca di spada alla mediterranea", "prezzo": 21.00, "descrizione": { "it": "", "en": "Swordfish Mediterranean style" } }
       ]
     },
     {
       "nome": { "it": "Insalatone", "en": "Large Salads", "fr": "Grandes Salades", "de": "Große Salate", "es": "Ensaladas Grandes", "pt": "Saladas Grandes", "ja": "大きなサラダ", "ar": "سلطات كبيرة" },
       "slug": "insalatone",
       "piatti": [
-        { "nome": "Insalata nizzarda", "prezzo": 14.00, "descrizione": { "it": "Insalata, uova sode, pomodori ciliegini, olive nere a rondelle e acciughe", "en": "Salad, boiled eggs, cherry tomatoes, olives and anchovies", "fr": "Salade niçoise", "de": "Nizza-Salat", "es": "Ensalada nizarda", "pt": "Salada nizzarda", "ja": "ニース風サラダ", "ar": "سلطة نيسواز" } },
-        { "nome": "Insalata caprese di burrata", "prezzo": 12.00, "descrizione": { "it": "Pomodori freschi, burrata pugliese, basilico e origano", "en": "Caprese with burrata cheese", "fr": "Caprese à la burrata", "de": "Caprese mit Burrata", "es": "Caprese con burrata", "pt": "Caprese com burrata", "ja": "ブッラータのカプレーゼ", "ar": "كابريزي con جبنة البوراتا" } },
-        { "nome": "Insalata classica", "prezzo": 12.00, "descrizione": { "it": "Insalata, pomodoro fresco, mozzarella e tonno", "en": "Mixed salad with tuna and mozzarella", "fr": "Salade classique", "de": "Klassischer Salat", "es": "Ensalada clásica", "pt": "Salada classica", "ja": "クラシックサラダ", "ar": "سلطة كلاسيكية" } },
-        { "nome": "Insalata rustichella", "prezzo": 14.00, "descrizione": { "it": "Insalata, pomodoro fresco, zucchine, prosciutto cotto e scamorza", "en": "Salad with ham and scamorza cheese", "fr": "Salade rustique", "de": "Rustikaler Salat", "es": "Ensalada rústica", "pt": "Salada rústica", "ja": "ラスティカサラダ", "ar": "سلطة ريفية" } }
+        { "nome": "Insalata nizzarda", "prezzo": 14.00, "descrizione": { "it": "Insalata, uova sode, pomodori ciliegini, olive nere e acciughe" } },
+        { "nome": "Insalata caprese di burrata", "prezzo": 12.00, "descrizione": { "it": "Pomodori freschi, burrata pugliese, basilico e origano" } },
+        { "nome": "Insalata classica", "prezzo": 12.00, "descrizione": { "it": "Insalata, pomodoro fresco, mozzarella e tonno" } },
+        { "nome": "Insalata rustichella", "prezzo": 14.00, "descrizione": { "it": "Insalata, pomodoro fresco, zucchine, prosciutto cotto e scamorza" } }
       ]
     },
     {
       "nome": { "it": "Pizze Classiche & Speciali", "en": "Pizzas", "fr": "Pizzas", "de": "Pizzen", "es": "Pizzas", "pt": "Pizzas", "ja": "ピザ", "ar": "بيتزا" },
       "slug": "pizze",
       "piatti": [
-        { "nome": "Marinara", "prezzo": 7.00, "descrizione": { "it": "Salsa di pomodoro, aglio, origano", "en": "Tomato sauce, garlic, oregano" } },
-        { "nome": "Margherita", "prezzo": 8.00, "descrizione": { "it": "Salsa di pomodoro, mozzarella fior di latte, basilico", "en": "Tomato sauce, mozzarella fior di latte, basil" } },
-        { "nome": "Napoli", "prezzo": 10.00, "descrizione": { "it": "Salsa di pomodoro, mozzarella, capperi, acciughe, origano", "en": "Tomato sauce, mozzarella, capers, anchovies, oregano" } },
-        { "nome": "Pugliese", "prezzo": 9.50, "descrizione": { "it": "Salsa di pomodoro, mozzarella, cipolla rossa", "en": "Tomato sauce, mozzarella, red onion" } },
-        { "nome": "Atomica", "prezzo": 10.50, "descrizione": { "it": "Salsa di pomodoro, mozzarella, salame piccante, olive nere, peperoncino", "en": "Tomato sauce, mozzarella, spicy salami, black olives, chili" } },
-        { "nome": "Regina", "prezzo": 11.50, "descrizione": { "it": "Salsa di pomodoro, mozzarella fior di latte, prosciutto cotto, funghi champignon", "en": "Tomato sauce, mozzarella, cooked ham, mushrooms" } },
-        { "nome": "4 Formaggi", "prezzo": 12.00, "descrizione": { "it": "Mozzarella, gorgonzola, fontina, parmigiano", "en": "Mozzarella, gorgonzola, fontina, parmesan" } },
-        { "nome": "Vegetariana", "prezzo": 12.00, "descrizione": { "it": "Salsa di pomodoro, mozzarella, verdure grigliate di stagione", "en": "Tomato sauce, mozzarella, seasonal grilled vegetables" } },
-        { "nome": "Calzone", "prezzo": 11.00, "descrizione": { "it": "Mozzarella, prosciutto cotto, funghi champignon, salsa di pomodoro", "en": "Mozzarella, ham, mushrooms, tomato sauce" } },
-        { "nome": "Vico del Carmine", "prezzo": 13.50, "descrizione": { "it": "Salsa di pomodoro, mozzarella di bufala, pomodorini freschi, basilico", "en": "Tomato sauce, buffalo mozzarella, fresh cherry tomatoes, basil" } },
-        { "nome": "Bufalina", "prezzo": 11.50, "descrizione": { "it": "Salsa di pomodoro, mozzarella di bufala, basilico", "en": "Tomato sauce, buffalo mozzarella, basil" } },
-        { "nome": "Capricciosa", "prezzo": 12.00, "descrizione": { "it": "Pomodoro, mozzarella, cotto, carciofi, funghi, olive", "en": "Tomato, mozzarella, ham, artichokes, mushrooms, olives" } }
+        { "nome": "Margherita", "prezzo": 8.00, "descrizione": { "it": "salsa di pomodoro, mozzarella, basilico" } },
+        { "nome": "Napoli", "prezzo": 10.00, "descrizione": { "it": "salsa di pomodoro, mozzarella capperi, acciughe, origano" } },
+        { "nome": "A’ Filetto", "prezzo": 11.50, "descrizione": { "it": "bianca, bufala pomodori datterini" } },
+        { "nome": "Salsiccia e friarielli", "prezzo": 11.50, "descrizione": { "it": "mozzarella salsiccia e friarielli" } },
+        { "nome": "Capricciosa", "prezzo": 12.00, "descrizione": { "it": "salsa di pomodoro, mozzarella, cotto, funghi carciofi e olive" } },
+        { "nome": "Mediterraneo", "prezzo": 11.50, "descrizione": { "it": "salsa di pomodoro, mozzarella, olive, pomodorini, acciughe e origano" } },
+        { "nome": "Positano", "prezzo": 10.50, "descrizione": { "it": "mozzarella, scamorza, melanzane fritte, pomodorini" } },
+        { "nome": "Diavola", "prezzo": 10.50, "descrizione": { "it": "salsa di pomodoro, mozzarella, salamino piccante, olive basilico" } },
+        { "nome": "4 Formaggi", "prezzo": 12.00, "descrizione": { "it": "mozzarella, scamorza, gorgonzola, emmental" } },
+        { "nome": "A’Pizza Caprese", "prezzo": 13.50, "descrizione": { "it": "rucola pom. fresco condito, mozz e basilico" } },
+        { "nome": "Fungaccia", "prezzo": 12.50, "descrizione": { "it": "mozzarella, champignon, salsiccia, basilico" } },
+        { "nome": "Salina", "prezzo": 11.50, "descrizione": { "it": "marinara con capperi, acciughe, datterini, basilico" } },
+        { "nome": "O’ Sole Mio", "prezzo": 14.00, "descrizione": { "it": "acciughe, zucchine, mozzarella, scorza di limone" } },
+        { "nome": "Americana", "prezzo": 13.50, "descrizione": { "it": "patate, mozz, scamorza, pancetta" } },
+        { "nome": "Maialina", "prezzo": 13.00, "descrizione": { "it": "pom, mozzarella, cotto, salamino picc, wurstel, salsiccia" } },
+        { "nome": "Tartufina", "prezzo": 16.00, "descrizione": { "it": "mozzarella, cotto, olive, salsa al tartufo" } },
+        { "nome": "Fagotto", "prezzo": 16.00, "descrizione": { "it": "calzone con ricotta, mozz, scamorza, pom, salame napoli" } },
+        { "nome": "A’Pizza Vegetariana", "prezzo": 13.00, "descrizione": { "it": "salsa di pomodoro, mozzarella, melanzane e zucchine grigliate, rucola" } },
+        { "nome": "Bell’Italia", "prezzo": 15.00, "descrizione": { "it": "salsa di pomodoro, rucola, crudo, burrata" } },
+        { "nome": "Vico", "prezzo": 16.00, "descrizione": { "it": "salsa di pomodoro, mozzarella, salsiccia, friarielli, salame napoli, ricotta" } },
+        { "nome": "Vesuvio", "prezzo": 14.00, "descrizione": { "it": "salsa di pomodoro, mozzarella, ricotta, funghi, cotto, salamino" } },
+        { "nome": "Cilentana", "prezzo": 11.50, "descrizione": { "it": "mozzarella di bufala, salsa di pomodoro fresco aromatico" } },
+        { "nome": "Palinuro", "prezzo": 14.00, "descrizione": { "it": "mozzarella, salsa cilentana, salsiccia, melanzane fritte, scamorza" } },
+        { "nome": "Partenopea", "prezzo": 13.50, "descrizione": { "it": "salsa di pomodoro, pomodorini, stracciatella, basilico" } },
+        { "nome": "Chiummenzana", "prezzo": 13.50, "descrizione": { "it": "mozzarella, scamorza, pomodorini, basilico con bordo ripieno di ricotta" } },
+        { "nome": "Verdurella", "prezzo": 13.50, "descrizione": { "it": "mozzarella, scamorza, pomodorini zucchine grill., basilico" } },
+        { "nome": "Calzone", "prezzo": 12.00, "descrizione": { "it": "mozzarella, ricotta, funghi, prosciutto cotto" } }
       ]
     },
     {
       "nome": { "it": "Specialità Pizza", "en": "Pizza Specialties", "fr": "Spécialités de Pizza", "de": "Pizza-Spezialitäten", "es": "Especialidades de Pizza", "pt": "Especialidades de Pizza", "ja": "特選ピザ", "ar": "تخصصات البيتزا" },
       "slug": "specialita-pizza",
       "piatti": [
-        { "nome": "⭐ Pizza NERETO", "prezzo": 14.50, "image": "img/pizza-nereto.jpg", "descrizione": { "it": "Crema di zucchine, fior di latte, scamorza, guanciale e cipolle rosse caramellate", "en": "Zucchini cream, fior di latte, smoked cheese, guanciale and caramelized red onions" } }
+        { "nome": "⭐ Pizza NERETO", "prezzo": 14.50, "image": "img/pizza-nereto.jpg", "descrizione": { "it": "Crema di zucchine, fior di latte, scamorza, guanciale e cipolle rosse caramellate" } }
       ]
     },
     {
       "nome": { "it": "Le Dolcezze", "en": "Desserts", "fr": "Desserts", "de": "Desserts", "es": "Postres", "pt": "Sobremesas", "ja": "デザート", "ar": "حلويات" },
       "slug": "dolci",
       "piatti": [
-        { "nome": "Babà al rum", "prezzo": 6.50, "descrizione": { "it": "rum baba", "en": "rum baba", "fr": "baba au rhum", "de": "Rum-Baba", "es": "babá al ron", "pt": "babá ao rum", "ja": "ラム酒のババ", "ar": "بابا بالروم" } },
-        { "nome": "Crema catalana", "prezzo": 6.50, "descrizione": { "it": "Catalan cream", "en": "Catalan cream", "fr": "Crème catalane", "de": "Katalanische Creme", "es": "Crema catalana", "pt": "Crema catalana", "ja": "クレマカタラーナ", "ar": "كريما كاتالانا" } },
-        { "nome": "Cheesecake", "prezzo": 6.50, "descrizione": { "it": "cioccolato o frutti di bosco", "en": "chocolate or berries", "fr": "chocolat ou fruits rouges", "de": "Schokolade o Beeren", "es": "chocolate o frutos del bosque", "pt": "chocolate ou frutas vermelhas", "ja": "チョコレートまたはベリー", "ar": "شوكولاتة أو توت" } },
-        { "nome": "Mattonella di cioccolato fondente", "prezzo": 6.50, "descrizione": { "it": "Dark chocolate tile", "en": "Dark chocolate tile", "fr": "Pavé au chocolat noir", "de": "Zartbitterschokoladen-Riegel", "es": "Tableta de chocolate negro", "pt": "Barra di chocolate amargo", "ja": "ダークチョコレート・タイル", "ar": "قالب شوكولاتة داكنة" } },
-        { "nome": "Pastiera napoletana", "prezzo": 7.00, "descrizione": { "it": "Neapolitan pastry", "en": "Neapolitan pastry", "fr": "Pastiera napolitaine", "de": "Neapolitanische Pastiera", "es": "Pastiera napolitana", "pt": "Pastiera napolitana", "ja": "ナポリ風パスティエラ", "ar": "باستيرة نابولية" } },
-        { "nome": "Tiramisù fatto in casa", "prezzo": 6.50, "descrizione": { "it": "Homemade tiramisu", "en": "Homemade tiramisu", "fr": "Tiramisu maison", "de": "Hausgemachtes Tiramisu", "es": "Tiramisú casero", "pt": "Tiramisu caseiro", "ja": "自家製ティラミス", "ar": "تيراميسو منزلي" } },
-        { "nome": "Tortino caldo al cioccolato", "prezzo": 6.50, "descrizione": { "it": "Warm chocolate cake", "en": "Warm chocolate cake", "fr": "Fondant au chocolat", "de": "Warmer Schokoladenkuchen", "es": "Coulant de chocolate", "pt": "Petit gâteau de chocolate", "ja": "フォンダンショコラ", "ar": "كعكة الشوكولاتة الدافئة" } },
-        { "nome": "Sorbetto al limone", "prezzo": 5.00, "descrizione": { "it": "lemon sorbet", "en": "lemon sorbet", "fr": "sorbet au citron", "de": "Zitronensorbet", "es": "sorbete de limón", "pt": "sorbet de limão", "ja": "レモンシャーベット", "ar": "سوربيه الليمون" } }
+        { "nome": "Babà al rum", "prezzo": 6.50 },
+        { "nome": "Crema catalana", "prezzo": 6.50 },
+        { "nome": "Cheesecake", "prezzo": 6.50 },
+        { "nome": "Mattonella di cioccolato fondente", "prezzo": 6.50 },
+        { "nome": "Pastiera napoletana", "prezzo": 7.00 },
+        { "nome": "Tiramisù fatto in casa", "prezzo": 6.50 },
+        { "nome": "Tortino caldo al cioccolato", "prezzo": 6.50 },
+        { "nome": "Sorbetto al limone", "prezzo": 5.00 }
       ]
     },
     {
-      "nome": { "it": "Birre Poretti", "en": "Beers", "fr": "Bières", "de": "Biere", "es": "Cervezas", "pt": "Cervejas", "ja": "ビール", "ar": "بيرة" },
+      "nome": { "it": "Birre Poretti", "en": "Beers", "fr": "Bières" },
       "slug": "birre",
       "piatti": [
         { "nome": "Poretti 4 Luppoli (Piccola)", "prezzo": 4.50 },
@@ -126,7 +141,7 @@
       ]
     },
     {
-      "nome": { "it": "Bevande & Soft Drinks", "en": "Drinks", "fr": "Boissons", "de": "Getränke", "es": "Bebidas", "pt": "Bebidas", "ja": "飲み物", "ar": "مشروبات" },
+      "nome": { "it": "Bevande & Soft Drinks", "en": "Drinks" },
       "slug": "bevande",
       "piatti": [
         { "nome": "Vino della casa 1/2 litro", "prezzo": 8.00 },
@@ -134,18 +149,16 @@
         { "nome": "Calice di vino", "prezzo": 6.00 },
         { "nome": "Calice di prosecco", "prezzo": 4.00 },
         { "nome": "Acqua naturalizzata", "prezzo": 2.50 },
-        { "nome": "Acqua 1/2 bottiglia", "prezzo": 2.00 },
         { "nome": "Coca cola", "prezzo": 3.50 },
         { "nome": "Coca zero", "prezzo": 3.50 },
         { "nome": "Fanta", "prezzo": 3.50 },
-        { "nome": "The al limone", "prezzo": 3.50 },
-        { "nome": "The alla pesca", "prezzo": 3.50 },
+        { "nome": "The al limone/pesca", "prezzo": 3.50 },
         { "nome": "Caffè", "prezzo": 2.00 },
         { "nome": "Amari", "prezzo": 3.00 }
       ]
     },
     {
-      "nome": { "it": "Vini in Bottiglia", "en": "Bottled Wines", "fr": "Vins en Bouteille", "de": "Flaschenweine", "es": "Vinos en Botella", "pt": "Vinhos em Garrafa", "ja": "ボトルワイン", "ar": "نبيذ في زجاجة" },
+      "nome": { "it": "Vini in Bottiglia", "en": "Bottled Wines" },
       "slug": "vini",
       "sezioni": [
         {
@@ -170,15 +183,6 @@
             { "nome": "Chardonnay", "prezzo": 23.00 }
           ]
         }
-      ]
-    },
-    {
-      "nome": { "it": "Menù Fissi", "en": "Fixed Menus", "fr": "Menus Fixes", "de": "Festmenüs", "es": "Menús Fijos", "pt": "Menus Fixos", "ja": "セットメニュー", "ar": "قوائم طعام محددة" },
-      "slug": "menu-fissi",
-      "piatti": [
-        { "nome": "Menù Degustazione Base", "prezzo": 20.00 },
-        { "nome": "Menù Vico Special", "prezzo": 25.00 },
-        { "nome": "Menù Full Experience", "prezzo": 30.00 }
       ]
     }
   ]
