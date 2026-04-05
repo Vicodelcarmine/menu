@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
         :root { --primary: #800020; --gold: #D4AF37; --dark: #1a1a1a; --light: #fdfdfd; }
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--dark); color: var(--light); margin: 0; padding: 0; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--dark); color: var(--light); margin: 0; padding: 0; -webkit-touch-callout: none; -webkit-user-select: none; }
         header { text-align: center; background-color: #f7f3e9; border-bottom: 3px solid var(--gold); }
         .hero-img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
         .lang-bar { background: #000; padding: 10px; display: flex; justify-content: center; gap: 15px; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100; }
@@ -19,27 +19,47 @@
         .container { max-width: 800px; margin: 0 auto; padding: 10px; }
         .ms { margin-bottom: 15px; background: #222; border-radius: 8px; overflow: hidden; border: 1px solid #333; }
         .sh { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; cursor: pointer; background: linear-gradient(45deg, #222, #333); }
-        .sh:hover { background: #2a2a2a; }
         .st { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         .sc { color: var(--gold); transition: 0.3s; font-size: 0.8rem; }
         .ms.open .sc { transform: rotate(180deg); }
         .sb { max-height: 0; opacity: 0; transition: all 0.4s ease-in-out; }
         .ms.open .sb { max-height: 5000px; opacity: 1; padding: 10px 0; }
-        .di { padding: 12px 20px; border-bottom: 1px solid #2a2a2a; }
+        .di { padding: 12px 20px; border-bottom: 1px solid #2a2a2a; position: relative; cursor: pointer; }
         .dr { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
         .dn { font-weight: 600; font-size: 1.05rem; color: var(--light); }
         .dp { font-weight: 700; color: var(--gold); white-space: nowrap; }
         .ds { font-size: 0.9rem; color: #aaa; margin-top: 5px; font-style: italic; line-height: 1.4; }
+        
+        /* Modal Anteprima Foto */
+        .img-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .img-preview { max-width: 95%; max-height: 70vh; border: 3px solid var(--gold); border-radius: 12px; }
+        .img-title { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-top: 20px; text-align: center; }
+
         .footer { text-align: center; padding: 30px; font-size: 0.8rem; color: #666; background: #111; }
         [x-cloak] { display: none !important; }
         [dir="rtl"] { text-align: right; }
         [dir="rtl"] .dr { flex-direction: row-reverse; }
     </style>
 </head>
-<body x-data="{ menu: {}, loading: true, lang: 'it', openSections: ['specialita-stagione'],
+<body x-data="{ menu: {}, loading: true, lang: 'it', openSections: ['specialita-stagione', 'specialita-pizza'],
+    showPreview: false, previewImg: '', previewTitle: '', pressTimer: null,
     flags: { it: 'https://flagcdn.com/w40/it.png', en: 'https://flagcdn.com/w40/gb.png', fr: 'https://flagcdn.com/w40/fr.png', de: 'https://flagcdn.com/w40/de.png', es: 'https://flagcdn.com/w40/es.png', pt: 'https://flagcdn.com/w40/pt.png', ja: 'https://flagcdn.com/w40/jp.png', ar: 'https://flagcdn.com/w40/sa.png' },
-    toggle(slug) { if(this.openSections.includes(slug)) { this.openSections = this.openSections.filter(s => s !== slug) } else { this.openSections.push(slug) } }
+    toggle(slug) { if(this.openSections.includes(slug)) { this.openSections = this.openSections.filter(s => s !== slug) } else { this.openSections.push(slug) } },
+    startPress(item) {
+        if(!item.image) return;
+        this.pressTimer = setTimeout(() => {
+            this.previewImg = item.image;
+            this.previewTitle = item.nome;
+            this.showPreview = true;
+        }, 800);
+    },
+    endPress() { clearTimeout(this.pressTimer); this.showPreview = false; }
 }" x-init="fetch('./menu.json').then(res => res.json()).then(data => { menu = data; loading = false; })" :dir="lang === 'ar' ? 'rtl' : 'ltr'">
+
+    <div x-show="showPreview" x-cloak class="img-overlay" @click="showPreview = false" @touchend="showPreview = false">
+        <img :src="previewImg" class="img-preview">
+        <div class="img-title" x-text="previewTitle"></div>
+    </div>
 
     <header><img src="hero.png" alt="Header" class="hero-img"></header>
 
@@ -62,9 +82,12 @@
                 </div>
                 <div class="sb">
                     <template x-for="item in cat.piatti" :key="item.nome">
-                        <div class="di">
+                        <div class="di" @mousedown="startPress(item)" @touchstart.passive="startPress(item)" @mouseup="endPress()" @touchend="endPress()">
                             <div class="dr">
-                                <span class="dn" x-text="item.nome"></span>
+                                <span class="dn">
+                                    <span x-text="item.nome"></span>
+                                    <template x-if="item.image"><span style="font-size: 0.7rem; color: var(--gold); margin-left: 5px;">🖼️</span></template>
+                                </span>
                                 <span class="dp" x-text="item.prezzo.toFixed(2) + ' €'"></span>
                             </div>
                             <p class="ds" x-show="item.descrizione" x-text="typeof item.descrizione === 'object' ? item.descrizione[lang] : item.descrizione"></p>
@@ -90,7 +113,6 @@
 
     <footer class="footer">
         <p>&copy; 2026 Vico del Carmine. Osteria Pizzeria Napoletana.</p>
-    </div>
-
+    </footer>
 </body>
 </html>
