@@ -839,6 +839,7 @@
         {
           "nome": "A’Pizza Vegetariana",
           "prezzo": 13,
+          "image": "img/vegetariana.jpg",
           "descrizione": {
             "it": "salsa di pomodoro, mozzarella, melanzane e zucchine grigliate, rucola",
             "en": "tomato sauce, mozzarella, grilled eggplant and zucchini, arugula",
