@@ -685,6 +685,7 @@
         {
           "nome": "Positano",
           "prezzo": 10.5,
+          "image": "img/positano.jpg",
           "descrizione": {
             "it": "mozzarella, scamorza, melanzane fritte, pomodorini",
             "en": "mozzarella, scamorza, fried eggplant, cherry tomatoes",
