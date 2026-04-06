@@ -83,7 +83,7 @@
         { "nome": "Margherita", "prezzo": 8.00, "image": "img/margherita.jpg", "descrizione": { "it": "salsa di pomodoro, mozzarella, basilico" } },
         { "nome": "Napoli", "prezzo": 10.00, "descrizione": { "it": "salsa di pomodoro, mozzarella capperi, acciughe, origano" } },
         { "nome": "A’ Filetto", "prezzo": 11.50, "descrizione": { "it": "bianca, bufala pomodori datterini" } },
-        { "nome": "Salsiccia e friarielli", "prezzo": 11.50, "descrizione": { "it": "mozzarella salsiccia e friarielli" } },
+        { "nome": "Salsiccia e friarielli", "prezzo": 11.50, "image": "img/salsiccia-friarielli.jpg", "descrizione": { "it": "mozzarella salsiccia e friarielli" } },
         { "nome": "Capricciosa", "prezzo": 12.00, "descrizione": { "it": "salsa di pomodoro, mozzarella, cotto, funghi carciofi e olive" } },
         { "nome": "Mediterraneo", "prezzo": 11.50, "descrizione": { "it": "salsa di pomodoro, mozzarella, olive, pomodorini, acciughe e origano" } },
         { "nome": "Positano", "prezzo": 10.50, "descrizione": { "it": "mozzarella, scamorza, melanzane fritte, pomodorini" } },
