@@ -115,6 +115,7 @@
         {
           "nome": "⭐ Spigola o Orata alla griglia",
           "prezzo": 18,
+          "image": "img/branzino-griglia.jpg",
           "descrizione": {
             "it": "Secondo piatto",
             "en": "Grilled Sea Bass or Sea Bream",
