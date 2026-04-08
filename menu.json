@@ -772,6 +772,7 @@
         {
           "nome": "O’ Sole Mio",
           "prezzo": 14,
+          "image": "img/o-sole-mio.jpg",
           "descrizione": {
             "it": "acciughe, zucchine, mozzarella, scorza di limone",
             "en": "anchovies, zucchini, mozzarella, lemon zest",
