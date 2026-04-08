@@ -858,6 +858,7 @@
         {
           "nome": "Bell’Italia",
           "prezzo": 15,
+          "image": "img/bella-italia.jpg",
           "descrizione": {
             "it": "salsa di pomodoro, rucola, crudo, burrata",
             "en": "tomato sauce, arugula, raw ham, burrata",
