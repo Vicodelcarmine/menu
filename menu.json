@@ -1012,6 +1012,21 @@
             "ja": "ズッキーニクリーム、フィオール・ディ・ラッテ、スカモルツァ、グアンチャーレ、赤玉ねぎのキャラメリゼ",
             "ar": "كريمة الكوسة، موزاريلا، سكامورزا، جوانشالي وبصل أحمر مكرمل"
           }
+        },
+        {
+          "nome": "⭐ Pizza TOSCANA",
+          "prezzo": 16.0,
+          "image": "img/pizza-toscana.jpg",
+          "descrizione": {
+            "it": "mozzarella, crema di tartufo, Salame toscano, burrata e basilico",
+            "en": "mozzarella, truffle cream, Tuscan salami, burrata cheese and basil",
+            "fr": "mozzarella, crème de truffe, salami toscan, burrata et basilic",
+            "de": "Mozzarella, Trüffelcreme, toskanische Salami, Burrata e Basilikum",
+            "es": "mozzarella, crema de trufa, salami toscano, burrata y albahaca",
+            "pt": "mozzarella, creme de trufa, salame toscano, burrata e manjericão",
+            "ja": "モッツァレラ、トリュフクリーム、トスカーナサラミ、ブッラータ、バジル",
+            "ar": "موزاريلا، كريم الترفل، سلامي توسكاني، بوراتا وريحان"
+          }
         }
       ]
     },
