@@ -1029,7 +1029,8 @@
       "piatti": [
         {
           "nome": "Babà al rum",
-          "prezzo": 6.5
+          "prezzo": 6.5,
+          "image": "img/baba.jpg"
         },
         {
           "nome": "Crema catalana",
