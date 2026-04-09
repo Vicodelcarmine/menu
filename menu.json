@@ -801,6 +801,7 @@
         {
           "nome": "Maialina",
           "prezzo": 13,
+          "image": "img/maialina.jpg",
           "descrizione": {
             "it": "pom, mozzarella, cotto, salamino picc, wurstel, salsiccia",
             "en": "tomato, mozzarella, ham, spicy salami, frankfurter, sausage",
