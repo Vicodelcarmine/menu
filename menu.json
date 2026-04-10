@@ -11,7 +11,8 @@
     "es",
     "pt",
     "ja",
-    "ar"
+    "ar",
+    "ru"
   ],
   "categorie": [
     {
@@ -24,7 +25,8 @@
         "es": "Especialidades de Temporada",
         "pt": "Especialidades da Estação",
         "ja": "季節の特選料理",
-        "ar": "التخصصات الموسمية"
+        "ar": "التخصصات الموسمية",
+        "ru": "Сезонные блюда"
       },
       "piatti": [
         {
@@ -38,7 +40,8 @@
             "es": "Guiso caliente de mariscos",
             "pt": "Guiso de frutos do mar quente",
             "ja": "温かいシーフードの煮込み",
-            "ar": "حساء ثمار البحر الساخن"
+            "ar": "حساء ثمار البحر الساخن",
+            "ru": "Горячая закуска из морепродуктов"
           }
         },
         {
@@ -53,7 +56,8 @@
             "es": "Ensalada de bacalao con limón, olivas y tomates frescos",
             "pt": "Salada de bacalhau com limão, azeitonas e tomates frescos",
             "ja": "鱈のサラダ、レモン、オリーブ、フレッシュトマト添え",
-            "ar": "سلطة سمك القد مع الليمون والزيتون والطماطم الطازجة"
+            "ar": "سلطة سمك القد مع الليمون والزيتون والطماطم الطازجة",
+            "ru": "Закуска"
           }
         },
         {
@@ -67,7 +71,8 @@
             "es": "Mejillones a la pimienta con bruschetta",
             "pt": "Mexilhões apimentados com bruschetta",
             "ja": "ムールのペッパー焼きとブルスケッタ",
-            "ar": "بلح البحر بالفلفل مع البروسكيتا"
+            "ar": "بلح البحر بالفلفل مع البروسكيتا",
+            "ru": "Закуска"
           }
         },
         {
@@ -81,7 +86,8 @@
             "es": "Pasta fresca con almejas y botarga",
             "pt": "Massas frescas com amêijoas e bottarga",
             "ja": "あさりとボッタルガの生パスタ",
-            "ar": "باستا طازجة مع المحار والبطارخ"
+            "ar": "باستا طازجة مع المحار والبطارخ",
+            "ru": "Первое блюдо"
           }
         },
         {
@@ -95,7 +101,8 @@
             "es": "Gnocchi de patata con garbanzos y mejillones",
             "pt": "Gnocchi de batata com grão-de-bico e mexilhões",
             "ja": "ジャガイモのニョッキ、ひよこ豆とムール貝添え",
-            "ar": "نوكي البطاطس مع الحمص وبلح البحر"
+            "ar": "نوكي البطاطس مع الحمص وبلح البحر",
+            "ru": "Первое блюдо"
           }
         },
         {
@@ -109,7 +116,8 @@
             "es": "Pennette con pesto de gambas y tomate fresco",
             "pt": "Pennette com pesto de camarão e tomate fresco",
             "ja": "海老のペーストとフレッシュトマトのペンネッテ",
-            "ar": "بينيتي مع بيستو الروبيان والطماطم الطازجة"
+            "ar": "بينيتي مع بيستو الروبيان والطماطم الطازجة",
+            "ru": "Первое блюдо"
           }
         },
         {
@@ -124,7 +132,8 @@
             "es": "Lubina o Dorada a la parrilla",
             "pt": "Robalo ou Dourada grelhada",
             "ja": "スズキまたはタイのグリル",
-            "ar": "سيباس أو أوراتا مشوية"
+            "ar": "سيباس أو أوراتا مشوية",
+            "ru": "Второе блюдо"
           }
         },
         {
@@ -138,7 +147,8 @@
             "es": "Bacalao con tomate fresco, olivas y alcaparras",
             "pt": "Bacalhau com tomate fresco, azeitonas e alcaparras",
             "ja": "鱈のフレッシュトマト、オリーブ、ケッパー添え",
-            "ar": "سمك القد مع الطماطم الطازجة والزيتون والكيبر"
+            "ar": "سمك القد مع الطماطم الطازجة والزيتون والكيبر",
+            "ru": "Второе блюдо"
           }
         },
         {
@@ -152,7 +162,8 @@
             "es": "Salmón a la parrilla",
             "pt": "Salmão grelhado",
             "ja": "サーモンのグリル",
-            "ar": "سلمون مشوي"
+            "ar": "سلمون مشوي",
+            "ru": "Второе блюдо"
           }
         },
         {
@@ -167,7 +178,8 @@
             "es": "Chuletas de cordero a la brasa",
             "pt": "Costeletas de cordeiro grelhadas",
             "ja": "ラムチョップのグリル",
-            "ar": "ريش غنم مشوية"
+            "ar": "ريش غنم مشوية",
+            "ru": "Второе блюдо"
           }
         },
         {
@@ -182,7 +194,8 @@
             "es": "Corte de ternera a la parrilla",
             "pt": "Corte de carne bovina grelhada",
             "ja": "牛肉のグリルステーキ",
-            "ar": "شرائح لحم بقري مشوية"
+            "ar": "شرائح لحم بقري مشوية",
+            "ru": "Второе блюдо"
           }
         },
         {
@@ -197,7 +210,8 @@
             "es": "Entrecot con salsa de vino Chianti",
             "pt": "Entrecôte com molho de vinho Chianti",
             "ja": "アントレコートのキャンティワインソース",
-            "ar": "إنتركوت مع صلصة نبيذ الخيانتي"
+            "ar": "إنتركوت مع صلصة نبيذ الخيانتي",
+            "ru": "Второе блюдо"
           }
         }
       ]
@@ -212,7 +226,8 @@
         "es": "Entrantes Clásicos",
         "pt": "Entradas Clássicas",
         "ja": "クラシックな前菜",
-        "ar": "المقبلات الكلاسيكية"
+        "ar": "المقبلات الكلاسيكية",
+        "ru": "Классические закуски"
       },
       "piatti": [
         {
@@ -240,7 +255,8 @@
             "es": "Montanara (pizza frita) con tomate y mozzarella",
             "pt": "Montanara (pizza frita) com tomate e mozzarella",
             "ja": "モンタナーラ（揚げピザ）、トマトとモッツァレラ",
-            "ar": "مونتانارا (بيتزا مقلية) مع الطماطم والموزاريلا"
+            "ar": "مونتانارا (بيتزا مقلية) مع الطماطم والموزاريلا",
+            "ru": "Жареная пицца"
           }
         },
         {
@@ -254,7 +270,8 @@
             "es": "Bolitas de masa frita con jamón crudo y burrata",
             "pt": "Bolinhos de massa frita com presunto cru e burrata",
             "ja": "揚げパン、生ハムとブッラータチーズ",
-            "ar": "كرات العجين المقلية مع لحم الخنزير المقدد والبوراتا"
+            "ar": "كرات العجين المقلية مع لحم الخنزير المقدد والبوراتا",
+            "ru": "Кокколи (жареное тесто), сыровяленая ветчина и буратта"
           }
         },
         {
@@ -282,7 +299,8 @@
             "es": "Gran tabla de embutidos y quesos (recomendado para 2)",
             "pt": "Tábua grande de frios e queijos (recomendado para 2)",
             "ja": "ハムとチーズの盛り合わせ（2名様向け）",
-            "ar": "طبق كبير من اللحوم الباردة والأجبان (يكفي لشخصين)"
+            "ar": "طبق كبير من اللحوم الباردة والأجبان (يكفي لشخصين)",
+            "ru": "Рекомендуется на двоих"
           }
         }
       ]
@@ -297,7 +315,8 @@
         "es": "Primeros Platos",
         "pt": "Primeiros Pratos",
         "ja": "第一のコース",
-        "ar": "الأطباق الأولى"
+        "ar": "الأطباق الأولى",
+        "ru": "Первые блюда"
       },
       "piatti": [
         {
@@ -411,7 +430,8 @@
         "es": "Segundos Platos",
         "pt": "Segundos Pratos",
         "ja": "メインコース",
-        "ar": "الأطباق الرئيسية"
+        "ar": "الأطباق الرئيسية",
+        "ru": "Вторые блюда"
       },
       "piatti": [
         {
@@ -524,7 +544,8 @@
         "es": "Ensaladas Grandes",
         "pt": "Saladas Grandes",
         "ja": "大きなサラダ",
-        "ar": "سلطات كبيرة"
+        "ar": "سلطات كبيرة",
+        "ru": "Большие салаты"
       },
       "piatti": [
         {
@@ -595,7 +616,8 @@
         "es": "Pizzas Clásicas y Especiales",
         "pt": "Pizzas Clássicas e Especiais",
         "ja": "クラシック＆特選ピザ",
-        "ar": "بيتزا كلاسيكية ومميزة"
+        "ar": "بيتزا كلاسيكية ومميزة",
+        "ru": "Классическая и специальная пицца"
       },
       "piatti": [
         {
@@ -610,7 +632,8 @@
             "es": "salsa de tomate, mozzarella, albahaca",
             "pt": "molho de tomate, mozzarella, manjericão",
             "ja": "トマトソース、モッツァレラ、バジル",
-            "ar": "صلصة الطماطم، موزاريلا، ريحان"
+            "ar": "صلصة الطماطم، موزاريلا، ريحان",
+            "ru": "томатный соус, моцарелла, базилик"
           }
         },
         {
@@ -653,7 +676,8 @@
             "es": "mozzarella, salchicha y grelos napolitanos",
             "pt": "mozzarella, linguiça e brócolis napolitanos",
             "ja": "モッツァレラ、ソーセージ、ナポリ風フリアリエッリ",
-            "ar": "موزاريلا، سجق، فرياريلي"
+            "ar": "موزاريلا، سجق، فرياريلي",
+            "ru": "моцарелла, свиная колбаса и фриариелли (неаполитанская брокколи)"
           }
         },
         {
@@ -997,7 +1021,8 @@
         "es": "Especialidades de Pizza",
         "pt": "Especialidades de Pizza",
         "ja": "特選ピザ",
-        "ar": "تخصصات البيتزا"
+        "ar": "تخصصات البيتزا",
+        "ru": "Специальная пицца"
       },
       "piatti": [
         {
@@ -1012,7 +1037,8 @@
             "es": "Crema de calabacín, fior di latte, scamorza, guanciale y cebolla roja caramelizada",
             "pt": "Creme de abobrinha, fior di latte, scamorza, guanciale e cebolas roxas caramelizadas",
             "ja": "ズッキーニクリーム、フィオール・ディ・ラッテ、スカモルツァ、グアンチャーレ、赤玉ねぎのキャラメリゼ",
-            "ar": "كريمة الكوسة، موزاريلا، سكامورزا، جوانشالي وبصل أحمر مكرمل"
+            "ar": "كريمة الكوسة، موزاريلا، سكامورزا، جوانشالي وبصل أحمر مكرمل",
+            "ru": "Крем из цукини, моцарелла фиор ди латте, копченый сыр скаморца, гуанчале и карамелизованный красный лук"
           }
         },
         {
@@ -1027,7 +1053,8 @@
             "es": "mozzarella, crema de trufa, salami toscano, burrata y albahaca",
             "pt": "mozzarella, creme de trufa, salame toscano, burrata e manjericão",
             "ja": "モッツァレラ、トリュフクリーム、トスカーナサラミ、ブッラータ、バジル",
-            "ar": "موزاريلا، كريم الترفل، سلامي توسكاني، بوراتا وريحان"
+            "ar": "موزاريلا، كريم الترفل، سلامي توسكاني، بوراتا وريحان",
+            "ru": "моцарелла, трюфельный крем, тосканская салями, буратта и базилик"
           }
         },
         {
@@ -1042,7 +1069,8 @@
             "es": "tomates, tomates cereza, cebolla roja, nduja, burrata y albahaca",
             "pt": "tomates, tomates cereja, cebola roxa, nduja, burrata e manjericão",
             "ja": "トマト、チェリートマト、赤玉ねぎ、ンドゥイヤ、ブッラータ、バジル",
-            "ar": "طماطم، طماطم كرزية، بصل أحمر، ندوجا، بوراتا وريحان"
+            "ar": "طماطم، طماطم كرزية، بصل أحمر، ندوجا، بوراتا وريحان",
+            "ru": "помидоры, помидоры черри, красный лук, ндуйя (острая калабрийская колбаса), буратта и базилик"
           }
         }
       ]
@@ -1057,7 +1085,8 @@
         "es": "Postres",
         "pt": "Sobremesas",
         "ja": "デザート",
-        "ar": "حلويات"
+        "ar": "حلويات",
+        "ru": "Десерты"
       },
       "piatti": [
         {
@@ -1105,7 +1134,8 @@
         "es": "Cervezas",
         "pt": "Cervejas",
         "ja": "ビール",
-        "ar": "بيرة"
+        "ar": "بيرة",
+        "ru": "Пиво Poretti"
       },
       "piatti": [
         {
@@ -1136,7 +1166,8 @@
         "es": "Bebidas",
         "pt": "Bebidas",
         "ja": "飲み物",
-        "ar": "مشروبات"
+        "ar": "مشروبات",
+        "ru": "Напитки и безалкогольные напитки"
       },
       "piatti": [
         {
@@ -1195,7 +1226,8 @@
         "es": "Vinos en Botella",
         "pt": "Vinhos em Garrafa",
         "ja": "ボトルワイン",
-        "ar": "النبيذ المعبأ"
+        "ar": "النبيذ المعبأ",
+        "ru": "Вина в бутылках"
       },
       "sezioni": [
         {
