@@ -1033,6 +1033,7 @@
         {
           "nome": "⭐ Pizza TABARRO",
           "prezzo": 13.0,
+          "image": "img/pizza-tabarro.jpg",
           "descrizione": {
             "it": "pomodori, pomodorini ciliegino, cipolla rossa, nduja, burrata e basilico",
             "en": "tomatoes, cherry tomatoes, red onion, nduja (spicy pork spread), burrata cheese and basil",
