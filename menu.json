@@ -903,6 +903,7 @@
         {
           "nome": "Cilentana",
           "prezzo": 11.5,
+          "image": "img/cilentana.jpg",
           "descrizione": {
             "it": "mozzarella di bufala, salsa di pomodoro fresco aromatico",
             "en": "buffalo mozzarella, aromatic fresh tomato sauce",
