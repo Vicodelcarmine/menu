@@ -1033,14 +1033,14 @@
           "nome": "⭐ Pizza TABARRO",
           "prezzo": 13.0,
           "descrizione": {
-            "it": "",
-            "en": "",
-            "fr": "",
-            "de": "",
-            "es": "",
-            "pt": "",
-            "ja": "",
-            "ar": ""
+            "it": "pomodori, pomodorini ciliegino, cipolla rossa, nduja, burrata e basilico",
+            "en": "tomatoes, cherry tomatoes, red onion, nduja (spicy pork spread), burrata cheese and basil",
+            "fr": "tomates, tomates cerises, oignon rouge, nduja, burrata et basilic",
+            "de": "Tomaten, Kirschtomaten, rote Zwiebeln, Nduja, Burrata e Basilikum",
+            "es": "tomates, tomates cereza, cebolla roja, nduja, burrata y albahaca",
+            "pt": "tomates, tomates cereja, cebola roxa, nduja, burrata e manjericão",
+            "ja": "トマト、チェリートマト、赤玉ねぎ、ンドゥイヤ、ブッラータ、バジル",
+            "ar": "طماطم، طماطم كرزية، بصل أحمر، ندوجا، بوراتا وريحان"
           }
         }
       ]
