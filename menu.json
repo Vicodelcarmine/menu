@@ -1123,11 +1123,11 @@
         "it": "Le Dolcezze",
         "en": "Desserts",
         "fr": "Desserts",
-        "de": "Desserts",
+        "de": "Nachspeisen",
         "es": "Postres",
         "pt": "Sobremesas",
         "ja": "デザート",
-        "ar": "حلويات",
+        "ar": "الحلويات",
         "ru": "Десерты"
       },
       "piatti": [
@@ -1147,10 +1147,6 @@
         {
           "nome": "Mattonella di cioccolato fondente",
           "prezzo": 6.5
-        },
-        {
-          "nome": "Pastiera napoletana",
-          "prezzo": 7
         },
         {
           "nome": "Tiramisù fatto in casa",
