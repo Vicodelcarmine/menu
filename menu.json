@@ -1134,31 +1134,108 @@
         {
           "nome": "Babà al rum",
           "prezzo": 6.5,
-          "image": "img/baba.jpg"
+          "image": "img/baba.jpg",
+          "descrizione": {
+            "it": "Classico dolce della tradizione napoletana inzuppato nel rum",
+            "en": "Classic Neapolitan dessert soaked in rum",
+            "fr": "Dessert napolitain classique imbibé au rhum",
+            "de": "Klassisches neapolitanisches Dessert in Rum getränkt",
+            "es": "Postre classico napolitano bañado en ron",
+            "pt": "Sobremesa clássica napolitana embebida em rum",
+            "ja": "ラム酒に浸したクラシックなナポリのデザート",
+            "ar": "حلوى نابولي الكلاسيكية المنقوعة في الروم",
+            "ru": "Классический неаполитанский десерт, пропитанный ромом"
+          }
         },
         {
           "nome": "Crema catalana",
-          "prezzo": 6.5
+          "prezzo": 6.5,
+          "descrizione": {
+            "it": "Crema vellutata con copertura croccante di zucchero caramellato",
+            "en": "Velvety custard with a crispy caramelized sugar topping",
+            "fr": "Crème veloutée avec une couverture croquante di sucre caramélisé",
+            "de": "Samtige Creme mit einer knusprigen Schicht aus karamellisiertem Zucker",
+            "es": "Crema aterciopelada con una capa crujiente de azúcar caramelizado",
+            "pt": "Creme aveludado com uma cobertura crocante de açúcar caramelizado",
+            "ja": "カリカリのキャラメルシュガーをトッピングしたなめらかなカスタード",
+            "ar": "كريمة مخملية مع طبقة مقرمشة من السكر المكرمل",
+            "ru": "Бархатистый крем с хрустящей корочкой из карамелизованного сахара"
+          }
         },
         {
           "nome": "Cheesecake",
-          "prezzo": 6.5
+          "prezzo": 6.5,
+          "descrizione": {
+            "it": "Torta fredda al formaggio con guarnizione a scelta (frutti di bosco, cioccolato o caramello)",
+            "en": "Cold cheesecake with your choice of topping (berries, chocolate, or caramel)",
+            "fr": "Cheesecake froid avec nappage au choix (fruits rouges, chocolat ou caramel)",
+            "de": "Kalter Käsekuchen mit Belag nach Wahl (Waldfrüchte, Schokolade oder Karamell)",
+            "es": "Tarta de queso fría con cobertura a elegir (frutos del bosque, chocolate o caramelo)",
+            "pt": "Cheesecake frio com cobertura à escolha (frutos vermelhos, chocolate ou caramelo)",
+            "ja": "トッピングを選べる冷たいチーズケーキ（ベリー、チョコレート、キャラメル）",
+            "ar": "تشيز كيك بارد مع اختيارك من الطبقة العلويّة (توت، شوكولاتة، أو كراميل)",
+            "ru": "Холодный чизкейк с топпингом на выбор (лесные ягоды, шоколад или карамель)"
+          }
         },
         {
           "nome": "Mattonella di cioccolato fondente",
-          "prezzo": 6.5
+          "prezzo": 6.5,
+          "descrizione": {
+            "it": "Dolce intenso con cioccolato fondente, miele e panna su base di pasta frolla",
+            "en": "Intense dark chocolate dessert with honey and cream on a shortcrust pastry base",
+            "fr": "Dessert intense au chocolat noir, miel et crème sur une base de pâte sablée",
+            "de": "Intensives Dessert aus dunkler Schokolade, Honig und Sahne auf Mürbeteigboden",
+            "es": "Postre intenso de chocolate negro, miel и nata sobre base de pasta quebrada",
+            "pt": "Sobremesa intensa de chocolate amargo, mel e natas sobre base de massa quebrada",
+            "ja": "タルト生地にダークチョコレート、蜂蜜、生クリームを合わせた濃厚なデザート",
+            "ar": "حلوى الشوكولاتة الداكنة المكثفة مع العسل والكريمة على قاعدة من المعجنات الهشة",
+            "ru": "Насыщенный десерт из темного шоколада, меда и сливок на песочной основе"
+          }
         },
         {
           "nome": "Tiramisù fatto in casa",
-          "prezzo": 6.5
+          "prezzo": 6.5,
+          "descrizione": {
+            "it": "Il classico dolce italiano con savoiardi, caffè e crema al mascarpone",
+            "en": "The classic Italian dessert with ladyfingers, coffee, and mascarpone cream",
+            "fr": "Le dessert italien classique avec biscuits savoiardi, café et crème mascarpone",
+            "de": "Das klassische italienische Dessert mit Löffelbiskuits, Kaffee und Mascarpone-Creme",
+            "es": "El classico postre italiano con bizcochos de soletilla, café y crema de mascarpone",
+            "pt": "A clássica sobremesa italiana con biscoitos ladyfingers, café e creme de mascarpone",
+            "ja": "サヴォイアルディ、コーヒー、マスカルポーネクリームを使ったクラシックなイタリアンデザート",
+            "ar": "الحلوى الإيطالية الكلاسيكية مع أصابع الست، القهوة، وكريمة الماسكاربوني",
+            "ru": "Классический итальянский десерт с дамскими пальчиками, кофе и кремом маскарпоне"
+          }
         },
         {
           "nome": "Tortino caldo al cioccolato",
-          "prezzo": 6.5
+          "prezzo": 6.5,
+          "descrizione": {
+            "it": "Tortino con cuore morbido al cioccolato fondente",
+            "en": "Chocolate lava cake with a melting dark chocolate heart",
+            "fr": "Fondant au chocolat avec un cœur coulant au chocolat noir",
+            "de": "Schokoladentörtchen mit flüssigem Kern aus dunkler Schokolade",
+            "es": "Coulant de chocolate con corazón fundido de chocolate negro",
+            "pt": "Petit gâteau de chocolate com coração de chocolate amargo derretido",
+            "ja": "とろけるダークチョコレートのフォンダンショコラ",
+            "ar": "كعكة الشوكولاتة مع قلب ذائب من الشوكولاتة الداكنة",
+            "ru": "Шоколадный фондан с тающей сердцевиной из темного шоколада"
+          }
         },
         {
           "nome": "Sorbetto al limone",
-          "prezzo": 5
+          "prezzo": 5,
+          "descrizione": {
+            "it": "Fresco sorbetto al limone, ideale per fine pasto",
+            "en": "Fresh lemon sorbet, ideal after a meal",
+            "fr": "Sorbet frais au citron, idéal pour la fin du repas",
+            "de": "Frisches Zitronensorbet, ideal nach dem Essen",
+            "es": "Sorbet fresco de limón, ideal para terminar la comida",
+            "pt": "Sorbet fresco de limão, ideal para o final da refeição",
+            "ja": "お食事の後にぴったりのフレッシュなレモンソルベ",
+            "ar": "سوربيه الليمون الطازج، مثالي لنهاية الوجبة",
+            "ru": "Освежающий лимонный сорбет, идеален после трапезы"
+          }
         },
         {
           "nome": "Torta Caprese",
