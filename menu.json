@@ -1163,6 +1163,21 @@
         {
           "nome": "Sorbetto al limone",
           "prezzo": 5
+        },
+        {
+          "nome": "Torta Caprese",
+          "prezzo": 7,
+          "descrizione": {
+            "it": "Tipico dolce napoletano con cioccolato e mandorle (senza farina)",
+            "en": "Typical Neapolitan cake with chocolate and almonds (flourless)",
+            "fr": "Gâteau napolitain typique au chocolat et aux amandes (sans farine)",
+            "de": "Typisch neapolitanischer Kuchen con Schokolade und Mandeln (mehlfrei)",
+            "es": "Tarta típica napolitana de chocolate y almendras (sin harina)",
+            "pt": "Bolo típico napolitano de chocolate e amêndoas (sem farinha)",
+            "ja": "チョコレートとアーモンドのネアポリタンケーキ（小麦粉不使用）",
+            "ar": "كعكة نابولي النموذجية بالشوكولاتة واللوز (بدون دقيق)",
+            "ru": "Традиционный неаполитанский пирог с шоколадом и миндалем (без муки)"
+          }
         }
       ]
     },
