@@ -1182,19 +1182,153 @@
       "piatti": [
         {
           "nome": "Poretti 4 Luppoli (Piccola)",
-          "prezzo": 4.5
+          "prezzo": 4.0,
+          "descrizione": {
+            "it": "Birra chiara alla spina",
+            "en": "Draft lager beer",
+            "fr": "Bière blonde à la pression",
+            "de": "Helles Bier vom Fass",
+            "es": "Cerveza de barril",
+            "pt": "Cerveja de pressão",
+            "ja": "生ビール（ライト）",
+            "ar": "بيرة لاجر مسودة",
+            "ru": "Светлое разливное пиво"
+          }
         },
         {
           "nome": "Poretti 4 Luppoli (Media)",
-          "prezzo": 6
+          "prezzo": 5.5,
+          "descrizione": {
+            "it": "Birra chiara alla spina",
+            "en": "Draft lager beer",
+            "fr": "Bière blonde à la pression",
+            "de": "Helles Bier vom Fass",
+            "es": "Cerveza de barril",
+            "pt": "Cerveja de pressão",
+            "ja": "生ビール（ライト）",
+            "ar": "بيرة لاجر مسودة",
+            "ru": "Светлое разливное пиво"
+          }
         },
         {
-          "nome": "Poretti 9 Luppoli IPA (Bottiglia)",
-          "prezzo": 6
+          "nome": "Poretti 6 Luppoli Rossa (Piccola)",
+          "prezzo": 4.5,
+          "descrizione": {
+            "it": "Birra rossa doppio malto alla spina",
+            "en": "Draft red double malt beer",
+            "fr": "Bière rousse double malte à la pression",
+            "de": "Rotes Doppelmalzbier vom Fass",
+            "es": "Cerveza roja de doble malta de barril",
+            "pt": "Cerveja ruiva de malte duplo de pressão",
+            "ja": "赤のダブルモルト生ビール",
+            "ar": "بيرة حمراء مزدوجة الشعير",
+            "ru": "Красное крепкое разливное пиво"
+          }
         },
         {
-          "nome": "Poretti 6 Luppoli Rossa (Bottiglia)",
-          "prezzo": 6.5
+          "nome": "Poretti 6 Luppoli Rossa (Media)",
+          "prezzo": 6.5,
+          "descrizione": {
+            "it": "Birra rossa doppio malto alla spina",
+            "en": "Draft red double malt beer",
+            "fr": "Bière rousse double malte à la pression",
+            "de": "Rotes Doppelmalzbier vom Fass",
+            "es": "Cerveza roja de doble malta de barril",
+            "pt": "Cerveja ruiva de malte duplo de pressione",
+            "ja": "赤のダブルモルト生ビール",
+            "ar": "بيرة حمراء مزدوجة الشعير",
+            "ru": "Красное крепкое разливное пиво"
+          }
+        },
+        {
+          "nome": "Poretti 7 Luppoli Blanche (Piccola)",
+          "prezzo": 4.5,
+          "descrizione": {
+            "it": "Birra bianca blanche alla spina",
+            "en": "Draft white Blanche beer",
+            "fr": "Bière blanche à la pression",
+            "de": "Weißbier vom Fass",
+            "es": "Cerveza blanca Blanche de barril",
+            "pt": "Cerveja branca Blanche de pressão",
+            "ja": "白生ビール（ブランシュ）",
+            "ar": "بيرة بيضاء بلانش",
+            "ru": "Белое нефильтрованное разливное пиво"
+          }
+        },
+        {
+          "nome": "Poretti 7 Luppoli Blanche (Media)",
+          "prezzo": 6.5,
+          "descrizione": {
+            "it": "Birra bianca blanche alla spina",
+            "en": "Draft white Blanche beer",
+            "fr": "Bière blanche à la pression",
+            "de": "Weißbier vom Fass",
+            "es": "Cerveza blanca Blanche de barril",
+            "pt": "Cerveja branca Blanche de pressão",
+            "ja": "白生ビール（ブランシュ）",
+            "ar": "بيرة بيضاء بلانش",
+            "ru": "Белое нефильтрованное разливное пиво"
+          }
+        },
+        {
+          "nome": "Poretti 9 Luppoli IPA (Piccola)",
+          "prezzo": 4.5,
+          "descrizione": {
+            "it": "Birra IPA alla spina",
+            "en": "Draft IPA beer",
+            "fr": "Bière IPA à la pression",
+            "de": "IPA-Bier vom Fass",
+            "es": "Cerveza IPA de barril",
+            "pt": "Cerveja IPA de pressão",
+            "ja": "IPA生ビール",
+            "ar": "بيرة IPA مسودة",
+            "ru": "Разливное пиво IPA"
+          }
+        },
+        {
+          "nome": "Poretti 9 Luppoli IPA (Media)",
+          "prezzo": 6.5,
+          "descrizione": {
+            "it": "Birra IPA alla spina",
+            "en": "Draft IPA beer",
+            "fr": "Bière IPA à la pression",
+            "de": "IPA-Bier vom Fass",
+            "es": "Cerveza IPA de barril",
+            "pt": "Cerveja IPA de pressione",
+            "ja": "IPA生ビール",
+            "ar": "بيرة IPA مسودة",
+            "ru": "Разливное пиво IPA"
+          }
+        },
+        {
+          "nome": "Poretti 4 Luppoli Zero Alcol (33cl)",
+          "prezzo": 5.5,
+          "descrizione": {
+            "it": "Birra analcolica in bottiglia",
+            "en": "Non-alcoholic bottled beer",
+            "fr": "Bière sans alcool in bouteille",
+            "de": "Alkoholfreies Flaschenbier",
+            "es": "Cerveza sin alcohol en botella",
+            "pt": "Cerveja sem álcool em garrafa",
+            "ja": "ノンアルコールビール（瓶）",
+            "ar": "بيرة خالية من الكحول",
+            "ru": "Безалкогольное бутилированное пиво"
+          }
+        },
+        {
+          "nome": "Birra Senza Glutine (33cl)",
+          "prezzo": 5.5,
+          "descrizione": {
+            "it": "Birra per celiaci in bottiglia",
+            "en": "Gluten-free bottled beer",
+            "fr": "Bière sans gluten en bouteille",
+            "de": "Glutenfreies Flaschenbier",
+            "es": "Cerveza sin gluten en botella",
+            "pt": "Cerveja sem glúten em garrafa",
+            "ja": "グルテンフリービール（瓶）",
+            "ar": "بيرة خالية من الغلوتين",
+            "ru": "Безглютеновое бутилированное пиво"
+          }
         }
       ]
     },
