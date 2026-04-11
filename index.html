@@ -87,11 +87,22 @@
     <header><img src="hero.png" alt="Header" class="hero-img"></header>
 
     <nav class="lang-bar">
-        <template x-for="l in ['it','en','fr','de','es','pt','ja','ar','ru']">
-            <button class="lang-btn" :class="lang === l ? 'active' : ''" @click="lang = l">
-                <img :src="flags[l]" :alt="l" class="flag">
-            </button>
-        </template>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <template x-for="l in ['it','en','fr','de','es']">
+                    <button class="lang-btn" :class="lang === l ? 'active' : ''" @click="lang = l">
+                        <img :src="flags[l]" :alt="l" class="flag">
+                    </button>
+                </template>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <template x-for="l in ['pt','ja','ar','ru']">
+                    <button class="lang-btn" :class="lang === l ? 'active' : ''" @click="lang = l">
+                        <img :src="flags[l]" :alt="l" class="flag">
+                    </button>
+                </template>
+            </div>
+        </div>
     </nav>
 
     <div class="location-bar">📍 <span x-text="menu.location"></span> | 📞 055 2336862</div>
