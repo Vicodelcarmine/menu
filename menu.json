@@ -323,15 +323,15 @@
           "nome": "Chitarrina allo scoglio",
           "prezzo": 16,
           "descrizione": {
-            "it": "Pasta fresca con frutti di mare",
-            "en": "Spaghetti with mixed seafood",
-            "fr": "Pâtes fraîches aux fruits de mer",
-            "de": "Frische Pasta mit Meeresfrüchten",
-            "es": "Pasta fresca con mariscos",
-            "pt": "Massa fresca com frutos do mar",
-            "ja": "シーフードの生パスタ",
-            "ar": "باستا طازجة مع ثمار البحر",
-            "ru": "Свежая паста с морепродуктами"
+            "it": "cozze, vongole, calamari e cicale di mare",
+            "en": "mussels, clams, squid, and mantis shrimp",
+            "fr": "moules, palourdes, calmars et squilles",
+            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch und Fangschreckenkrebse",
+            "es": "mejillones, almejas, calamares y galeras",
+            "pt": "mexilhões, amêijoas, lulas e lagostim",
+            "ja": "ムール貝、あさり、イカ、シャコ",
+            "ar": "بلح البحر، المحار، الكالاماري، وفرس النبي",
+            "ru": "мидии, вонголе, кальмары и морские цикады"
           },
           "image": "img/tagliatelle-scoglio.jpg"
         },
@@ -354,14 +354,15 @@
           "nome": "Tagliatelle allo scoglio napoletano",
           "prezzo": 15,
           "descrizione": {
-            "it": "Tagliatelle con frutti di mare alla napoletana",
-            "en": "Neapolitan seafood tagliatelle",
-            "fr": "Tagliatelles aux fruits de mer napolitaines",
-            "de": "Neapolitanische Meeresfrüchte-Tagliatelle",
-            "es": "Tagliatelle con marisco a la napolitana",
-            "pt": "Tagliatelle com frutos do mar à napolitana",
-            "ja": "ナポリ風シーフードのタリアテッレ",
-            "ar": "تلياتلي ثمار البحر على الطريقة النابولية"
+            "it": "cozze, vongole, calamari e cicale di mare",
+            "en": "mussels, clams, squid, and mantis shrimp",
+            "fr": "moules, palourdes, calmars et squilles",
+            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch und Fangschreckenkrebse",
+            "es": "mejillones, almejas, calamares y galeras",
+            "pt": "mexilhões, amêijoas, lulas e lagostim",
+            "ja": "ムール貝、あさり、イカ、シャコ",
+            "ar": "بلح البحر، المحار، الكالاماري، وفرس النبي",
+            "ru": "мидии, вонголе, кальмары и морские цикады"
           },
           "image": "img/tagliatelle-scoglio.jpg"
         },
