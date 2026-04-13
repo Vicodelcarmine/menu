@@ -332,7 +332,8 @@
             "ja": "シーフードの生パスタ",
             "ar": "باستا طازجة مع ثمار البحر",
             "ru": "Свежая паста с морепродуктами"
-          }
+          },
+          "image": "img/tagliatelle-scoglio.jpg"
         },
         {
           "nome": "Chitarrina alla carbonara di mare",
@@ -361,7 +362,8 @@
             "pt": "Tagliatelle com frutos do mar à napolitana",
             "ja": "ナポリ風シーフードのタリアテッレ",
             "ar": "تلياتلي ثمار البحر على الطريقة النابولية"
-          }
+          },
+          "image": "img/tagliatelle-scoglio.jpg"
         },
         {
           "nome": "Chitarrina alla carrettiera",
