@@ -738,15 +738,15 @@
           "prezzo": 10.5,
           "image": "img/positano.jpg",
           "descrizione": {
-            "it": "mozzarella, scamorza, melanzane fritte, pomodorini",
-            "en": "mozzarella, scamorza, fried eggplant, cherry tomatoes",
-            "fr": "mozzarella, scamorza, aubergines frites, tomates cerises",
-            "de": "Mozzarella, Scamorza, frittierte Auberginen, Kirschtomaten",
-            "es": "mozzarella, scamorza, berenjenas fritas, tomates cherry",
-            "pt": "mozzarella, scamorza, berinjela frita, tomates cereja",
-            "ja": "モッツァレラ、スカモルツァ、揚げナス、トマト",
-            "ar": "موزاريلا، سكامورزا، باذنجان مقلي، طماطم كرزية",
-            "ru": "моцарелла, скаморца, жареные баклажаны, помидоры черри"
+            "it": "mozzarella, pomodorini, scamorza e melanzane fritte",
+            "en": "mozzarella, cherry tomatoes, scamorza cheese, and fried eggplant",
+            "fr": "mozzarella, tomates cerises, scamorza et aubergines frites",
+            "de": "Mozzarella, Kirschtomaten, Scamorza-Käse und frittierte Auberginen",
+            "es": "mozzarella, tomates cherry, queso scamorza y berenjenas fritas",
+            "pt": "mozzarella, tomates cereja, queijo scamorza e berinjela frita",
+            "ja": "モッツァレラ、チェリートマト、スカモルツァチーズ、揚げナス",
+            "ar": "موزاريلا، طماطم كرزية، جبنة سكامورزا، وباذنجان مقلي",
+            "ru": "моцарелла, помидоры черри, сыр скаморца и жареные баклажаны"
           }
         },
         {
