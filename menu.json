@@ -628,6 +628,97 @@
       ]
     },
     {
+      "slug": "contorni",
+      "nome": {
+        "it": "Contorni",
+        "en": "Side Dishes",
+        "fr": "Accompagnements",
+        "de": "Beilagen",
+        "es": "Guarniciones",
+        "pt": "Acompanhamentos",
+        "ja": "サイドディッシュ",
+        "ar": "أطباق جانبية",
+        "ru": "Гарниры"
+      },
+      "piatti": [
+        {
+          "nome": "Spinaci saltati",
+          "prezzo": 6,
+          "descrizione": {
+            "it": "Spinaci freschi saltati in padella",
+            "en": "Sautéed fresh spinach",
+            "fr": "Épinards frais sautés",
+            "de": "Sautierter frischer Spinat",
+            "es": "Espinacas frescas salteadas",
+            "pt": "Espinafres frescos salteados",
+            "ja": "新鮮なほうれん草のソテー",
+            "ar": "سبانخ طازجة مقلية",
+            "ru": "Обжаренный свежий шпинат"
+          }
+        },
+        {
+          "nome": "Fagioli cannellini",
+          "prezzo": 6,
+          "descrizione": {
+            "it": "Fagioli cannellini conditi con olio e pepe",
+            "en": "Cannellini beans seasoned with oil and pepper",
+            "fr": "Haricots cannellini assaisonnés à l’huile et au poivre",
+            "de": "Cannellini-Bohnen mit Öl und Pfeffer gewürzt",
+            "es": "Alubias cannellini aliñadas con aceite y pimienta",
+            "pt": "Feijão cannellini temperado com óleo e pimenta",
+            "ja": "カネリーニ豆のオイル・胡椒和え",
+            "ar": "فاصوليا كانيليني متبلة بالزيت والفلفل",
+            "ru": "Фасоль каннеллини с оливковым маслом и перцем"
+          }
+        },
+        {
+          "nome": "Patatine fritte",
+          "prezzo": 5,
+          "descrizione": {
+            "it": "Patatine fritte croccanti",
+            "en": "Crispy french fries",
+            "fr": "Frites croustillantes",
+            "de": "Knusprige Pommes frites",
+            "es": "Patatas fritas crujientes",
+            "pt": "Batatas fritas crocantes",
+            "ja": "カリカリのフライドポテト",
+            "ar": "بطاطس مقلية مقرمشة",
+            "ru": "Хрустящий картофель фри"
+          }
+        },
+        {
+          "nome": "Verdure grigliate",
+          "prezzo": 7,
+          "descrizione": {
+            "it": "Verdure di stagione alla griglia",
+            "en": "Seasonal grilled vegetables",
+            "fr": "Légumes de saison grillés",
+            "de": "Gegrilltes saisonales Gemüse",
+            "es": "Verduras de temporada a la parrilla",
+            "pt": "Legumes da estação grelhados",
+            "ja": "季節の焼き野菜",
+            "ar": "خضروات موسمية مشوية",
+            "ru": "Сезонные овощи на гриле"
+          }
+        },
+        {
+          "nome": "Friarielli ripassati",
+          "prezzo": 7,
+          "descrizione": {
+            "it": "Friarielli napoletani saltati con aglio e peperoncino",
+            "en": "Neapolitan broccoli rabe sautéed with garlic and chili",
+            "fr": "Brocoli-rave napolitain sauté à l’ail et au piment",
+            "de": "Neapolitanischer Stängelkohl mit Knoblauch und Chili sautiert",
+            "es": "Grelos napolitanos salteados con ajo y guindilla",
+            "pt": "Brócolis napolitanos salteados com alho e pimenta",
+            "ja": "ナポリ風フリアリエッリのガーリック・唐辛子炒め",
+            "ar": "فرياريلي نابولي مقلي بالثوم والفلفل الحار",
+            "ru": "Неаполитанская брокколи, обжаренная с чесноком и перцем"
+          }
+        }
+      ]
+    },
+    {
       "slug": "pizze",
       "nome": {
         "it": "Pizze Classiche & Speciali",
