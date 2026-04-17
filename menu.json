@@ -264,15 +264,15 @@
           "nome": "Il Solito",
           "prezzo": 14,
           "descrizione": {
-            "it": "Coccoli, crudo e burrata",
-            "en": "Fried dough balls with raw ham and burrata",
-            "fr": "Boules de pâte frite avec jambon cru et burrata",
-            "de": "Frittierte Teigbällchen mit Rohschinken und Burrata",
-            "es": "Bolitas de masa frita con jamón crudo y burrata",
-            "pt": "Bolinhos de massa frita com presunto cru e burrata",
-            "ja": "揚げパン、生ハムとブッラータチーズ",
-            "ar": "كرات العجين المقلية مع لحم الخنزير المقدد والبوراتا",
-            "ru": "Кокколи (жареное тесто), сыровяленая ветчина и буратта"
+            "it": "prosciutto crudo, pasta fritta e burrata",
+            "en": "cured ham, fried dough, and burrata cheese",
+            "fr": "jambon cru, pâte frite et burrata",
+            "de": "Rohschinken, frittierter Teig und Burrata-Käse",
+            "es": "jamón serrano, masa frita y burrata",
+            "pt": "presunto cru, massa frita e queijo burrata",
+            "ja": "生ハム、揚げパン、ブッラータチーズ",
+            "ar": "لحم مقدد، عجينة مقلية وجبنة بوراتا",
+            "ru": "сыровяленая ветчина, обжаренное тесто и буратта"
           }
         },
         {
