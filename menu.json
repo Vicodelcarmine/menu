@@ -339,15 +339,15 @@
           "nome": "Chitarrina alla carbonara di mare",
           "prezzo": 15,
           "descrizione": {
-            "it": "Pasta fresca con uova e pesce",
-            "en": "Seafood carbonara",
-            "fr": "Carbonara de la mer",
-            "de": "Meeresfrüchte-Carbonara",
-            "es": "Carbonara de marisco",
-            "pt": "Carbonara de frutos do mar",
-            "ja": "海の幸のカルボナーラ",
-            "ar": "كاربونارا ثمار البحر",
-            "ru": "Свежая паста с яйцом и рыбой"
+            "it": "cozze, vongole, calamari e gamberetti, uovo e pepe nero",
+            "en": "mussels, clams, squid and shrimps, egg and black pepper",
+            "fr": "moules, palourdes, calmars et crevettes, œuf et poivre noir",
+            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch und Garnelen, Ei und schwarzer Pfeffer",
+            "es": "mejillones, almejas, calamares y gambas, huevo y pimienta negra",
+            "pt": "mexilhões, amêijoas, lulas e camarões, ovo e pimenta preta",
+            "ja": "ムール貝、あさり、イカ、小エビ、卵、黒胡椒",
+            "ar": "بلح البحر، المحار، الكالاماري والروبيان، البيض والفلفل الأسود",
+            "ru": "мидии, вонголе, кальмары и креветки, яйцо и черный перец"
           },
           "image": "img/carbonara-mare.jpg"
         },
