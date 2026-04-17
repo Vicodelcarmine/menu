@@ -187,15 +187,15 @@
           "prezzo": 19,
           "image": "img/tagliata-manzo.jpg",
           "descrizione": {
-            "it": "Secondo piatto",
-            "en": "Grilled sliced beef",
-            "fr": "Émincé de bœuf grillé",
-            "de": "Gegrillte Rinder-Tagliata",
-            "es": "Corte de ternera a la parrilla",
-            "pt": "Corte de carne bovina grelhada",
-            "ja": "牛肉のグリルステーキ",
-            "ar": "شرائح لحم بقري مشوية",
-            "ru": "Второе блюдо"
+            "it": "controfiletto cotto ai ferri e tagliato",
+            "en": "grilled and sliced sirloin steak",
+            "fr": "faux-filet grillé et tranché",
+            "de": "gegrilltes und geschnittenes Rinder-Sirloinsteak",
+            "es": "solomillo a la brasa y cortado",
+            "pt": "contrafilé grelhado e fatiado",
+            "ja": "グリルのサーロインステーキのスライス",
+            "ar": "سيرلوين مشوي ومقطع",
+            "ru": "стейк из сирлойна на гриле, нарезанный"
           }
         },
         {
