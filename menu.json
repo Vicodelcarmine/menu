@@ -355,15 +355,15 @@
           "nome": "Tagliatelle allo scoglio napoletano",
           "prezzo": 15,
           "descrizione": {
-            "it": "cozze, vongole, calamari, canocchie e gamberetti",
-            "en": "mussels, clams, squid, mantis shrimp, and shrimps",
-            "fr": "moules, palourdes, calmars, squilles et crevettes",
-            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch, Fangschreckenkrebse und Garnelen",
-            "es": "mejillones, almejas, calamares, galeras y gambas",
-            "pt": "mexilhões, amêijoas, lulas, lagostim e camarões",
-            "ja": "ムール貝、あさり、イカ、シャコ、小エビ",
-            "ar": "بلح البحر، المحار، الكالاماري، فرس النبي والروبيان",
-            "ru": "мидии, вонголе, кальмары, морские цикады и креветки"
+            "it": "cozze, vongole, calamari e pomodoro",
+            "en": "mussels, clams, squid, and tomato",
+            "fr": "moules, palourdes, calmars et tomate",
+            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch und Tomate",
+            "es": "mejillones, almejas, calamares y tomate",
+            "pt": "mexilhões, amêijoas, lulas e tomate",
+            "ja": "ムール貝、あさり、イカ、トマト",
+            "ar": "بلح البحر، المحار، الكالاماري، والطماطم",
+            "ru": "мидии, вонголе, кальмары и помидоры"
           },
           "image": "img/tagliatelle-scoglio.jpg"
         },
