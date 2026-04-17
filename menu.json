@@ -449,15 +449,15 @@
           "nome": "Straccetti di pollo saltati",
           "prezzo": 16,
           "descrizione": {
-            "it": "Straccetti di pollo con verdure",
-            "en": "Sautéed chicken strips",
-            "fr": "Émincé de poulet sauté",
-            "de": "Sautierte Hähnchenstreifen",
-            "es": "Tiras de pollo salteadas",
-            "pt": "Iscas de frango salteadas",
-            "ja": "鶏肉の細切りソテー",
-            "ar": "شرائح دجاج مقلية",
-            "ru": "Кусочки курицы с овощами"
+            "it": "petto di pollo tagliato e saltato con pomodoro fresco",
+            "en": "chicken breast sliced and sautéed with fresh tomato",
+            "fr": "blanc de poulet tranché et sauté aux tomates fraîches",
+            "de": "Hähnchenbruststreifen mit frischen Tomaten in der Pfanne geschwenkt",
+            "es": "pechuga de pollo cortada y salteada con tomate fresco",
+            "pt": "peito de frango fatiado e salteado com tomate fresco",
+            "ja": "鶏胸肉のスライス、フレッシュトマト添えソテー",
+            "ar": "صدر دجاج مقطع ومقلي مع طماطم طازجة",
+            "ru": "куриная грудка, нарезанная и обжаренная со свежими помидорами"
           }
         },
         {
