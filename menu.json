@@ -64,15 +64,15 @@
           "nome": "⭐ Pepata di cozze e bruschette",
           "prezzo": 13,
           "descrizione": {
-            "it": "Antipasto",
-            "en": "Peppered mussels with bruschetta",
-            "fr": "Moules poivrées avec bruschetta",
-            "de": "Gepfefferte Miesmuscheln mit Bruschetta",
-            "es": "Mejillones a la pimienta con bruschetta",
-            "pt": "Mexilhões apimentados com bruschetta",
-            "ja": "ムールのペッパー焼きとブルスケッタ",
-            "ar": "بلح البحر بالفلفل مع البروسكيتا",
-            "ru": "Закуска"
+            "it": "cozze, bruschetta e pepe nero",
+            "en": "mussels, bruschetta, and black pepper",
+            "fr": "moules, bruschetta et poivre noir",
+            "de": "Miesmuscheln, Bruschetta und schwarzer Pfeffer",
+            "es": "mejillones, bruschetta y pimienta negra",
+            "pt": "mexilhões, bruschetta e pimenta preta",
+            "ja": "ムール貝、ブルスケッタ、黒胡椒",
+            "ar": "بلح البحر، بروسكيتا وفلفل أسود",
+            "ru": "мидии, брускетта и черный перец"
           }
         },
         {
