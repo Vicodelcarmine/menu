@@ -234,14 +234,15 @@
           "nome": "Crostini misti dello chef",
           "prezzo": 12,
           "descrizione": {
-            "it": "Crostini misti toscani",
-            "en": "Chef's mixed crostini",
-            "fr": "Crostini mixtes du chef",
-            "de": "Gemischte Crostini des Küchenchefs",
-            "es": "Crostini mixtos del chef",
-            "pt": "Crostini mistos do chef",
-            "ja": "シェフのおまかせクロスティーニ",
-            "ar": "كروستيني مشكل من الشيف"
+            "it": "bruschette miste a piacere dello Chef",
+            "en": "mixed crostini at the Chef’s discretion",
+            "fr": "crostini mixtes au choix du Chef",
+            "de": "gemischte Crostini nach Wahl des Küchenchefs",
+            "es": "crostini variados a discreción del Chef",
+            "pt": "crostini mistos a critério do Chef",
+            "ja": "シェフのおまかせクロスティーニ盛り合わせ",
+            "ar": "كروستيني مشكل حسب اختيار الشيف",
+            "ru": "ассорти кростини на усмотрение шеф-повара"
           }
         },
         {
