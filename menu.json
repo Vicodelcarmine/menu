@@ -417,15 +417,15 @@
           "nome": "Chitarrina alla carbonara",
           "prezzo": 15,
           "descrizione": {
-            "it": "Carbonara classica con uovo e guanciale",
-            "en": "Carbonara with egg and guanciale",
-            "fr": "Carbonara avec œuf et guanciale",
-            "de": "Carbonara mit Ei und Guanciale",
-            "es": "Carbonara con huevo y guanciale",
-            "pt": "Carbonara com ovo e guanciale",
-            "ja": "卵とグアンチャーレのカルボナーラ",
-            "ar": "كاربونارا مع البيض والجوانشالي",
-            "ru": "Карбонара с яйцом и гуанчале (свиными щечками)"
+            "it": "guanciale affumicato, uovo, pecorino e pepe nero",
+            "en": "smoked guanciale, egg, pecorino cheese, and black pepper",
+            "fr": "guanciale fumé, œuf, pecorino et poivre noir",
+            "de": "geräucherter Guanciale, Ei, Pecorino-Käse und schwarzer Pfeffer",
+            "es": "guanciale ahumado, huevo, queso pecorino y pimienta negra",
+            "pt": "guanciale defumado, ovo, queijo pecorino e pimenta preta",
+            "ja": "燻製グアンチャーレ、卵、ペコリーノチーズ、黒胡椒",
+            "ar": "جوانشالي مدخن، بيض، جبن بيكورينو وفلفل أسود",
+            "ru": "копченый гуанчале, яйцо, сыр пекорино и черный перец"
           }
         }
       ]
