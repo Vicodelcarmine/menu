@@ -94,15 +94,15 @@
           "nome": "⭐ Gnocchi di patate ceci e cozze",
           "prezzo": 13,
           "descrizione": {
-            "it": "Primo piatto",
-            "en": "Potato gnocchi with chickpeas and mussels",
-            "fr": "Gnocchis de pommes de terre aux pois chiches et moules",
-            "de": "Kartoffel-Gnocchi mit Kichererbsen und Miesmuscheln",
-            "es": "Gnocchi de patata con garbanzos y mejillones",
-            "pt": "Gnocchi de batata com grão-de-bico e mexilhões",
-            "ja": "ジャガイモのニョッキ、ひよこ豆とムール貝添え",
-            "ar": "نوكي البطاطس مع الحمص وبلح البحر",
-            "ru": "Первое блюдо"
+            "it": "gnocchi di patate, cozze, ceci e prezzemolo",
+            "en": "potato gnocchi, mussels, chickpeas, and parsley",
+            "fr": "gnocchis de pommes de terre, moules, pois chiches et persil",
+            "de": "Kartoffelgnocchi, Miesmuscheln, Kichererbsen und Petersilie",
+            "es": "ñoquis de patata, mejillones, garbanzos y perejil",
+            "pt": "gnocchi de batata, mexilhões, grão-de-bico e salsa",
+            "ja": "ポテトニョッキ、ムール貝、ひよこ豆、パセリ",
+            "ar": "نوكي البطاطس، بلح البحر، الحمص والبقدونس",
+            "ru": "картофельные ньокки, мидии, нут и петрушка"
           }
         },
         {
