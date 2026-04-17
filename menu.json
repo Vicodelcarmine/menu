@@ -323,15 +323,15 @@
           "nome": "Chitarrina allo scoglio",
           "prezzo": 16,
           "descrizione": {
-            "it": "cozze, vongole, calamari e cicale di mare",
-            "en": "mussels, clams, squid, and mantis shrimp",
-            "fr": "moules, palourdes, calmars et squilles",
-            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch und Fangschreckenkrebse",
-            "es": "mejillones, almejas, calamares y galeras",
-            "pt": "mexilhões, amêijoas, lulas e lagostim",
-            "ja": "ムール貝、あさり、イカ、シャコ",
-            "ar": "بلح البحر، المحار، الكالاماري، وفرس النبي",
-            "ru": "мидии, вонголе, кальмары и морские цикады"
+            "it": "cozze, vongole, calamari, canocchie e gamberetti",
+            "en": "mussels, clams, squid, mantis shrimp, and shrimps",
+            "fr": "moules, palourdes, calmars, squilles et crevettes",
+            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch, Fangschreckenkrebse und Garnelen",
+            "es": "mejillones, almejas, calamares, galeras y gambas",
+            "pt": "mexilhões, amêijoas, lulas, lagostim e camarões",
+            "ja": "ムール貝、あさり、イカ、シャコ、小エビ",
+            "ar": "بلح البحر، المحار، الكالاماري، فرس النبي والروبيان",
+            "ru": "мидии, вонголе, кальмары, морские цикады и креветки"
           },
           "image": "img/chitarra-scoglio.jpg"
         },
@@ -355,15 +355,15 @@
           "nome": "Tagliatelle allo scoglio napoletano",
           "prezzo": 15,
           "descrizione": {
-            "it": "cozze, vongole, calamari e cicale di mare",
-            "en": "mussels, clams, squid, and mantis shrimp",
-            "fr": "moules, palourdes, calmars et squilles",
-            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch und Fangschreckenkrebse",
-            "es": "mejillones, almejas, calamares y galeras",
-            "pt": "mexilhões, amêijoas, lulas e lagostim",
-            "ja": "ムール貝、あさり、イカ、シャコ",
-            "ar": "بلح البحر، المحار، الكالاماري، وفرس النبي",
-            "ru": "мидии, вонголе, кальмары и морские цикады"
+            "it": "cozze, vongole, calamari, canocchie e gamberetti",
+            "en": "mussels, clams, squid, mantis shrimp, and shrimps",
+            "fr": "moules, palourdes, calmars, squilles et crevettes",
+            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch, Fangschreckenkrebse und Garnelen",
+            "es": "mejillones, almejas, calamares, galeras y gambas",
+            "pt": "mexilhões, amêijoas, lulas, lagostim e camarões",
+            "ja": "ムール貝、あさり、イカ、シャコ、小エビ",
+            "ar": "بلح البحر، المحار، الكالاماري، فرس النبي والروبيان",
+            "ru": "мидии, вонголе, кальмары, морские цикады и креветки"
           },
           "image": "img/tagliatelle-scoglio.jpg"
         },
