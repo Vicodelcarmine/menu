@@ -137,18 +137,18 @@
           }
         },
         {
-          "nome": "⭐ Baccalà con pomodoro fresco, olive e capperi",
+          "nome": "⭐ Baccalà Napoletano",
           "prezzo": 17,
           "descrizione": {
-            "it": "Secondo piatto",
-            "en": "Cod with fresh tomato, olives, and capers",
-            "fr": "Morue aux tomates fraîches, olives et câpres",
-            "de": "Kabeljau mit frischen Tomaten, Oliven und Kapern",
-            "es": "Bacalao con tomate fresco, olivas y alcaparras",
-            "pt": "Bacalhau com tomate fresco, azeitonas e alcaparras",
-            "ja": "鱈のフレッシュトマト、オリーブ、ケッパー添え",
-            "ar": "سمك القد مع الطماطم الطازجة والزيتون والكيبر",
-            "ru": "Второе блюдо"
+            "it": "baccalà, pomodoro, capperi e olive",
+            "en": "cod, tomato, capers, and olives",
+            "fr": "morue, tomate, câpres et olives",
+            "de": "Kabeljau, Tomate, Kapern und Oliven",
+            "es": "bacalao, tomate, alcaparras y aceitunas",
+            "pt": "bacalhau, tomate, alcaparras e azeitonas",
+            "ja": "タラ、トマト、ケッパー、オリーブ",
+            "ar": "سمك القد، طماطم، كيبر وزيتون",
+            "ru": "треска, помидоры, каперсы и оливки"
           }
         },
         {
