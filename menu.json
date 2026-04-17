@@ -570,15 +570,15 @@
           "nome": "Insalata nizzarda",
           "prezzo": 14,
           "descrizione": {
-            "it": "Insalata, uova sode, pomodori ciliegini, olive nere e acciughe",
-            "en": "Salad, boiled eggs, cherry tomatoes, black olives, and anchovies",
-            "fr": "Salade, œufs durs, tomates cerises, olives noires et anchois",
-            "de": "Salat, gekochte Eier, Kirschtomaten, schwarze Oliven und Sardellen",
-            "es": "Ensalada, huevos duros, tomates cherry, olivas negras y anchoas",
-            "pt": "Salada, ovos cozidos, tomates cereja, azeitonas pretas e anchovas",
-            "ja": "サラダ、ゆで卵、チェリートマト、ブラックオリーブ、アンチョビ",
-            "ar": "سلطة، بيض مسلوق، طماطم كرزية، زيتون أسود وأنشوجة",
-            "ru": "Салат, вареные яйца, помидоры черри, черные оливки и анчоусы"
+            "it": "insalata, uova, pomodori, olive nere, acciughe e uova sode",
+            "en": "salad, eggs, tomatoes, black olives, anchovies, and boiled eggs",
+            "fr": "salade, œufs, tomates, olives noires, anchois et œufs durs",
+            "de": "Salat, Eier, Tomaten, schwarze Oliven, Sardellen und gekochte Eier",
+            "es": "ensalada, huevos, tomates, aceitunas negras, anchoas y huevos duros",
+            "pt": "salada, ovos, tomates, azeitonas pretas, anchovas e ovos cozidos",
+            "ja": "サラダ、卵、トマト、ブラックオリーブ、アンチョビ、ゆで卵",
+            "ar": "سلطة، بيض، طماطم، زيتون أسود، أنشوجة وبيض مسلوق",
+            "ru": "салат, яйца, помидоры, черные оливки, анчоусы и вареные яйца"
           }
         },
         {
