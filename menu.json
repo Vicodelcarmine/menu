@@ -506,18 +506,18 @@
           }
         },
         {
-          "nome": "Zuppa di moscardini alla luciana",
+          "nome": "⭐ Zuppa di moscardini alla Luciana",
           "prezzo": 19,
           "descrizione": {
-            "it": "Moscardini al pomodoro",
-            "en": "Baby octopus stew Luciana style",
-            "fr": "Soupe de poulpes à la Luciana",
-            "de": "Moscardini-Eintopf nach Luciana-Art",
-            "es": "Sopa de pulpitos estilo Luciana",
-            "pt": "Sopa de polvinhos à Luciana",
-            "ja": "イイダコのルチアーナ風煮込み",
-            "ar": "حساء الأخطبوط الصغير على طريقة لوشيانا",
-            "ru": "Маленькие осьминоги в томатном соусе"
+            "it": "moscardini, sugo di pomodoro e olive",
+            "en": "baby octopus, tomato sauce, and olives",
+            "fr": "élédones, sauce tomate et olives",
+            "de": "Moscardini (kleine Oktopusse), Tomatensauce und Oliven",
+            "es": "pulpos cabezoni, salsa de tomate y aceitunas",
+            "pt": "moscardini, molho de tomate e azeitonas",
+            "ja": "イイダコ、トマトソース、オリーブ",
+            "ar": "موسكارديني (أخطبوط صغير)، صلصة الطماطم والزيتون",
+            "ru": "москардини (маленькие осьминоги), томатный соус и оливки"
           }
         },
         {
