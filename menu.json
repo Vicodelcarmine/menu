@@ -249,15 +249,15 @@
           "nome": "Montanara pomodoro e mozzarella",
           "prezzo": 10,
           "descrizione": {
-            "it": "Pizza fritta",
-            "en": "Montanara (fried pizza) with tomato and mozzarella",
-            "fr": "Montanara (pizza frite) tomate et mozzarella",
-            "de": "Montanara (frittierte Pizza) mit Tomate und Mozzarella",
-            "es": "Montanara (pizza frita) con tomate y mozzarella",
-            "pt": "Montanara (pizza frita) com tomate e mozzarella",
-            "ja": "モンタナーラ（揚げピザ）、トマトとモッツァレラ",
-            "ar": "مونتانارا (بيتزا مقلية) مع الطماطم والموزاريلا",
-            "ru": "Жареная пицца"
+            "it": "pasta pizza fritta ripassata in forno con pomodoro e mozzarella",
+            "en": "fried pizza dough finished in the oven with tomato and mozzarella",
+            "fr": "pâte à pizza frite puis passée au four avec tomate et mozzarella",
+            "de": "frittierter Pizzateig, im Ofen mit Tomaten und Mozzarella überbacken",
+            "es": "masa de pizza frita terminada al horno con tomate y mozzarella",
+            "pt": "massa de pizza frita finalizada no forno com tomate e mozzarella",
+            "ja": "揚げたピザ生地をオーブンで仕上げ、トマトとモッツァレラを添えて",
+            "ar": "عجينة بيتزا مقلية ومخبوزة في الفرن مع الطماطم والموزاريلا",
+            "ru": "обжаренное тесто для пиццы, доведенное в духовке с помидорами и моцареллой"
           }
         },
         {
