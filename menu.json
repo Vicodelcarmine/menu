@@ -33,15 +33,15 @@
           "nome": "⭐ Guazzetto di mare caldo in terrina",
           "prezzo": 15,
           "descrizione": {
-            "it": "Antipasto di mare caldo",
-            "en": "Hot seafood stew",
-            "fr": "Ragoût de fruits de mer chaud",
-            "de": "Warmer Meeresfrüchte-Eintopf",
-            "es": "Guiso caliente de mariscos",
-            "pt": "Guiso de frutos do mar quente",
-            "ja": "温かいシーフードの煮込み",
-            "ar": "حساء ثمار البحر الساخن",
-            "ru": "Горячая закуска из морепродуктов"
+            "it": "cozze, vongole, calamari, gamberetti e seppioline, pomodoro e bruschetta di pane",
+            "en": "mussels, clams, squid, shrimps and baby cuttlefish, tomato and toasted bread",
+            "fr": "moules, palourdes, calmars, crevettes et seiches, tomate et pain grillé",
+            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch, Garnelen und kleine Tintenfische, Tomate und geröstetes Brot",
+            "es": "mejillones, almejas, calamares, gambas y sepias, tomate y pan tostado",
+            "pt": "mexilhões, amêijoas, lulas, camarões e sepias, tomate e pão torrado",
+            "ja": "ムール貝、あさり、イカ、小エビ、コウイカ、トマト、ブルスケッタ",
+            "ar": "بلح البحر، المحار، الكالاماري، الروبيان، السبيط الصغير، الطماطم والبروسكيتا",
+            "ru": "мидии, вонголе, кальмары, креветки и каракатицы, помидоры и тосты"
           }
         },
         {
