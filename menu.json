@@ -479,15 +479,15 @@
           "nome": "Pallotte cacio e ova",
           "prezzo": 15,
           "descrizione": {
-            "it": "Specialità abruzzese",
-            "en": "Cheese and egg balls",
-            "fr": "Boulettes fromage et œufs",
-            "de": "Käse- und Eierbällchen",
-            "es": "Albóndigas de queso y huevo",
-            "pt": "Bolinhos de queijo e ovo",
-            "ja": "チーズと卵の団子",
-            "ar": "كرات الجبن والبيض",
-            "ru": "Традиционное блюдо региона Абруццо"
+            "it": "specialità Abruzzese, polpette al formaggio e uova con sugo di pomodoro",
+            "en": "Abruzzese specialty, cheese and egg balls in tomato sauce",
+            "fr": "spécialité des Abruzzes, boulettes au fromage et aux œufs à la sauce tomate",
+            "de": "Abruzzesische Spezialität, Käse-Ei-Bällchen in Tomatensauce",
+            "es": "especialidad de Abruzzo, albóndigas de queso y huevo en salsa de tomate",
+            "pt": "especialidade de Abruzzo, bolinhos de queijo e ovo ao molho de tomate",
+            "ja": "アブルッツォ州の名物料理、チーズと卵の団子、トマトソース煮込み",
+            "ar": "تخصص من إقليم أبروتسو، كرات الجبن والبيض مع صلصة الطماطم",
+            "ru": "традиционное блюдо региона Абруццо, сырно-яичные шарики в томатном соусе"
           }
         },
         {
