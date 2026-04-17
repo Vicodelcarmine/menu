@@ -464,15 +464,15 @@
           "nome": "Polpette di carne al sugo",
           "prezzo": 15,
           "descrizione": {
-            "it": "Polpette della nonna nel pomodoro",
-            "en": "Meatballs in tomato sauce",
-            "fr": "Boulettes de viande à la sauce tomate",
-            "de": "Fleischbällchen in Tomatensauce",
-            "es": "Albóndigas en salsa de tomate",
-            "pt": "Almôndegas ao molho de tomate",
-            "ja": "ミートボールのトマトソース煮込み",
-            "ar": "كرات لحم بصلصة الطماطم",
-            "ru": "Бабушкины тефтели в томатном соусе"
+            "it": "polpette di manzo della nonna con sugo di pomodoro",
+            "en": "grandma’s beef meatballs in tomato sauce",
+            "fr": "boulettes de bœuf de grand-mère à la sauce tomate",
+            "de": "Großmutters Rinder-Fleischbällchen in Tomatensauce",
+            "es": "albóndigas de ternera de la abuela en salsa de tomate",
+            "pt": "almôndegas de carne bovina da vovó ao molho de tomate",
+            "ja": "おばあちゃんの牛肉ミートボール、トマトソース煮込み",
+            "ar": "كرات لحم البقر على طريقة الجدة مع صلصة الطماطم",
+            "ru": "бабушкины тефтели из говядины в томатном соусе"
           }
         },
         {
