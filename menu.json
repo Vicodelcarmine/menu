@@ -167,19 +167,19 @@
           }
         },
         {
-          "nome": "⭐ Agnello scottadito",
+          "nome": "⭐ Agnello alla scottadito",
           "prezzo": 19,
           "image": "img/agnello-scottadito.jpg",
           "descrizione": {
-            "it": "Secondo piatto",
-            "en": "Grilled lamb chops",
-            "fr": "Côtelettes d'agneau grillées",
-            "de": "Gegrillte Lammkoteletts",
-            "es": "Chuletas de cordero a la brasa",
-            "pt": "Costeletas de cordeiro grelhadas",
+            "it": "costine d’agnello alla griglia",
+            "en": "grilled lamb chops",
+            "fr": "côtelettes d’agneau grillées",
+            "de": "gegrillte Lammkoteletts",
+            "es": "chuletillas de cordero a la parrilla",
+            "pt": "costeletas de cordeiro grelhadas",
             "ja": "ラムチョップのグリル",
             "ar": "ريش غنم مشوية",
-            "ru": "Второе блюдо"
+            "ru": "бараньи ребрышки на гриле"
           }
         },
         {
