@@ -371,15 +371,15 @@
           "nome": "Chitarrina alla carrettiera",
           "prezzo": 13,
           "descrizione": {
-            "it": "Aglio, olio e peperoncino",
-            "en": "Chitarrina with garlic, oil, and chili",
-            "fr": "Pâtes à l'ail, huile et piment",
-            "de": "Pasta mit Knoblauch, Öl und Chili",
-            "es": "Pasta con ajo, aceite y guindilla",
-            "pt": "Massa com alho, óleo e pimenta",
-            "ja": "ニンニク、オイル、唐辛子のパスタ",
-            "ar": "باستا مع الثوم والزيت والفلفل الحار",
-            "ru": "Чеснок, оливковое масло и острый перец"
+            "it": "aglio, olio, peperoncino, pomodoro e prezzemolo",
+            "en": "garlic, oil, chili, tomato, and parsley",
+            "fr": "ail, huile, piment, tomate et persil",
+            "de": "Knoblauch, Öl, Chili, Tomate und Petersilie",
+            "es": "ajo, aceite, guindilla, tomate y perejil",
+            "pt": "alho, óleo, pimenta, tomate e salsa",
+            "ja": "ニンニク、オイル、唐辛子、トマト、パセリ",
+            "ar": "الثوم، الزيت، الفلفل الحار، الطماطم والبقدونس",
+            "ru": "чеснок, оливковое масло, острый перец, помидоры и петрушка"
           }
         },
         {
