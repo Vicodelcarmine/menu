@@ -387,15 +387,15 @@
           "prezzo": 14,
           "image": "img/gnocchi-sorrentina.jpg",
           "descrizione": {
-            "it": "Gnocchi con pomodoro, mozzarella e basilico",
-            "en": "Gnocchi with tomato and mozzarella",
-            "fr": "Gnocchis à la tomate et mozzarella",
-            "de": "Gnocchi mit Tomate und Mozzarella",
-            "es": "Gnocchi con tomate y mozzarella",
-            "pt": "Gnocchi com tomate e mozzarella",
-            "ja": "ソレント風ニョッキ（トマトとモッツァレラ）",
-            "ar": "نوكي على طريقة سورينتو (بالطماطم والموزاريلا)",
-            "ru": "Ньокки с томатами, моцареллой и базиликом"
+            "it": "gnocchi di patate, pomodoro, basilico e mozzarella",
+            "en": "potato gnocchi, tomato, basil, and mozzarella",
+            "fr": "gnocchis de pommes de terre, tomate, basilic et mozzarella",
+            "de": "Kartoffelgnocchi, Tomate, Basilikum und Mozzarella",
+            "es": "gnocchi de patata, tomate, albahaca y mozzarella",
+            "pt": "gnocchi de batata, tomate, manjericão e mozzarella",
+            "ja": "ポテトニョッキ、トマト、バジル、モッツァレラ",
+            "ar": "نوكي البطاطس، الطماطم، الريحان والموزاريلا",
+            "ru": "картофельные ньокки, помидоры, базилик и моцарелла"
           }
         },
         {
