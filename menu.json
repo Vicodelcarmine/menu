@@ -290,18 +290,18 @@
           }
         },
         {
-          "nome": "Gran tagliere di salumi e formaggi",
+          "nome": "Gran tagliere toscano",
           "prezzo": 21,
           "descrizione": {
-            "it": "Consigliato x2",
-            "en": "Large cold cut platter (recommended for 2)",
-            "fr": "Grande planche de charcuterie et fromages (pour 2)",
-            "de": "Große Aufschnittplatte (empfohlen für 2)",
-            "es": "Gran tabla de embutidos y quesos (recomendado para 2)",
-            "pt": "Tábua grande de frios e queijos (recomendado para 2)",
-            "ja": "ハムとチーズの盛り合わせ（2名様向け）",
-            "ar": "طبق كبير من اللحوم الباردة والأجبان (يكفي لشخصين)",
-            "ru": "Рекомендуется на двоих"
+            "it": "affettati misti e Pecorino",
+            "en": "mixed cold cuts and Pecorino cheese",
+            "fr": "charcuterie mixte et fromage Pecorino",
+            "de": "gemischter Aufschnitt und Pecorino-Käse",
+            "es": "embutidos variados y queso Pecorino",
+            "pt": "frios mistos e queijo Pecorino",
+            "ja": "コールドカットの盛り合わせとペコリーノチーズ",
+            "ar": "لحوم باردة مشكلة وجبنة بيكورينو",
+            "ru": "ассорти из мясной нарезки и сыр пекорино"
           }
         }
       ]
