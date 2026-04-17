@@ -49,15 +49,15 @@
           "prezzo": 12,
           "image": "img/insalata-baccala.jpg",
           "descrizione": {
-            "it": "Antipasto",
-            "en": "Cod salad with lemon, olives, and fresh tomatoes",
-            "fr": "Salade de morue au citron, olives et tomates fraîches",
-            "de": "Kabeljau-Salat mit Zitrone, Oliven und frischen Tomaten",
-            "es": "Ensalada de bacalao con limón, olivas y tomates frescos",
-            "pt": "Salada de bacalhau com limão, azeitonas e tomates frescos",
-            "ja": "鱈のサラダ、レモン、オリーブ、フレッシュトマト添え",
-            "ar": "سلطة سمك القد مع الليمون والزيتون والطماطم الطازجة",
-            "ru": "Закуска"
+            "it": "insalata, pomodori, olive, merluzzo e limone",
+            "en": "salad, tomatoes, olives, cod, and lemon",
+            "fr": "salade, tomates, olives, morue et citron",
+            "de": "Salat, Tomaten, Oliven, Kabeljau und Zitrone",
+            "es": "ensalada, tomates, aceitunas, bacalao y limón",
+            "pt": "salada, tomates, azeitonas, bacalhau e limão",
+            "ja": "サラダ、トマト、オリーブ、タラ、レモン",
+            "ar": "سلطة، طماطم، زيتون، سمك القد وليمون",
+            "ru": "салат, помидоры, оливки, треска и лимон"
           }
         },
         {
