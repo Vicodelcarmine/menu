@@ -79,15 +79,15 @@
           "nome": "⭐ Pasta fresca vongole e bottarga",
           "prezzo": 16,
           "descrizione": {
-            "it": "Primo piatto",
-            "en": "Fresh pasta with clams and bottarga",
-            "fr": "Pâtes fraîches aux palourdes et bottarga",
-            "de": "Frische Nudeln mit Venusmuscheln und Bottarga",
-            "es": "Pasta fresca con almejas y botarga",
-            "pt": "Massas frescas com amêijoas e bottarga",
-            "ja": "あさりとボッタルガの生パスタ",
-            "ar": "باستا طازجة مع المحار والبطارخ",
-            "ru": "Первое блюдо"
+            "it": "vongole e bottarga di muggine",
+            "en": "clams and mullet bottarga",
+            "fr": "palourdes et boutargue de mulet",
+            "de": "Venusmuscheln und Meeräschenrogen",
+            "es": "almejas y huevas de mújol",
+            "pt": "amêijoas e ovas de tainha",
+            "ja": "あさりとボッタルガ（カラスミ）",
+            "ar": "المحار وبطارخ سمك البوري",
+            "ru": "вонголе и боттарга из кефали"
           }
         },
         {
