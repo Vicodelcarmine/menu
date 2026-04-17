@@ -203,15 +203,15 @@
           "prezzo": 19,
           "image": "img/entrecote-chianti.jpg",
           "descrizione": {
-            "it": "Secondo piatto",
-            "en": "Entrecote with Chianti wine sauce",
-            "fr": "Entrecôte sauce au vin Chianti",
-            "de": "Entrecôte mit Chianti-Weinsauce",
-            "es": "Entrecot con salsa de vino Chianti",
-            "pt": "Entrecôte com molho de vinho Chianti",
-            "ja": "アントレコートのキャンティワインソース",
-            "ar": "إنتركوت مع صلصة نبيذ الخيانتي",
-            "ru": "Второе блюдо"
+            "it": "controfiletto di manzo e vino chianti",
+            "en": "beef sirloin and Chianti wine",
+            "fr": "faux-filet de bœuf et vin Chianti",
+            "de": "Rinder-Sirloinsteak und Chianti-Wein",
+            "es": "solomillo de ternera y vino Chianti",
+            "pt": "contrafilé de bovino e vinho Chianti",
+            "ja": "牛肉のサーロインとキャンティワイン",
+            "ar": "سيرلوين بقري ونبيذ كيانتي",
+            "ru": "говяжий сирлойн и вино Кьянти"
           }
         }
       ]
