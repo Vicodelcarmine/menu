@@ -402,15 +402,15 @@
           "nome": "Pennette al pomodoro e basilico",
           "prezzo": 12,
           "descrizione": {
-            "it": "Pennette classiche al pomodoro",
-            "en": "Pennette with tomato and basil",
-            "fr": "Pennette à la tomate et basilic",
-            "de": "Pennette mit Tomaten und Basilikum",
-            "es": "Pennette con tomate y albahaca",
-            "pt": "Pennette com tomate e manjericão",
-            "ja": "トマトとバジルのペンネッテ",
-            "ar": "بينيتي بالطماطم والريحان",
-            "ru": "Классические пеннетте в томатном соусе"
+            "it": "pomodoro e basilico",
+            "en": "tomato and basil",
+            "fr": "tomate et basilic",
+            "de": "Tomate und Basilikum",
+            "es": "tomate y albahaca",
+            "pt": "tomate e manjericão",
+            "ja": "トマトとバジル",
+            "ar": "طماطم وريحان",
+            "ru": "помидоры и базилик"
           }
         },
         {
