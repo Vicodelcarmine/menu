@@ -125,15 +125,15 @@
           "prezzo": 18,
           "image": "img/branzino-griglia.jpg",
           "descrizione": {
-            "it": "Secondo piatto",
-            "en": "Grilled Sea Bass or Sea Bream",
-            "fr": "Bar ou Daurade grillée",
-            "de": "Gegrillter Wolfsbarsch oder Goldbrasse",
-            "es": "Lubina o Dorada a la parrilla",
-            "pt": "Robalo ou Dourada grelhada",
+            "it": "spigola o orata alla griglia",
+            "en": "grilled sea bass or sea bream",
+            "fr": "bar ou daurade grillée",
+            "de": "gegrillter Wolfsbarsch oder Goldbrasse",
+            "es": "lubina o dorada a la parrilla",
+            "pt": "robalo ou dourada grelhada",
             "ja": "スズキまたはタイのグリル",
             "ar": "سيباس أو أوراتا مشوية",
-            "ru": "Второе блюдо"
+            "ru": "сибас или дорада на гриле"
           }
         },
         {
