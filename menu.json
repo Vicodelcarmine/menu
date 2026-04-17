@@ -106,18 +106,18 @@
           }
         },
         {
-          "nome": "⭐ Pennette pesto gamberi pomodoro fresco",
+          "nome": "⭐ Pennette pesto e gamberetti",
           "prezzo": 14,
           "descrizione": {
-            "it": "Primo piatto",
-            "en": "Pennette with shrimp pesto and fresh tomato",
-            "fr": "Pennette au pesto de crevettes et tomates fraîches",
-            "de": "Pennette mit Garnelen-Pesto und frischen Tomaten",
-            "es": "Pennette con pesto de gambas y tomate fresco",
-            "pt": "Pennette com pesto de camarão e tomate fresco",
-            "ja": "海老のペーストとフレッシュトマトのペンネッテ",
-            "ar": "بينيتي مع بيستو الروبيان والطماطم الطازجة",
-            "ru": "Первое блюдо"
+            "it": "pasta, pesto, gamberetti e pomodoro fresco",
+            "en": "pasta, pesto, shrimps, and fresh tomato",
+            "fr": "pâtes, pesto, crevettes et tomates fraîches",
+            "de": "Pasta, Pesto, Garnelen und frische Tomaten",
+            "es": "pasta, pesto, gambas y tomate fresco",
+            "pt": "massa, pesto, camarões e tomate fresco",
+            "ja": "パスタ、ジェノベーゼ、小エビ、フレッシュトマト",
+            "ar": "باستا، بيستو، روبيان وطماطم طازجة",
+            "ru": "паста, песто, креветки и свежие помидоры"
           }
         },
         {
