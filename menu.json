@@ -935,6 +935,7 @@
         {
           "nome": "Americana",
           "prezzo": 13.5,
+          "image": "img/pizza-americana.jpg",
           "descrizione": {
             "it": "patate, mozz, scamorza, pancetta",
             "en": "potatoes, mozzarella, scamorza, bacon",
