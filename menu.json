@@ -752,6 +752,7 @@
         {
           "nome": "Napoli",
           "prezzo": 10,
+          "image": "img/pizza-napoli.jpg",
           "descrizione": {
             "it": "salsa di pomodoro, mozzarella capperi, acciughe, origano",
             "en": "tomato sauce, mozzarella, capers, anchovies, oregano",
@@ -1044,6 +1045,7 @@
         {
           "nome": "Vesuvio",
           "prezzo": 14,
+          "image": "img/pizza-vesuvio.jpg",
           "descrizione": {
             "it": "salsa di pomodoro, mozzarella, ricotta, funghi, cotto, salamino",
             "en": "tomato sauce, mozzarella, ricotta, mushrooms, ham, spicy salami",
