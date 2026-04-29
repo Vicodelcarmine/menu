@@ -799,6 +799,7 @@
         {
           "nome": "Capricciosa",
           "prezzo": 12,
+          "image": "img/pizza-capricciosa.jpg",
           "descrizione": {
             "it": "salsa di pomodoro, mozzarella, cotto, funghi carciofi e olive",
             "en": "tomato sauce, mozzarella, ham, mushrooms, artichokes, and olives",
