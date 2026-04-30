@@ -847,6 +847,7 @@
         {
           "nome": "Diavola",
           "prezzo": 10.5,
+          "image": "img/pizza-diavola.jpg",
           "descrizione": {
             "it": "salsa di pomodoro, mozzarella, salamino piccante, olive basilico",
             "en": "tomato sauce, mozzarella, spicy salami, olives, basil",
