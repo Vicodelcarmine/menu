@@ -493,6 +493,7 @@
         {
           "nome": "Hamburger classico al piatto con patatine",
           "prezzo": 15,
+          "image": "img/hamburger.jpg",
           "descrizione": {
             "it": "Carne di manzo con patatine",
             "en": "Burger on plate with fries",
