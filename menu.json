@@ -863,6 +863,7 @@
         {
           "nome": "4 Formaggi",
           "prezzo": 12,
+          "image": "img/pizza-4formaggi.jpg",
           "descrizione": {
             "it": "mozzarella, scamorza, gorgonzola, emmental",
             "en": "mozzarella, scamorza, gorgonzola, emmental",
@@ -893,6 +894,7 @@
         {
           "nome": "Fungaccia",
           "prezzo": 12.5,
+          "image": "img/pizza-fungaccia.jpg",
           "descrizione": {
             "it": "mozzarella, champignon, salsiccia, basilico",
             "en": "mozzarella, mushrooms, sausage, basil",
@@ -971,6 +973,7 @@
         {
           "nome": "Tartufina",
           "prezzo": 16,
+          "image": "img/pizza-tartufina.jpg",
           "descrizione": {
             "it": "mozzarella, cotto, olive, salsa al tartufo",
             "en": "mozzarella, ham, olives, truffle sauce",
