@@ -1084,6 +1084,7 @@
         {
           "nome": "Palinuro",
           "prezzo": 14,
+          "image": "img/pizza-palinuro.jpg",
           "descrizione": {
             "it": "mozzarella, salsa cilentana, salsiccia, melanzane fritte, scamorza",
             "en": "mozzarella, cilento sauce, sausage, fried eggplant, scamorza",
