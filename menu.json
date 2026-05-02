@@ -989,6 +989,7 @@
         {
           "nome": "Fagotto",
           "prezzo": 16,
+          "image": "img/pizza-fagotto.jpg",
           "descrizione": {
             "it": "calzone con ricotta, mozz, scamorza, pom, salame napoli",
             "en": "folded pizza with ricotta, mozzarella, scamorza, tomato, napoli salami",
