@@ -1146,6 +1146,7 @@
         {
           "nome": "Calzone",
           "prezzo": 12,
+          "image": "img/calzone.jpg",
           "descrizione": {
             "it": "mozzarella, ricotta, funghi, prosciutto cotto",
             "en": "mozzarella, ricotta, mushrooms, ham",
