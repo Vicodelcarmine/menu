@@ -910,6 +910,7 @@
         {
           "nome": "Salina",
           "prezzo": 11.5,
+          "image": "img/pizza-salina.jpg",
           "descrizione": {
             "it": "marinara con capperi, acciughe, datterini, basilico",
             "en": "marinara with capers, anchovies, cherry tomatoes, basil",
