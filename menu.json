@@ -85,7 +85,7 @@
             "de": "Venusmuscheln und Meeräschenrogen",
             "es": "almejas y huevas de mújol",
             "pt": "amêijoas e ovas de tainha",
-            "ja": "あさりとボッタルガ（カラスミ）",
+            "ja": "あさりとボッタルガ(カラスミ)",
             "ar": "المحار وبطارخ سمك البوري",
             "ru": "вонголе и боттарга из кефали"
           }
@@ -171,9 +171,9 @@
           "prezzo": 19,
           "image": "img/agnello-scottadito.jpg",
           "descrizione": {
-            "it": "costine d’agnello alla griglia",
+            "it": "costine d'agnello alla griglia",
             "en": "grilled lamb chops",
-            "fr": "côtelettes d’agneau grillées",
+            "fr": "côtelettes d'agneau grillées",
             "de": "gegrillte Lammkoteletts",
             "es": "chuletillas de cordero a la parrilla",
             "pt": "costeletas de cordeiro grelhadas",
@@ -235,7 +235,7 @@
           "prezzo": 12,
           "descrizione": {
             "it": "bruschette miste a piacere dello Chef",
-            "en": "mixed crostini at the Chef’s discretion",
+            "en": "mixed crostini at the Chef's discretion",
             "fr": "crostini mixtes au choix du Chef",
             "de": "gemischte Crostini nach Wahl des Küchenchefs",
             "es": "crostini variados a discreción del Chef",
@@ -465,7 +465,7 @@
           "prezzo": 15,
           "descrizione": {
             "it": "polpette di manzo della nonna con sugo di pomodoro",
-            "en": "grandma’s beef meatballs in tomato sauce",
+            "en": "grandma's beef meatballs in tomato sauce",
             "fr": "boulettes de bœuf de grand-mère à la sauce tomate",
             "de": "Großmutters Rinder-Fleischbällchen in Tomatensauce",
             "es": "albóndigas de ternera de la abuela en salsa de tomate",
@@ -501,7 +501,7 @@
             "de": "Burger auf dem Teller mit Pommes",
             "es": "Hamburguesa al plato con patatas fritas",
             "pt": "Hambúrguer no prato com batatas fritas",
-            "ja": "ハンバーグ（ポテト添え）",
+            "ja": "ハンバーグ(ポテト添え)",
             "ar": "همبرغر كلاسيكي مع البطاطس",
             "ru": "Говядина с картофелем фри"
           }
@@ -664,7 +664,7 @@
           "descrizione": {
             "it": "Fagioli cannellini conditi con olio e pepe",
             "en": "Cannellini beans seasoned with oil and pepper",
-            "fr": "Haricots cannellini assaisonnés à l’huile et au poivre",
+            "fr": "Haricots cannellini assaisonnés à l'huile et au poivre",
             "de": "Cannellini-Bohnen mit Öl und Pfeffer gewürzt",
             "es": "Alubias cannellini aliñadas con aceite y pimienta",
             "pt": "Feijão cannellini temperado com óleo e pimenta",
@@ -709,7 +709,7 @@
           "descrizione": {
             "it": "Friarielli napoletani saltati con aglio e peperoncino",
             "en": "Neapolitan broccoli rabe sautéed with garlic and chili",
-            "fr": "Brocoli-rave napolitain sauté à l’ail et au piment",
+            "fr": "Brocoli-rave napolitain sauté à l'ail et au piment",
             "de": "Neapolitanischer Stängelkohl mit Knoblauch und Chili sautiert",
             "es": "Grelos napolitanos salteados con ajo y guindilla",
             "pt": "Brócolis napolitanos salteados com alho e pimenta",
@@ -729,7 +729,7 @@
         "de": "Klassische & Spezial-Pizzen",
         "es": "Pizzas Clásicas y Especiales",
         "pt": "Pizzas Clássicas e Especiais",
-        "ja": "クラシック＆特選ピザ",
+        "ja": "クラシック&特選ピザ",
         "ar": "بيتزا كلاسيكية ومميزة",
         "ru": "Классическая и специальная пицца"
       },
@@ -767,7 +767,7 @@
           }
         },
         {
-          "nome": "A’ Filetto",
+          "nome": "A' Filetto",
           "prezzo": 11.5,
           "descrizione": {
             "it": "bianca, bufala pomodori datterini",
@@ -877,8 +877,9 @@
           }
         },
         {
-          "nome": "A’Pizza Caprese",
+          "nome": "A'Pizza Caprese",
           "prezzo": 13.5,
+          "image": "img/pizza-caprese.jpg",
           "descrizione": {
             "it": "rucola pom. fresco condito, mozz e basilico",
             "en": "arugula, seasoned fresh tomato, mozzarella, and basil",
@@ -924,7 +925,7 @@
           }
         },
         {
-          "nome": "O’ Sole Mio",
+          "nome": "O' Sole Mio",
           "prezzo": 14,
           "image": "img/o-sole-mio.jpg",
           "descrizione": {
@@ -1004,7 +1005,7 @@
           }
         },
         {
-          "nome": "A’Pizza Vegetariana",
+          "nome": "A'Pizza Vegetariana",
           "prezzo": 13,
           "image": "img/vegetariana.jpg",
           "descrizione": {
@@ -1020,7 +1021,7 @@
           }
         },
         {
-          "nome": "Bell’Italia",
+          "nome": "Bell'Italia",
           "prezzo": 15,
           "image": "img/bella-italia.jpg",
           "descrizione": {
@@ -1281,7 +1282,7 @@
             "de": "Kalter Käsekuchen mit Belag nach Wahl (Waldfrüchte, Schokolade oder Karamell)",
             "es": "Tarta de queso fría con cobertura a elegir (frutos del bosque, chocolate o caramelo)",
             "pt": "Cheesecake frio com cobertura à escolha (frutos vermelhos, chocolate ou caramelo)",
-            "ja": "トッピングを選べる冷たいチーズケーキ（ベリー、チョコレート、キャラメル）",
+            "ja": "トッピングを選べる冷たいチーズケーキ(ベリー、チョコレート、キャラメル)",
             "ar": "تشيز كيك بارد مع اختيارك من الطبقة العلويّة (توت، شوكولاتة، أو كراميل)",
             "ru": "Холодный чизкейк с топпингом на выбор (лесные ягоды, шоколад или карамель)"
           }
@@ -1356,7 +1357,7 @@
             "de": "Typisch neapolitanischer Kuchen con Schokolade und Mandeln (mehlfrei)",
             "es": "Tarta típica napolitana de chocolate y almendras (sin harina)",
             "pt": "Bolo típico napolitano de chocolate e amêndoas (sem farinha)",
-            "ja": "チョコレートとアーモンドのネアポリタンケーキ（小麦粉不使用）",
+            "ja": "チョコレートとアーモンドのネアポリタンケーキ(小麦粉不使用)",
             "ar": "كعكة نابولي النموذجية بالشوكولاتة واللوز (بدون دقيق)",
             "ru": "Традиционный неаполитанский пирог с шоколадом и миндалем (без муки)"
           }
@@ -1387,7 +1388,7 @@
             "de": "Helles Bier vom Fass",
             "es": "Cerveza de barril",
             "pt": "Cerveja de pressão",
-            "ja": "生ビール（ライト）",
+            "ja": "生ビール(ライト)",
             "ar": "بيرة لاجر مسودة",
             "ru": "Светлое разливное пиво"
           }
@@ -1402,7 +1403,7 @@
             "de": "Helles Bier vom Fass",
             "es": "Cerveza de barril",
             "pt": "Cerveja de pressão",
-            "ja": "生ビール（ライト）",
+            "ja": "生ビール(ライト)",
             "ar": "بيرة لاجر مسودة",
             "ru": "Светлое разливное пиво"
           }
@@ -1447,7 +1448,7 @@
             "de": "Weißbier vom Fass",
             "es": "Cerveza blanca Blanche de barril",
             "pt": "Cerveja branca Blanche de pressão",
-            "ja": "白生ビール（ブランシュ）",
+            "ja": "白生ビール(ブランシュ)",
             "ar": "بيرة بيضاء بلانش",
             "ru": "Белое нефильтрованное разливное пиво"
           }
@@ -1462,7 +1463,7 @@
             "de": "Weißbier vom Fass",
             "es": "Cerveza blanca Blanche de barril",
             "pt": "Cerveja branca Blanche de pressão",
-            "ja": "白生ビール（ブランシュ）",
+            "ja": "白生ビール(ブランシュ)",
             "ar": "بيرة بيضاء بلانش",
             "ru": "Белое нефильтрованное разливное пиво"
           }
@@ -1507,7 +1508,7 @@
             "de": "Alkoholfreies Flaschenbier",
             "es": "Cerveza sin alcohol en botella",
             "pt": "Cerveja sem álcool em garrafa",
-            "ja": "ノンアルコールビール（瓶）",
+            "ja": "ノンアルコールビール(瓶)",
             "ar": "بيرة خالية من الكحول",
             "ru": "Безалкогольное бутилированное пиво"
           }
@@ -1522,7 +1523,7 @@
             "de": "Glutenfreies Flaschenbier",
             "es": "Cerveza sin gluten en botella",
             "pt": "Cerveja sem glúten em garrafa",
-            "ja": "グルテンフリービール（瓶）",
+            "ja": "グルテンフリービール(瓶)",
             "ar": "بيرة خالية من الغلوتين",
             "ru": "Безглютеновое бутилированное пиво"
           }
