@@ -1039,6 +1039,7 @@
         {
           "nome": "Vico",
           "prezzo": 16,
+          "image": "img/pizza-vico.jpg",
           "descrizione": {
             "it": "salsa di pomodoro, mozzarella, salsiccia, friarielli, salame napoli, ricotta",
             "en": "tomato sauce, mozzarella, sausage, neapolitan broccoli rabe, napoli salami, ricotta",
