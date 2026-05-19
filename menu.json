@@ -846,7 +846,7 @@
         },
         {
           "nome": "Diavola",
-          "prezzo": 10.5,
+          "prezzo": 11.5,
           "image": "img/pizza-diavola.jpg",
           "descrizione": {
             "it": "salsa di pomodoro, mozzarella, salamino piccante, olive basilico",
@@ -1102,7 +1102,7 @@
         },
         {
           "nome": "Partenopea",
-          "prezzo": 13.5,
+          "prezzo": 14.5,
           "descrizione": {
             "it": "salsa di pomodoro, pomodorini, stracciatella, basilico",
             "en": "tomato sauce, cherry tomatoes, stracciatella cheese, basil",
