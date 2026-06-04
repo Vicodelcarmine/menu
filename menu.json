@@ -2,7 +2,7 @@
   "ristorante": "Vico del Carmine",
   "location": "Via Pisana 40/r, Firenze",
   "valuta": "EUR",
-  "ultimo_aggiornamento": "2026-04-27",
+  "ultimo_aggiornamento": "2026-05-19",
   "lingue_supportate": [
     "it",
     "en",
@@ -504,21 +504,6 @@
             "ja": "ハンバーグ(ポテト添え)",
             "ar": "همبرغر كلاسيكي مع البطاطس",
             "ru": "Говядина с картофелем фри"
-          }
-        },
-        {
-          "nome": "Zuppa di moscardini alla Luciana",
-          "prezzo": 19,
-          "descrizione": {
-            "it": "moscardini, sugo di pomodoro e olive",
-            "en": "baby octopus, tomato sauce, and olives",
-            "fr": "élédones, sauce tomate et olives",
-            "de": "Moscardini (kleine Oktopusse), Tomatensauce und Oliven",
-            "es": "pulpos cabezoni, salsa de tomate y aceitunas",
-            "pt": "moscardini, molho de tomate e azeitonas",
-            "ja": "イイダコ、トマトソース、オリーブ",
-            "ar": "موسكارديني (أخطبوط صغير)، صلصة الطماطم والزيتون",
-            "ru": "москардини (маленькие осьминоги), томатный соус и оливки"
           }
         },
         {
