@@ -2,7 +2,7 @@
   "ristorante": "Vico del Carmine",
   "location": "Via Pisana 40/r, Firenze",
   "valuta": "EUR",
-  "ultimo_aggiornamento": "2026-05-19",
+  "ultimo_aggiornamento": "2026-06-05",
   "lingue_supportate": [
     "it",
     "en",
@@ -122,7 +122,7 @@
         },
         {
           "nome": "⭐ Spigola o Orata alla griglia",
-          "prezzo": 18,
+          "prezzo": 21,
           "image": "img/branzino-griglia.jpg",
           "descrizione": {
             "it": "spigola o orata alla griglia",
