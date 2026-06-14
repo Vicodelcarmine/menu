@@ -1353,7 +1353,7 @@
     {
       "slug": "birre",
       "nome": {
-        "it": "Birre Poretti",
+        "it": "Birre",
         "en": "Beers",
         "fr": "Bières",
         "de": "Biere",
@@ -1361,7 +1361,7 @@
         "pt": "Cervejas",
         "ja": "ビール",
         "ar": "بيرة",
-        "ru": "Пиво Poretti"
+        "ru": "Пиво"
       },
       "piatti": [
         {
