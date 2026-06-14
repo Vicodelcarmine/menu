@@ -1513,6 +1513,66 @@
             "ar": "بيرة خالية من الغلوتين",
             "ru": "Безглютеновое бутилированное пиво"
           }
+        },
+        {
+          "nome": "Ichnusa non filtrata (33cl)",
+          "prezzo": 5,
+          "descrizione": {
+            "it": "Birra sarda non filtrata",
+            "en": "Sardinian unfiltered beer",
+            "fr": "Bière sarde non filtrée",
+            "de": "Sardisches ungefiltertes Bier",
+            "es": "Cerveza sarda sin filtrar",
+            "pt": "Cerveja sarda não filtrada",
+            "ja": "サルデーニャ島のアンフィルターどビール",
+            "ar": "بيرة سردينية غير مصفاة",
+            "ru": "Сардинское нефильтрованное пиво"
+          }
+        },
+        {
+          "nome": "Poretti Rossa (33cl)",
+          "prezzo": 6,
+          "descrizione": {
+            "it": "Birra rossa Poretti in bottiglia",
+            "en": "Poretti red beer in bottle",
+            "fr": "Bière rouge Poretti en bouteille",
+            "de": "Poretti rotes Bier in der Flasche",
+            "es": "Cerveza roja Poretti en botella",
+            "pt": "Cerveja vermelha Poretti em garrafa",
+            "ja": "ポレッティ赤ビール(瓶)",
+            "ar": "بيرة بوريتي الحمراء",
+            "ru": "Красное пиво Poretti в бутылке"
+          }
+        },
+        {
+          "nome": "Tennet's (33cl)",
+          "prezzo": 6.5,
+          "descrizione": {
+            "it": "Birra inglese in bottiglia",
+            "en": "English bottled beer",
+            "fr": "Bière anglaise en bouteille",
+            "de": "Englisches Flaschenbier",
+            "es": "Cerveza inglesa en botella",
+            "pt": "Cerveja inglesa em garrafa",
+            "ja": "イングリッシュボトルビール",
+            "ar": "بيرة إنجليزية",
+            "ru": "Английское бутилированное пиво"
+          }
+        },
+        {
+          "nome": "Corona (33cl)",
+          "prezzo": 5.5,
+          "descrizione": {
+            "it": "Birra messicana in bottiglia",
+            "en": "Mexican bottled beer",
+            "fr": "Bière mexicaine en bouteille",
+            "de": "Mexikanisches Flaschenbier",
+            "es": "Cerveza mexicana en botella",
+            "pt": "Cerveja mexicana em garrafa",
+            "ja": "メキシコビール(瓶)",
+            "ar": "بيرة مكسيكية",
+            "ru": "Мексиканское бутилированное пиво"
+          }
         }
       ]
     },
