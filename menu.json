@@ -1366,7 +1366,7 @@
       "piatti": [
         {
           "nome": "Poretti 4 Luppoli (Piccola)",
-          "prezzo": 5.5,
+          "prezzo": 4.0,
           "descrizione": {
             "it": "Birra chiara alla spina",
             "en": "Draft lager beer",
@@ -1396,7 +1396,7 @@
         },
         {
           "nome": "Poretti 6 Luppoli Rossa (Piccola)",
-          "prezzo": 5.5,
+          "prezzo": 4.5,
           "descrizione": {
             "it": "Birra rossa doppio malto alla spina",
             "en": "Draft red double malt beer",
@@ -1411,7 +1411,7 @@
         },
         {
           "nome": "Poretti 6 Luppoli Rossa (Media)",
-          "prezzo": 5.5,
+          "prezzo": 6.5,
           "descrizione": {
             "it": "Birra rossa doppio malto alla spina",
             "en": "Draft red double malt beer",
@@ -1426,7 +1426,7 @@
         },
         {
           "nome": "Poretti 7 Luppoli Blanche (Piccola)",
-          "prezzo": 5.5,
+          "prezzo": 4.5,
           "descrizione": {
             "it": "Birra bianca blanche alla spina",
             "en": "Draft white Blanche beer",
@@ -1441,7 +1441,7 @@
         },
         {
           "nome": "Poretti 7 Luppoli Blanche (Media)",
-          "prezzo": 5.5,
+          "prezzo": 6.5,
           "descrizione": {
             "it": "Birra bianca blanche alla spina",
             "en": "Draft white Blanche beer",
@@ -1456,7 +1456,7 @@
         },
         {
           "nome": "Poretti 9 Luppoli IPA (Piccola)",
-          "prezzo": 5.5,
+          "prezzo": 4.5,
           "descrizione": {
             "it": "Birra IPA alla spina",
             "en": "Draft IPA beer",
@@ -1471,7 +1471,7 @@
         },
         {
           "nome": "Poretti 9 Luppoli IPA (Media)",
-          "prezzo": 5.5,
+          "prezzo": 6.5,
           "descrizione": {
             "it": "Birra IPA alla spina",
             "en": "Draft IPA beer",
@@ -1531,7 +1531,7 @@
         },
         {
           "nome": "Poretti Rossa (33cl)",
-          "prezzo": 5.5,
+          "prezzo": 6.0,
           "descrizione": {
             "it": "Birra rossa Poretti in bottiglia",
             "en": "Poretti red beer in bottle",
