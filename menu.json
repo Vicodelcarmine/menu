@@ -1486,7 +1486,7 @@
         },
         {
           "nome": "Poretti 4 Luppoli Zero Alcol (33cl)",
-          "prezzo": 5.5,
+          "prezzo": 4,
           "descrizione": {
             "it": "Birra analcolica in bottiglia",
             "en": "Non-alcoholic bottled beer",
@@ -1608,19 +1608,19 @@
         },
         {
           "nome": "Acqua naturalizzata",
-          "prezzo": 2.5
+          "prezzo": 3.5
         },
         {
           "nome": "Coca cola",
-          "prezzo": 3.5
+          "prezzo": 4
         },
         {
           "nome": "Coca zero",
-          "prezzo": 3.5
+          "prezzo": 4
         },
         {
           "nome": "Fanta",
-          "prezzo": 3.5
+          "prezzo": 4
         },
         {
           "nome": "The al limone/pesca",
