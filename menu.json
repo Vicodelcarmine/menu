@@ -2,7 +2,7 @@
   "ristorante": "Vico del Carmine",
   "location": "Via Pisana 40/r, Firenze",
   "valuta": "EUR",
-  "ultimo_aggiornamento": "2026-06-05",
+  "ultimo_aggiornamento": "2026-07-06",
   "lingue_supportate": [
     "it",
     "en",
@@ -1572,6 +1572,202 @@
             "ja": "メキシコビール(瓶)",
             "ar": "بيرة مكسيكية",
             "ru": "Мексиканское бутилированное пиво"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "cocktail",
+      "nome": {
+        "it": "Cocktail",
+        "en": "Cocktails",
+        "fr": "Cocktails",
+        "de": "Cocktails",
+        "es": "Cocktails",
+        "pt": "Cocktails",
+        "ja": "カクテル",
+        "ar": "مشروبات كوكتيل",
+        "ru": "Коктейли"
+      },
+      "piatti": [
+        {
+          "nome": "Spritz con Campari",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Spritz con Campari",
+            "en": "Spritz with Campari",
+            "fr": "Spritz au Campari",
+            "de": "Spritz mit Campari",
+            "es": "Spritz con Campari",
+            "pt": "Spritz com Campari",
+            "ja": "カンパリ・スプリッツ",
+            "ar": "سبريتز مع كامباري",
+            "ru": "Спритс с кампари"
+          }
+        },
+        {
+          "nome": "Spritz con Select",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Spritz con Select",
+            "en": "Spritz with Select",
+            "fr": "Spritz au Select",
+            "de": "Spritz mit Select",
+            "es": "Spritz con Select",
+            "pt": "Spritz com Select",
+            "ja": "セレクト・スプリッツ",
+            "ar": "سبريتز مع سليكت",
+            "ru": "Спритс с селект"
+          }
+        },
+        {
+          "nome": "Spritz con Aperol",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Spritz con Aperol",
+            "en": "Spritz with Aperol",
+            "fr": "Spritz à l'Aperol",
+            "de": "Spritz mit Aperol",
+            "es": "Spritz con Aperol",
+            "pt": "Spritz com Aperol",
+            "ja": "アペロール・スプリッツ",
+            "ar": "سبريتز مع بيرول",
+            "ru": "Спритс с аперол"
+          }
+        },
+        {
+          "nome": "Spritz con Cynar",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Spritz con Cynar",
+            "en": "Spritz with Cynar",
+            "fr": "Spritz au Cynar",
+            "de": "Spritz mit Cynar",
+            "es": "Spritz con Cynar",
+            "pt": "Spritz com Cynar",
+            "ja": "シナー・スプリッツ",
+            "ar": "سبريتز مع سينار",
+            "ru": "Спритс с cynar"
+          }
+        },
+        {
+          "nome": "Spritz Hugo",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Spritz Hugo",
+            "en": "Spritz Hugo",
+            "fr": "Spritz Hugo",
+            "de": "Spritz Hugo",
+            "es": "Spritz Hugo",
+            "pt": "Spritz Hugo",
+            "ja": "ヒューゴ・スプリッツ",
+            "ar": "سبريتز هيوغو",
+            "ru": "Спритс Хьюго"
+          }
+        },
+        {
+          "nome": "Spritz bianco/con limone",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Spritz bianco con limone",
+            "en": "White Spritz with lemon",
+            "fr": "Spritz blanc au citron",
+            "de": "Weißer Spritz mit Zitrone",
+            "es": "Spritz blanco con limón",
+            "pt": "Spritz branco com limão",
+            "ja": "レモン入りホワイトスプリッツ",
+            "ar": "سبريتز أبيض مع ليمون",
+            "ru": "Белый спритс с лимоном"
+          }
+        },
+        {
+          "nome": "Spritz martini",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Spritz martini",
+            "en": "Spritz martini",
+            "fr": "Spritz martini",
+            "de": "Spritz martini",
+            "es": "Spritz martini",
+            "pt": "Spritz martini",
+            "ja": "マティーニ・スプリッツ",
+            "ar": "سبريتز مارتيني",
+            "ru": "Спритс мартини"
+          }
+        },
+        {
+          "nome": "Negroni",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Negroni",
+            "en": "Negroni",
+            "fr": "Negroni",
+            "de": "Negroni",
+            "es": "Negroni",
+            "pt": "Negroni",
+            "ja": "ネグローニ",
+            "ar": "نيجروني",
+            "ru": "Негрони"
+          }
+        },
+        {
+          "nome": "Americano",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Americano",
+            "en": "Americano",
+            "fr": "Americano",
+            "de": "Americano",
+            "es": "Americano",
+            "pt": "Americano",
+            "ja": "アメリカーノ",
+            "ar": "أمريكáno",
+            "ru": "Американо"
+          }
+        },
+        {
+          "nome": "Gin tonic",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Gin tonic",
+            "en": "Gin tonic",
+            "fr": "Gin tonic",
+            "de": "Gin tonic",
+            "es": "Gin tonic",
+            "pt": "Gin tonic",
+            "ja": "ジン・トニック",
+            "ar": "جين توينيك",
+            "ru": "Джин тоник"
+          }
+        },
+        {
+          "nome": "Vodka tonic",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Vodka tonic",
+            "en": "Vodka tonic",
+            "fr": "Vodka tonic",
+            "de": "Vodka tonic",
+            "es": "Vodka tonic",
+            "pt": "Vodka tonic",
+            "ja": "ウォッカ・トニック",
+            "ar": "فودكا توينيك",
+            "ru": "Водка тоник"
+          }
+        },
+        {
+          "nome": "Cuba libre",
+          "prezzo": 8,
+          "descrizione": {
+            "it": "Cuba libre",
+            "en": "Cuba libre",
+            "fr": "Cuba libre",
+            "de": "Cuba libre",
+            "es": "Cuba libre",
+            "pt": "Cuba libre",
+            "ja": "キューバ・リブレ",
+            "ar": "كوبا ليبيري",
+            "ru": "Куба либре"
           }
         }
       ]
