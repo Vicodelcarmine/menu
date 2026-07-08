@@ -1,0 +1,18 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vico del Carmine">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d13b2f"/>
+      <stop offset="1" stop-color="#7a1f2b"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="10" y="10" width="492" height="492" rx="102" fill="none" stroke="#e6b24a" stroke-width="10" opacity=".85"/>
+  <!-- fetta di pizza -->
+  <path d="M256 398 L146 166 Q256 118 366 166 Z" fill="#f7efe2"/>
+  <path d="M146 166 Q256 118 366 166 L378 146 Q256 92 134 146 Z" fill="#e6b24a"/>
+  <circle cx="226" cy="208" r="16" fill="#c8102e"/>
+  <circle cx="290" cy="224" r="15" fill="#c8102e"/>
+  <circle cx="252" cy="276" r="14" fill="#c8102e"/>
+  <!-- foglia di basilico -->
+  <path d="M300 300 q26 -10 40 12 q-30 12 -40 -12 Z" fill="#86b64a"/>
+</svg>
