@@ -14,9 +14,9 @@
 const Store = (function () {
   "use strict";
 
-  // 👇 SOSTITUISCI con i dati del NUOVO progetto Supabase di Vico del Carmine
-  const SUPABASE_URL = "https://INCOLLA-QUI.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_INCOLLA_QUI";
+  // Progetto Supabase di Vico del Carmine (la chiave "publishable" è pubblica: OK nel sito)
+  const SUPABASE_URL = "https://agbvmhpktilpaoabjkre.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_2O5l8ZbQqGnwDXwxZnsZ2Q_0Mt1V8T7";
 
   const REST = SUPABASE_URL + "/rest/v1";
   const headers = { apikey: SUPABASE_KEY, "Content-Type": "application/json" };
