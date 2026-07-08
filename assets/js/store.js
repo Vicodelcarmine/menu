@@ -38,6 +38,33 @@ const Store = (function () {
     return d && Object.keys(d).length ? d : null;
   }
 
+  // Ridimensiona e comprime una foto prima del caricamento:
+  // lato lungo max 1200px, JPEG qualità ~0.82 → tipicamente 100–300 KB (leggera e uniforme).
+  function compressImage(file, maxSize, quality) {
+    return new Promise(function (resolve, reject) {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        let w = img.naturalWidth, h = img.naturalHeight;
+        if (!w || !h) { reject(new Error("dimensioni non valide")); return; }
+        if (Math.max(w, h) > maxSize) {
+          if (w >= h) { h = Math.round(h * maxSize / w); w = maxSize; }
+          else { w = Math.round(w * maxSize / h); h = maxSize; }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        canvas.toBlob(function (blob) {
+          if (blob && blob.size > 0) resolve(blob);
+          else reject(new Error("compressione fallita"));
+        }, "image/jpeg", quality);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("immagine non leggibile")); };
+      img.src = url;
+    });
+  }
+
   return {
     // ritorna 'titolare' | 'staff' | null
     verifyPassword: function (pwd) { return rpc("verify_pw", { pwd: pwd }); },
@@ -46,15 +73,24 @@ const Store = (function () {
     getOverrides: function () { return readContent("overrides"); },
     saveOverrides: function (data, pwd) { return rpc("save_overrides", { new_data: data, pwd: pwd }); },
 
-    // Carica una foto nel bucket 'foto' e restituisce l'indirizzo pubblico
+    // Carica una foto nel bucket 'foto' (ridimensionata+compressa) → indirizzo pubblico
     uploadPhoto: async function (file) {
       if (!configured) throw new Error("Supabase non configurato");
-      const clean = file.name.replace(/[^a-zA-Z0-9.]/g, "-").toLowerCase();
-      const name = Date.now() + "-" + clean;
+      // 1) alleggerisci l'immagine (con fallback all'originale se non comprimibile)
+      let body = file, ctype = file.type || "image/jpeg", ext;
+      try {
+        body = await compressImage(file, 1200, 0.82); ctype = "image/jpeg"; ext = "jpg";
+      } catch (e) {
+        ext = ((file.name || "").split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+      }
+      // 2) nome file pulito e univoco
+      const base = (file.name || "foto").replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9]/g, "-").toLowerCase() || "foto";
+      const name = Date.now() + "-" + base + "." + ext;
+      // 3) carica
       const r = await fetch(SUPABASE_URL + "/storage/v1/object/foto/" + name, {
         method: "POST",
-        headers: { apikey: SUPABASE_KEY, "Content-Type": file.type || "image/jpeg", "x-upsert": "true" },
-        body: file,
+        headers: { apikey: SUPABASE_KEY, "Content-Type": ctype, "x-upsert": "true" },
+        body: body,
       });
       if (!r.ok) throw new Error("upload " + r.status);
       return SUPABASE_URL + "/storage/v1/object/public/foto/" + name;
