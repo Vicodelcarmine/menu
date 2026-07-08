@@ -294,7 +294,7 @@ html[dir="rtl"] .cat-btn .arrow{ right:auto; left:16px; transform:scaleX(-1); }
   color:var(--gold); font-size:.95rem; min-width:54px; text-align:right;
 }
 .ov-close{
-  position:absolute; top:14px; right:16px;
+  position:absolute; top:14px; right:16px; z-index:10;
   width:44px; height:44px; border-radius:50%;
   border:1px solid var(--line); background:rgba(0,0,0,.35);
   color:var(--cream); font-size:1.4rem; line-height:1; cursor:pointer;
@@ -518,7 +518,7 @@ html[dir="rtl"] .feature{ text-align:right; }
   z-index:55;
   background:radial-gradient(90% 60% at 50% 0%, rgba(230,178,74,.18), transparent 60%), rgba(9,6,4,.92);
 }
-.spec-inner{ flex:1; width:100%; overflow-y:auto; -webkit-overflow-scrolling:touch; display:flex; flex-direction:column; justify-content:center; padding:64px 22px 44px; }
+.spec-inner{ flex:1; width:100%; overflow-y:auto; display:flex; flex-direction:column; justify-content:center; padding:64px 22px 44px; }
 .spec-head{ text-align:center; margin:0 auto 26px; }
 .spec-kicker{ font-family:var(--font-head); text-transform:uppercase; letter-spacing:.2em; font-size:.74rem; color:var(--gold); }
 .spec-head h2{ font-family:var(--font-display); font-weight:900; font-size:2.6rem; margin:.14em 0 .12em; color:#fff3cf; text-shadow:0 0 32px rgba(230,178,74,.55); }
@@ -593,7 +593,7 @@ html[dir="rtl"] .feature{ text-align:right; }
   z-index:55;
   background:radial-gradient(90% 60% at 50% 0%, rgba(230,178,74,.14), transparent 60%), rgba(9,6,4,.94);
 }
-.sheet-inner{ flex:1; width:100%; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:56px 14px 130px; }
+.sheet-inner{ flex:1; width:100%; overflow-y:auto; padding:56px 14px 130px; }
 
 /* ---- ICONA NASCOSTA (in basso a destra) ---- */
 #notif-hotspot{
