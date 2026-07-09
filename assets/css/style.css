@@ -657,6 +657,7 @@ html[dir="rtl"] .feature{ text-align:right; }
 .de-top{ display:flex; align-items:center; gap:8px; }
 .dish-edit .de-name{ flex:1; font-family:var(--font-display); font-weight:700; font-size:1.1rem; color:var(--cream); margin:0; }
 .de-name-input{ flex:1; font-family:var(--font-display); font-weight:700; font-size:1.02rem; }
+.de-desc{ font-size:.9rem; }
 .de-del{ flex:0 0 auto; width:40px; height:40px; border-radius:10px; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; font-size:1.05rem; line-height:1; }
 .de-del:hover{ background:var(--brick); color:#fff; border-color:var(--brick); }
 .btn-add{ margin-top:10px; width:100%; background:transparent; border:1px dashed var(--line); color:var(--gold-soft); font-size:.85rem; }

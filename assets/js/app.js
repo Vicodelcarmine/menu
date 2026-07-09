@@ -78,15 +78,30 @@
         const c = Object.assign({}, p); c._sezione = sez.tipo; list.push(c);
       }));
     }
+    list.forEach((p) => { p._basenome = p.nome; });   // identità stabile per gli override (anche se cambia il nome)
     const edits = ovEdits(), removed = ovRemoved();
-    const keyOf = (p) => (p._ovslug || cat.slug) + "::" + p.nome;
+    const keyOf = (p) => (p._ovslug || cat.slug) + "::" + (p._basenome || p.nome);
     list = list.filter((p) => removed.indexOf(keyOf(p)) === -1);          // 1) eliminati
     if (!cat._pseudo) ovAdded(cat.slug).forEach((a) => list.push(Object.assign({ _added: true }, a)));  // 2) nuovi
-    list.forEach((p) => {                                                  // 3) prezzi/foto
+    list.forEach((p) => {                                                  // 3) modifiche: prezzo/foto/nome/descrizione
+      if (p._added) return;
       const ov = edits[keyOf(p)];
-      if (ov) { if (ov.prezzo != null && ov.prezzo !== "") p.prezzo = ov.prezzo; if (ov.image) p.image = ov.image; }
+      if (ov) {
+        if (ov.prezzo != null && ov.prezzo !== "") p.prezzo = ov.prezzo;
+        if ("image" in ov) p.image = ov.image;
+        if (ov.nome) p.nome = ov.nome;
+        if (ov.descrizione) p.descrizione = ov.descrizione;
+      }
     });
     return list;
+  }
+  // Piatto originale (menu-data.js) per capire cosa è stato davvero cambiato
+  function baseDish(slug, nome) {
+    const cat = catBySlug(slug); if (!cat) return null;
+    let arr = cat.piatti || [];
+    if (cat.sezioni) { arr = []; cat.sezioni.forEach((s) => { arr = arr.concat(s.piatti || []); }); }
+    for (let i = 0; i < arr.length; i++) if (arr[i].nome === nome) return arr[i];
+    return null;
   }
   function countOf(cat) { return piattiOf(cat).length; }
   function sezioneLabel(tipo) { const m = WINE_TYPES[tipo]; return (m && (m[lang] || m.it)) || tipo; }
@@ -493,19 +508,20 @@
     function dishRow(slug, p) {
       p = p || {};
       const added = !!(p._added || p.__new);
+      const basenome = added ? "" : (p._basenome || p.nome);
       const row = document.createElement("div");
       row.className = "dish-edit"; row.dataset.slug = slug; row.dataset.added = added ? "1" : "0";
-      if (!added) row.dataset.nome = p.nome;
+      if (!added) row.dataset.basenome = basenome;
       row.innerHTML =
-        '<div class="de-top">' +
-        (added ? '<input class="field de-name-input" placeholder="Nome del piatto">' : '<p class="de-name"></p>') +
+        '<div class="de-top"><input class="field de-name-input" placeholder="Nome del piatto">' +
         '<button type="button" class="de-del" aria-label="Elimina piatto">🗑</button></div>' +
+        '<input class="field de-desc" placeholder="Descrizione (facoltativa)">' +
         '<div class="de-line"><span class="de-lab">€</span>' +
         '<input class="field de-prezzo" inputmode="decimal" placeholder="—">' +
         '<button type="button" class="de-foto"><span class="de-foto-txt">📷 Foto</span></button></div>' +
         '<input type="hidden" class="de-fotoval">';
-      if (added) { if (p.nome) row.querySelector(".de-name-input").value = p.nome; }
-      else { row.querySelector(".de-name").textContent = p.nome; }
+      row.querySelector(".de-name-input").value = p.nome || "";
+      row.querySelector(".de-desc").value = (p.descrizione && p.descrizione.it) || "";
       row.querySelector(".de-prezzo").value = (p.prezzo != null ? p.prezzo : "");
       const fv = row.querySelector(".de-fotoval"); fv.value = p.image || "";
       const fb = row.querySelector(".de-foto");
@@ -513,7 +529,7 @@
       refresh();
       fb.addEventListener("click", function () { pickPhoto(function (url) { fv.value = url; refresh(); }); });
       row.querySelector(".de-del").addEventListener("click", function () {
-        if (!added) removedSet[slug + "::" + p.nome] = true;   // piatto-base → segnato eliminato
+        if (!added) removedSet[slug + "::" + basenome] = true;   // piatto-base → segnato eliminato
         row.remove();
       });
       return row;
@@ -554,13 +570,25 @@
     editInner.querySelectorAll(".cat-edit").forEach(function (sec) {
       const slug = sec.dataset.slug;
       sec.querySelectorAll(".dish-edit").forEach(function (row) {
+        const nome = (row.querySelector(".de-name-input").value || "").trim();
         const prezzo = row.querySelector(".de-prezzo").value.trim();
         const image = row.querySelector(".de-fotoval").value.trim();
-        if (row.dataset.added === "1") {                                   // piatto NUOVO
-          const nome = (row.querySelector(".de-name-input").value || "").trim();
-          if (nome) (added[slug] = added[slug] || []).push({ nome: nome, prezzo: prezzo, image: image });
-        } else if (prezzo !== "" || image !== "") {                        // piatto esistente: prezzo/foto
-          edits[slug + "::" + row.dataset.nome] = { prezzo: prezzo, image: image };
+        const desc = (row.querySelector(".de-desc").value || "").trim();
+        if (row.dataset.added === "1") {                                   // NUOVO piatto
+          if (!nome) return;
+          const d = { nome: nome, prezzo: prezzo, image: image };
+          if (desc) d.descrizione = { it: desc };
+          (added[slug] = added[slug] || []).push(d);
+        } else {                                                            // ESISTENTE: salva SOLO ciò che è cambiato dal menu base
+          const basenome = row.dataset.basenome;
+          const base = baseDish(slug, basenome) || {};
+          const ov = {};
+          if (prezzo !== "" && prezzo !== String(base.prezzo != null ? base.prezzo : "")) ov.prezzo = prezzo;
+          if (image !== (base.image || "")) ov.image = image;
+          if (nome && nome !== basenome) ov.nome = nome;
+          const baseDescIt = (base.descrizione && base.descrizione.it) || "";
+          if (desc !== baseDescIt) ov.descrizione = { it: desc };
+          if (Object.keys(ov).length) edits[slug + "::" + basenome] = ov;
         }
       });
     });
