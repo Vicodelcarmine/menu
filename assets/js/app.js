@@ -16,10 +16,23 @@
   const countEl = $("#ov-count");
   const dotsEl = $("#dots");
 
-  /* --- categorie che finiscono nel riquadro "Specialità" (non nella griglia) --- */
+  /* --- categorie ⭐ speciali: NON nella griglia, vanno nel riquadro "Specialità" --- */
   const SPECIAL_SLUGS = ["specialita-stagione", "specialita-pizza"];
-  /* --- schede mostrate quando si APRE il riquadro "Specialità" --- */
-  const SPEC_PANEL_SLUGS = ["specialita-stagione", "antipasti", "primi", "secondi", "pizze", "specialita-pizza"];
+  /* --- portata di ogni piatto ⭐ di "specialita-stagione" (per indice): sposta qui un piatto --- */
+  const STAGIONE_CORSO = [
+    "antipasti", // 0  Guazzetto di mare
+    "antipasti", // 1  Insalata di baccalà
+    "antipasti", // 2  Pepata di cozze
+    "primi",     // 3  Pasta vongole e bottarga
+    "primi",     // 4  Gnocchi ceci e cozze
+    "primi",     // 5  Pennette pesto e gamberetti
+    "secondi",   // 6  Spigola/Orata alla griglia
+    "secondi",   // 7  Baccalà napoletano
+    "secondi",   // 8  Salmone alla griglia
+    "secondi",   // 9  Agnello alla scottadito
+    "secondi",   // 10 Tagliata di manzo
+    "secondi",   // 11 Entrecote al chianti
+  ];
 
   /* --- icona per categoria (i dati non hanno emoji) --- */
   const CAT_ICON = {
@@ -51,7 +64,12 @@
     return "€ " + s;
   }
 
-  // Appiattisce i piatti; per i vini (sezioni) aggiunge _sezione = tipo
+  // --- modifiche pubblicate (Supabase): { edits:{ "slug::nome":{prezzo,image} }, removed:[...], added:{ slug:[...] } }
+  function ovEdits() { return (overrides && overrides.edits) || {}; }
+  function ovRemoved() { return (overrides && overrides.removed) || []; }
+  function ovAdded(slug) { return (overrides && overrides.added && overrides.added[slug]) || []; }
+
+  // Appiattisce i piatti (i vini usano le sezioni) e applica eliminazioni/aggiunte/prezzi-foto pubblicate
   function piattiOf(cat) {
     let list = [];
     if (Array.isArray(cat.piatti)) list = cat.piatti.map((p) => Object.assign({}, p));
@@ -60,9 +78,12 @@
         const c = Object.assign({}, p); c._sezione = sez.tipo; list.push(c);
       }));
     }
-    // applica eventuali modifiche pubblicate (prezzi/foto)
-    list.forEach((p) => {
-      const ov = overrides[cat.slug + "::" + p.nome];
+    const edits = ovEdits(), removed = ovRemoved();
+    const keyOf = (p) => (p._ovslug || cat.slug) + "::" + p.nome;
+    list = list.filter((p) => removed.indexOf(keyOf(p)) === -1);          // 1) eliminati
+    if (!cat._pseudo) ovAdded(cat.slug).forEach((a) => list.push(Object.assign({ _added: true }, a)));  // 2) nuovi
+    list.forEach((p) => {                                                  // 3) prezzi/foto
+      const ov = edits[keyOf(p)];
       if (ov) { if (ov.prezzo != null && ov.prezzo !== "") p.prezzo = ov.prezzo; if (ov.image) p.image = ov.image; }
     });
     return list;
@@ -70,9 +91,27 @@
   function countOf(cat) { return piattiOf(cat).length; }
   function sezioneLabel(tipo) { const m = WINE_TYPES[tipo]; return (m && (m[lang] || m.it)) || tipo; }
 
+  function catBySlug(s) { return categorie.filter((c) => c.slug === s)[0]; }
   function gridCats() { return categorie.filter((c) => SPECIAL_SLUGS.indexOf(c.slug) === -1); }
-  function specialCats() { return categorie.filter((c) => SPECIAL_SLUGS.indexOf(c.slug) !== -1); }
-  function specPanelCats() { return SPEC_PANEL_SLUGS.map((s) => categorie.filter((c) => c.slug === s)[0]).filter(Boolean); }
+
+  // Gruppi "Specialità": SOLO i piatti ⭐, divisi per portata
+  function specGroups() {
+    const stag = catBySlug("specialita-stagione");
+    const pizza = catBySlug("specialita-pizza");
+    const buckets = { antipasti: [], primi: [], secondi: [] };
+    if (stag) (stag.piatti || []).forEach((p, i) => {
+      buckets[STAGIONE_CORSO[i] || "secondi"].push(Object.assign({}, p, { _ovslug: "specialita-stagione" }));
+    });
+    const groups = [];
+    ["antipasti", "primi", "secondi"].forEach((slug) => {
+      if (buckets[slug].length) { const b = catBySlug(slug); groups.push({ slug: slug, _pseudo: true, nome: b ? b.nome : slug, piatti: buckets[slug] }); }
+    });
+    if (pizza && (pizza.piatti || []).length) {
+      const pz = (pizza.piatti || []).map((p) => Object.assign({}, p, { _ovslug: "specialita-pizza" }));
+      groups.push({ slug: "pizze", _pseudo: true, nome: (catBySlug("pizze") || {}).nome || "Pizze", piatti: pz });
+    }
+    return groups;
+  }
 
   /* --- utilità overlay --- */
   function updateScroll() {
@@ -170,7 +209,7 @@
      ======================================================================== */
   function buildFeatures() {
     const grid = $("#grid");
-    const specials = specPanelCats();
+    const specials = specGroups();
     if (!specials.length) return;
     const s = document.createElement("button");
     s.className = "feature specialita";
@@ -209,7 +248,7 @@
   function buildSpecCards() {
     const wrap = $("#spec-cards");
     wrap.innerHTML = "";
-    specPanelCats().forEach(function (c, i) {
+    specGroups().forEach(function (c, i) {
       const card = document.createElement("button");
       card.className = "spec-card";
       card.style.animationDelay = i * 130 + "ms";
@@ -437,7 +476,7 @@
 
   function openEditor() {
     editInner.innerHTML =
-      '<p class="me-kick">⭐ Modifica prezzi & foto</p>' +
+      '<p class="me-kick">⭐ Modifica menu · prezzi · foto · piatti</p>' +
       '<div class="me-nav">' +
       '<button type="button" class="me-arrow" id="me-prev" aria-label="‹">‹</button>' +
       '<div class="me-navlabel"><span id="me-catname"></span><small id="me-counter"></small></div>' +
@@ -448,29 +487,52 @@
       '<p class="hint-center" id="me-msg">Le modifiche vanno online per tutti i clienti.</p>';
     const pager = $("#me-pager");
     const pages = [];
+    const removedSet = {};                          // "slug::nome" dei piatti-base eliminati
+    ovRemoved().forEach(function (k) { removedSet[k] = true; });  // eredita eliminazioni già pubblicate
+
+    function dishRow(slug, p) {
+      p = p || {};
+      const added = !!(p._added || p.__new);
+      const row = document.createElement("div");
+      row.className = "dish-edit"; row.dataset.slug = slug; row.dataset.added = added ? "1" : "0";
+      if (!added) row.dataset.nome = p.nome;
+      row.innerHTML =
+        '<div class="de-top">' +
+        (added ? '<input class="field de-name-input" placeholder="Nome del piatto">' : '<p class="de-name"></p>') +
+        '<button type="button" class="de-del" aria-label="Elimina piatto">🗑</button></div>' +
+        '<div class="de-line"><span class="de-lab">€</span>' +
+        '<input class="field de-prezzo" inputmode="decimal" placeholder="—">' +
+        '<button type="button" class="de-foto"><span class="de-foto-txt">📷 Foto</span></button></div>' +
+        '<input type="hidden" class="de-fotoval">';
+      if (added) { if (p.nome) row.querySelector(".de-name-input").value = p.nome; }
+      else { row.querySelector(".de-name").textContent = p.nome; }
+      row.querySelector(".de-prezzo").value = (p.prezzo != null ? p.prezzo : "");
+      const fv = row.querySelector(".de-fotoval"); fv.value = p.image || "";
+      const fb = row.querySelector(".de-foto");
+      function refresh() { fb.innerHTML = fv.value ? '<img src="' + fv.value + '" alt=""><span class="de-foto-txt">Cambia</span>' : '<span class="de-foto-txt">📷 Foto</span>'; }
+      refresh();
+      fb.addEventListener("click", function () { pickPhoto(function (url) { fv.value = url; refresh(); }); });
+      row.querySelector(".de-del").addEventListener("click", function () {
+        if (!added) removedSet[slug + "::" + p.nome] = true;   // piatto-base → segnato eliminato
+        row.remove();
+      });
+      return row;
+    }
+
     categorie.forEach(function (cat) {
       const sec = document.createElement("section"); sec.className = "cat-edit me-page"; sec.dataset.slug = cat.slug;
       const list = document.createElement("div"); list.className = "dish-list";
-      piattiOf(cat).forEach(function (p) {
-        const row = document.createElement("div"); row.className = "dish-edit";
-        row.dataset.nome = p.nome;
-        row.innerHTML =
-          '<p class="de-name">' + p.nome + "</p>" +
-          '<div class="de-line"><span class="de-lab">€</span>' +
-          '<input class="field de-prezzo" inputmode="decimal" placeholder="—">' +
-          '<button type="button" class="de-foto"><span class="de-foto-txt">📷 Foto</span></button></div>' +
-          '<input type="hidden" class="de-fotoval">';
-        row.querySelector(".de-prezzo").value = (p.prezzo != null ? p.prezzo : "");
-        const fv = row.querySelector(".de-fotoval"); fv.value = p.image || "";
-        const fb = row.querySelector(".de-foto");
-        function refresh() { fb.innerHTML = fv.value ? '<img src="' + fv.value + '" alt=""><span class="de-foto-txt">Cambia</span>' : '<span class="de-foto-txt">📷 Foto</span>'; }
-        refresh();
-        fb.addEventListener("click", function () { pickPhoto(function (url) { fv.value = url; refresh(); }); });
-        list.appendChild(row);
+      piattiOf(cat).forEach(function (p) { list.appendChild(dishRow(cat.slug, p)); });
+      const add = document.createElement("button");
+      add.type = "button"; add.className = "btn btn-add"; add.textContent = "➕ Aggiungi piatto";
+      add.addEventListener("click", function () {
+        const r = dishRow(cat.slug, { __new: true }); list.appendChild(r);
+        const ni = r.querySelector(".de-name-input"); if (ni) ni.focus();
       });
-      sec.appendChild(list); pager.appendChild(sec);
+      sec.appendChild(list); sec.appendChild(add); pager.appendChild(sec);
       pages.push({ el: sec, nome: iconFor(cat) + " " + catName(cat) });
     });
+
     let idx = 0;
     function show(i) {
       idx = (i + pages.length) % pages.length;
@@ -482,27 +544,33 @@
     $("#me-prev").addEventListener("click", function () { show(idx - 1); });
     $("#me-next").addEventListener("click", function () { show(idx + 1); });
     show(0);
-    $("#me-save").addEventListener("click", saveEditor);
+    $("#me-save").addEventListener("click", function () { saveEditor(removedSet); });
     editOverlay.classList.add("open"); editOverlay.scrollTop = 0; updateScroll();
   }
 
-  async function saveEditor() {
-    const next = {};
+  async function saveEditor(removedSet) {
+    const edits = {}, added = {};
+    const removed = Object.keys(removedSet || {});
     editInner.querySelectorAll(".cat-edit").forEach(function (sec) {
       const slug = sec.dataset.slug;
       sec.querySelectorAll(".dish-edit").forEach(function (row) {
-        const nome = row.dataset.nome;
         const prezzo = row.querySelector(".de-prezzo").value.trim();
         const image = row.querySelector(".de-fotoval").value.trim();
-        if (prezzo !== "" || image !== "") next[slug + "::" + nome] = { prezzo: prezzo, image: image };
+        if (row.dataset.added === "1") {                                   // piatto NUOVO
+          const nome = (row.querySelector(".de-name-input").value || "").trim();
+          if (nome) (added[slug] = added[slug] || []).push({ nome: nome, prezzo: prezzo, image: image });
+        } else if (prezzo !== "" || image !== "") {                        // piatto esistente: prezzo/foto
+          edits[slug + "::" + row.dataset.nome] = { prezzo: prezzo, image: image };
+        }
       });
     });
+    const payload = { edits: edits, removed: removed, added: added };
     const btn = $("#me-save"); btn.disabled = true; $("#me-msg").textContent = "Pubblico...";
     try {
-      const ok = await Store.saveOverrides(next, editorPwd);
-      if (ok) { overrides = next; rebuildGrid(); closeEditor(); showToast("✅ Menu aggiornato"); }
-      else { $("#me-msg").textContent = "Serve la password del titolare."; btn.disabled = false; }
-    } catch (e) { $("#me-msg").textContent = "Supabase non ancora collegato."; btn.disabled = false; }
+      const ok = await Store.saveOverrides(payload, editorPwd);
+      if (ok) { overrides = payload; rebuildGrid(); closeEditor(); showToast("✅ Menu aggiornato"); }
+      else { $("#me-msg").textContent = "Password non valida."; btn.disabled = false; }
+    } catch (e) { $("#me-msg").textContent = "Errore di collegamento a Supabase."; btn.disabled = false; }
   }
 
   function initHiddenEditor() {
