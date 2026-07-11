@@ -458,7 +458,7 @@
     const pwBox = $("#pw-box");
     pwBox.innerHTML =
       '<h2>Area riservata</h2><p class="sub">Inserisci la password per modificare prezzi e foto.</p>' +
-      '<input type="password" class="field" id="pw-input" inputmode="text" placeholder="Password" autocomplete="off">' +
+      '<input type="password" class="field" id="pw-input" inputmode="numeric" pattern="[0-9]*" placeholder="Password" autocomplete="off">' +
       '<p class="approve-err" id="pw-err"></p>' +
       '<div class="approve-actions"><button class="btn btn-no" id="pw-cancel">Annulla</button><button class="btn btn-primary" id="pw-go">Entra</button></div>';
     $("#pw-modal").classList.add("open");
@@ -518,16 +518,23 @@
         '<input class="field de-desc" placeholder="Descrizione (facoltativa)">' +
         '<div class="de-line"><span class="de-lab">€</span>' +
         '<input class="field de-prezzo" inputmode="decimal" placeholder="—">' +
-        '<button type="button" class="de-foto"><span class="de-foto-txt">📷 Foto</span></button></div>' +
+        '<button type="button" class="de-foto"><span class="de-foto-txt">📷 Foto</span></button>' +
+        '<button type="button" class="de-foto-del" aria-label="Togli foto" hidden>✕</button></div>' +
         '<input type="hidden" class="de-fotoval">';
       row.querySelector(".de-name-input").value = p.nome || "";
       row.querySelector(".de-desc").value = (p.descrizione && p.descrizione.it) || "";
       row.querySelector(".de-prezzo").value = (p.prezzo != null ? p.prezzo : "");
       const fv = row.querySelector(".de-fotoval"); fv.value = p.image || "";
       const fb = row.querySelector(".de-foto");
-      function refresh() { fb.innerHTML = fv.value ? '<img src="' + fv.value + '" alt=""><span class="de-foto-txt">Cambia</span>' : '<span class="de-foto-txt">📷 Foto</span>'; }
+      const fdel = row.querySelector(".de-foto-del");
+      function refresh() {
+        const has = !!fv.value;
+        fb.innerHTML = has ? '<img src="' + fv.value + '" alt=""><span class="de-foto-txt">Cambia</span>' : '<span class="de-foto-txt">📷 Foto</span>';
+        fdel.hidden = !has;
+      }
       refresh();
       fb.addEventListener("click", function () { pickPhoto(function (url) { fv.value = url; refresh(); }); });
+      fdel.addEventListener("click", function () { fv.value = ""; refresh(); });
       row.querySelector(".de-del").addEventListener("click", function () {
         if (!added) removedSet[slug + "::" + basenome] = true;   // piatto-base → segnato eliminato
         row.remove();
