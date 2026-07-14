@@ -16,35 +16,18 @@
   const countEl = $("#ov-count");
   const dotsEl = $("#dots");
 
-  /* --- categorie ⭐ speciali: NON nella griglia, vanno nel riquadro "Specialità" --- */
-  const SPECIAL_SLUGS = ["specialita-stagione", "specialita-pizza"];
-  /* --- portata di ogni piatto ⭐ di "specialita-stagione" (per indice): sposta qui un piatto --- */
-  const STAGIONE_CORSO = [
-    "antipasti", // 0  Guazzetto di mare
-    "antipasti", // 1  Insalata di baccalà
-    "antipasti", // 2  Pepata di cozze
-    "primi",     // 3  Pasta vongole e bottarga
-    "primi",     // 4  Gnocchi ceci e cozze
-    "primi",     // 5  Pennette pesto e gamberetti
-    "secondi",   // 6  Spigola/Orata alla griglia
-    "secondi",   // 7  Baccalà napoletano
-    "secondi",   // 8  Salmone alla griglia
-    "secondi",   // 9  Agnello alla scottadito
-    "secondi",   // 10 Tagliata di manzo
-    "secondi",   // 11 Entrecote al chianti
-  ];
-
-  /* --- icona per categoria (i dati non hanno emoji) --- */
+  /* --- icona per categoria --- */
   const CAT_ICON = {
-    "specialita-stagione": "⭐", "antipasti": "🥖", "primi": "🍝", "secondi": "🍖",
-    "insalatone": "🥗", "contorni": "🍟", "pizze": "🍕", "specialita-pizza": "🔥",
+    "specialita": "⭐", "antipasti": "🥖", "primi": "🍝", "secondi": "🍖",
+    "insalatone": "🥗", "contorni": "🍟", "pizze": "🍕",
     "dolci": "🍰", "birre": "🍺", "cocktail": "🍸", "bevande": "🥤", "vini": "🍷",
   };
 
   /* --- stato --- */
   let lang = "it";
   let currentCat = null;          // categoria aperta nel carosello (per ri-tradurre)
-  let overrides = {};             // modifiche da Supabase: { "slug::nome": {prezzo, image} }
+  let overrides = {};             // modifiche pubblicate da Supabase
+  let overridesLoaded = false;    // true solo se il caricamento da Supabase è riuscito (anti-perdita-dati)
 
   const hasData = typeof MENU_DATA !== "undefined" && MENU_DATA;
   const categorie = (hasData && MENU_DATA.categorie) || [];
@@ -69,6 +52,34 @@
   function ovRemoved() { return (overrides && overrides.removed) || []; }
   function ovAdded(slug) { return (overrides && overrides.added && overrides.added[slug]) || []; }
 
+  // Migrazione una-tantum: le vecchie categorie speciali sono confluite nelle normali.
+  // Rinomina, in memoria all'avvio, le chiavi degli override salvati PRIMA del cambio.
+  const MIGRATE_KEYS = {
+    "specialita-stagione::⭐ Guazzetto di mare caldo in terrina": "antipasti::⭐ Guazzetto di mare caldo in terrina",
+    "specialita-stagione::⭐ Insalata di baccalà, limone, olive e pomodori freschi": "antipasti::⭐ Insalata di baccalà, limone, olive e pomodori freschi",
+    "specialita-stagione::⭐ Pepata di cozze e bruschette": "antipasti::⭐ Pepata di cozze e bruschette",
+    "specialita-stagione::⭐ Pasta fresca vongole e bottarga": "primi::⭐ Pasta fresca vongole e bottarga",
+    "specialita-stagione::⭐ Gnocchi di patate ceci e cozze": "primi::⭐ Gnocchi di patate ceci e cozze",
+    "specialita-stagione::⭐ Pennette pesto e gamberetti": "primi::⭐ Pennette pesto e gamberetti",
+    "specialita-stagione::⭐ Spigola o Orata alla griglia": "secondi::⭐ Spigola o Orata alla griglia",
+    "specialita-stagione::⭐ Baccalà Napoletano": "secondi::⭐ Baccalà Napoletano",
+    "specialita-stagione::⭐ Salmone alla griglia": "secondi::⭐ Salmone alla griglia",
+    "specialita-stagione::⭐ Agnello alla scottadito": "secondi::⭐ Agnello alla scottadito",
+    "specialita-stagione::⭐ Tagliata di manzo ai ferri": "secondi::⭐ Tagliata di manzo ai ferri",
+    "specialita-stagione::⭐ Entrecote al chianti": "secondi::⭐ Entrecote al chianti",
+    "specialita-pizza::⭐ Pizza NERETO": "pizze::⭐ Pizza NERETO",
+    "specialita-pizza::⭐ Pizza TOSCANA": "pizze::⭐ Pizza TOSCANA",
+    "specialita-pizza::⭐ Pizza TABARRO": "pizze::⭐ Pizza TABARRO",
+  };
+  function migrateOverrides(ov) {
+    if (!ov || typeof ov !== "object") return ov;
+    if (ov.edits) Object.keys(MIGRATE_KEYS).forEach(function (oldk) {
+      if (oldk in ov.edits) { if (!(MIGRATE_KEYS[oldk] in ov.edits)) ov.edits[MIGRATE_KEYS[oldk]] = ov.edits[oldk]; delete ov.edits[oldk]; }
+    });
+    if (Array.isArray(ov.removed)) ov.removed = ov.removed.map(function (k) { return MIGRATE_KEYS[k] || k; });
+    return ov;
+  }
+
   // Appiattisce i piatti (i vini usano le sezioni) e applica eliminazioni/aggiunte/prezzi-foto pubblicate
   function piattiOf(cat) {
     let list = [];
@@ -83,17 +94,21 @@
     const keyOf = (p) => (p._ovslug || cat.slug) + "::" + (p._basenome || p.nome);
     list = list.filter((p) => removed.indexOf(keyOf(p)) === -1);          // 1) eliminati
     if (!cat._pseudo) ovAdded(cat.slug).forEach((a) => list.push(Object.assign({ _added: true }, a)));  // 2) nuovi
-    list.forEach((p) => {                                                  // 3) modifiche: prezzo/foto/nome/descrizione
-      if (p._added) return;
-      const ov = edits[keyOf(p)];
-      if (ov) {
-        if (ov.prezzo != null && ov.prezzo !== "") p.prezzo = ov.prezzo;
-        if ("image" in ov) p.image = ov.image;
-        if (ov.nome) p.nome = ov.nome;
-        if (ov.descrizione) p.descrizione = ov.descrizione;
+    list.forEach((p) => {                                                  // 3) modifiche: prezzo/foto/nome/descrizione/speciale
+      if (!p._added) {
+        const ov = edits[keyOf(p)];
+        if (ov) {
+          if (ov.prezzo != null && ov.prezzo !== "") p.prezzo = ov.prezzo;
+          if ("image" in ov) p.image = ov.image;
+          if (ov.nome) p.nome = ov.nome;
+          if (ov.descrizione) p.descrizione = ov.descrizione;
+          if ("speciale" in ov) p.speciale = ov.speciale;
+        }
       }
+      p.speciale = !!p.speciale;
     });
-    return list;
+    // piatti normali prima, SPECIALITÀ in fondo (ordine stabile)
+    return list.filter((p) => !p.speciale).concat(list.filter((p) => p.speciale));
   }
   // Piatto originale (menu-data.js) per capire cosa è stato davvero cambiato
   function baseDish(slug, nome) {
@@ -107,25 +122,16 @@
   function sezioneLabel(tipo) { const m = WINE_TYPES[tipo]; return (m && (m[lang] || m.it)) || tipo; }
 
   function catBySlug(s) { return categorie.filter((c) => c.slug === s)[0]; }
-  function gridCats() { return categorie.filter((c) => SPECIAL_SLUGS.indexOf(c.slug) === -1); }
+  function gridCats() { return categorie; }
 
-  // Gruppi "Specialità": SOLO i piatti ⭐, divisi per portata
-  function specGroups() {
-    const stag = catBySlug("specialita-stagione");
-    const pizza = catBySlug("specialita-pizza");
-    const buckets = { antipasti: [], primi: [], secondi: [] };
-    if (stag) (stag.piatti || []).forEach((p, i) => {
-      buckets[STAGIONE_CORSO[i] || "secondi"].push(Object.assign({}, p, { _ovslug: "specialita-stagione" }));
+  // Carosello unico "Specialità": TUTTI i piatti con speciale=true, da ogni categoria (in ordine di menu)
+  function allSpecialsCat() {
+    const list = [];
+    categorie.forEach((cat) => {
+      piattiOf(cat).forEach((p) => { if (p.speciale) list.push(Object.assign({}, p, { _ovslug: cat.slug })); });
     });
-    const groups = [];
-    ["antipasti", "primi", "secondi"].forEach((slug) => {
-      if (buckets[slug].length) { const b = catBySlug(slug); groups.push({ slug: slug, _pseudo: true, nome: b ? b.nome : slug, piatti: buckets[slug] }); }
-    });
-    if (pizza && (pizza.piatti || []).length) {
-      const pz = (pizza.piatti || []).map((p) => Object.assign({}, p, { _ovslug: "specialita-pizza" }));
-      groups.push({ slug: "pizze", _pseudo: true, nome: (catBySlug("pizze") || {}).nome || "Pizze", piatti: pz });
-    }
-    return groups;
+    const nome = {}; LANGS.forEach((l) => { nome[l] = (I18N[l] && I18N[l].specialtiesTitle) || "Specialità"; });
+    return { slug: "specialita", _pseudo: true, _prebuilt: true, _allspecial: true, nome: nome, piatti: list };
   }
 
   /* --- utilità overlay --- */
@@ -164,8 +170,9 @@
     renderStatic();
     rebuildGrid();
     buildLangPanel();
-    if (specOverlay.classList.contains("open")) buildSpecCards();
-    if (overlay.classList.contains("open") && currentCat) openCarousel(currentCat);
+    if (overlay.classList.contains("open") && currentCat) {
+      if (currentCat._allspecial) openSpecialita(); else openCarousel(currentCat);
+    }
   }
   function buildLangPanel() {
     const list = $("#lang-list");
@@ -224,8 +231,7 @@
      ======================================================================== */
   function buildFeatures() {
     const grid = $("#grid");
-    const specials = specGroups();
-    if (!specials.length) return;
+    if (!allSpecialsCat().piatti.length) return;
     const s = document.createElement("button");
     s.className = "feature specialita";
     s.innerHTML =
@@ -259,25 +265,8 @@
   }
   function rebuildGrid() { $("#grid").innerHTML = ""; buildFeatures(); buildGrid(); }
 
-  /* --- Specialità: sotto-menu --- */
-  function buildSpecCards() {
-    const wrap = $("#spec-cards");
-    wrap.innerHTML = "";
-    specGroups().forEach(function (c, i) {
-      const card = document.createElement("button");
-      card.className = "spec-card";
-      card.style.animationDelay = i * 130 + "ms";
-      card.innerHTML =
-        '<span class="shine"></span>' +
-        '<span class="spec-ico">' + iconFor(c) + "</span>" +
-        '<span class="spec-name">' + catName(c) + "</span>" +
-        '<span class="spec-count">' + countOf(c) + " " + t("options") + "</span>" +
-        '<span class="spec-go">' + t("discover") + "</span>";
-      card.addEventListener("click", function () { openCarousel(c); });
-      wrap.appendChild(card);
-    });
-  }
-  function openSpecialita() { buildSpecCards(); specOverlay.classList.add("open"); updateScroll(); }
+  /* --- Specialità: un UNICO carosello con tutti i piatti ⭐ --- */
+  function openSpecialita() { openCarousel(allSpecialsCat()); }
   function closeSpecialita() { specOverlay.classList.remove("open"); updateScroll(); }
 
   /* ==========================================================================
@@ -322,11 +311,12 @@
   }
   function buildCard(p, fallbackIcon) {
     const card = document.createElement("article");
-    card.className = "card" + (p.image ? "" : " no-photo");
+    card.className = "card" + (p.image ? "" : " no-photo") + (p.speciale ? " special" : "");
     const price = (p.prezzo != null && p.prezzo !== "") ? '<span class="price">' + fmtPrice(p.prezzo) + "</span>" : "";
     const desc = dishDesc(p);
     const descHtml = desc ? "<p>" + desc + "</p>" : "";
-    const kick = p._sezione ? '<p class="kick">' + sezioneLabel(p._sezione) + "</p>" : "";
+    const kick = p.speciale ? '<p class="kick spec-kick">✦ ' + t("specialtiesTitle") + " ✦</p>"
+      : (p._sezione ? '<p class="kick">' + sezioneLabel(p._sezione) + "</p>" : "");
     card.innerHTML =
       '<div class="photo"><div class="fallback">' + (fallbackIcon || "🍽️") + "</div>" + price + "</div>" +
       '<div class="body">' + kick + "<h3>" + p.nome + "</h3>" + descHtml + '<span class="seal">♦</span></div>';
@@ -344,7 +334,7 @@
   }
   function openCarousel(cat) {
     currentCat = cat;
-    piatti = piattiOf(cat); n = piatti.length; index = 0;
+    piatti = cat._prebuilt ? cat.piatti : piattiOf(cat); n = piatti.length; index = 0;
     const icon = iconFor(cat);
     titleEl.innerHTML = '<span class="ico">' + icon + "</span>" + catName(cat);
 
@@ -520,7 +510,9 @@
         '<input class="field de-prezzo" inputmode="decimal" placeholder="—">' +
         '<button type="button" class="de-foto"><span class="de-foto-txt">📷 Foto</span></button>' +
         '<button type="button" class="de-foto-del" aria-label="Togli foto" hidden>✕</button></div>' +
+        '<label class="de-special"><input type="checkbox" class="de-special-cb"> ✦ Specialità <small>(carta oro + nel carosello Specialità)</small></label>' +
         '<input type="hidden" class="de-fotoval">';
+      row.querySelector(".de-special-cb").checked = !!p.speciale;
       row.querySelector(".de-name-input").value = p.nome || "";
       row.querySelector(".de-desc").value = (p.descrizione && p.descrizione.it) || "";
       row.querySelector(".de-prezzo").value = (p.prezzo != null ? p.prezzo : "");
@@ -572,6 +564,7 @@
   }
 
   async function saveEditor(removedSet) {
+    if (!overridesLoaded) { $("#me-msg").textContent = "⚠️ Modifiche non caricate (connessione). Ricarica la pagina prima di salvare, per non perdere il lavoro."; return; }
     const edits = {}, added = {};
     const removed = Object.keys(removedSet || {});
     editInner.querySelectorAll(".cat-edit").forEach(function (sec) {
@@ -581,10 +574,12 @@
         const prezzo = row.querySelector(".de-prezzo").value.trim();
         const image = row.querySelector(".de-fotoval").value.trim();
         const desc = (row.querySelector(".de-desc").value || "").trim();
+        const special = row.querySelector(".de-special-cb").checked;
         if (row.dataset.added === "1") {                                   // NUOVO piatto
           if (!nome) return;
           const d = { nome: nome, prezzo: prezzo, image: image };
           if (desc) d.descrizione = { it: desc };
+          if (special) d.speciale = true;
           (added[slug] = added[slug] || []).push(d);
         } else {                                                            // ESISTENTE: salva SOLO ciò che è cambiato dal menu base
           const basenome = row.dataset.basenome;
@@ -595,6 +590,7 @@
           if (nome && nome !== basenome) ov.nome = nome;
           const baseDescIt = (base.descrizione && base.descrizione.it) || "";
           if (desc !== baseDescIt) ov.descrizione = { it: desc };
+          if (special !== !!base.speciale) ov.speciale = special;
           if (Object.keys(ov).length) edits[slug + "::" + basenome] = ov;
         }
       });
@@ -647,8 +643,9 @@
     // eventuali modifiche pubblicate (prezzi/foto) da Supabase
     try {
       const ov = await Store.getOverrides();
-      if (ov && typeof ov === "object") { overrides = ov; rebuildGrid(); }
-    } catch (e) { /* Supabase non collegato: si usa il menu di base */ }
+      overridesLoaded = true;   // caricamento riuscito (ov può essere null = nessuna modifica pubblicata)
+      if (ov && typeof ov === "object") { overrides = migrateOverrides(ov); rebuildGrid(); }
+    } catch (e) { /* Supabase non raggiungibile: menu di base, e l'editor bloccherà il salvataggio */ }
   });
 
   // Service worker: app installabile + offline

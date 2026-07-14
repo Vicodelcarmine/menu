@@ -16,207 +16,6 @@
   ],
   "categorie": [
     {
-      "slug": "specialita-stagione",
-      "nome": {
-        "it": "Le Specialità di Stagione",
-        "en": "Seasonal Specialties",
-        "fr": "Spécialités de Saison",
-        "de": "Saisonale Spezialitäten",
-        "es": "Especialidades de Temporada",
-        "pt": "Especialidades da Estação",
-        "ja": "季節の特選料理",
-        "ar": "التخصصات الموسمية",
-        "ru": "Сезонные блюда"
-      },
-      "piatti": [
-        {
-          "nome": "⭐ Guazzetto di mare caldo in terrina",
-          "prezzo": 15,
-          "descrizione": {
-            "it": "cozze, vongole, calamari, gamberetti e seppioline, pomodoro e bruschetta di pane",
-            "en": "mussels, clams, squid, shrimps and baby cuttlefish, tomato and toasted bread",
-            "fr": "moules, palourdes, calmars, crevettes et seiches, tomate et pain grillé",
-            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch, Garnelen und kleine Tintenfische, Tomate und geröstetes Brot",
-            "es": "mejillones, almejas, calamares, gambas y sepias, tomate y pan tostado",
-            "pt": "mexilhões, amêijoas, lulas, camarões e sepias, tomate e pão torrado",
-            "ja": "ムール貝、あさり、イカ、小エビ、コウイカ、トマト、ブルスケッタ",
-            "ar": "بلح البحر، المحار، الكالاماري، الروبيان، السبيط الصغير، الطماطم والبروسكيتا",
-            "ru": "мидии, вонголе, кальмары, креветки и каракатицы, помидоры и тосты"
-          }
-        },
-        {
-          "nome": "⭐ Insalata di baccalà, limone, olive e pomodori freschi",
-          "prezzo": 12,
-          "image": "img/insalata-baccala.jpg",
-          "descrizione": {
-            "it": "insalata, pomodori, olive, merluzzo e limone",
-            "en": "salad, tomatoes, olives, cod, and lemon",
-            "fr": "salade, tomates, olives, morue et citron",
-            "de": "Salat, Tomaten, Oliven, Kabeljau und Zitrone",
-            "es": "ensalada, tomates, aceitunas, bacalao y limón",
-            "pt": "salada, tomates, azeitonas, bacalhau e limão",
-            "ja": "サラダ、トマト、オリーブ、タラ、レモン",
-            "ar": "سلطة، طماطم، زيتون، سمك القد وليمون",
-            "ru": "салат, помидоры, оливки, треска и лимон"
-          }
-        },
-        {
-          "nome": "⭐ Pepata di cozze e bruschette",
-          "prezzo": 13,
-          "descrizione": {
-            "it": "cozze, bruschetta e pepe nero",
-            "en": "mussels, bruschetta, and black pepper",
-            "fr": "moules, bruschetta et poivre noir",
-            "de": "Miesmuscheln, Bruschetta und schwarzer Pfeffer",
-            "es": "mejillones, bruschetta y pimienta negra",
-            "pt": "mexilhões, bruschetta e pimenta preta",
-            "ja": "ムール貝、ブルスケッタ、黒胡椒",
-            "ar": "بلح البحر، بروسكيتا وفلفل أسود",
-            "ru": "мидии, брускетта и черный перец"
-          }
-        },
-        {
-          "nome": "⭐ Pasta fresca vongole e bottarga",
-          "prezzo": 16,
-          "descrizione": {
-            "it": "vongole e bottarga di muggine",
-            "en": "clams and mullet bottarga",
-            "fr": "palourdes et boutargue de mulet",
-            "de": "Venusmuscheln und Meeräschenrogen",
-            "es": "almejas y huevas de mújol",
-            "pt": "amêijoas e ovas de tainha",
-            "ja": "あさりとボッタルガ(カラスミ)",
-            "ar": "المحار وبطارخ سمك البوري",
-            "ru": "вонголе и боттарга из кефали"
-          }
-        },
-        {
-          "nome": "⭐ Gnocchi di patate ceci e cozze",
-          "prezzo": 13,
-          "descrizione": {
-            "it": "gnocchi di patate, cozze, ceci e prezzemolo",
-            "en": "potato gnocchi, mussels, chickpeas, and parsley",
-            "fr": "gnocchis de pommes de terre, moules, pois chiches et persil",
-            "de": "Kartoffelgnocchi, Miesmuscheln, Kichererbsen und Petersilie",
-            "es": "ñoquis de patata, mejillones, garbanzos y perejil",
-            "pt": "gnocchi de batata, mexilhões, grão-de-bico e salsa",
-            "ja": "ポテトニョッキ、ムール貝、ひよこ豆、パセリ",
-            "ar": "نوكي البطاطس، بلح البحر، الحمص والبقدونس",
-            "ru": "картофельные ньокки, мидии, нут и петрушка"
-          }
-        },
-        {
-          "nome": "⭐ Pennette pesto e gamberetti",
-          "prezzo": 14,
-          "descrizione": {
-            "it": "pasta, pesto, gamberetti e pomodoro fresco",
-            "en": "pasta, pesto, shrimps, and fresh tomato",
-            "fr": "pâtes, pesto, crevettes et tomates fraîches",
-            "de": "Pasta, Pesto, Garnelen und frische Tomaten",
-            "es": "pasta, pesto, gambas y tomate fresco",
-            "pt": "massa, pesto, camarões e tomate fresco",
-            "ja": "パスタ、ジェノベーゼ、小エビ、フレッシュトマト",
-            "ar": "باستا، بيستو، روبيان وطماطم طازجة",
-            "ru": "паста, песто, креветки и свежие помидоры"
-          }
-        },
-        {
-          "nome": "⭐ Spigola o Orata alla griglia",
-          "prezzo": 21,
-          "image": "img/branzino-griglia.jpg",
-          "descrizione": {
-            "it": "spigola o orata alla griglia",
-            "en": "grilled sea bass or sea bream",
-            "fr": "bar ou daurade grillée",
-            "de": "gegrillter Wolfsbarsch oder Goldbrasse",
-            "es": "lubina o dorada a la parrilla",
-            "pt": "robalo ou dourada grelhada",
-            "ja": "スズキまたはタイのグリル",
-            "ar": "سيباس أو أوراتا مشوية",
-            "ru": "сибас или дорада на гриле"
-          }
-        },
-        {
-          "nome": "⭐ Baccalà Napoletano",
-          "prezzo": 17,
-          "descrizione": {
-            "it": "baccalà, pomodoro, capperi e olive",
-            "en": "cod, tomato, capers, and olives",
-            "fr": "morue, tomate, câpres et olives",
-            "de": "Kabeljau, Tomate, Kapern und Oliven",
-            "es": "bacalao, tomate, alcaparras y aceitunas",
-            "pt": "bacalhau, tomate, alcaparras e azeitonas",
-            "ja": "タラ、トマト、ケッパー、オリーブ",
-            "ar": "سمك القد، طماطم، كيبر وزيتون",
-            "ru": "треска, помидоры, каперсы и оливки"
-          }
-        },
-        {
-          "nome": "⭐ Salmone alla griglia",
-          "prezzo": 19,
-          "descrizione": {
-            "it": "Secondo piatto",
-            "en": "Grilled salmon",
-            "fr": "Saumon grillé",
-            "de": "Gegrillter Lachs",
-            "es": "Salmón a la parrilla",
-            "pt": "Salmão grelhado",
-            "ja": "サーモンのグリル",
-            "ar": "سلمون مشوي",
-            "ru": "Второе блюдо"
-          }
-        },
-        {
-          "nome": "⭐ Agnello alla scottadito",
-          "prezzo": 19,
-          "image": "img/agnello-scottadito.jpg",
-          "descrizione": {
-            "it": "costine d'agnello alla griglia",
-            "en": "grilled lamb chops",
-            "fr": "côtelettes d'agneau grillées",
-            "de": "gegrillte Lammkoteletts",
-            "es": "chuletillas de cordero a la parrilla",
-            "pt": "costeletas de cordeiro grelhadas",
-            "ja": "ラムチョップのグリル",
-            "ar": "ريش غنم مشوية",
-            "ru": "бараньи ребрышки на гриле"
-          }
-        },
-        {
-          "nome": "⭐ Tagliata di manzo ai ferri",
-          "prezzo": 19,
-          "image": "img/tagliata-manzo.jpg",
-          "descrizione": {
-            "it": "controfiletto di manzo grigliato e tagliato",
-            "en": "grilled and sliced beef sirloin",
-            "fr": "faux-filet de bœuf grillé et tranché",
-            "de": "gegrilltes und geschnittenes Rinder-Sirloin",
-            "es": "solomillo de ternera a la brasa y cortado",
-            "pt": "contrafilé de bovino grelhado e fatiado",
-            "ja": "グリルの牛肉サーロインのスライス",
-            "ar": "سيرلوين بقري مشوي ومقطع",
-            "ru": "говяжий сирлойн на гриле, нарезанный"
-          }
-        },
-        {
-          "nome": "⭐ Entrecote al chianti",
-          "prezzo": 19,
-          "image": "img/entrecote-chianti.jpg",
-          "descrizione": {
-            "it": "controfiletto di manzo e vino chianti",
-            "en": "beef sirloin and Chianti wine",
-            "fr": "faux-filet de bœuf et vin Chianti",
-            "de": "Rinder-Sirloinsteak und Chianti-Wein",
-            "es": "solomillo de ternera y vino Chianti",
-            "pt": "contrafilé de bovino e vinho Chianti",
-            "ja": "牛肉のサーロインとキャンティワイン",
-            "ar": "سيرلوين بقري ونبيذ كيانتي",
-            "ru": "говяжий сирлойн и вино Кьянти"
-          }
-        }
-      ]
-    },
-    {
       "slug": "antipasti",
       "nome": {
         "it": "Antipasti Classici",
@@ -303,6 +102,55 @@
             "ar": "لحوم باردة مشكلة وجبنة بيكورينو",
             "ru": "ассорти из мясной нарезки и сыр пекорино"
           }
+        },
+        {
+          "nome": "⭐ Guazzetto di mare caldo in terrina",
+          "prezzo": 15,
+          "descrizione": {
+            "it": "cozze, vongole, calamari, gamberetti e seppioline, pomodoro e bruschetta di pane",
+            "en": "mussels, clams, squid, shrimps and baby cuttlefish, tomato and toasted bread",
+            "fr": "moules, palourdes, calmars, crevettes et seiches, tomate et pain grillé",
+            "de": "Miesmuscheln, Venusmuscheln, Tintenfisch, Garnelen und kleine Tintenfische, Tomate und geröstetes Brot",
+            "es": "mejillones, almejas, calamares, gambas y sepias, tomate y pan tostado",
+            "pt": "mexilhões, amêijoas, lulas, camarões e sepias, tomate e pão torrado",
+            "ja": "ムール貝、あさり、イカ、小エビ、コウイカ、トマト、ブルスケッタ",
+            "ar": "بلح البحر، المحار، الكالاماري، الروبيان، السبيط الصغير، الطماطم والبروسكيتا",
+            "ru": "мидии, вонголе, кальмары, креветки и каракатицы, помидоры и тосты"
+          },
+          "speciale": true
+        },
+        {
+          "nome": "⭐ Insalata di baccalà, limone, olive e pomodori freschi",
+          "prezzo": 12,
+          "image": "img/insalata-baccala.jpg",
+          "descrizione": {
+            "it": "insalata, pomodori, olive, merluzzo e limone",
+            "en": "salad, tomatoes, olives, cod, and lemon",
+            "fr": "salade, tomates, olives, morue et citron",
+            "de": "Salat, Tomaten, Oliven, Kabeljau und Zitrone",
+            "es": "ensalada, tomates, aceitunas, bacalao y limón",
+            "pt": "salada, tomates, azeitonas, bacalhau e limão",
+            "ja": "サラダ、トマト、オリーブ、タラ、レモン",
+            "ar": "سلطة، طماطم، زيتون، سمك القد وليمون",
+            "ru": "салат, помидоры, оливки, треска и лимон"
+          },
+          "speciale": true
+        },
+        {
+          "nome": "⭐ Pepata di cozze e bruschette",
+          "prezzo": 13,
+          "descrizione": {
+            "it": "cozze, bruschetta e pepe nero",
+            "en": "mussels, bruschetta, and black pepper",
+            "fr": "moules, bruschetta et poivre noir",
+            "de": "Miesmuscheln, Bruschetta und schwarzer Pfeffer",
+            "es": "mejillones, bruschetta y pimienta negra",
+            "pt": "mexilhões, bruschetta e pimenta preta",
+            "ja": "ムール貝、ブルスケッタ、黒胡椒",
+            "ar": "بلح البحر، بروسكيتا وفلفل أسود",
+            "ru": "мидии, брускетта и черный перец"
+          },
+          "speciale": true
         }
       ]
     },
@@ -428,6 +276,54 @@
             "ar": "جوانشالي مدخن، بيض، جبن بيكورينو وفلفل أسود",
             "ru": "копченый гуанчале, яйцо, сыр пекорино и черный перец"
           }
+        },
+        {
+          "nome": "⭐ Pasta fresca vongole e bottarga",
+          "prezzo": 16,
+          "descrizione": {
+            "it": "vongole e bottarga di muggine",
+            "en": "clams and mullet bottarga",
+            "fr": "palourdes et boutargue de mulet",
+            "de": "Venusmuscheln und Meeräschenrogen",
+            "es": "almejas y huevas de mújol",
+            "pt": "amêijoas e ovas de tainha",
+            "ja": "あさりとボッタルガ(カラスミ)",
+            "ar": "المحار وبطارخ سمك البوري",
+            "ru": "вонголе и боттарга из кефали"
+          },
+          "speciale": true
+        },
+        {
+          "nome": "⭐ Gnocchi di patate ceci e cozze",
+          "prezzo": 13,
+          "descrizione": {
+            "it": "gnocchi di patate, cozze, ceci e prezzemolo",
+            "en": "potato gnocchi, mussels, chickpeas, and parsley",
+            "fr": "gnocchis de pommes de terre, moules, pois chiches et persil",
+            "de": "Kartoffelgnocchi, Miesmuscheln, Kichererbsen und Petersilie",
+            "es": "ñoquis de patata, mejillones, garbanzos y perejil",
+            "pt": "gnocchi de batata, mexilhões, grão-de-bico e salsa",
+            "ja": "ポテトニョッキ、ムール貝、ひよこ豆、パセリ",
+            "ar": "نوكي البطاطس، بلح البحر، الحمص والبقدونس",
+            "ru": "картофельные ньокки, мидии, нут и петрушка"
+          },
+          "speciale": true
+        },
+        {
+          "nome": "⭐ Pennette pesto e gamberetti",
+          "prezzo": 14,
+          "descrizione": {
+            "it": "pasta, pesto, gamberetti e pomodoro fresco",
+            "en": "pasta, pesto, shrimps, and fresh tomato",
+            "fr": "pâtes, pesto, crevettes et tomates fraîches",
+            "de": "Pasta, Pesto, Garnelen und frische Tomaten",
+            "es": "pasta, pesto, gambas y tomate fresco",
+            "pt": "massa, pesto, camarões e tomate fresco",
+            "ja": "パスタ、ジェノベーゼ、小エビ、フレッシュトマト",
+            "ar": "باستا، بيستو، روبيان وطماطم طازجة",
+            "ru": "паста, песто, креветки и свежие помидоры"
+          },
+          "speciale": true
         }
       ]
     },
@@ -535,6 +431,106 @@
             "ar": "شريحة سمك أبو سيف على طريقة البحر المتوسط",
             "ru": "Рыба-меч с помидорами черри и оливками"
           }
+        },
+        {
+          "nome": "⭐ Spigola o Orata alla griglia",
+          "prezzo": 21,
+          "image": "img/branzino-griglia.jpg",
+          "descrizione": {
+            "it": "spigola o orata alla griglia",
+            "en": "grilled sea bass or sea bream",
+            "fr": "bar ou daurade grillée",
+            "de": "gegrillter Wolfsbarsch oder Goldbrasse",
+            "es": "lubina o dorada a la parrilla",
+            "pt": "robalo ou dourada grelhada",
+            "ja": "スズキまたはタイのグリル",
+            "ar": "سيباس أو أوراتا مشوية",
+            "ru": "сибас или дорада на гриле"
+          },
+          "speciale": true
+        },
+        {
+          "nome": "⭐ Baccalà Napoletano",
+          "prezzo": 17,
+          "descrizione": {
+            "it": "baccalà, pomodoro, capperi e olive",
+            "en": "cod, tomato, capers, and olives",
+            "fr": "morue, tomate, câpres et olives",
+            "de": "Kabeljau, Tomate, Kapern und Oliven",
+            "es": "bacalao, tomate, alcaparras y aceitunas",
+            "pt": "bacalhau, tomate, alcaparras e azeitonas",
+            "ja": "タラ、トマト、ケッパー、オリーブ",
+            "ar": "سمك القد، طماطم، كيبر وزيتون",
+            "ru": "треска, помидоры, каперсы и оливки"
+          },
+          "speciale": true
+        },
+        {
+          "nome": "⭐ Salmone alla griglia",
+          "prezzo": 19,
+          "descrizione": {
+            "it": "Secondo piatto",
+            "en": "Grilled salmon",
+            "fr": "Saumon grillé",
+            "de": "Gegrillter Lachs",
+            "es": "Salmón a la parrilla",
+            "pt": "Salmão grelhado",
+            "ja": "サーモンのグリル",
+            "ar": "سلمون مشوي",
+            "ru": "Второе блюдо"
+          },
+          "speciale": true
+        },
+        {
+          "nome": "⭐ Agnello alla scottadito",
+          "prezzo": 19,
+          "image": "img/agnello-scottadito.jpg",
+          "descrizione": {
+            "it": "costine d'agnello alla griglia",
+            "en": "grilled lamb chops",
+            "fr": "côtelettes d'agneau grillées",
+            "de": "gegrillte Lammkoteletts",
+            "es": "chuletillas de cordero a la parrilla",
+            "pt": "costeletas de cordeiro grelhadas",
+            "ja": "ラムチョップのグリル",
+            "ar": "ريش غنم مشوية",
+            "ru": "бараньи ребрышки на гриле"
+          },
+          "speciale": true
+        },
+        {
+          "nome": "⭐ Tagliata di manzo ai ferri",
+          "prezzo": 19,
+          "image": "img/tagliata-manzo.jpg",
+          "descrizione": {
+            "it": "controfiletto di manzo grigliato e tagliato",
+            "en": "grilled and sliced beef sirloin",
+            "fr": "faux-filet de bœuf grillé et tranché",
+            "de": "gegrilltes und geschnittenes Rinder-Sirloin",
+            "es": "solomillo de ternera a la brasa y cortado",
+            "pt": "contrafilé de bovino grelhado e fatiado",
+            "ja": "グリルの牛肉サーロインのスライス",
+            "ar": "سيرلوين بقري مشوي ومقطع",
+            "ru": "говяжий сирлойн на гриле, нарезанный"
+          },
+          "speciale": true
+        },
+        {
+          "nome": "⭐ Entrecote al chianti",
+          "prezzo": 19,
+          "image": "img/entrecote-chianti.jpg",
+          "descrizione": {
+            "it": "controfiletto di manzo e vino chianti",
+            "en": "beef sirloin and Chianti wine",
+            "fr": "faux-filet de bœuf et vin Chianti",
+            "de": "Rinder-Sirloinsteak und Chianti-Wein",
+            "es": "solomillo de ternera y vino Chianti",
+            "pt": "contrafilé de bovino e vinho Chianti",
+            "ja": "牛肉のサーロインとキャンティワイン",
+            "ar": "سيرلوين بقري ونبيذ كيانتي",
+            "ru": "говяжий сирлойн и вино Кьянти"
+          },
+          "speciale": true
         }
       ]
     },
@@ -1146,23 +1142,7 @@
             "ar": "موزاريلا، ريكوتا، فطر، لحم",
             "ru": "моцарелла, рикотта, грибы, ветчина"
           }
-        }
-      ]
-    },
-    {
-      "slug": "specialita-pizza",
-      "nome": {
-        "it": "Specialità Pizza",
-        "en": "Pizza Specialties",
-        "fr": "Spécialités de Pizza",
-        "de": "Pizza-Spezialitäten",
-        "es": "Especialidades de Pizza",
-        "pt": "Especialidades de Pizza",
-        "ja": "特選ピザ",
-        "ar": "تخصصات البيتزا",
-        "ru": "Специальная пицца"
-      },
-      "piatti": [
+        },
         {
           "nome": "⭐ Pizza NERETO",
           "prezzo": 14.5,
@@ -1177,7 +1157,8 @@
             "ja": "ズッキーニクリーム、フィオール・ディ・ラッテ、スカモルツァ、グアンチャーレ、赤玉ねぎのキャラメリゼ",
             "ar": "كريمة الكوسة، موزاريلا، سكامورزا، جوانشالي وبصل أحمر مكرمل",
             "ru": "Крем из цукини, моцарелла фиор ди латте, копченый сыр скаморца, гуанчале и карамелизованный красный лук"
-          }
+          },
+          "speciale": true
         },
         {
           "nome": "⭐ Pizza TOSCANA",
@@ -1193,7 +1174,8 @@
             "ja": "モッツァレラ、トリュフクリーム、トスカーナサラミ、ブッラータ、バジル",
             "ar": "موزاريلا، كريم الترفل، سلامي توسكاني، بوراتا وريحان",
             "ru": "моцарелла, трюфельный крем, тосканская салями, буратта и базилик"
-          }
+          },
+          "speciale": true
         },
         {
           "nome": "⭐ Pizza TABARRO",
@@ -1209,7 +1191,8 @@
             "ja": "トマト、チェリートマト、赤玉ねぎ、ンドゥイヤ、ブッラータ、バジル",
             "ar": "طماطم، طماطم كرزية، بصل أحمر، ندوجا، بوراتا وريحان",
             "ru": "помидоры, помидоры черри, красный лук, ндуйя (острая калабрийская колбаса), буратта и базилик"
-          }
+          },
+          "speciale": true
         }
       ]
     },

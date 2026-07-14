@@ -408,6 +408,24 @@ html[dir="rtl"] .card .price{ right:auto; left:14px; }
 html[dir="rtl"] .card .body{ text-align:right; }
 html[dir="rtl"] .card .seal{ right:auto; left:16px; }
 
+/* --- carte SPECIALITÀ: oro scintillante --- */
+.card.special{
+  border-color:rgba(230,178,74,.9);
+  box-shadow:var(--shadow), 0 0 0 1px rgba(230,178,74,.6), 0 0 34px rgba(230,178,74,.32);
+}
+.card.special .photo{ background:linear-gradient(135deg, rgba(230,178,74,.30), rgba(184,120,20,.40)), var(--bg-4); }
+.card.special .body h3{ color:#fff3cf; }
+.card.special .seal{ color:var(--gold); opacity:.75; }
+.card .body .spec-kick{ margin:0 0 3px; color:var(--gold); font-family:var(--font-head); text-transform:uppercase; letter-spacing:.2em; font-size:.62rem; text-shadow:0 0 10px rgba(230,178,74,.5); }
+.card.special::before{
+  content:""; position:absolute; inset:0; z-index:6; pointer-events:none; border-radius:inherit;
+  background:linear-gradient(105deg, transparent 42%, rgba(255,240,200,.30) 50%, transparent 58%);
+  transform:translateX(-130%);
+  animation:cardShine 3.6s ease-in-out infinite 1s;
+}
+@keyframes cardShine{ 0%{ transform:translateX(-130%); } 55%,100%{ transform:translateX(130%); } }
+@media (prefers-reduced-motion:reduce){ .card.special::before{ animation:none; opacity:0; } }
+
 /* comandi */
 .nav-btn{
   position:absolute; top:50%; transform:translateY(-50%);
@@ -670,5 +688,8 @@ html[dir="rtl"] .feature{ text-align:right; }
 .de-foto .de-foto-txt{ font-family:var(--font-head); text-transform:uppercase; letter-spacing:.08em; font-size:.7rem; }
 .de-foto-del{ flex:0 0 auto; width:44px; height:52px; border-radius:10px; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; font-size:1rem; }
 .de-foto-del:hover{ background:var(--brick); color:#fff; border-color:var(--brick); }
+.de-special{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.06em; font-size:.78rem; color:var(--gold-soft); cursor:pointer; padding:2px 0; }
+.de-special input{ width:18px; height:18px; accent-color:var(--gold); cursor:pointer; flex:0 0 auto; }
+.de-special small{ font-family:var(--font-body); text-transform:none; letter-spacing:0; color:var(--muted); font-size:.66rem; }
 
 .field-search{ margin:0 0 14px; }
