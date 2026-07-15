@@ -410,12 +410,16 @@ html[dir="rtl"] .card .seal{ right:auto; left:16px; }
 
 /* --- carte SPECIALITÀ: oro scintillante --- */
 .card.special{
-  border-color:rgba(230,178,74,.9);
-  box-shadow:var(--shadow), 0 0 0 1px rgba(230,178,74,.6), 0 0 34px rgba(230,178,74,.32);
+  background:linear-gradient(180deg, #7a5216 0%, #4d3411 62%, #35240e 100%);
+  border-color:rgba(240,190,80,.95);
+  box-shadow:var(--shadow), 0 0 0 1px rgba(240,190,80,.7), 0 0 40px rgba(230,178,74,.42);
 }
-.card.special .photo{ background:linear-gradient(135deg, rgba(230,178,74,.30), rgba(184,120,20,.40)), var(--bg-4); }
-.card.special .body h3{ color:#fff3cf; }
-.card.special .seal{ color:var(--gold); opacity:.75; }
+.card.special .photo{ background:linear-gradient(135deg, rgba(240,196,96,.42), rgba(150,96,20,.5)), var(--bg-4); }
+.card.special .photo::after{ background:linear-gradient(transparent, rgba(61,42,17,.96)); }
+.card.special .photo .fallback{ background:radial-gradient(80% 80% at 50% 34%, rgba(240,196,96,.34), transparent 70%), linear-gradient(160deg, #6a4a18, #3a2812); }
+.card.special .body h3{ color:#fff6dc; }
+.card.special .body p{ color:rgba(255,244,214,.82); }
+.card.special .seal{ color:#ffe9a8; opacity:.7; }
 .card .body .spec-kick{ margin:0 0 3px; color:var(--gold); font-family:var(--font-head); text-transform:uppercase; letter-spacing:.2em; font-size:.62rem; text-shadow:0 0 10px rgba(230,178,74,.5); }
 .card.special::before{
   content:""; position:absolute; inset:0; z-index:6; pointer-events:none; border-radius:inherit;
