@@ -80,8 +80,8 @@
     return ov;
   }
 
-  // Appiattisce i piatti (i vini usano le sezioni) e applica eliminazioni/aggiunte/prezzi-foto pubblicate
-  function piattiOf(cat) {
+  // Appiattisce i piatti e applica modifiche. Con editor=true include i piatti CONGELATI (nascosti ai clienti).
+  function piattiOf(cat, editor) {
     let list = [];
     if (Array.isArray(cat.piatti)) list = cat.piatti.map((p) => Object.assign({}, p));
     else if (Array.isArray(cat.sezioni)) {
@@ -103,10 +103,13 @@
           if (ov.nome) p.nome = ov.nome;
           if (ov.descrizione) p.descrizione = ov.descrizione;
           if ("speciale" in ov) p.speciale = ov.speciale;
+          if ("congelato" in ov) p.congelato = ov.congelato;
         }
       }
       p.speciale = !!p.speciale;
+      p.congelato = !!p.congelato;
     });
+    if (!editor) list = list.filter((p) => !p.congelato);   // i clienti NON vedono i piatti congelati
     // piatti normali prima, SPECIALITÀ in fondo (ordine stabile)
     return list.filter((p) => !p.speciale).concat(list.filter((p) => p.speciale));
   }
@@ -482,6 +485,7 @@
   function openEditor() {
     editInner.innerHTML =
       '<p class="me-kick">⭐ Modifica menu · prezzi · foto · piatti</p>' +
+      '<p class="me-frozen" id="me-frozen" hidden>❄️ <b id="me-frozen-n">0</b> piatti nascosti ai clienti (congelati)</p>' +
       '<div class="me-nav">' +
       '<button type="button" class="me-arrow" id="me-prev" aria-label="‹">‹</button>' +
       '<div class="me-navlabel"><span id="me-catname"></span><small id="me-counter"></small></div>' +
@@ -511,8 +515,13 @@
         '<button type="button" class="de-foto"><span class="de-foto-txt">📷 Foto</span></button>' +
         '<button type="button" class="de-foto-del" aria-label="Togli foto" hidden>✕</button></div>' +
         '<label class="de-special"><input type="checkbox" class="de-special-cb"> ✦ Specialità <small>(carta oro + nel carosello Specialità)</small></label>' +
+        '<label class="de-congela"><input type="checkbox" class="de-congela-cb"> ❄️ Congela <small>(nascondi ai clienti, resta qui)</small></label>' +
         '<input type="hidden" class="de-fotoval">';
       row.querySelector(".de-special-cb").checked = !!p.speciale;
+      const congelaCb = row.querySelector(".de-congela-cb");
+      congelaCb.checked = !!p.congelato;
+      if (p.congelato) row.classList.add("frozen");
+      congelaCb.addEventListener("change", function () { row.classList.toggle("frozen", congelaCb.checked); updateFrozenCount(); });
       row.querySelector(".de-name-input").value = p.nome || "";
       row.querySelector(".de-desc").value = (p.descrizione && p.descrizione.it) || "";
       row.querySelector(".de-prezzo").value = (p.prezzo != null ? p.prezzo : "");
@@ -537,7 +546,7 @@
     categorie.forEach(function (cat) {
       const sec = document.createElement("section"); sec.className = "cat-edit me-page"; sec.dataset.slug = cat.slug;
       const list = document.createElement("div"); list.className = "dish-list";
-      piattiOf(cat).forEach(function (p) { list.appendChild(dishRow(cat.slug, p)); });
+      piattiOf(cat, true).forEach(function (p) { list.appendChild(dishRow(cat.slug, p)); });   // true = mostra anche i congelati
       const add = document.createElement("button");
       add.type = "button"; add.className = "btn btn-add"; add.textContent = "➕ Aggiungi piatto";
       add.addEventListener("click", function () {
@@ -547,6 +556,12 @@
       sec.appendChild(list); sec.appendChild(add); pager.appendChild(sec);
       pages.push({ el: sec, nome: iconFor(cat) + " " + catName(cat) });
     });
+
+    function updateFrozenCount() {
+      const n = editInner.querySelectorAll(".de-congela-cb:checked").length;
+      const el = $("#me-frozen"); if (el) { el.hidden = n === 0; $("#me-frozen-n").textContent = n; }
+    }
+    updateFrozenCount();
 
     let idx = 0;
     function show(i) {
@@ -575,11 +590,13 @@
         const image = row.querySelector(".de-fotoval").value.trim();
         const desc = (row.querySelector(".de-desc").value || "").trim();
         const special = row.querySelector(".de-special-cb").checked;
+        const congelato = row.querySelector(".de-congela-cb").checked;
         if (row.dataset.added === "1") {                                   // NUOVO piatto
           if (!nome) return;
           const d = { nome: nome, prezzo: prezzo, image: image };
           if (desc) d.descrizione = { it: desc };
           if (special) d.speciale = true;
+          if (congelato) d.congelato = true;
           (added[slug] = added[slug] || []).push(d);
         } else {                                                            // ESISTENTE: salva SOLO ciò che è cambiato dal menu base
           const basenome = row.dataset.basenome;
@@ -591,6 +608,7 @@
           const baseDescIt = (base.descrizione && base.descrizione.it) || "";
           if (desc !== baseDescIt) ov.descrizione = { it: desc };
           if (special !== !!base.speciale) ov.speciale = special;
+          if (congelato !== !!base.congelato) ov.congelato = congelato;
           if (Object.keys(ov).length) edits[slug + "::" + basenome] = ov;
         }
       });

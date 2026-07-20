@@ -652,6 +652,8 @@ html[dir="rtl"] .feature{ text-align:right; }
 
 /* ---- EDITOR PREZZI & FOTO ---- */
 .me-kick{ text-align:center; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.22em; font-size:.72rem; color:var(--gold); margin:0 0 10px; }
+.me-frozen{ text-align:center; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.08em; font-size:.72rem; color:#bfe3f7; background:rgba(140,195,235,.12); border:1px solid rgba(140,195,235,.35); border-radius:10px; padding:7px 12px; margin:0 0 12px; }
+.me-frozen b{ color:#e8f6ff; }
 .me-nav{
   position:sticky; top:0; z-index:5;
   display:flex; align-items:center; gap:10px;
@@ -695,5 +697,12 @@ html[dir="rtl"] .feature{ text-align:right; }
 .de-special{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.06em; font-size:.78rem; color:var(--gold-soft); cursor:pointer; padding:2px 0; }
 .de-special input{ width:18px; height:18px; accent-color:var(--gold); cursor:pointer; flex:0 0 auto; }
 .de-special small{ font-family:var(--font-body); text-transform:none; letter-spacing:0; color:var(--muted); font-size:.66rem; }
+.de-congela{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.06em; font-size:.78rem; color:#bfe3f7; cursor:pointer; padding:2px 0; }
+.de-congela input{ width:18px; height:18px; accent-color:#7fc0e8; cursor:pointer; flex:0 0 auto; }
+.de-congela small{ font-family:var(--font-body); text-transform:none; letter-spacing:0; color:var(--muted); font-size:.66rem; }
+/* riga CONGELATA (nascosta ai clienti): alone gelato + etichetta */
+.dish-edit.frozen{ border-color:rgba(140,195,235,.6); background:linear-gradient(180deg, rgba(150,200,235,.16), rgba(120,170,210,.05)), var(--bg-3); }
+.dish-edit.frozen::before{ content:"❄️ NASCOSTO AI CLIENTI"; order:-1; align-self:flex-start; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.1em; font-size:.66rem; color:#0e2836; background:linear-gradient(180deg,#cfecfb,#a9d6f2); border-radius:8px; padding:3px 10px; box-shadow:0 0 14px rgba(140,195,235,.4); }
+.dish-edit.frozen .de-name-input, .dish-edit.frozen .de-desc, .dish-edit.frozen .de-prezzo{ opacity:.6; }
 
 .field-search{ margin:0 0 14px; }
