@@ -215,6 +215,7 @@
 
     // hint carosello + skip intro
     $("#ov-hint").textContent = t("swipeHint");
+    $("#zoom-hint").textContent = ZOOM_HINT[lang] || ZOOM_HINT.it;
     const skip = $("#intro-skip"); if (skip) skip.textContent = t("skipIntro");
     $("#hero-logo").alt = "Vico del Carmine";
   }
@@ -348,7 +349,7 @@
     piatti.forEach(function (_, i) {
       const b = document.createElement("button");
       b.className = "dot"; b.setAttribute("aria-label", String(i + 1));
-      b.addEventListener("click", function () { index = i; position(false); });
+      b.addEventListener("click", function () { index = i; position(false); armZoom(); });
       dotsEl.appendChild(b);
     });
 
@@ -362,9 +363,48 @@
     position(true);
     clearTimeout(staggerTimer);
     staggerTimer = setTimeout(function () { cards.forEach(function (el) { el.style.transitionDelay = "0ms"; }); }, n * 70 + 700);
+    armZoom();
   }
-  function closeCarousel() { overlay.classList.remove("open"); updateScroll(); }
-  function go(dir) { if (!n) return; index = (index + dir + n) % n; deckEl.classList.add("touched"); position(false); }
+  function closeCarousel() { clearZoomTimer(); exitZoom(); overlay.classList.remove("open"); updateScroll(); }
+  function go(dir) { if (!n) return; index = (index + dir + n) % n; deckEl.classList.add("touched"); position(false); armZoom(); }
+
+  /* --- VISTA A SCHERMO INTERO DEL PIATTO (auto-zoom dopo 2s di fermo, solo mobile) --- */
+  const zoomEl = $("#zoom");
+  let zoomTimer = null, zoomed = false;
+  function zoomAllowed() { return !!(window.matchMedia && (window.matchMedia("(max-width: 640px)").matches || window.matchMedia("(pointer: coarse)").matches)); }
+  function clearZoomTimer() { clearTimeout(zoomTimer); zoomTimer = null; }
+  function armZoom() {
+    clearZoomTimer();
+    if (!overlay.classList.contains("open") || zoomed || !piatti.length || !zoomAllowed()) return;
+    zoomTimer = setTimeout(enterZoom, 2000);
+  }
+  function enterZoom() {
+    const p = piatti[index]; if (!p) return;
+    zoomed = true;
+    zoomEl.classList.toggle("special", !!p.speciale);
+    const photo = zoomEl.querySelector(".zoom-photo");
+    const oldImg = photo.querySelector("img"); if (oldImg) oldImg.remove();
+    const ico = $("#zoom-ico");
+    if (p.image) { const img = new Image(); img.alt = p.nome; img.src = p.image; ico.style.display = "none"; photo.appendChild(img); }
+    else { ico.style.display = ""; ico.textContent = currentCat ? iconFor(currentCat) : "🍽️"; }
+    $("#zoom-kick").textContent = p.speciale ? ("✦ " + t("specialtiesTitle") + " ✦") : (p._sezione ? sezioneLabel(p._sezione) : "");
+    $("#zoom-name").textContent = p.nome;
+    const pr = (p.prezzo != null && p.prezzo !== "") ? fmtPrice(p.prezzo) : "";
+    $("#zoom-price").textContent = pr; $("#zoom-price").style.display = pr ? "" : "none";
+    const d = dishDesc(p); $("#zoom-desc").textContent = d; $("#zoom-desc").style.display = d ? "" : "none";
+    zoomEl.classList.add("open");
+  }
+  function exitZoom() { if (!zoomed) return; zoomed = false; zoomEl.classList.remove("open"); }
+  function initZoom() {
+    zoomEl.addEventListener("click", exitZoom);
+    let zx = 0, zdrag = false;
+    zoomEl.addEventListener("touchstart", function (e) { zx = e.touches[0].clientX; zdrag = true; }, { passive: true });
+    zoomEl.addEventListener("touchmove", function (e) { if (zdrag && Math.abs(e.touches[0].clientX - zx) > 30) { exitZoom(); zdrag = false; } }, { passive: true });
+    // disabilita il pinch-zoom del telefono (iOS) — reversibile in futuro
+    ["gesturestart", "gesturechange", "gestureend"].forEach(function (ev) {
+      document.addEventListener(ev, function (e) { e.preventDefault(); }, { passive: false });
+    });
+  }
 
   /* --- comandi carosello --- */
   $("#nav-prev").addEventListener("click", function () { go(-1); });
@@ -376,6 +416,7 @@
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
+      if (zoomed) { exitZoom(); return; }
       if (overlay.classList.contains("open")) closeCarousel();
       else if (specOverlay.classList.contains("open")) closeSpecialita();
       else if ($("#lang-panel").classList.contains("open")) closeLangPanel();
@@ -388,11 +429,12 @@
 
   // swipe / trascinamento
   let sx = 0, sy = 0, dragging = false;
-  function start(x, y) { sx = x; sy = y; dragging = true; }
+  function start(x, y) { sx = x; sy = y; dragging = true; clearZoomTimer(); }
   function end(x, y) {
     if (!dragging) return; dragging = false;
     const dx = x - sx, dy = y - sy;
     if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
+    else armZoom();
   }
   deckEl.addEventListener("touchstart", function (e) { start(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
   deckEl.addEventListener("touchend", function (e) { end(e.changedTouches[0].clientX, e.changedTouches[0].clientY); });
@@ -657,6 +699,7 @@
     buildLangPanel();
     rebuildGrid();
     initHiddenEditor();
+    initZoom();
 
     // eventuali modifiche pubblicate (prezzi/foto) da Supabase
     try {

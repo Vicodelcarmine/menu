@@ -316,8 +316,8 @@ html[dir="rtl"] .ov-close{ right:auto; left:16px; }
 
 .card{
   position:absolute; top:50%; left:50%;
-  width:min(80vw, 340px);
-  height:min(66vh, 520px);
+  width:min(90vw, 400px);
+  height:min(74vh, 600px);
   border-radius:20px;
   background:linear-gradient(180deg, var(--bg-3), var(--bg-2));
   border:1px solid rgba(230,178,74,.28);
@@ -433,7 +433,7 @@ html[dir="rtl"] .card .seal{ right:auto; left:16px; }
 /* comandi */
 .nav-btn{
   position:absolute; top:50%; transform:translateY(-50%);
-  z-index:40;
+  z-index:55;   /* sopra la carta frontale (z50), sempre toccabili anche con carte grandi */
   width:52px; height:52px; border-radius:50%;
   border:1px solid var(--line);
   background:rgba(0,0,0,.4);
@@ -471,10 +471,35 @@ html[dir="rtl"] .card .seal{ right:auto; left:16px; }
 }
 
 @media (min-width:560px){
-  .card{ width:360px; height:540px; }
-  .nav-prev{ left:calc(50% - 260px); }
-  .nav-next{ right:calc(50% - 260px); }
+  .card{ width:400px; height:600px; }
+  .nav-prev{ left:calc(50% - 280px); }
+  .nav-next{ right:calc(50% - 280px); }
 }
+
+/* ============================================================================
+   VISTA A SCHERMO INTERO DEL PIATTO (auto-zoom dopo 2s, solo mobile)
+   ========================================================================== */
+.zoom{
+  position:fixed; inset:0; z-index:100; background:#0b0806;
+  display:flex; flex-direction:column;
+  opacity:0; visibility:hidden; transition:opacity .32s ease, visibility .32s ease;
+  touch-action:none;
+}
+.zoom.open{ opacity:1; visibility:visible; }
+.zoom-photo{ position:relative; flex:1; overflow:hidden; background:linear-gradient(160deg, var(--bg-4), var(--bg-2)); }
+.zoom-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+.zoom-ico{ position:absolute; inset:0; display:grid; place-items:center; font-size:9rem; filter:drop-shadow(0 10px 24px rgba(0,0,0,.6)); background:radial-gradient(70% 55% at 50% 34%, rgba(230,178,74,.18), transparent 70%); }
+.zoom.special .zoom-ico{ background:radial-gradient(70% 55% at 50% 34%, rgba(240,196,96,.34), transparent 70%), linear-gradient(180deg,#6a4a18,#35240e); }
+.zoom-info{ position:absolute; left:0; right:0; bottom:0; padding:70px 24px calc(38px + env(safe-area-inset-bottom)); background:linear-gradient(transparent, rgba(11,8,6,.55) 28%, rgba(11,8,6,.96)); }
+.zoom-kick{ margin:0 0 5px; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.2em; font-size:.72rem; color:var(--gold); }
+.zoom-line{ display:flex; align-items:baseline; justify-content:space-between; gap:14px; }
+.zoom-name{ margin:0; font-family:var(--font-display); font-weight:800; font-size:2rem; line-height:1.08; color:var(--cream); }
+.zoom.special .zoom-name{ color:#fff6dc; }
+.zoom-price{ flex:0 0 auto; font-family:var(--font-head); font-weight:600; font-size:1.2rem; color:#241206; background:linear-gradient(180deg, var(--gold), #cf9a2e); padding:6px 14px; border-radius:999px; box-shadow:0 8px 18px rgba(0,0,0,.45); }
+.zoom-desc{ margin:10px 0 0; color:var(--muted); font-size:1.05rem; line-height:1.5; }
+.zoom-hint{ position:absolute; top:max(16px, env(safe-area-inset-top)); left:50%; transform:translateX(-50%); font-family:var(--font-head); text-transform:uppercase; letter-spacing:.2em; font-size:.68rem; color:rgba(247,239,226,.75); background:rgba(0,0,0,.42); padding:8px 16px; border-radius:999px; -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); animation:skipPulse 2.4s ease-in-out infinite; }
+html[dir="rtl"] .zoom-info{ text-align:right; }
+@media (prefers-reduced-motion:reduce){ .zoom-hint{ animation:none; } }
 
 /* ============================================================================
    RIQUADRO SPECIALE: SPECIALITÀ

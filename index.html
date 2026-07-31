@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#3a1f1a" />
   <title>Vico del Carmine — Osteria pizzeria napoletana</title>
   <meta name="description" content="Menu di Vico del Carmine — Osteria pizzeria napoletana a Firenze. Specialità di mare, pizze e cucina napoletana. Menu in 9 lingue." />
@@ -95,6 +95,17 @@
       <div class="dots" id="dots"></div>
       <div class="hint" id="ov-hint">Scorri · tocca · trascina</div>
     </div>
+  </div>
+
+  <!-- Vista a schermo intero del piatto (auto-zoom dopo 2s, solo mobile) -->
+  <div class="zoom" id="zoom" aria-hidden="true">
+    <div class="zoom-photo"><div class="zoom-ico" id="zoom-ico">🍽️</div></div>
+    <div class="zoom-info">
+      <p class="zoom-kick" id="zoom-kick"></p>
+      <div class="zoom-line"><h2 class="zoom-name" id="zoom-name"></h2><span class="zoom-price" id="zoom-price"></span></div>
+      <p class="zoom-desc" id="zoom-desc"></p>
+    </div>
+    <div class="zoom-hint" id="zoom-hint">Tocca per chiudere</div>
   </div>
 
   <!-- Tasto nascosto per modificare il menu (tieni premuto 5 secondi) -->

@@ -33,6 +33,12 @@ const WINE_TYPES = {
   "Bianchi": { it: "Bianchi", en: "White Wines", fr: "Blancs", de: "Weißweine", es: "Blancos", pt: "Brancos", ja: "白ワイン", ar: "نبيذ أبيض", ru: "Белые" },
 };
 
+// Suggerimento nella vista a schermo intero del piatto
+const ZOOM_HINT = {
+  it: "Tocca per chiudere", en: "Tap to close", fr: "Touchez pour fermer", de: "Zum Schließen tippen",
+  es: "Toca para cerrar", pt: "Toque para fechar", ja: "タップで閉じる", ar: "انقر للإغلاق", ru: "Нажмите, чтобы закрыть",
+};
+
 const I18N = {
   it: {
     kicker: "Cucina napoletana · Firenze",
