@@ -725,9 +725,15 @@ html[dir="rtl"] .feature{ text-align:right; }
 .de-congela{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.06em; font-size:.78rem; color:#bfe3f7; cursor:pointer; padding:2px 0; }
 .de-congela input{ width:18px; height:18px; accent-color:#7fc0e8; cursor:pointer; flex:0 0 auto; }
 .de-congela small{ font-family:var(--font-body); text-transform:none; letter-spacing:0; color:var(--muted); font-size:.66rem; }
-/* riga CONGELATA (nascosta ai clienti): alone gelato + etichetta */
+/* riga SPECIALITÀ: alone dorato + etichetta (si riconosce a colpo d'occhio) */
+.dish-edit.special{ border-color:rgba(230,190,90,.6); background:linear-gradient(180deg, rgba(230,190,90,.13), rgba(190,150,60,.04)), var(--bg-3); }
+.dish-edit.special::before{ content:"⭐ SPECIALITÀ"; order:-1; align-self:flex-start; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.1em; font-size:.66rem; color:#3a2708; background:linear-gradient(180deg,#f6dd9b,#e0b95c); border-radius:8px; padding:3px 10px; box-shadow:0 0 14px rgba(230,190,90,.4); }
+
+/* riga CONGELATA (nascosta ai clienti): alone gelato + etichetta — ha la precedenza sull'oro */
 .dish-edit.frozen{ border-color:rgba(140,195,235,.6); background:linear-gradient(180deg, rgba(150,200,235,.16), rgba(120,170,210,.05)), var(--bg-3); }
 .dish-edit.frozen::before{ content:"❄️ NASCOSTO AI CLIENTI"; order:-1; align-self:flex-start; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.1em; font-size:.66rem; color:#0e2836; background:linear-gradient(180deg,#cfecfb,#a9d6f2); border-radius:8px; padding:3px 10px; box-shadow:0 0 14px rgba(140,195,235,.4); }
 .dish-edit.frozen .de-name-input, .dish-edit.frozen .de-desc, .dish-edit.frozen .de-prezzo{ opacity:.6; }
+/* speciale + congelato insieme: una sola targhetta che dice entrambe le cose */
+.dish-edit.special.frozen::before{ content:"❄️ NASCOSTO · ⭐ SPECIALITÀ"; }
 
 .field-search{ margin:0 0 14px; }

@@ -39,6 +39,13 @@
   function dishDesc(p) { const d = p.descrizione; if (!d) return ""; return d[lang] || d.it || ""; }
   function iconFor(cat) { return CAT_ICON[cat.slug] || "🍽️"; }
 
+  /* La ⭐ delle Specialità la mette il sistema (flag ✦), NON si scrive nel nome:
+     togliamo qualsiasi stellina iniziale e la rimettiamo solo se il piatto è speciale
+     (così i piatti storici che ce l'hanno scritta a mano non la mostrano doppia). */
+  const STAR = "⭐";
+  function cleanName(nome) { return String(nome == null ? "" : nome).replace(/^[\s]*[⭐★✦✧☆*]+[\s]*/, "").trim(); }
+  function dishName(p) { const n = cleanName(p && p.nome); return (p && p.speciale) ? STAR + " " + n : n; }
+
   function fmtPrice(n) {
     if (n === "" || n == null) return "";
     const num = typeof n === "number" ? n : parseFloat(String(n).replace(",", "."));
@@ -323,10 +330,10 @@
       : (p._sezione ? '<p class="kick">' + sezioneLabel(p._sezione) + "</p>" : "");
     card.innerHTML =
       '<div class="photo"><div class="fallback">' + (fallbackIcon || "🍽️") + "</div>" + price + "</div>" +
-      '<div class="body">' + kick + "<h3>" + p.nome + "</h3>" + descHtml + '<span class="seal">♦</span></div>';
+      '<div class="body">' + kick + "<h3>" + dishName(p) + "</h3>" + descHtml + '<span class="seal">♦</span></div>';
     if (p.image) {
       const img = new Image();
-      img.alt = p.nome; img.loading = "lazy";
+      img.alt = cleanName(p.nome); img.loading = "lazy";
       img.onload = function () { img.classList.add("loaded"); };
       img.onerror = function () { img.remove(); card.classList.add("no-photo"); };
       img.src = p.image;
@@ -385,10 +392,10 @@
     const photo = zoomEl.querySelector(".zoom-photo");
     const oldImg = photo.querySelector("img"); if (oldImg) oldImg.remove();
     const ico = $("#zoom-ico");
-    if (p.image) { const img = new Image(); img.alt = p.nome; img.src = p.image; ico.style.display = "none"; photo.appendChild(img); }
+    if (p.image) { const img = new Image(); img.alt = cleanName(p.nome); img.src = p.image; ico.style.display = "none"; photo.appendChild(img); }
     else { ico.style.display = ""; ico.textContent = currentCat ? iconFor(currentCat) : "🍽️"; }
     $("#zoom-kick").textContent = p.speciale ? ("✦ " + t("specialtiesTitle") + " ✦") : (p._sezione ? sezioneLabel(p._sezione) : "");
-    $("#zoom-name").textContent = p.nome;
+    $("#zoom-name").textContent = dishName(p);
     const pr = (p.prezzo != null && p.prezzo !== "") ? fmtPrice(p.prezzo) : "";
     $("#zoom-price").textContent = pr; $("#zoom-price").style.display = pr ? "" : "none";
     const d = dishDesc(p); $("#zoom-desc").textContent = d; $("#zoom-desc").style.display = d ? "" : "none";
@@ -556,15 +563,18 @@
         '<input class="field de-prezzo" inputmode="decimal" placeholder="—">' +
         '<button type="button" class="de-foto"><span class="de-foto-txt">📷 Foto</span></button>' +
         '<button type="button" class="de-foto-del" aria-label="Togli foto" hidden>✕</button></div>' +
-        '<label class="de-special"><input type="checkbox" class="de-special-cb"> ✦ Specialità <small>(carta oro + nel carosello Specialità)</small></label>' +
+        '<label class="de-special"><input type="checkbox" class="de-special-cb"> ⭐ Specialità <small>(stella nel nome + carta oro + carosello Specialità)</small></label>' +
         '<label class="de-congela"><input type="checkbox" class="de-congela-cb"> ❄️ Congela <small>(nascondi ai clienti, resta qui)</small></label>' +
         '<input type="hidden" class="de-fotoval">';
-      row.querySelector(".de-special-cb").checked = !!p.speciale;
+      const specCb = row.querySelector(".de-special-cb");
+      specCb.checked = !!p.speciale;
+      if (p.speciale) row.classList.add("special");
+      specCb.addEventListener("change", function () { row.classList.toggle("special", specCb.checked); });
       const congelaCb = row.querySelector(".de-congela-cb");
       congelaCb.checked = !!p.congelato;
       if (p.congelato) row.classList.add("frozen");
       congelaCb.addEventListener("change", function () { row.classList.toggle("frozen", congelaCb.checked); updateFrozenCount(); });
-      row.querySelector(".de-name-input").value = p.nome || "";
+      row.querySelector(".de-name-input").value = cleanName(p.nome);   // la ⭐ la mette il flag, non si scrive qui
       row.querySelector(".de-desc").value = (p.descrizione && p.descrizione.it) || "";
       row.querySelector(".de-prezzo").value = (p.prezzo != null ? p.prezzo : "");
       const fv = row.querySelector(".de-fotoval"); fv.value = p.image || "";
@@ -627,7 +637,7 @@
     editInner.querySelectorAll(".cat-edit").forEach(function (sec) {
       const slug = sec.dataset.slug;
       sec.querySelectorAll(".dish-edit").forEach(function (row) {
-        const nome = (row.querySelector(".de-name-input").value || "").trim();
+        const nome = cleanName(row.querySelector(".de-name-input").value);   // mai la ⭐ dentro il nome: la mette il flag
         const prezzo = row.querySelector(".de-prezzo").value.trim();
         const image = row.querySelector(".de-fotoval").value.trim();
         const desc = (row.querySelector(".de-desc").value || "").trim();
@@ -646,7 +656,7 @@
           const ov = {};
           if (prezzo !== "" && prezzo !== String(base.prezzo != null ? base.prezzo : "")) ov.prezzo = prezzo;
           if (image !== (base.image || "")) ov.image = image;
-          if (nome && nome !== basenome) ov.nome = nome;
+          if (nome && nome !== cleanName(basenome)) ov.nome = nome;   // confronto senza ⭐: i piatti storici non risultano "cambiati"
           const baseDescIt = (base.descrizione && base.descrizione.it) || "";
           if (desc !== baseDescIt) ov.descrizione = { it: desc };
           if (special !== !!base.speciale) ov.speciale = special;
