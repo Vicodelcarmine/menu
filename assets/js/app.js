@@ -714,7 +714,10 @@
     // eventuali modifiche pubblicate (prezzi/foto) da Supabase
     try {
       const ov = await Store.getOverrides();
-      overridesLoaded = true;   // caricamento riuscito (ov può essere null = nessuna modifica pubblicata)
+      // riuscito SOLO se i dati arrivano davvero dal server: se vengono dalla copia
+      // locale (database irraggiungibile) il salvataggio resta bloccato, per non
+      // sovrascrivere online una versione letta dalla cache.
+      overridesLoaded = !(Store.lastReadFromCache && Store.lastReadFromCache());
       if (ov && typeof ov === "object") { overrides = migrateOverrides(ov); rebuildGrid(); }
     } catch (e) { /* Supabase non raggiungibile: menu di base, e l'editor bloccherà il salvataggio */ }
   });

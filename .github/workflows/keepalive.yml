@@ -1,0 +1,36 @@
+# ============================================================================
+#  SVEGLIA AUTOMATICA DEL DATABASE (Supabase)
+#  ---------------------------------------------------------------------------
+#  Supabase, nel piano gratuito, mette in PAUSA un progetto dopo ~7 giorni
+#  senza attività. Se va in pausa, il menu segreto non funziona e i clienti
+#  vedono la versione vecchia del menu.
+#
+#  Questo file fa una piccola "chiamata" al database una volta al giorno,
+#  così il progetto resta sempre sveglio. È gratuito e automatico:
+#  non devi fare nulla.
+#
+#  Per lanciarlo a mano: su github.com → scheda "Actions" → "Sveglia database"
+#  → "Run workflow".
+# ============================================================================
+name: Sveglia database
+
+on:
+  schedule:
+    - cron: "41 6 * * *" # ogni giorno alle 06:41 UTC
+  workflow_dispatch: # permette l'avvio manuale da GitHub
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chiama il database per tenerlo attivo
+        run: |
+          CODE=$(curl -sS -o /dev/null -w "%{http_code}" \
+            -H "apikey: sb_publishable_2O5l8ZbQqGnwDXwxZnsZ2Q_0Mt1V8T7" \
+            "https://agbvmhpktilpaoabjkre.supabase.co/rest/v1/menu_content?select=key&limit=1")
+          echo "Risposta del database: HTTP $CODE"
+          if [ "$CODE" != "200" ]; then
+            echo "ATTENZIONE: il database non ha risposto correttamente."
+            exit 1
+          fi
+          echo "Database sveglio e funzionante."

@@ -29,13 +29,35 @@ const Store = (function () {
     return r.json();
   }
 
+  // RETE DI SICUREZZA: l'ultima versione buona del menu resta salvata sul telefono.
+  // Se il database non fosse raggiungibile, il cliente vede comunque il menu AGGIORNATO
+  // (e non la vecchia versione di riserva scritta nel codice).
+  const CACHE = "vicodelcarmine_cache_";
+  let fromCache = false;   // true se l'ultima lettura viene dalla copia locale e non dal server
+
   async function readContent(key) {
     if (!configured) return null;
-    const r = await fetch(REST + "/menu_content?key=eq." + key + "&select=data", { headers: { apikey: SUPABASE_KEY } });
-    if (!r.ok) return null;
-    const rows = await r.json();
-    const d = rows[0] && rows[0].data;
-    return d && Object.keys(d).length ? d : null;
+    try {
+      const r = await fetch(REST + "/menu_content?key=eq." + key + "&select=data", { headers: { apikey: SUPABASE_KEY } });
+      if (!r.ok) throw new Error("http " + r.status);
+      const rows = await r.json();
+      const d = rows[0] && rows[0].data;
+      const val = d && Object.keys(d).length ? d : null;   // null = nessuna modifica salvata
+      fromCache = false;
+      // risposta valida del server: aggiorno la copia di riserva sul telefono
+      try {
+        if (val) localStorage.setItem(CACHE + key, JSON.stringify(val));
+        else localStorage.removeItem(CACHE + key);
+      } catch (e) {}
+      return val;
+    } catch (e) {
+      // database irraggiungibile: uso l'ultima versione buona salvata sul telefono
+      fromCache = true;
+      try {
+        const c = localStorage.getItem(CACHE + key);
+        return c ? JSON.parse(c) : null;
+      } catch (e2) { return null; }
+    }
   }
 
   // Ridimensiona e comprime una foto prima del caricamento:
@@ -71,6 +93,9 @@ const Store = (function () {
 
     // Modifiche pubblicate a prezzi/foto: { "slug::nome": { prezzo, image } }
     getOverrides: function () { return readContent("overrides"); },
+    // true se l'ultimo caricamento è arrivato dalla copia locale (database irraggiungibile):
+    // serve alla protezione anti-perdita-dati, che in quel caso blocca il salvataggio.
+    lastReadFromCache: function () { return fromCache; },
     saveOverrides: function (data, pwd) { return rpc("save_overrides", { new_data: data, pwd: pwd }); },
 
     // Carica una foto nel bucket 'foto' (ridimensionata+compressa) → indirizzo pubblico
