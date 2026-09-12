@@ -1,0 +1,9 @@
+.DS_Store
+_originali/
+# macOS
+**/.DS_Store
+# Cartelle SORGENTE originali: i file usati dal sito sono già copiati in
+# img/ (le foto) e assets/media/ (logo + video). Queste restano solo sul tuo
+# computer come archivio e NON vanno online (pesano e non servono al sito).
+IMMAGINI PIATTI/
+MEDIA/
