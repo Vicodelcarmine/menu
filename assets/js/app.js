@@ -222,7 +222,6 @@
 
     // hint carosello + skip intro
     $("#ov-hint").textContent = t("swipeHint");
-    $("#zoom-hint").textContent = ZOOM_HINT[lang] || ZOOM_HINT.it;
     const skip = $("#intro-skip"); if (skip) skip.textContent = t("skipIntro");
     $("#hero-logo").alt = "Vico del Carmine";
   }
@@ -308,10 +307,11 @@
   }
   const WINDOW = 4;   // quante carte tenere "vive" per lato (le altre si nascondono = più fluido)
   function position(stagger) {
+    if (pageMode()) { positionPages(); return; }
     cards.forEach(function (el, i) {
       const d = offset(i), s = stateFor(d);
       if (Math.abs(d) > WINDOW) { el.style.display = "none"; el.classList.remove("is-front"); el.setAttribute("aria-hidden", "true"); return; }
-      el.style.display = "";
+      el.style.display = ""; el.style.visibility = "";
       el.style.zIndex = s.z; el.style.opacity = s.o; el.style.transform = s.t;
       el.style.transitionDelay = stagger ? Math.max(0, d) * 70 + "ms" : "0ms";
       el.classList.toggle("is-front", d === 0);
@@ -324,13 +324,14 @@
     const card = document.createElement("article");
     card.className = "card" + (p.image ? "" : " no-photo") + (p.speciale ? " special" : "");
     const price = (p.prezzo != null && p.prezzo !== "") ? '<span class="price">' + fmtPrice(p.prezzo) + "</span>" : "";
+    const priceInline = (p.prezzo != null && p.prezzo !== "") ? '<span class="price-inline">' + fmtPrice(p.prezzo) + "</span>" : "";   // pagine mobile: accanto al nome
     const desc = dishDesc(p);
     const descHtml = desc ? "<p>" + desc + "</p>" : "";
     const kick = p.speciale ? '<p class="kick spec-kick">✦ ' + t("specialtiesTitle") + " ✦</p>"
       : (p._sezione ? '<p class="kick">' + sezioneLabel(p._sezione) + "</p>" : "");
     card.innerHTML =
       '<div class="photo"><div class="fallback">' + (fallbackIcon || "🍽️") + "</div>" + price + "</div>" +
-      '<div class="body">' + kick + "<h3>" + dishName(p) + "</h3>" + descHtml + '<span class="seal">♦</span></div>';
+      '<div class="body">' + kick + '<div class="line"><h3>' + dishName(p) + "</h3>" + priceInline + "</div>" + descHtml + '<span class="seal">♦</span></div>';
     if (p.image) {
       const img = new Image();
       img.alt = cleanName(p.nome); img.loading = "lazy";
@@ -340,12 +341,18 @@
       const photo = card.querySelector(".photo");
       photo.insertBefore(img, photo.querySelector(".fallback").nextSibling);
     }
-    card.addEventListener("click", function () { if (card.classList.contains("is-front")) go(1); });
+    card.addEventListener("click", function () {
+      if (Date.now() - swipedAt < 400) return;            // un trascinamento col mouse non è anche un click
+      if (card.classList.contains("is-front") && !flipping) go(1);
+    });
     return card;
   }
   function openCarousel(cat) {
     currentCat = cat;
     piatti = cat._prebuilt ? cat.piatti : piattiOf(cat); n = piatti.length; index = 0;
+    cancelFlip();
+    const pages = isPageMode();
+    overlay.classList.toggle("pages", pages);          // mobile: una pagina a schermo intero per piatto
     const icon = iconFor(cat);
     titleEl.innerHTML = '<span class="ico">' + icon + "</span>" + catName(cat);
 
@@ -356,7 +363,11 @@
     piatti.forEach(function (_, i) {
       const b = document.createElement("button");
       b.className = "dot"; b.setAttribute("aria-label", String(i + 1));
-      b.addEventListener("click", function () { index = i; position(false); armZoom(); });
+      b.addEventListener("click", function () {
+        audioUnlock();
+        if (pageMode()) { if (i !== index) flipTo(i, i > index ? 1 : -1); }
+        else { index = i; position(false); }
+      });
       dotsEl.appendChild(b);
     });
 
@@ -364,53 +375,172 @@
     overlay.classList.add("open");
     updateScroll();
 
+    if (pages) { position(false); return; }            // pagine: nessuna animazione di ingresso del mazzo
     cards.forEach(function (el) { el.style.transition = "none"; el.style.opacity = "0"; el.style.transform = DECK_START; });
     void deckEl.offsetWidth;
     cards.forEach(function (el) { el.style.transition = ""; });
     position(true);
     clearTimeout(staggerTimer);
     staggerTimer = setTimeout(function () { cards.forEach(function (el) { el.style.transitionDelay = "0ms"; }); }, n * 70 + 700);
-    armZoom();
   }
-  function closeCarousel() { clearZoomTimer(); exitZoom(); overlay.classList.remove("open"); updateScroll(); }
-  function go(dir) { if (!n) return; index = (index + dir + n) % n; deckEl.classList.add("touched"); position(false); armZoom(); }
+  function closeCarousel() { cancelFlip(); overlay.classList.remove("open"); updateScroll(); }
+  function go(dir) {
+    if (!n) return;
+    if (pageMode()) { flipTo((index + dir + n) % n, dir); return; }
+    index = (index + dir + n) % n; deckEl.classList.add("touched"); position(false);
+  }
 
-  /* --- VISTA A SCHERMO INTERO DEL PIATTO (auto-zoom dopo 2s di fermo, solo mobile) --- */
-  const zoomEl = $("#zoom");
-  let zoomTimer = null, zoomed = false;
-  function zoomAllowed() { return !!(window.matchMedia && (window.matchMedia("(max-width: 640px)").matches || window.matchMedia("(pointer: coarse)").matches)); }
-  function clearZoomTimer() { clearTimeout(zoomTimer); zoomTimer = null; }
-  function armZoom() {
-    clearZoomTimer();
-    if (!overlay.classList.contains("open") || zoomed || !piatti.length || !zoomAllowed()) return;
-    zoomTimer = setTimeout(enterZoom, 2000);
+  /* ==========================================================================
+     PAGINE A SCHERMO INTERO (mobile) — si sfogliano come un giornale
+     Su telefono/tablet ogni piatto occupa tutto lo schermo: si cambia col dito
+     (scorri o tocca), la pagina gira sul bordo come quella di un libro, con il
+     fruscio della carta. Su computer resta il mazzo di carte.
+     ======================================================================== */
+  function isPageMode() { return !!(window.matchMedia && (window.matchMedia("(max-width: 640px)").matches || window.matchMedia("(pointer: coarse)").matches)); }
+  function pageMode() { return overlay.classList.contains("pages"); }
+
+  function positionPages() {
+    cards.forEach(function (el, i) {
+      const d = Math.abs(offset(i));
+      el.style.transitionDelay = "0ms"; el.style.opacity = ""; el.style.transform = "";
+      if (d === 0) { el.style.display = ""; el.style.visibility = ""; el.style.zIndex = 2; }
+      else if (d <= 2) {   // pagine vicine: presenti ma invisibili, così la foto è già pronta quando si sfoglia
+        el.style.display = ""; el.style.visibility = "hidden"; el.style.zIndex = 0;
+        el.querySelectorAll("img").forEach(function (im) { im.loading = "eager"; });
+      } else { el.style.display = "none"; el.style.visibility = ""; el.style.zIndex = ""; }
+      el.classList.toggle("is-front", d === 0);
+      el.setAttribute("aria-hidden", d === 0 ? "false" : "true");
+    });
+    countEl.textContent = (index + 1) + " / " + n;
+    Array.prototype.forEach.call(dotsEl.children, function (dot, i) { dot.classList.toggle("active", i === index); });
   }
-  function enterZoom() {
-    const p = piatti[index]; if (!p) return;
-    zoomed = true;
-    zoomEl.classList.toggle("special", !!p.speciale);
-    const photo = zoomEl.querySelector(".zoom-photo");
-    const oldImg = photo.querySelector("img"); if (oldImg) oldImg.remove();
-    const ico = $("#zoom-ico");
-    if (p.image) { const img = new Image(); img.alt = cleanName(p.nome); img.src = p.image; ico.style.display = "none"; photo.appendChild(img); }
-    else { ico.style.display = ""; ico.textContent = currentCat ? iconFor(currentCat) : "🍽️"; }
-    $("#zoom-kick").textContent = p.speciale ? ("✦ " + t("specialtiesTitle") + " ✦") : (p._sezione ? sezioneLabel(p._sezione) : "");
-    $("#zoom-name").textContent = dishName(p);
-    const pr = (p.prezzo != null && p.prezzo !== "") ? fmtPrice(p.prezzo) : "";
-    $("#zoom-price").textContent = pr; $("#zoom-price").style.display = pr ? "" : "none";
-    const d = dishDesc(p); $("#zoom-desc").textContent = d; $("#zoom-desc").style.display = d ? "" : "none";
-    zoomEl.classList.add("open");
+
+  // --- sfoglio: la pagina in cima ruota sul bordo sinistro, come in un libro ---
+  let flipping = false, flip = null;   // flip = { dir, top, under, target }
+  function showPage(el, z) { el.style.display = ""; el.style.visibility = ""; el.style.opacity = ""; el.style.zIndex = z; }
+  function setFold(el, a) { el.style.transform = "rotateY(" + a + "deg)"; el.style.setProperty("--fold", String(Math.min(1, Math.abs(a) / 90))); }
+  function flipBegin(dir, target) {
+    if (flipping || n < 2) return false;
+    if (target == null) target = (index + dir + n) % n;
+    const cur = cards[index], tgt = cards[target];
+    if (!cur || !tgt || cur === tgt) return false;
+    flipping = true;
+    // avanti: la pagina corrente si piega via e scopre la successiva che sta sotto
+    // indietro: la pagina precedente arriva dal bordo e si distende sopra la corrente
+    flip = dir > 0 ? { dir: 1, top: cur, under: tgt, target: target } : { dir: -1, top: tgt, under: cur, target: target };
+    showPage(flip.under, 1); showPage(flip.top, 2);
+    flip.top.classList.add("flipping");
+    flip.top.style.transition = "none";
+    setFold(flip.top, dir > 0 ? 0 : -90);
+    deckEl.classList.add("touched");
+    return true;
   }
-  function exitZoom() { if (!zoomed) return; zoomed = false; zoomEl.classList.remove("open"); }
-  function initZoom() {
-    zoomEl.addEventListener("click", exitZoom);
-    let zx = 0, zdrag = false;
-    zoomEl.addEventListener("touchstart", function (e) { zx = e.touches[0].clientX; zdrag = true; }, { passive: true });
-    zoomEl.addEventListener("touchmove", function (e) { if (zdrag && Math.abs(e.touches[0].clientX - zx) > 30) { exitZoom(); zdrag = false; } }, { passive: true });
-    // disabilita il pinch-zoom del telefono (iOS) — reversibile in futuro
+  function flipUpdate(dx) {   // la pagina segue il dito
+    if (!flip) return;
+    const W = deckEl.clientWidth || window.innerWidth || 1;
+    const k = dx / W * 120;
+    setFold(flip.top, Math.max(-90, Math.min(0, flip.dir > 0 ? k : -90 + k)));
+  }
+  function flipEnd(commit, ms) {   // commit=true completa lo sfoglio, false torna indietro
+    if (!flip) return;
+    const f = flip; flip = null;
+    ms = ms || 320;
+    const endAngle = commit ? (f.dir > 0 ? -90 : 0) : (f.dir > 0 ? 0 : -90);
+    f.top.style.transition = "transform " + ms + "ms " + (commit ? "cubic-bezier(.3,.7,.3,1)" : "ease-out");
+    void f.top.offsetWidth;
+    setFold(f.top, endAngle);
+    if (commit) playFlip();
+    let finished = false;
+    function done() {
+      if (finished) return; finished = true;
+      f.top.removeEventListener("transitionend", done);
+      f.top.classList.remove("flipping");
+      f.top.style.transition = ""; f.top.style.transform = ""; f.top.style.removeProperty("--fold");
+      if (commit) index = f.target;
+      flipping = false;
+      position(false);
+    }
+    f.top.addEventListener("transitionend", done);
+    setTimeout(done, ms + 90);   // rete di sicurezza se transitionend non arrivasse
+  }
+  function flipTo(target, dir) { if (flipBegin(dir, target)) flipEnd(true, 380); }
+  function cancelFlip() {
+    if (flip) { flip.top.classList.remove("flipping"); flip.top.style.transition = ""; flip.top.style.transform = ""; flip.top.style.removeProperty("--fold"); }
+    flip = null; flipping = false;
+  }
+
+  // --- suono dello sfoglio: fruscio di carta generato al volo (nessun file), con pulsante per zittirlo ---
+  let actx = null, muted = false;
+  try { muted = localStorage.getItem("vdc_mute") === "1"; } catch (e) {}
+  function audioUnlock() {   // i telefoni sbloccano l'audio solo dentro un tocco dell'utente
+    try {
+      if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === "suspended") actx.resume();
+    } catch (e) {}
+  }
+  function playFlip() {
+    if (muted || !pageMode() || !actx || actx.state !== "running") return;
+    try {
+      const t0 = actx.currentTime;
+      function burst(at, dur, freq, q, vol) {   // soffio di rumore filtrato con inviluppo rapido
+        const len = Math.max(1, Math.floor(actx.sampleRate * dur));
+        const buf = actx.createBuffer(1, len, actx.sampleRate), d = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+        const src = actx.createBufferSource(); src.buffer = buf;
+        const bp = actx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = freq; bp.Q.value = q;
+        const g = actx.createGain();
+        g.gain.setValueAtTime(0.0001, at);
+        g.gain.exponentialRampToValueAtTime(vol, at + 0.012);
+        g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+        src.connect(bp); bp.connect(g); g.connect(actx.destination);
+        src.start(at); src.stop(at + dur + 0.02);
+      }
+      burst(t0, 0.16, 2600, 0.7, 0.35);          // la pagina si solleva
+      burst(t0 + 0.13, 0.11, 1400, 0.9, 0.22);   // la pagina si posa
+    } catch (e) {}
+  }
+  function renderMute() { const b = $("#ov-mute"); if (b) { b.textContent = muted ? "🔇" : "🔊"; b.setAttribute("aria-pressed", muted ? "true" : "false"); } }
+
+  // --- blocco dello zoom a due dita e del doppio tocco (l'iPhone ignora il viewport: serve questo) ---
+  function initTouchGuards() {
     ["gesturestart", "gesturechange", "gestureend"].forEach(function (ev) {
       document.addEventListener(ev, function (e) { e.preventDefault(); }, { passive: false });
     });
+    document.addEventListener("touchstart", function (e) { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+    document.addEventListener("touchmove", function (e) { if (e.touches.length > 1 || (e.scale != null && e.scale !== 1)) e.preventDefault(); }, { passive: false });
+    let lastTap = 0;   // due tocchi ravvicinati = "ingrandisci" per iOS → annulliamo il secondo (non sui comandi)
+    document.addEventListener("touchend", function (e) {
+      const now = Date.now();
+      if (now - lastTap < 320 && !(e.target.closest && e.target.closest("button,input,textarea,select,label,a"))) e.preventDefault();
+      lastTap = now;
+    }, { passive: false });
+    // se un telefono riuscisse comunque a ingrandire, proviamo a riportarlo a posto (non garantito ovunque)
+    if (window.visualViewport) {
+      let fixT = null;
+      window.visualViewport.addEventListener("resize", function () {
+        clearTimeout(fixT);
+        if (window.visualViewport.scale > 1.02) fixT = setTimeout(resetZoom, 450);
+      });
+    }
+  }
+  function resetZoom() {
+    const vp = document.querySelector('meta[name="viewport"]'); if (!vp) return;
+    const c = vp.getAttribute("content") || "";
+    vp.setAttribute("content", c.replace("maximum-scale=1", "maximum-scale=1.0001"));
+    setTimeout(function () { vp.setAttribute("content", c); try { window.scrollTo(0, 0); } catch (e) {} }, 60);
+  }
+
+  function initPages() {
+    renderMute();
+    const mb = $("#ov-mute");
+    if (mb) mb.addEventListener("click", function () {
+      muted = !muted; try { localStorage.setItem("vdc_mute", muted ? "1" : "0"); } catch (e) {}
+      renderMute(); audioUnlock();
+      if (!muted) setTimeout(playFlip, 80);   // piccola prova del suono quando lo riaccendi
+    });
+    document.addEventListener("touchend", audioUnlock, { passive: true });
+    document.addEventListener("click", audioUnlock, { passive: true });
+    initTouchGuards();
   }
 
   /* --- comandi carosello --- */
@@ -423,7 +553,6 @@
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
-      if (zoomed) { exitZoom(); return; }
       if (overlay.classList.contains("open")) closeCarousel();
       else if (specOverlay.classList.contains("open")) closeSpecialita();
       else if ($("#lang-panel").classList.contains("open")) closeLangPanel();
@@ -435,16 +564,44 @@
   });
 
   // swipe / trascinamento
-  let sx = 0, sy = 0, dragging = false;
-  function start(x, y) { sx = x; sy = y; dragging = true; clearZoomTimer(); }
-  function end(x, y) {
+  let sx = 0, sy = 0, st = 0, dragging = false, dragDir = 0, swipedAt = 0;
+  function start(x, y) { sx = x; sy = y; st = Date.now(); dragging = true; dragDir = 0; }
+  function end(x, y) {   // mouse (computer): scorrimento a scatto come prima
     if (!dragging) return; dragging = false;
     const dx = x - sx, dy = y - sy;
-    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
-    else armZoom();
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { swipedAt = Date.now(); go(dx < 0 ? 1 : -1); }
   }
-  deckEl.addEventListener("touchstart", function (e) { start(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
-  deckEl.addEventListener("touchend", function (e) { end(e.changedTouches[0].clientX, e.changedTouches[0].clientY); });
+  deckEl.addEventListener("touchstart", function (e) {
+    audioUnlock();
+    if (e.touches.length > 1) { if (flip) flipEnd(false); dragging = false; dragDir = 0; return; }
+    start(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+  deckEl.addEventListener("touchmove", function (e) {
+    if (!dragging || !pageMode()) return;
+    if (e.touches.length > 1) { e.preventDefault(); if (flip) flipEnd(false); dragging = false; dragDir = 0; return; }
+    const t = e.touches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if (!dragDir) {   // capisco se è uno scorrimento orizzontale
+      if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { dragDir = dx < 0 ? 1 : -1; if (!flipBegin(dragDir)) { dragging = false; dragDir = 0; return; } }
+      else if (Math.abs(dy) > 12) { dragging = false; return; }
+      else return;
+    }
+    e.preventDefault();
+    flipUpdate(dx);
+  }, { passive: false });
+  deckEl.addEventListener("touchend", function (e) {
+    if (pageMode()) e.preventDefault();   // il tocco lo gestiamo qui: niente click fantasma né doppio-tocco-zoom
+    if (!dragging) return;
+    const t = e.changedTouches[0];
+    if (!pageMode()) { end(t.clientX, t.clientY); return; }
+    dragging = false;
+    const dx = t.clientX - sx, dy = t.clientY - sy, dt = Date.now() - st;
+    if (dragDir) {   // rilascio: completo lo sfoglio se il dito è andato abbastanza lontano o abbastanza veloce
+      const v = Math.abs(dx) / Math.max(1, dt);
+      flipEnd(Math.abs(dx) > 60 || (v > 0.45 && Math.abs(dx) > 20));
+      dragDir = 0;
+    } else if (dt < 400 && Math.abs(dx) < 10 && Math.abs(dy) < 10) go(1);   // tocco = piatto successivo
+  }, { passive: false });
+  deckEl.addEventListener("touchcancel", function () { if (flip) flipEnd(false); dragging = false; dragDir = 0; }, { passive: true });
   deckEl.addEventListener("mousedown", function (e) { start(e.clientX, e.clientY); });
   window.addEventListener("mouseup", function (e) { end(e.clientX, e.clientY); });
 
@@ -709,7 +866,7 @@
     buildLangPanel();
     rebuildGrid();
     initHiddenEditor();
-    initZoom();
+    initPages();
 
     // eventuali modifiche pubblicate (prezzi/foto) da Supabase
     try {

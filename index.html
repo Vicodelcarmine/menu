@@ -77,9 +77,11 @@
     </div>
   </div>
 
-  <!-- Carosello a schermo intero -->
+  <!-- Carosello (computer: mazzo di carte · mobile: pagine a schermo intero) -->
   <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Piatti">
     <button class="ov-close" id="ov-close" aria-label="Chiudi">✕</button>
+    <!-- suono dello sfoglio (solo nella vista a pagine, su mobile) -->
+    <button class="ov-mute" id="ov-mute" aria-label="Suono dello sfoglio" title="Suono">🔊</button>
 
     <div class="ov-top">
       <h2 class="ov-title" id="ov-title">Categoria</h2>
@@ -95,17 +97,6 @@
       <div class="dots" id="dots"></div>
       <div class="hint" id="ov-hint">Scorri · tocca · trascina</div>
     </div>
-  </div>
-
-  <!-- Vista a schermo intero del piatto (auto-zoom dopo 2s, solo mobile) -->
-  <div class="zoom" id="zoom" aria-hidden="true">
-    <div class="zoom-photo"><div class="zoom-ico" id="zoom-ico">🍽️</div></div>
-    <div class="zoom-info">
-      <p class="zoom-kick" id="zoom-kick"></p>
-      <div class="zoom-line"><h2 class="zoom-name" id="zoom-name"></h2><span class="zoom-price" id="zoom-price"></span></div>
-      <p class="zoom-desc" id="zoom-desc"></p>
-    </div>
-    <div class="zoom-hint" id="zoom-hint">Tocca per chiudere</div>
   </div>
 
   <!-- Tasto nascosto per modificare il menu (tieni premuto 5 secondi) -->

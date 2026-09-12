@@ -36,7 +36,7 @@ html[lang="ar"]{
 
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
-html,body{ margin:0; padding:0; }
+html,body{ margin:0; padding:0; touch-action:pan-y; }   /* solo scorrimento verticale: niente zoom a due dita né doppio tocco (Android/Chrome) */
 
 body{
   font-family:var(--font-body);
@@ -477,29 +477,87 @@ html[dir="rtl"] .card .seal{ right:auto; left:16px; }
 }
 
 /* ============================================================================
-   VISTA A SCHERMO INTERO DEL PIATTO (auto-zoom dopo 2s, solo mobile)
+   PAGINE A SCHERMO INTERO (mobile) — si sfogliano come un giornale
+   Su telefono/tablet il carosello diventa una pagina per piatto, a tutto
+   schermo: si cambia col dito (scorri o tocca) e la pagina gira sul bordo
+   come quella di un libro. Su computer resta il mazzo di carte qui sopra.
    ========================================================================== */
-.zoom{
-  position:fixed; inset:0; z-index:100; background:#0b0806;
-  display:flex; flex-direction:column;
-  opacity:0; visibility:hidden; transition:opacity .32s ease, visibility .32s ease;
-  touch-action:none;
+.overlay.pages{ background:#0b0806; }
+.overlay.pages .ov-top{
+  position:absolute; top:0; left:0; right:0; z-index:8; pointer-events:none;
+  padding:max(16px, env(safe-area-inset-top)) 118px 22px 18px;
+  background:linear-gradient(rgba(11,8,6,.85), rgba(11,8,6,.35) 70%, transparent);
 }
-.zoom.open{ opacity:1; visibility:visible; }
-.zoom-photo{ position:relative; flex:1; overflow:hidden; background:linear-gradient(160deg, var(--bg-4), var(--bg-2)); }
-.zoom-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
-.zoom-ico{ position:absolute; inset:0; display:grid; place-items:center; font-size:9rem; filter:drop-shadow(0 10px 24px rgba(0,0,0,.6)); background:radial-gradient(70% 55% at 50% 34%, rgba(230,178,74,.18), transparent 70%); }
-.zoom.special .zoom-ico{ background:radial-gradient(70% 55% at 50% 34%, rgba(240,196,96,.34), transparent 70%), linear-gradient(180deg,#6a4a18,#35240e); }
-.zoom-info{ position:absolute; left:0; right:0; bottom:0; padding:70px 24px calc(38px + env(safe-area-inset-bottom)); background:linear-gradient(transparent, rgba(11,8,6,.55) 28%, rgba(11,8,6,.96)); }
-.zoom-kick{ margin:0 0 5px; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.2em; font-size:.72rem; color:var(--gold); }
-.zoom-line{ display:flex; align-items:baseline; justify-content:space-between; gap:14px; }
-.zoom-name{ margin:0; font-family:var(--font-display); font-weight:800; font-size:2rem; line-height:1.08; color:var(--cream); }
-.zoom.special .zoom-name{ color:#fff6dc; }
-.zoom-price{ flex:0 0 auto; font-family:var(--font-head); font-weight:600; font-size:1.2rem; color:#241206; background:linear-gradient(180deg, var(--gold), #cf9a2e); padding:6px 14px; border-radius:999px; box-shadow:0 8px 18px rgba(0,0,0,.45); }
-.zoom-desc{ margin:10px 0 0; color:var(--muted); font-size:1.05rem; line-height:1.5; }
-.zoom-hint{ position:absolute; top:max(16px, env(safe-area-inset-top)); left:50%; transform:translateX(-50%); font-family:var(--font-head); text-transform:uppercase; letter-spacing:.2em; font-size:.68rem; color:rgba(247,239,226,.75); background:rgba(0,0,0,.42); padding:8px 16px; border-radius:999px; -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); animation:skipPulse 2.4s ease-in-out infinite; }
-html[dir="rtl"] .zoom-info{ text-align:right; }
-@media (prefers-reduced-motion:reduce){ .zoom-hint{ animation:none; } }
+.overlay.pages .ov-title{ font-size:1.25rem; text-shadow:0 2px 10px rgba(0,0,0,.7); }
+.overlay.pages .ov-count{ text-shadow:0 2px 10px rgba(0,0,0,.7); }
+html[dir="rtl"] .overlay.pages .ov-top{ padding:max(16px, env(safe-area-inset-top)) 18px 22px 118px; }
+.overlay.pages .ov-close{ top:max(12px, env(safe-area-inset-top)); z-index:12; }
+.ov-mute{ display:none; }
+.overlay.pages .ov-mute{
+  display:grid; place-items:center; position:absolute; z-index:12;
+  top:max(12px, env(safe-area-inset-top)); right:68px;
+  width:44px; height:44px; border-radius:50%;
+  border:1px solid var(--line); background:rgba(0,0,0,.35);
+  color:var(--cream); font-size:1.15rem; line-height:1; cursor:pointer;
+}
+html[dir="rtl"] .overlay.pages .ov-mute{ right:auto; left:68px; }
+.overlay.pages .deck{ margin:0; perspective:1400px; touch-action:none; }
+.overlay.pages .card{
+  top:0; left:0; width:100%; height:100%; border-radius:0;
+  border:none; box-shadow:none; transform:none; transition:none;
+  transform-origin:left center;   /* la pagina gira sul dorso del libro */
+}
+.overlay.pages .card.flipping{ box-shadow:-14px 0 44px rgba(0,0,0,.6); }
+.overlay.pages .card.flipping::after{   /* ombra che cresce mentre la pagina si piega */
+  content:""; position:absolute; inset:0; z-index:9; pointer-events:none;
+  background:linear-gradient(90deg, rgba(0,0,0,.04), rgba(0,0,0,.7));
+  opacity:var(--fold, 0);
+}
+.overlay.pages .card .photo, .overlay.pages .card.no-photo .photo{ position:absolute; inset:0; height:auto; }
+.overlay.pages .card .photo img{ transition:opacity .35s ease; }
+.overlay.pages .card .photo::after{ height:62%; background:linear-gradient(transparent, rgba(11,8,6,.5) 38%, rgba(11,8,6,.97)); }
+.overlay.pages .card .photo .fallback, .overlay.pages .card.no-photo .photo .fallback{ font-size:8.5rem; }
+.overlay.pages .card .photo .fallback::before, .overlay.pages .card.no-photo .photo .fallback::before{ width:250px; height:250px; margin:-125px 0 0 -125px; }
+.overlay.pages .card .photo .fallback::after, .overlay.pages .card.no-photo .photo .fallback::after{ top:calc(50% - 152px); }
+.overlay.pages .card .price{ display:none; }        /* a tutto schermo il prezzo sta accanto al nome */
+.overlay.pages .card .body, .overlay.pages .card.no-photo .body{
+  position:absolute; left:0; right:0; bottom:0; height:auto;
+  padding:0 22px calc(98px + env(safe-area-inset-bottom));
+  gap:10px; justify-content:flex-end; text-align:start;
+}
+.overlay.pages .card.no-photo .body .kick{ text-align:start; }
+.overlay.pages .card .body .kick{ font-size:.72rem; letter-spacing:.2em; }
+.overlay.pages .card .body .line{ display:flex; align-items:baseline; justify-content:space-between; gap:14px; }
+.overlay.pages .card .body h3{ font-size:2rem; line-height:1.08; text-shadow:0 2px 12px rgba(0,0,0,.5); }
+.card .price-inline{ display:none; }
+.overlay.pages .card .price-inline{
+  display:inline-block; flex:0 0 auto;
+  font-family:var(--font-head); font-weight:600; font-size:1.2rem; color:#241206;
+  background:linear-gradient(180deg, var(--gold), #cf9a2e);
+  padding:6px 14px; border-radius:999px; box-shadow:0 8px 18px rgba(0,0,0,.45);
+}
+.overlay.pages .card .body p{
+  font-size:1.05rem; line-height:1.5;
+  display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;
+}
+.overlay.pages .card .seal{ display:none; }
+.overlay.pages .card.special{ background:linear-gradient(180deg, #6a4a18, #35240e); }
+.overlay.pages .card.special .photo::after{ background:linear-gradient(transparent, rgba(61,42,17,.55) 38%, rgba(45,30,12,.97)); }
+.overlay.pages .card.special::before{ display:none; }   /* niente scintillio a tutto schermo */
+.overlay.pages .nav-btn{
+  top:auto; bottom:calc(30px + env(safe-area-inset-bottom)); transform:none;
+  width:44px; height:44px; font-size:1.35rem; background:rgba(0,0,0,.45);
+}
+.overlay.pages .nav-btn:active{ transform:scale(.9); }
+.overlay.pages .nav-prev{ left:12px; }
+.overlay.pages .nav-next{ right:12px; }
+.overlay.pages .ov-bottom{
+  position:absolute; left:0; right:0; bottom:0; z-index:8; pointer-events:none;
+  padding:6px 68px calc(20px + env(safe-area-inset-bottom)); gap:8px;
+}
+.overlay.pages .dots{ pointer-events:auto; }
+.overlay.pages .hint{ font-size:.62rem; color:rgba(247,239,226,.6); }
+@media (prefers-reduced-motion:reduce){ .overlay.pages .card.flipping{ transition:none !important; } }
 
 /* ============================================================================
    RIQUADRO SPECIALE: SPECIALITÀ
