@@ -263,6 +263,7 @@ html[dir="rtl"] .cat-btn .arrow{ right:auto; left:16px; transform:scaleX(-1); }
   max-width:520px; margin-left:auto; margin-right:auto;
 }
 .foot-note .euro{ color:var(--gold-soft); }
+.foot-ver{ margin-top:14px; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.16em; font-size:.6rem; color:rgba(203,180,156,.42); }
 
 /* ============================================================================
    CAROSELLO — CARTE DA POKER

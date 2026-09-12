@@ -29,6 +29,10 @@
   let overrides = {};             // modifiche pubblicate da Supabase
   let overridesLoaded = false;    // true solo se il caricamento da Supabase è riuscito (anti-perdita-dati)
 
+  // Versione del menu, scritta in fondo alla pagina: AGGIORNARLA A OGNI PUBBLICAZIONE.
+  // Serve a capire al volo se il telefono sta mostrando l'ultima versione.
+  const APP_VERSION = "12.09.2026 · pagine";
+
   const hasData = typeof MENU_DATA !== "undefined" && MENU_DATA;
   const categorie = (hasData && MENU_DATA.categorie) || [];
   const note = (hasData && MENU_DATA.note) || null;
@@ -224,6 +228,7 @@
     $("#ov-hint").textContent = t("swipeHint");
     const skip = $("#intro-skip"); if (skip) skip.textContent = t("skipIntro");
     $("#hero-logo").alt = "Vico del Carmine";
+    $("#f-ver").textContent = "v " + APP_VERSION;
   }
   function renderFootNote() {
     const el = $("#f-note");
