@@ -420,10 +420,123 @@
     Array.prototype.forEach.call(dotsEl.children, function (dot, i) { dot.classList.toggle("active", i === index); });
   }
 
-  // --- sfoglio: la pagina in cima ruota sul bordo sinistro, come in un libro ---
-  let flipping = false, flip = null;   // flip = { dir, top, under, target }
+  /* --- SFOGLIO "A CARTA": la pagina si PIEGA mentre gira -------------------
+     La pagina viene divisa in strisce verticali affiancate: ognuna ruota un
+     po' piu' della precedente, cosi' il foglio si incurva invece di girare
+     rigido come un pannello. Su ogni striscia una velatura scura e una di
+     luce seguono l'inclinazione: e' l'ombreggiatura che fa "vedere" la piega.
+     ---------------------------------------------------------------------- */
+  const FOLD_N = 10;        // in quante strisce dividiamo la pagina (piu' alto = curva piu' morbida, ma piu' peso)
+  const FOLD_BEND = 38;     // quanto si incurva la carta a meta' giro (gradi)
+  const FOLD_MS = 760;      // durata di uno sfoglio completo con tocco/frecce (era 380: ora il doppio)
+  const FOLD_P = 1500;      // profondita' prospettica: deve combaciare con il CSS (.overlay.pages .deck)
+  let flipping = false, flip = null;   // flip = { dir, top, under, target, p }
+  let foldEl = null, shadeEl = null, sheenEl = null, foldStrips = [], foldRaf = 0;
+
   function showPage(el, z) { el.style.display = ""; el.style.visibility = ""; el.style.opacity = ""; el.style.zIndex = z; }
-  function setFold(el, a) { el.style.transform = "rotateY(" + a + "deg)"; el.style.setProperty("--fold", String(Math.min(1, Math.abs(a) / 90))); }
+  function lessMotion() { return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); }
+
+  // Costruisce le strisce copiando la pagina: ogni striscia mostra una fetta diversa.
+  function buildFold(card) {
+    if (!foldEl) {
+      foldEl = document.createElement("div"); foldEl.className = "fold";
+      shadeEl = document.createElement("div"); shadeEl.className = "fold-shade";
+      sheenEl = document.createElement("div"); sheenEl.className = "fold-sheen";
+    }
+    // openCarousel svuota il contenitore delle carte: se serve li riattacco
+    if (foldEl.parentNode !== deckEl) { deckEl.appendChild(foldEl); deckEl.appendChild(shadeEl); deckEl.appendChild(sheenEl); }
+    const W = deckEl.clientWidth || window.innerWidth || 1;
+    const sw = W / FOLD_N;
+    foldEl.textContent = ""; foldStrips = [];
+    for (let i = 0; i < FOLD_N; i++) {
+      const strip = document.createElement("div");
+      strip.className = "fold-strip";
+      strip.style.left = (i * sw) + "px";
+      strip.style.width = (sw + 1) + "px";       // 1px di sovrapposizione: niente righine fra le strisce
+      const inner = document.createElement("div");
+      inner.className = "fold-inner";
+      inner.style.width = W + "px";
+      inner.style.left = (-i * sw) + "px";
+      const clone = card.cloneNode(true);
+      clone.classList.remove("is-front");
+      clone.removeAttribute("aria-hidden");
+      clone.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;transform:none;transition:none;display:block;visibility:visible;opacity:1;animation:none;";
+      inner.appendChild(clone);
+      strip.appendChild(inner);
+      foldEl.appendChild(strip);
+      foldStrips.push(strip);
+    }
+    foldEl.classList.add("on"); shadeEl.classList.add("on"); sheenEl.classList.add("on");
+  }
+
+  // p = 0 pagina distesa · p = 1 pagina di taglio (sparita). Disegna la curva e la luce.
+  function renderFold(p) {
+    if (!foldStrips.length) return;
+    p = p < 0 ? 0 : p > 1 ? 1 : p;
+    if (flip) flip.p = p;
+    const W = deckEl.clientWidth || window.innerWidth || 1;
+    const sw = W / FOLD_N, cx = W / 2;
+    const base = -90 * p;                               // la pagina intera ruota sul dorso
+    const bend = FOLD_BEND * Math.sin(Math.PI * p);     // ...e si incurva soprattutto a meta' giro
+    const ang = function (t) { return base - bend * Math.pow(t, 1.6); };   // il bordo libero corre avanti: e' la piega
+    // 1) posiziono le strisce nello spazio, accumulando la cerniera di ognuna
+    const sx = [0];                                     // x sullo schermo di ogni giuntura fra le strisce
+    let x = 0, z = 0;
+    for (let i = 0; i < FOLD_N; i++) {
+      const deg = ang((i + 0.5) / FOLD_N), rad = deg * Math.PI / 180;
+      foldStrips[i].style.transform =
+        "translate3d(" + (x - i * sw).toFixed(2) + "px,0," + z.toFixed(2) + "px) rotateY(" + deg.toFixed(2) + "deg)";
+      x += sw * Math.cos(rad);
+      z += -sw * Math.sin(rad);                         // la carta si solleva verso di noi
+      sx[i + 1] = cx + (x - cx) * (FOLD_P / (FOLD_P - z));   // piu' la carta si alza, piu' appare grande
+    }
+    // 2) ombra e luce come UN UNICO velo continuo sopra le strisce: cosi' la curva
+    //    si legge morbida, senza le bande che si vedrebbero velando ogni striscia.
+    const right = sx[FOLD_N];
+    if (right < 2) { shadeEl.style.opacity = "0"; sheenEl.style.opacity = "0"; return; }
+    shadeEl.style.opacity = "1"; sheenEl.style.opacity = "1";
+    let dark = "", light = "", prev = -1;
+    for (let i = 0; i <= FOLD_N; i++) {
+      const deg = ang(i / FOLD_N), rad = deg * Math.PI / 180;
+      const face = Math.cos(rad);
+      const d = 0.66 * (1 - (face > 0 ? face : 0));                                  // di taglio = buio
+      const g = (Math.abs(deg) - 34) / 15;
+      const l = 0.26 * Math.exp(-g * g);                                             // banda di luce stretta: scorre lungo la piega
+      const at = Math.max(prev, sx[i]); prev = at;                                   // le tappe non possono tornare indietro
+      dark += (i ? "," : "") + "rgba(8,5,3," + d.toFixed(3) + ") " + at.toFixed(1) + "px";
+      light += (i ? "," : "") + "rgba(255,243,222," + l.toFixed(3) + ") " + at.toFixed(1) + "px";
+    }
+    // coda: l'ombra che la pagina sollevata proietta su quella sotto
+    const cast = 0.52 * Math.sin(Math.PI * p), castTo = Math.min(W, right + W * 0.42);
+    dark += ",rgba(8,5,3," + cast.toFixed(3) + ") " + right.toFixed(1) + "px,rgba(8,5,3,0) " + castTo.toFixed(1) + "px";
+    light += ",rgba(255,243,222,0) " + right.toFixed(1) + "px";
+    shadeEl.style.backgroundImage = "linear-gradient(90deg," + dark + ")";
+    sheenEl.style.backgroundImage = "linear-gradient(90deg," + light + ")";
+  }
+  function clearFold() {
+    cancelAnimationFrame(foldRaf); foldRaf = 0;
+    if (foldEl) { foldEl.classList.remove("on"); foldEl.textContent = ""; }
+    if (shadeEl) { shadeEl.classList.remove("on"); shadeEl.style.backgroundImage = ""; }
+    if (sheenEl) { sheenEl.classList.remove("on"); sheenEl.style.backgroundImage = ""; }
+    foldStrips = [];
+  }
+
+  const easeSoft = function (t) { return t * t * (3 - 2 * t); };              // partenza e arrivo morbidi (tocco)
+  const easeGlide = function (t) { return 1 - Math.pow(1 - t, 2.2); };        // il dito ha gia' dato lo slancio
+  function animateFold(from, to, ms, ease, done) {
+    cancelAnimationFrame(foldRaf);
+    // Un fotogramma di respiro: il browser disegna le strisce mentre la pagina e'
+    // ancora ferma, cosi' il movimento parte liscio invece di "inciampare".
+    foldRaf = requestAnimationFrame(function () {
+      const t0 = (window.performance || Date).now();
+      (function step(now) {
+        const t = Math.min(1, ((now || t0) - t0) / ms);
+        renderFold(from + (to - from) * ease(t));
+        if (t < 1) foldRaf = requestAnimationFrame(step); else done();
+      })(t0);
+    });
+  }
+
   function flipBegin(dir, target) {
     if (flipping || n < 2) return false;
     if (target == null) target = (index + dir + n) % n;
@@ -432,46 +545,47 @@
     flipping = true;
     // avanti: la pagina corrente si piega via e scopre la successiva che sta sotto
     // indietro: la pagina precedente arriva dal bordo e si distende sopra la corrente
-    flip = dir > 0 ? { dir: 1, top: cur, under: tgt, target: target } : { dir: -1, top: tgt, under: cur, target: target };
+    flip = dir > 0 ? { dir: 1, top: cur, under: tgt, target: target, p: 0 } : { dir: -1, top: tgt, under: cur, target: target, p: 1 };
     showPage(flip.under, 1); showPage(flip.top, 2);
-    flip.top.classList.add("flipping");
-    flip.top.style.transition = "none";
-    setFold(flip.top, dir > 0 ? 0 : -90);
+    buildFold(flip.top);
+    flip.top.style.visibility = "hidden";     // al suo posto ora ci sono le strisce
+    renderFold(flip.p);
     deckEl.classList.add("touched");
     return true;
   }
+
   function flipUpdate(dx) {   // la pagina segue il dito
     if (!flip) return;
     const W = deckEl.clientWidth || window.innerWidth || 1;
-    const k = dx / W * 120;
-    setFold(flip.top, Math.max(-90, Math.min(0, flip.dir > 0 ? k : -90 + k)));
+    const k = dx / W * 1.34;                       // ~3/4 di schermo = giro completo
+    renderFold(flip.dir > 0 ? -k : 1 - k);
   }
-  function flipEnd(commit, ms) {   // commit=true completa lo sfoglio, false torna indietro
+
+  function flipEnd(commit, fromDrag, ms) {
     if (!flip) return;
     const f = flip; flip = null;
-    ms = ms || 320;
-    const endAngle = commit ? (f.dir > 0 ? -90 : 0) : (f.dir > 0 ? 0 : -90);
-    f.top.style.transition = "transform " + ms + "ms " + (commit ? "cubic-bezier(.3,.7,.3,1)" : "ease-out");
-    void f.top.offsetWidth;
-    setFold(f.top, endAngle);
+    const to = f.dir > 0 ? (commit ? 1 : 0) : (commit ? 0 : 1);
+    const from = f.p;
+    const left = Math.abs(to - from);              // quanto manca: piu' strada = piu' tempo
+    if (ms == null) ms = fromDrag ? (commit ? 240 + 520 * left : 200 + 300 * left) : FOLD_MS;
     if (commit) playFlip();
-    let finished = false;
-    function done() {
-      if (finished) return; finished = true;
-      f.top.removeEventListener("transitionend", done);
-      f.top.classList.remove("flipping");
-      f.top.style.transition = ""; f.top.style.transform = ""; f.top.style.removeProperty("--fold");
+    animateFold(from, to, Math.max(120, ms), fromDrag ? easeGlide : easeSoft, function () {
+      f.top.style.visibility = "";
       if (commit) index = f.target;
       flipping = false;
+      clearFold();
       position(false);
-    }
-    f.top.addEventListener("transitionend", done);
-    setTimeout(done, ms + 90);   // rete di sicurezza se transitionend non arrivasse
+    });
   }
-  function flipTo(target, dir) { if (flipBegin(dir, target)) flipEnd(true, 380); }
+
+  function flipTo(target, dir) {
+    if (lessMotion()) { index = target; position(false); playFlip(); return; }   // animazioni ridotte: cambio secco
+    if (flipBegin(dir, target)) flipEnd(true, false);
+  }
+
   function cancelFlip() {
-    if (flip) { flip.top.classList.remove("flipping"); flip.top.style.transition = ""; flip.top.style.transform = ""; flip.top.style.removeProperty("--fold"); }
-    flip = null; flipping = false;
+    if (flip) { flip.top.style.visibility = ""; flip = null; }
+    flipping = false; clearFold();
   }
 
   // --- suono dello sfoglio: fruscio di carta generato al volo (nessun file), con pulsante per zittirlo ---
@@ -578,12 +692,12 @@
   }
   deckEl.addEventListener("touchstart", function (e) {
     audioUnlock();
-    if (e.touches.length > 1) { if (flip) flipEnd(false); dragging = false; dragDir = 0; return; }
+    if (e.touches.length > 1) { if (flip) flipEnd(false, true); dragging = false; dragDir = 0; return; }
     start(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: true });
   deckEl.addEventListener("touchmove", function (e) {
     if (!dragging || !pageMode()) return;
-    if (e.touches.length > 1) { e.preventDefault(); if (flip) flipEnd(false); dragging = false; dragDir = 0; return; }
+    if (e.touches.length > 1) { e.preventDefault(); if (flip) flipEnd(false, true); dragging = false; dragDir = 0; return; }
     const t = e.touches[0], dx = t.clientX - sx, dy = t.clientY - sy;
     if (!dragDir) {   // capisco se è uno scorrimento orizzontale
       if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { dragDir = dx < 0 ? 1 : -1; if (!flipBegin(dragDir)) { dragging = false; dragDir = 0; return; } }
@@ -602,11 +716,11 @@
     const dx = t.clientX - sx, dy = t.clientY - sy, dt = Date.now() - st;
     if (dragDir) {   // rilascio: completo lo sfoglio se il dito è andato abbastanza lontano o abbastanza veloce
       const v = Math.abs(dx) / Math.max(1, dt);
-      flipEnd(Math.abs(dx) > 60 || (v > 0.45 && Math.abs(dx) > 20));
+      flipEnd(Math.abs(dx) > 60 || (v > 0.45 && Math.abs(dx) > 20), true);
       dragDir = 0;
     } else if (dt < 400 && Math.abs(dx) < 10 && Math.abs(dy) < 10) go(1);   // tocco = piatto successivo
   }, { passive: false });
-  deckEl.addEventListener("touchcancel", function () { if (flip) flipEnd(false); dragging = false; dragDir = 0; }, { passive: true });
+  deckEl.addEventListener("touchcancel", function () { if (flip) flipEnd(false, true); dragging = false; dragDir = 0; }, { passive: true });
   deckEl.addEventListener("mousedown", function (e) { start(e.clientX, e.clientY); });
   window.addEventListener("mouseup", function (e) { end(e.clientX, e.clientY); });
 

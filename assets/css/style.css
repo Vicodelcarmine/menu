@@ -502,18 +502,26 @@ html[dir="rtl"] .overlay.pages .ov-top{ padding:max(16px, env(safe-area-inset-to
   color:var(--cream); font-size:1.15rem; line-height:1; cursor:pointer;
 }
 html[dir="rtl"] .overlay.pages .ov-mute{ right:auto; left:68px; }
-.overlay.pages .deck{ margin:0; perspective:1400px; touch-action:none; }
+.overlay.pages .deck{ margin:0; perspective:1500px; perspective-origin:50% 50%; touch-action:none; }
 .overlay.pages .card{
   top:0; left:0; width:100%; height:100%; border-radius:0;
   border:none; box-shadow:none; transform:none; transition:none;
-  transform-origin:left center;   /* la pagina gira sul dorso del libro */
 }
-.overlay.pages .card.flipping{ box-shadow:-14px 0 44px rgba(0,0,0,.6); }
-.overlay.pages .card.flipping::after{   /* ombra che cresce mentre la pagina si piega */
-  content:""; position:absolute; inset:0; z-index:9; pointer-events:none;
-  background:linear-gradient(90deg, rgba(0,0,0,.04), rgba(0,0,0,.7));
-  opacity:var(--fold, 0);
+
+/* --- la pagina che si piega: strisce verticali che ruotano una piu' dell'altra --- */
+.fold{ position:absolute; inset:0; z-index:3; display:none; pointer-events:none; transform-style:preserve-3d; }
+.fold.on{ display:block; }
+.fold-strip{
+  position:absolute; top:0; height:100%; overflow:hidden;
+  transform-origin:left center; backface-visibility:hidden;
 }
+.fold-inner{ position:absolute; top:0; height:100%; }
+/* ombra e luce: un unico velo continuo steso sopra le strisce, cosi' la curva
+   si legge morbida (velando una striscia alla volta si vedrebbero le bande) */
+.fold-shade, .fold-sheen{ position:absolute; inset:0; pointer-events:none; display:none; }
+.fold-shade.on, .fold-sheen.on{ display:block; }
+.fold-shade{ z-index:4; }
+.fold-sheen{ z-index:5; }
 .overlay.pages .card .photo, .overlay.pages .card.no-photo .photo{ position:absolute; inset:0; height:auto; }
 .overlay.pages .card .photo img{ transition:opacity .35s ease; }
 .overlay.pages .card .photo::after{ height:62%; background:linear-gradient(transparent, rgba(11,8,6,.5) 38%, rgba(11,8,6,.97)); }
@@ -558,7 +566,7 @@ html[dir="rtl"] .overlay.pages .ov-mute{ right:auto; left:68px; }
 }
 .overlay.pages .dots{ pointer-events:auto; }
 .overlay.pages .hint{ font-size:.62rem; color:rgba(247,239,226,.6); }
-@media (prefers-reduced-motion:reduce){ .overlay.pages .card.flipping{ transition:none !important; } }
+@media (prefers-reduced-motion:reduce){ .fold, .fold-cast{ display:none !important; } }
 
 /* ============================================================================
    RIQUADRO SPECIALE: SPECIALITÀ
