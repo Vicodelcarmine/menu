@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0f1115" />
+<title>Banco — Vico del Carmine</title>
+<meta name="robots" content="noindex" />
+<style>
+/* ============================================================================
+   SCHERMATA DEL BANCO
+   Non è il menu: è un attrezzo da lavoro. Testo grande, colori netti, si usa
+   con una mano sola e si legge da un metro di distanza.
+   ========================================================================== */
+:root{
+  --bg:#0f1115; --carta:#1a1d24; --carta-2:#232733;
+  --testo:#f2f4f7; --fioco:#9aa3b2; --filo:rgba(255,255,255,.10);
+  --giallo:#f5c542; --rosso:#ef4444; --verde:#34d399; --blu:#60a5fa;
+  --font:system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body{ margin:0; padding:0; background:var(--bg); color:var(--testo); font-family:var(--font); }
+body{ padding:0 0 40px; }
+
+/* ---------------------------------------------------------------- testata */
+header{
+  position:sticky; top:0; z-index:10;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:14px 18px calc(14px + env(safe-area-inset-top));
+  background:rgba(15,17,21,.96); border-bottom:1px solid var(--filo);
+  backdrop-filter:blur(8px);
+}
+h1{ margin:0; font-size:1.05rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+h1 small{ display:block; font-size:.66rem; font-weight:500; letter-spacing:.2em; color:var(--fioco); margin-top:3px; }
+.spazio{ flex:1; }
+.conta{
+  padding:7px 14px; border-radius:999px; font-weight:800; font-size:.92rem;
+  background:var(--carta-2); color:var(--fioco);
+}
+.conta.vivi{ background:var(--giallo); color:#241b00; }
+button.cmd{
+  padding:9px 14px; border-radius:10px; border:1px solid var(--filo);
+  background:transparent; color:var(--testo); font-family:var(--font);
+  font-size:.82rem; font-weight:600; cursor:pointer;
+}
+button.cmd:hover{ background:var(--carta-2); }
+button.cmd.acceso{ border-color:var(--verde); color:var(--verde); }
+
+/* ---------------------------------------------------------------- tavoli */
+main{ display:grid; gap:14px; padding:16px; grid-template-columns:1fr; }
+@media (min-width:720px){ main{ grid-template-columns:1fr 1fr; } }
+@media (min-width:1180px){ main{ grid-template-columns:1fr 1fr 1fr; } }
+
+.tavolo{
+  background:var(--carta); border:2px solid var(--filo); border-radius:18px;
+  overflow:hidden;
+}
+/* l'entrata si anima SOLO quando il tavolo compare per la prima volta: se la
+   rifacesse ogni secondo sembrerebbe che lo schermo si spenga e si riaccenda */
+.tavolo.nuovo{ animation:entra .3s ease; }
+@keyframes entra{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+.tavolo.attesa{ border-color:var(--giallo); }
+.tavolo.tardi{ border-color:var(--rosso); animation:battito 1.6s ease-in-out infinite; }
+@keyframes battito{ 0%,100%{ box-shadow:0 0 0 0 rgba(239,68,68,.45); } 50%{ box-shadow:0 0 0 12px rgba(239,68,68,0); } }
+.tavolo.preso{ border-color:var(--blu); }
+
+.t-testa{ display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--carta-2); }
+.t-num{
+  flex:0 0 auto; min-width:56px; height:56px; padding:0 10px; border-radius:14px;
+  display:grid; place-items:center; background:var(--bg);
+  font-size:1.7rem; font-weight:800; line-height:1;
+}
+.tavolo.attesa .t-num{ background:var(--giallo); color:#241b00; }
+.tavolo.tardi .t-num{ background:var(--rosso); color:#fff; }
+.tavolo.preso .t-num{ background:var(--blu); color:#06203f; }
+.t-info{ flex:1; min-width:0; }
+.t-tempo{ font-size:1.5rem; font-weight:800; font-variant-numeric:tabular-nums; line-height:1.1; }
+.tavolo.tardi .t-tempo{ color:var(--rosso); }
+.t-dett{ font-size:.8rem; color:var(--fioco); margin-top:2px; }
+.t-chiamato{
+  display:inline-block; margin-top:6px; padding:4px 10px; border-radius:999px;
+  background:var(--rosso); color:#fff; font-size:.72rem; font-weight:700;
+}
+
+.t-corpo{ padding:6px 16px 14px; }
+.portata{ margin-top:12px; }
+.portata-testa{
+  display:flex; align-items:center; gap:8px; margin-bottom:6px;
+  font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--fioco);
+}
+.portata-n{
+  width:20px; height:20px; border-radius:50%; display:grid; place-items:center;
+  background:var(--carta-2); color:var(--testo); font-size:.68rem;
+}
+.piatto{ display:flex; align-items:baseline; gap:10px; padding:7px 0; border-bottom:1px solid var(--filo); }
+.piatto:last-child{ border-bottom:0; }
+.p-qta{ flex:0 0 auto; min-width:30px; font-size:1.1rem; font-weight:800; color:var(--giallo); }
+.p-nome{ flex:1; font-size:1.05rem; }
+.p-nota{
+  display:block; margin-top:3px; font-size:.84rem; color:#111; font-weight:600;
+  background:var(--giallo); border-radius:6px; padding:3px 8px;
+}
+.t-azioni{ display:flex; gap:10px; padding:0 16px 16px; }
+.t-azioni button{
+  flex:1; padding:15px; border-radius:12px; border:0; cursor:pointer;
+  font-family:var(--font); font-size:.95rem; font-weight:700;
+}
+.b-visto{ background:var(--carta-2); color:var(--testo); border:1px solid var(--filo) !important; }
+.b-conferma{ background:var(--verde); color:#05271c; }
+
+.vuoto{ padding:70px 20px; text-align:center; color:var(--fioco); grid-column:1/-1; }
+.vuoto b{ display:block; font-size:1.2rem; color:var(--testo); margin-bottom:8px; }
+.fatti{ padding:0 18px; color:var(--fioco); font-size:.84rem; }
+
+/* ---- i tavoli aperti: si chiudono quando si sparecchia ---- */
+#aperti{ padding:4px 18px 0; }
+#aperti h2{
+  margin:0 0 10px; font-size:.7rem; font-weight:700; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--fioco);
+}
+.chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{
+  display:flex; align-items:center; gap:8px; padding:8px 8px 8px 14px;
+  border-radius:999px; background:var(--carta); border:1px solid var(--filo);
+  font-weight:700; font-size:.95rem;
+}
+.chip.bloccato{ border-color:var(--rosso); color:var(--rosso); }
+.chip button{
+  width:26px; height:26px; border-radius:50%; border:0; cursor:pointer;
+  background:var(--carta-2); color:var(--fioco); font-size:.8rem; line-height:1;
+}
+.chip button:hover{ background:var(--rosso); color:#fff; }
+.chip small{ font-weight:500; font-size:.72rem; color:var(--fioco); }
+.niente-aperti{ color:var(--fioco); font-size:.84rem; }
+/* ---- uscire da qui: il menu, l'altra pagina, o via la password ---- */
+.indietro{
+  display:inline-flex; align-items:center; gap:7px; padding:9px 13px;
+  border-radius:10px; border:1px solid var(--filo); background:transparent;
+  color:var(--fioco); text-decoration:none; font-size:.82rem; font-weight:600;
+}
+.indietro:hover{ background:var(--carta-2); color:var(--testo); }
+button.esci{ border:1px solid var(--filo); background:transparent; color:var(--fioco); }
+button.esci:hover{ color:var(--rosso); border-color:var(--rosso); background:transparent; }
+header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.solo-stretto{ display:none; }
+/* Sul telefono l'intestazione è appiccicata in alto: se occupa tre righe
+   mangia mezzo schermo. Sotto i 560px le scritte lunghe si accorciano. */
+@media (max-width:560px){
+  header{ gap:9px; padding:10px 12px calc(10px + env(safe-area-inset-top)); }
+  header .azioni{ gap:8px; }
+  .solo-largo{ display:none; }
+  .solo-stretto{ display:inline; }
+}
+
+
+
+
+/* ---- blocca il tavolo, dalla scheda dell'ordine ---- */
+.t-blocca{
+  display:block; width:100%; margin:0; padding:0 16px 14px;
+  background:none; border:0; cursor:pointer; text-align:center;
+  color:var(--fioco); font-family:var(--font); font-size:.78rem; text-decoration:underline;
+}
+.t-blocca:hover{ color:var(--rosso); }
+
+/* ---- la password, chiesta una volta sola per dispositivo ---- */
+#porta{
+  position:fixed; inset:0; z-index:50; display:none;
+  place-items:center; background:rgba(10,12,15,.97); padding:24px;
+}
+#porta.aperta{ display:grid; }
+.porta-box{ width:100%; max-width:380px; text-align:center; }
+.porta-box h2{ margin:0 0 6px; font-size:1.3rem; }
+.porta-box p{ margin:0 0 20px; color:var(--fioco); font-size:.9rem; line-height:1.5; }
+.porta-box input{
+  width:100%; height:54px; text-align:center; border-radius:12px;
+  border:1px solid var(--filo); background:var(--carta); color:var(--testo);
+  font-family:var(--font); font-size:1.3rem; letter-spacing:.3em;
+}
+.porta-box button{
+  width:100%; margin-top:12px; padding:16px; border:0; border-radius:12px;
+  background:var(--verde); color:#05271c; font-family:var(--font);
+  font-size:1rem; font-weight:700; cursor:pointer;
+}
+.porta-err{ margin-top:12px; color:var(--rosso); font-size:.88rem; min-height:1.2em; }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="indietro" href="index.html">‹ Menu</a>
+  <h1>Banco<small id="locale">Vico del Carmine</small></h1>
+  <span class="spazio"></span>
+  <span class="conta" id="conta">0 tavoli</span>
+  <nav class="azioni">
+    <button class="cmd" id="suono"><span class="solo-largo">🔔 Attiva il suono</span><span class="solo-stretto">🔔 Suono</span></button>
+    <a class="indietro" href="tavoli.html"><span class="solo-largo">🪑 Tavoli e QR</span><span class="solo-stretto">🪑 Tavoli</span></a>
+    <button class="cmd esci" id="esci">Esci</button>
+  </nav>
+</header>
+
+<div id="porta">
+  <div class="porta-box">
+    <h2>Schermata del banco</h2>
+    <p>Serve la password del menu, quella che usi per modificare prezzi e piatti.<br>Si chiede una volta sola su questo dispositivo.</p>
+    <input id="porta-pwd" type="password" inputmode="numeric" placeholder="password" autocomplete="off">
+    <button id="porta-entra">Entra</button>
+    <p class="porta-err" id="porta-err"></p>
+  </div>
+</div>
+
+<main id="tavoli"></main>
+<section id="aperti"></section>
+<p class="fatti" id="fatti"></p>
+
+<script src="assets/js/ordini-store.js"></script>
+<script>
+(function () {
+  "use strict";
+  const $ = function (s) { return document.querySelector(s); };
+
+  const TARDI = 2 * 60 * 1000;      // dopo due minuti il tavolo diventa rosso e suona
+  let suonoAcceso = false, actx = null;
+  let giaVisti = {};                 // per suonare una volta sola per ordine
+  let giaTardi = {};
+
+  /* --- suono: un browser lo permette solo dopo che qualcuno ha toccato --- */
+  $("#suono").addEventListener("click", function () {
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === "suspended") actx.resume();
+      suonoAcceso = true;
+      this.classList.add("acceso");
+      this.textContent = "🔔 Suono acceso";
+      bip(880, 0.12);
+    } catch (e) { this.textContent = "suono non disponibile"; }
+  });
+  function bip(hz, dur) {
+    if (!suonoAcceso || !actx) return;
+    try {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = "sine"; o.frequency.value = hz;
+      g.gain.setValueAtTime(0.0001, actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.25, actx.currentTime + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + dur);
+      o.connect(g); g.connect(actx.destination);
+      o.start(); o.stop(actx.currentTime + dur + 0.02);
+    } catch (e) {}
+  }
+  function bipNuovo() { bip(880, 0.14); setTimeout(function () { bip(1180, 0.16); }, 150); }
+  function bipTardi() { bip(440, 0.25); setTimeout(function () { bip(440, 0.25); }, 320); }
+
+  function mmss(ms) {
+    const s = Math.max(0, Math.floor(ms / 1000));
+    return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+  }
+
+  /* --- gli ordini dello stesso tavolo diventano una lista sola ----------- */
+  function perTavolo(ordini) {
+    const vivi = ordini.filter(function (o) { return o.stato !== "confermato"; });
+    const mappa = {};
+    vivi.forEach(function (o) {
+      const t = String(o.tavolo);
+      if (!mappa[t]) mappa[t] = { tavolo: t, ordini: [], coperti: 0, daQuando: o.inviatoAlle, chiamato: false, righe: {} };
+      const g = mappa[t];
+      g.ordini.push(o);
+      g.coperti = Math.max(g.coperti, o.coperti || 0);
+      g.daQuando = Math.min(g.daQuando, o.inviatoAlle);
+      if (o.chiamatoAlle) g.chiamato = true;
+      (o.righe || []).forEach(function (r) {
+        const k = (r.portata || 1) + "|" + r.id + "|" + (r.nota || "");
+        if (!g.righe[k]) g.righe[k] = { portata: r.portata || 1, nome: r.nome, nota: r.nota || "", qta: 0 };
+        g.righe[k].qta += r.qta;
+      });
+    });
+    return Object.keys(mappa).map(function (t) { return mappa[t]; })
+      .sort(function (a, b) { return a.daQuando - b.daQuando; });
+  }
+
+  function disegna(gruppi) {
+    const cont = $("#tavoli");
+    cont.innerHTML = "";
+    if (!gruppi.length) {
+      cont.innerHTML = '<div class="vuoto"><b>Nessun ordine in attesa</b>Quando un tavolo manda l\'ordine compare qui.</div>';
+      return;
+    }
+    const visti = {};
+    gruppi.forEach(function (g) {
+      const attesa = Date.now() - g.daQuando;
+      const preso = g.ordini.every(function (o) { return o.stato === "visto"; });
+      const tardi = !preso && attesa > TARDI;
+      visti[g.tavolo] = true;
+
+      const d = document.createElement("section");
+      d.className = "tavolo " + (preso ? "preso" : tardi ? "tardi" : "attesa") +
+                    (tavoliGiaVisti[g.tavolo] ? "" : " nuovo");
+      d.dataset.daQuando = g.daQuando;
+      d.dataset.preso = preso ? "1" : "0";
+      d.dataset.tavolo = g.tavolo;
+
+      const numeri = {};
+      Object.keys(g.righe).forEach(function (k) {
+        const r = g.righe[k];
+        (numeri[r.portata] = numeri[r.portata] || []).push(r);
+      });
+      let corpo = "";
+      Object.keys(numeri).sort(function (a, b) { return a - b; }).forEach(function (n) {
+        corpo += '<div class="portata"><div class="portata-testa"><span class="portata-n">' + n + "</span>" + n + "ª portata</div>";
+        numeri[n].forEach(function (r) {
+          corpo += '<div class="piatto"><span class="p-qta">' + r.qta + '×</span><span class="p-nome">' + r.nome +
+                   (r.nota ? '<span class="p-nota">' + r.nota + "</span>" : "") + "</span></div>";
+        });
+        corpo += "</div>";
+      });
+
+      d.innerHTML =
+        '<div class="t-testa">' +
+        '<div class="t-num">' + g.tavolo + "</div>" +
+        '<div class="t-info">' +
+        '<div class="t-tempo">' + mmss(attesa) + "</div>" +
+        '<div class="t-dett">' + g.coperti + " coperti · " + g.ordini.length +
+        (g.ordini.length === 1 ? " invio" : " invii") + "</div>" +
+        (g.chiamato ? '<span class="t-chiamato">🔔 ha chiamato il cameriere</span>' : "") +
+        "</div></div>" +
+        '<div class="t-corpo">' + corpo + "</div>" +
+        '<div class="t-azioni">' +
+        (preso ? "" : '<button class="b-visto">Visto</button>') +
+        '<button class="b-conferma">Confermato</button>' +
+        "</div>" +
+        '<button class="t-blocca">Nessuno ha ordinato a questo tavolo · blocca</button>';
+
+      const visto = d.querySelector(".b-visto");
+      if (visto) visto.addEventListener("click", function () { segnaTutti(g, "visto"); });
+      d.querySelector(".b-conferma").addEventListener("click", function () { segnaTutti(g, "confermato"); });
+      d.querySelector(".t-blocca").addEventListener("click", async function () {
+        if (!confirm("Blocco il tavolo " + g.tavolo + " per sei ore?\n\nDa quel tavolo non si potrà più ordinare, e questi ordini spariscono.")) return;
+        await OrdiniStore.bloccaTavolo(g.tavolo, 6);
+        for (const o of g.ordini) await OrdiniStore.segna(o.id, "confermato");
+        firmaPrecedente = null;
+        aggiornaDati();
+      });
+      cont.appendChild(d);
+      setTimeout(function () { d.classList.remove("nuovo"); }, 400);
+    });
+    tavoliGiaVisti = visti;
+  }
+
+  async function segnaTutti(g, stato) {
+    for (const o of g.ordini) await OrdiniStore.segna(o.id, stato);
+    aggiornaDati();
+  }
+
+  /* --------------------------------------------------------------------------
+     DUE CICLI SEPARATI, ed è la cosa importante di questa schermata.
+
+     • ogni secondo si aggiorna SOLO il numero del cronometro e il colore;
+     • le schede si ridisegnano solo quando cambia qualcosa davvero.
+
+     Rifare tutto ogni secondo faceva ripartire l'animazione di entrata e dava
+     l'impressione che lo schermo si spegnesse a ogni battito.
+     ------------------------------------------------------------------------ */
+  let firmaPrecedente = null;
+  let tavoliGiaVisti = {};
+
+  function firmaDi(ordini) {
+    return ordini.filter(function (o) { return o.stato !== "confermato"; })
+      .map(function (o) { return o.id + ":" + o.stato + ":" + (o.chiamatoAlle ? 1 : 0); })
+      .join("|");
+  }
+
+  // ogni secondo: solo il numero e il colore, nessuna ricostruzione
+  function aggiornaTempi() {
+    document.querySelectorAll(".tavolo").forEach(function (d) {
+      const da = parseInt(d.dataset.daQuando, 10);
+      const preso = d.dataset.preso === "1";
+      const attesa = Date.now() - da;
+      const casella = d.querySelector(".t-tempo");
+      const testo = mmss(attesa);
+      if (casella.textContent !== testo) casella.textContent = testo;
+      const tardi = !preso && attesa > TARDI;
+      d.classList.toggle("tardi", tardi);
+      d.classList.toggle("attesa", !preso && !tardi);
+      d.classList.toggle("preso", preso);
+      if (tardi && !giaTardi[d.dataset.tavolo]) { giaTardi[d.dataset.tavolo] = true; bipTardi(); }
+      if (!tardi) delete giaTardi[d.dataset.tavolo];
+    });
+  }
+
+  let primaLettura = true;
+  async function aggiornaDati() {
+    const ordini = await OrdiniStore.elenco();
+
+    // suona quando arriva un ordine nuovo (ma non al primo caricamento)
+    ordini.forEach(function (o) {
+      if (o.stato === "confermato") return;
+      if (giaVisti[o.id]) return;
+      giaVisti[o.id] = true;
+      if (!primaLettura) bipNuovo();
+    });
+    primaLettura = false;
+
+    const firma = firmaDi(ordini);
+    if (firma !== firmaPrecedente) {
+      firmaPrecedente = firma;
+      disegna(perTavolo(ordini));
+    }
+
+    const gruppi = document.querySelectorAll(".tavolo").length;
+    const c = $("#conta");
+    c.textContent = gruppi + (gruppi === 1 ? " tavolo" : " tavoli");
+    c.classList.toggle("vivi", gruppi > 0);
+    const fatti = ordini.filter(function (o) { return o.stato === "confermato"; }).length;
+    $("#fatti").textContent = fatti ? "Confermati oggi: " + fatti : "";
+    aggiornaTempi();
+    disegnaAperti();
+  }
+
+
+  /* --------------------------------------------------------------------------
+     USCIRE. "Esci" dimentica la password su QUESTO dispositivo: serve sul
+     tablet del banco, che resta acceso e in mano a tutti.
+     ------------------------------------------------------------------------ */
+  const bEsci = document.querySelector("#esci");
+  if (bEsci) bEsci.addEventListener("click", function () {
+    if (!confirm("Esco?\n\nLa password verrà dimenticata su questo dispositivo e dovrai riscriverla la prossima volta.")) return;
+    OrdiniStore.ricordaPassword(null);
+    location.href = "index.html";
+  });
+
+  /* --------------------------------------------------------------------------
+     I TAVOLI APERTI
+     Un tavolo aperto accetta ordini. Si chiude con la ✕ quando si sparecchia:
+     è quello che impedisce a chi è appena uscito di ordinare per scherzo.
+     Spegnere il servizio li chiude tutti insieme, così se ci si dimentica
+     la sera stessa la porta si chiude comunque.
+     ------------------------------------------------------------------------ */
+  async function disegnaAperti() {
+    const t = await OrdiniStore.tavoliAperti();
+    const box = $("#aperti");
+    if (!t.length) { box.innerHTML = ""; return; }
+    box.innerHTML = "<h2>Tavoli aperti</h2><div class='chips'></div>";
+    const chips = box.querySelector(".chips");
+    t.forEach(function (x) {
+      const c = document.createElement("span");
+      c.className = "chip" + (x.bloccato ? " bloccato" : "");
+      c.innerHTML = x.numero + (x.bloccato ? " <small>bloccato</small>" : "") +
+                    '<button title="Chiudi il tavolo">✕</button>';
+      c.querySelector("button").addEventListener("click", async function () {
+        await OrdiniStore.chiudiTavolo(x.numero);
+        firmaPrecedente = null;
+        aggiornaDati();
+      });
+      chips.appendChild(c);
+    });
+  }
+
+  /* --------------------------------------------------------------------------
+     Col database vero il banco legge gli ordini solo con la password: è quella
+     che impedisce a un cliente curioso di aprire questa pagina e confermare
+     ordini che non sono suoi. Si chiede una volta per dispositivo.
+     ------------------------------------------------------------------------ */
+  function apriPorta() { $("#porta").classList.add("aperta"); $("#porta-pwd").focus(); }
+  function chiudiPorta() { $("#porta").classList.remove("aperta"); }
+
+  async function entra() {
+    const p = $("#porta-pwd").value.trim();
+    if (!p) return;
+    const b = $("#porta-entra"); b.disabled = true; $("#porta-err").textContent = "Verifico…";
+    OrdiniStore.ricordaPassword(p);
+    try {
+      await OrdiniStore.elenco();                    // se la password è sbagliata fallisce
+      $("#porta-err").textContent = ""; b.disabled = false;
+      chiudiPorta(); avvia();
+    } catch (e) {
+      OrdiniStore.ricordaPassword(null);
+      $("#porta-err").textContent = "Password non valida";
+      $("#porta-pwd").value = ""; b.disabled = false;
+    }
+  }
+  $("#porta-entra").addEventListener("click", entra);
+  $("#porta-pwd").addEventListener("keydown", function (e) { if (e.key === "Enter") entra(); });
+
+  function avvia() {
+    aggiornaDati();
+    setInterval(aggiornaTempi, 1000);   // il cronometro
+    setInterval(aggiornaDati, 2000);    // i dati
+  }
+
+  if (OrdiniStore.suSupabase && !OrdiniStore.haPassword()) apriPorta();
+  else avvia();
+})();
+</script>
+</body>
+</html>

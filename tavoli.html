@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0f1115" />
+<title>Tavoli e QR — Vico del Carmine</title>
+<meta name="robots" content="noindex" />
+<style>
+/* ============================================================================
+   TAVOLI E QR — la pagina del titolare
+   Qui si aggiungono e si tolgono i tavoli, e si stampano i cartoncini.
+   Non serve più passare da nessuno.
+   ========================================================================== */
+:root{
+  --bg:#0f1115; --carta:#1a1d24; --carta-2:#232733;
+  --testo:#f2f4f7; --fioco:#9aa3b2; --filo:rgba(255,255,255,.10);
+  --giallo:#f5c542; --rosso:#ef4444; --verde:#34d399; --blu:#60a5fa;
+  --font:system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body{ margin:0; background:var(--bg); color:var(--testo); font-family:var(--font); }
+body{ padding-bottom:50px; }
+
+header{
+  position:sticky; top:0; z-index:10;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:14px 18px calc(14px + env(safe-area-inset-top));
+  background:rgba(15,17,21,.96); border-bottom:1px solid var(--filo); backdrop-filter:blur(8px);
+}
+h1{ margin:0; font-size:1.05rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+h1 small{ display:block; font-size:.66rem; font-weight:500; letter-spacing:.2em; color:var(--fioco); margin-top:3px; }
+.spazio{ flex:1; }
+button.cmd{
+  padding:11px 16px; border-radius:10px; border:1px solid var(--filo);
+  background:transparent; color:var(--testo); font-family:var(--font);
+  font-size:.86rem; font-weight:600; cursor:pointer;
+}
+button.cmd:hover{ background:var(--carta-2); }
+button.cmd.forte{ background:var(--verde); color:#05271c; border-color:transparent; }
+
+section.riquadro{ margin:16px; padding:18px; background:var(--carta); border:1px solid var(--filo); border-radius:16px; }
+section.riquadro h2{ margin:0 0 4px; font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--fioco); }
+section.riquadro p.aiuto{ margin:0 0 16px; color:var(--fioco); font-size:.86rem; line-height:1.5; }
+.riga{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.riga label{ font-size:.86rem; color:var(--fioco); }
+.riga input{
+  width:86px; height:46px; text-align:center; border-radius:10px;
+  border:1px solid var(--filo); background:var(--bg); color:var(--testo);
+  font-family:var(--font); font-size:1.05rem; font-weight:600;
+}
+.riga input.largo{ width:130px; }
+
+.griglia{ display:grid; gap:12px; padding:0 16px; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); }
+.tav{ background:var(--carta); border:1px solid var(--filo); border-radius:16px; padding:14px; text-align:center; }
+.tav.bloccato{ border-color:var(--rosso); }
+.tav.aperto{ border-color:var(--verde); }
+.tav-num{ font-size:1.6rem; font-weight:800; line-height:1; }
+.tav-stato{ font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--fioco); margin-top:4px; }
+.tav.aperto .tav-stato{ color:var(--verde); }
+.tav.bloccato .tav-stato{ color:var(--rosso); }
+.tav-qr{ margin:12px auto 8px; width:132px; height:132px; background:#fff; border-radius:10px; padding:8px; }
+.tav-qr svg{ width:100%; height:100%; display:block; }
+.tav-ind{ font-size:.64rem; color:var(--fioco); word-break:break-all; line-height:1.35; }
+.tav-azioni{ display:flex; gap:8px; margin-top:12px; }
+.tav-azioni button{
+  flex:1; padding:9px 4px; border-radius:9px; border:1px solid var(--filo);
+  background:transparent; color:var(--fioco); font-family:var(--font);
+  font-size:.72rem; cursor:pointer;
+}
+.tav-azioni button:hover{ color:var(--testo); background:var(--carta-2); }
+.tav-azioni .togli:hover{ border-color:var(--rosso); color:var(--rosso); }
+.vuoto{ padding:60px 20px; text-align:center; color:var(--fioco); }
+.vuoto b{ display:block; font-size:1.15rem; color:var(--testo); margin-bottom:8px; }
+
+#porta{ position:fixed; inset:0; z-index:50; display:none; place-items:center; background:rgba(10,12,15,.97); padding:24px; }
+#porta.aperta{ display:grid; }
+.porta-box{ width:100%; max-width:380px; text-align:center; }
+.porta-box h2{ margin:0 0 6px; font-size:1.3rem; }
+.porta-box p{ margin:0 0 20px; color:var(--fioco); font-size:.9rem; line-height:1.5; }
+.porta-box input{
+  width:100%; height:54px; text-align:center; border-radius:12px;
+  border:1px solid var(--filo); background:var(--carta); color:var(--testo);
+  font-family:var(--font); font-size:1.3rem; letter-spacing:.3em;
+}
+.porta-box button{
+  width:100%; margin-top:12px; padding:16px; border:0; border-radius:12px;
+  background:var(--verde); color:#05271c; font-family:var(--font); font-size:1rem; font-weight:700; cursor:pointer;
+}
+.porta-err{ margin-top:12px; color:var(--rosso); font-size:.88rem; min-height:1.2em; }
+/* ---- uscire da qui: il menu, l'altra pagina, o via la password ---- */
+.indietro{
+  display:inline-flex; align-items:center; gap:7px; padding:9px 13px;
+  border-radius:10px; border:1px solid var(--filo); background:transparent;
+  color:var(--fioco); text-decoration:none; font-size:.82rem; font-weight:600;
+}
+.indietro:hover{ background:var(--carta-2); color:var(--testo); }
+button.esci{ border:1px solid var(--filo); background:transparent; color:var(--fioco); }
+button.esci:hover{ color:var(--rosso); border-color:var(--rosso); background:transparent; }
+header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+/* Sul telefono l'intestazione è appiccicata in alto: se occupa tre righe
+   mangia mezzo schermo. Sotto i 560px le scritte lunghe si accorciano. */
+@media (max-width:560px){
+  header{ gap:9px; padding:10px 12px calc(10px + env(safe-area-inset-top)); }
+  header .azioni{ gap:8px; }
+  .solo-largo{ display:none; }
+}
+
+
+
+
+
+/* Quale indirizzo finisce nei QR. Va detto forte: un cartoncino stampato
+   con l'indirizzo sbagliato si scopre solo quando il cliente inquadra. */
+.dove{
+  margin:0 auto 18px; max-width:980px; padding:11px 15px;
+  border:1px solid var(--filo); border-radius:12px; background:var(--carta-2);
+  color:var(--fioco); font-size:.85rem; line-height:1.5;
+}
+.dove b{ color:var(--testo); font-weight:700; word-break:break-all; }
+.dove.attenzione{ border-color:#d8a23a; }
+.dove.attenzione .titolo{ color:#d8a23a; font-weight:700; display:block; margin-bottom:3px; }
+
+/* ---------------------------------------------------------------- STAMPA
+   Sul foglio restano solo i cartoncini: si ritagliano e si mettono sui tavoli. */
+@media print{
+  header, section.riquadro, #porta, .tav-azioni, .tav-stato, .indietro, .dove{ display:none !important; }
+  html,body{ background:#fff; color:#000; }
+  .griglia{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; padding:0; }
+  .tav{
+    background:#fff; border:1px dashed #999; border-radius:0; padding:14mm 4mm;
+    break-inside:avoid; page-break-inside:avoid;
+  }
+  .tav-num{ color:#000; font-size:22pt; }
+  .tav-num::before{ content:"TAVOLO "; font-size:9pt; letter-spacing:.2em; display:block; color:#555; margin-bottom:3mm; }
+  .tav-qr{ width:38mm; height:38mm; padding:0; }
+  .tav-ind{ color:#555; font-size:6.5pt; margin-top:3mm; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="indietro" href="index.html">‹ Menu</a>
+  <h1>Tavoli e QR<small>Vico del Carmine</small></h1>
+  <span class="spazio"></span>
+  <nav class="azioni">
+    <button class="cmd" id="stampa">🖨️ Stampa<span class="solo-largo"> i cartoncini</span></button>
+    <a class="indietro" href="banco.html">📋 Banco</a>
+    <button class="cmd esci" id="esci">Esci</button>
+  </nav>
+</header>
+
+<div id="porta">
+  <div class="porta-box">
+    <h2>Tavoli e QR</h2>
+    <p>Serve la password del menu, quella che usi per modificare prezzi e piatti.</p>
+    <input id="porta-pwd" type="password" inputmode="numeric" placeholder="password" autocomplete="off">
+    <button id="porta-entra">Entra</button>
+    <p class="porta-err" id="porta-err"></p>
+  </div>
+</div>
+
+<section class="riquadro">
+  <h2>Aggiungi tavoli</h2>
+  <p class="aiuto">Un intervallo intero — "dal 1 al 24" — oppure un tavolo solo, anche con le lettere (A7, Veranda3). Ogni tavolo riceve una chiave sua, che finisce dentro il suo QR.</p>
+  <div class="riga">
+    <label>dal</label><input id="da" value="1" class="largo">
+    <label>al</label><input id="a" value="24" class="largo">
+    <button class="cmd forte" id="aggiungi">Aggiungi</button>
+  </div>
+</section>
+
+<p class="dove" id="dove"></p>
+
+<div class="griglia" id="griglia"></div>
+
+<script src="assets/js/qr.js"></script>
+<script src="assets/js/ordini-store.js"></script>
+<script>
+(function () {
+  "use strict";
+  const $ = function (s) { return document.querySelector(s); };
+
+  /* L'INDIRIZZO CHE FINISCE DENTRO IL QR.
+     Il cartoncino sul tavolo deve portare al menu vero. Se questa pagina è
+     aperta in locale (file://, localhost, rete di casa) i QR porterebbero a
+     un indirizzo che dal telefono di un cliente non esiste: in quel caso
+     usiamo l'indirizzo pubblicato. Se un giorno il menu cambia casa
+     (sfogliamenu.it) si cambia solo la riga qui sotto. */
+  const PUBBLICATO = "https://vicodelcarmine.github.io/menu/";
+  const inLocale = location.protocol === "file:" ||
+    /^(localhost|127\.|192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(location.hostname);
+  const BASE = inLocale ? PUBBLICATO : location.origin + location.pathname.replace(/tavoli\.html$/, "");
+
+  (function diciDove() {
+    const box = document.querySelector("#dove");
+    box.innerHTML = inLocale
+      ? '<span class="titolo">⚠️ Stai lavorando su una copia di prova</span>' +
+        'I QR punteranno comunque al menu vero: <b>' + BASE + '</b> — ma quel menu deve essere già pubblicato, altrimenti chi inquadra non trova la pagina.'
+      : 'I QR portano a <b>' + BASE + '</b>';
+    box.classList.toggle("attenzione", inLocale);
+  })();
+
+
+  function indirizzo(t) { return BASE + "?t=" + encodeURIComponent(t.numero) + "&k=" + encodeURIComponent(t.chiave); }
+
+  function disegnaQR(url) {
+    const q = qrcode(0, "M");       // 0 = si dimensiona da solo
+    q.addData(url);
+    q.make();
+    return q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+  }
+
+  let tavoli = [];
+
+  function disegna() {
+    const g = $("#griglia");
+    g.innerHTML = "";
+    if (!tavoli.length) {
+      g.innerHTML = '<div class="vuoto"><b>Nessun tavolo</b>Aggiungili qui sopra: "dal 1 al 24" e sei a posto.</div>';
+      return;
+    }
+    tavoli.forEach(function (t) {
+      const url = indirizzo(t);
+      const d = document.createElement("article");
+      d.className = "tav" + (t.bloccato ? " bloccato" : t.aperto ? " aperto" : "");
+      d.innerHTML =
+        '<div class="tav-num">' + t.numero + "</div>" +
+        '<div class="tav-stato">' + (t.bloccato ? "bloccato" : t.aperto ? "aperto" : "libero") + "</div>" +
+        '<div class="tav-qr">' + disegnaQR(url) + "</div>" +
+        '<div class="tav-ind">' + url.replace(/^https?:\/\//, "") + "</div>" +
+        '<div class="tav-azioni">' +
+        '<button class="chiave">Nuova chiave</button>' +
+        '<button class="togli">Togli</button>' +
+        "</div>";
+      d.querySelector(".chiave").addEventListener("click", async function () {
+        if (!confirm("Nuova chiave per il tavolo " + t.numero + "?\n\nIl QR vecchio smette di funzionare e va ristampato.")) return;
+        tavoli = await OrdiniStore.rigeneraChiave(t.numero); disegna();
+      });
+      d.querySelector(".togli").addEventListener("click", async function () {
+        if (!confirm("Tolgo il tavolo " + t.numero + "?\n\nDa quel QR non si potrà più ordinare.")) return;
+        tavoli = await OrdiniStore.togliTavolo(t.numero); disegna();
+      });
+      g.appendChild(d);
+    });
+  }
+
+  $("#aggiungi").addEventListener("click", async function () {
+    const da = $("#da").value.trim(), a = $("#a").value.trim();
+    if (!da) return;
+    this.disabled = true;
+    try { tavoli = await OrdiniStore.aggiungiTavoli(da, a); disegna(); }
+    catch (e) { alert("Non sono riuscito ad aggiungere: " + (e.message || "")); }
+    this.disabled = false;
+  });
+
+  $("#stampa").addEventListener("click", function () { window.print(); });
+
+
+  /* --------------------------------------------------------------------------
+     USCIRE. "Esci" dimentica la password su QUESTO dispositivo: serve sul
+     tablet del banco, che resta acceso e in mano a tutti.
+     ------------------------------------------------------------------------ */
+  const bEsci = document.querySelector("#esci");
+  if (bEsci) bEsci.addEventListener("click", function () {
+    if (!confirm("Esco?\n\nLa password verrà dimenticata su questo dispositivo e dovrai riscriverla la prossima volta.")) return;
+    OrdiniStore.ricordaPassword(null);
+    location.href = "index.html";
+  });
+
+  /* ---- la porta, come al banco ---- */
+  function apriPorta() { $("#porta").classList.add("aperta"); $("#porta-pwd").focus(); }
+  async function entra() {
+    const p = $("#porta-pwd").value.trim();
+    if (!p) return;
+    const b = $("#porta-entra"); b.disabled = true; $("#porta-err").textContent = "Verifico…";
+    OrdiniStore.ricordaPassword(p);
+    try {
+      tavoli = await OrdiniStore.elencoTavoli();
+      $("#porta").classList.remove("aperta"); $("#porta-err").textContent = "";
+      disegna();
+    } catch (e) {
+      OrdiniStore.ricordaPassword(null);
+      $("#porta-err").textContent = "Password non valida";
+      $("#porta-pwd").value = "";
+    }
+    b.disabled = false;
+  }
+  $("#porta-entra").addEventListener("click", entra);
+  $("#porta-pwd").addEventListener("keydown", function (e) { if (e.key === "Enter") entra(); });
+
+  (async function avvia() {
+    if (OrdiniStore.suSupabase && !OrdiniStore.haPassword()) return apriPorta();
+    try { tavoli = await OrdiniStore.elencoTavoli(); disegna(); }
+    catch (e) { apriPorta(); }
+  })();
+})();
+</script>
+</body>
+</html>

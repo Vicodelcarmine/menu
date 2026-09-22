@@ -1,0 +1,241 @@
+/* ============================================================================
+   PRE-ORDINE AL TAVOLO — aspetto
+   Usa i colori del menu (--gold, --cream, --bg-2…): si veste da solo con la
+   tavolozza del locale, qualunque essa sia.
+   ========================================================================== */
+
+/* Tutto è spento finché il motore non dice che si può ordinare.
+   Basta togliere la classe al body e sparisce ogni traccia. */
+.ord-add{ display:none; }
+/* Pieno, non contornato: un pulsante deve sembrare un pulsante e non
+   confondersi con i pallini delle pagine, che nelle Pizze sono trentuno. */
+body.puo-ordinare .ord-add{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; margin-top:16px;
+  padding:15px 18px; border-radius:14px;
+  border:0; background:linear-gradient(180deg, var(--gold), #cf9a2e);
+  color:#241206; font-family:var(--font-head); font-weight:700;
+  text-transform:uppercase; letter-spacing:.1em; font-size:.88rem;
+  cursor:pointer; -webkit-appearance:none;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+  transition:transform .15s ease, filter .2s ease;
+}
+
+/* E con l'ordinazione accesa i pallini spariscono: a che pagina sei lo dice
+   già il contatore in alto ("7 / 31"), e trentuno pallini su tre righe non li
+   usa nessuno per saltare al piatto giusto. */
+body.puo-ordinare .overlay.pages .dots{ display:none; }
+body.puo-ordinare .ord-add:active{ transform:scale(.95); }
+.ord-add .ord-piu{ font-size:1.15rem; line-height:1; font-weight:400; }
+.ord-add.fatto{ animation:ordFatto .5s ease; }
+@keyframes ordFatto{
+  0%{ transform:scale(1); filter:none; }
+  35%{ transform:scale(1.04); filter:brightness(1.25); }
+  100%{ transform:scale(1); filter:none; }
+}
+
+/* ------------------------------------------------- le portate nell'ordine
+   Il cliente sceglie tutto insieme, poi decide cosa mangiare per primo. */
+.ord-seq-aiuto{ margin:0 0 14px; color:var(--muted); font-size:.8rem; line-height:1.4; }
+.ord-portata{ margin:0 0 6px; }
+.ord-portata-testa{
+  display:flex; align-items:center; gap:10px;
+  margin:14px 0 2px; padding-bottom:8px;
+  border-bottom:1px solid var(--line);
+}
+.ord-portata-n{
+  flex:0 0 auto; width:22px; height:22px; border-radius:50%;
+  display:grid; place-items:center;
+  background:var(--gold); color:#241206; font-size:.72rem; font-weight:700;
+}
+.ord-portata-testa h3{
+  flex:1; margin:0; font-family:var(--font-head); text-transform:uppercase;
+  letter-spacing:.12em; font-size:.86rem; color:var(--gold-soft);
+}
+/* i numeri della portata, uno per riga: 1 arriva per primo */
+.ord-scelte-lab{
+  flex:0 0 auto; margin-left:6px; font-family:var(--font-head);
+  text-transform:uppercase; letter-spacing:.08em; font-size:.66rem; color:var(--muted);
+}
+.ord-scelte{ flex:0 0 auto; display:flex; gap:5px; }
+.ord-p{
+  width:34px; height:34px; border-radius:9px; padding:0;
+  border:1px solid var(--line); background:transparent; color:var(--muted);
+  font-family:var(--font-head); font-weight:600; font-size:.92rem; cursor:pointer;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.ord-p.scelto{ background:var(--gold); border-color:var(--gold); color:#241206; }
+
+/* ---------------------------------------------------- la barra in fondo */
+.ord-barra{ display:none; }
+body.ha-carrello .ord-barra{
+  display:flex; align-items:center; gap:12px;
+  position:fixed; left:0; right:0; bottom:0; z-index:65;   /* sotto il tasto nascosto del titolare (70) */
+  padding:14px 18px calc(14px + env(safe-area-inset-bottom));
+  border:0; border-top:1px solid var(--line);
+  background:linear-gradient(180deg, var(--bg-3), var(--bg-2));
+  color:var(--cream); font-family:var(--font-body); font-size:1rem;
+  cursor:pointer; text-align:left;
+  box-shadow:0 -10px 30px rgba(0,0,0,.45);
+  animation:ordSu .25s ease;
+}
+@keyframes ordSu{ from{ transform:translateY(100%); } to{ transform:translateY(0); } }
+.ord-barra-n{
+  flex:0 0 auto; min-width:30px; height:30px; padding:0 8px; border-radius:999px;
+  display:grid; place-items:center;
+  background:var(--gold); color:#1a1206; font-weight:700; font-size:.95rem;
+}
+.ord-barra-txt{ flex:1; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.1em; font-size:.84rem; }
+.ord-barra-tot{ flex:0 0 auto; font-family:var(--font-head); font-weight:600; color:var(--gold-soft); }
+
+/* con la barra aperta i comandi del carosello salgono, così non si coprono */
+body.ha-carrello .overlay.pages .nav-btn{ bottom:calc(92px + env(safe-area-inset-bottom)); }
+body.ha-carrello .overlay.pages .ov-bottom{ bottom:calc(66px + env(safe-area-inset-bottom)); }
+body.ord-bloccato{ overflow:hidden; }
+
+/* ---------------------------------------------------- il foglio dell'ordine */
+.ord-foglio, .ord-stato{
+  position:fixed; inset:0; z-index:75;                     /* sopra tutto, anche sul tasto nascosto */
+  display:flex; flex-direction:column; justify-content:flex-end;
+  background:rgba(0,0,0,.6); opacity:0; visibility:hidden;
+  transition:opacity .25s ease, visibility .25s ease;
+}
+.ord-foglio.aperto, .ord-stato.aperto{ opacity:1; visibility:visible; }
+.ord-foglio-int, .ord-stato-int{
+  position:relative; max-height:88vh; overflow-y:auto;
+  background:var(--bg-2); border-top:1px solid var(--line);
+  border-radius:20px 20px 0 0;
+  padding:26px 18px calc(24px + env(safe-area-inset-bottom));
+  transform:translateY(100%); transition:transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.ord-foglio.aperto .ord-foglio-int, .ord-stato.aperto .ord-stato-int{ transform:translateY(0); }
+.ord-chiudi{
+  position:absolute; top:14px; right:14px; width:38px; height:38px; border-radius:50%;
+  border:1px solid var(--line); background:transparent; color:var(--cream);
+  font-size:1.1rem; cursor:pointer; display:grid; place-items:center;
+}
+.ord-tavolo{
+  margin:0; font-family:var(--font-head); text-transform:uppercase;
+  letter-spacing:.24em; font-size:.68rem; color:var(--gold);
+}
+.ord-titolo{ margin:.2em 0 18px; font-family:var(--font-display); font-weight:800; font-size:1.7rem; color:var(--cream); }
+
+.ord-riga{ padding:12px 0; border-bottom:1px solid var(--line); }
+.ord-riga-alto{ display:flex; align-items:baseline; gap:10px; }
+.ord-qta{ flex:0 0 auto; color:var(--gold); font-family:var(--font-head); font-weight:600; }
+.ord-nome{ flex:1; color:var(--cream); font-size:1.02rem; }
+.ord-prezzo{ flex:0 0 auto; color:var(--muted); font-family:var(--font-head); }
+.ord-riga-basso{ display:flex; align-items:center; gap:7px; margin-top:9px; flex-wrap:wrap; }
+.ord-meno, .ord-piu{
+  flex:0 0 auto; width:38px; height:38px; border-radius:10px;
+  border:1px solid var(--line); background:transparent; color:var(--cream);
+  font-size:1.2rem; cursor:pointer;
+}
+.ord-nota{
+  width:100%; margin-top:8px; height:38px; padding:0 12px; border-radius:10px;
+  border:1px solid var(--line); background:var(--bg-3); color:var(--cream);
+  font-family:var(--font-body); font-size:.86rem;
+}
+.ord-vuoto{ color:var(--muted); text-align:center; padding:26px 0; }
+
+.ord-coperti{ margin:20px 0 6px; padding:16px; border:1px solid var(--line); border-radius:14px; background:var(--bg-3); }
+.ord-lab{ display:block; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.1em; font-size:.8rem; color:var(--gold); }
+.ord-coperti-riga{ display:flex; align-items:center; gap:10px; margin-top:12px; }
+.ord-cop-meno, .ord-cop-piu{
+  width:46px; height:46px; border-radius:12px; border:1px solid var(--line);
+  background:transparent; color:var(--cream); font-size:1.4rem; cursor:pointer;
+}
+.ord-cop-n{
+  flex:1; min-width:0; height:46px; text-align:center; border-radius:12px;
+  border:1px solid var(--line); background:var(--bg-2); color:var(--cream);
+  font-family:var(--font-head); font-size:1.3rem; font-weight:600;
+}
+.ord-aiuto{ margin:10px 0 0; color:var(--muted); font-size:.78rem; line-height:1.4; }
+.ord-tot{ text-align:right; margin:16px 0 4px; font-family:var(--font-head); font-size:1.4rem; color:var(--gold-soft); }
+.ord-manda{
+  width:100%; margin-top:10px; padding:17px; border:0; border-radius:14px;
+  background:linear-gradient(180deg, var(--gold), #cf9a2e); color:#241206;
+  font-family:var(--font-head); font-weight:700; text-transform:uppercase;
+  letter-spacing:.1em; font-size:1rem; cursor:pointer;
+}
+.ord-manda:disabled{ opacity:.6; }
+
+/* ---------------------------------------------------- lo stato dell'ordine */
+.ord-passi{ margin:6px 0 20px; }
+/* pallino a sinistra, titolo e spiegazione incolonnati a destra */
+.ord-passo{
+  display:grid; grid-template-columns:14px 1fr; column-gap:14px; row-gap:3px;
+  align-items:start; padding:12px 0; opacity:.35; transition:opacity .3s ease;
+}
+.ord-passo.fatto{ opacity:1; }
+.ord-pallino{
+  grid-row:1 / span 2; width:14px; height:14px; margin-top:5px; border-radius:50%;
+  border:2px solid var(--line); background:transparent;
+}
+.ord-passo.fatto .ord-pallino{ background:var(--gold); border-color:var(--gold); }
+.ord-passo.adesso .ord-pallino{ animation:ordBattito 1.4s ease-in-out infinite; }
+@keyframes ordBattito{ 0%,100%{ box-shadow:0 0 0 0 rgba(230,178,74,.5); } 50%{ box-shadow:0 0 0 8px rgba(230,178,74,0); } }
+.ord-passo b{ display:block; color:var(--cream); font-size:1.02rem; }
+.ord-passo small{ display:block; color:var(--muted); font-size:.84rem; margin-top:2px; }
+.ord-chiama{
+  width:100%; padding:15px; margin-bottom:10px; border-radius:14px;
+  border:1px solid var(--ember); background:transparent; color:var(--ember-2);
+  font-family:var(--font-head); text-transform:uppercase; letter-spacing:.1em;
+  font-size:.9rem; cursor:pointer;
+}
+.ord-ancora{
+  width:100%; padding:15px; border-radius:14px; border:1px solid var(--line);
+  background:transparent; color:var(--cream); font-family:var(--font-head);
+  text-transform:uppercase; letter-spacing:.1em; font-size:.9rem; cursor:pointer;
+}
+
+/* ------------------------------------------------- il pannello del titolare
+   Compare in cima al menu segreto: è l'unico posto dove il titolare accende e
+   spegne l'ordine dal tavolo. */
+.ord-tit{
+  margin:0 0 22px; padding:18px;
+  border:1px solid var(--line); border-radius:16px; background:var(--bg-3);
+}
+.ord-tit-kick{
+  margin:0 0 14px; font-family:var(--font-head); text-transform:uppercase;
+  letter-spacing:.18em; font-size:.72rem; color:var(--gold);
+}
+.ord-tit-riga{ display:flex; align-items:center; gap:14px; }
+.ord-tit-sw{
+  flex:0 0 auto; width:62px; height:34px; padding:3px; border-radius:999px;
+  border:1px solid var(--line); background:rgba(0,0,0,.35); cursor:pointer;
+  display:flex; align-items:center; transition:background .2s ease, border-color .2s ease;
+}
+.ord-tit-pallina{
+  width:26px; height:26px; border-radius:50%; background:var(--muted);
+  transition:transform .2s ease, background .2s ease;
+}
+.ord-tit.acceso .ord-tit-sw{ background:rgba(230,178,74,.25); border-color:var(--gold); }
+.ord-tit.acceso .ord-tit-pallina{ transform:translateX(28px); background:var(--gold); }
+.ord-tit-stato{ font-family:var(--font-head); text-transform:uppercase; letter-spacing:.1em; font-size:.9rem; color:var(--cream); }
+.ord-tit.acceso .ord-tit-stato{ color:var(--gold); }
+.ord-tit-spiega{ margin:14px 0 0; color:var(--muted); font-size:.82rem; line-height:1.5; }
+.ord-tit-link{ display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+.ord-tit-link a{
+  flex:1 1 auto; text-align:center; padding:13px 14px; border-radius:12px;
+  border:1px solid var(--line); background:rgba(0,0,0,.2);
+  color:var(--gold); text-decoration:none; font-family:var(--font-head);
+  text-transform:uppercase; letter-spacing:.08em; font-size:.76rem;
+}
+.ord-tit-link a:hover{ border-color:var(--gold); }
+.ord-spostauno{
+  margin:8px 0 0; font-size:.72rem; color:var(--muted); font-style:italic; line-height:1.3;
+}
+
+/* la barra quando segue un ordine già mandato, invece del carrello */
+body.ha-carrello .ord-barra.ord-barra-stato{ background:linear-gradient(180deg, var(--bg-2), var(--bg-3)); }
+.ord-barra-stato .ord-barra-n{ background:var(--basil); color:#0d1a08; }
+.ord-barra-stato .ord-barra-tot{ text-transform:none; letter-spacing:0; font-size:.8rem; color:var(--muted); }
+.ord-stato .ord-chiudi{ top:14px; right:14px; }
+
+/* l'ordine rifiutato: il cliente deve capire perché, non restare lì a premere */
+.ord-rifiuto{
+  margin:14px 0 0; padding:12px 14px; border-radius:12px;
+  background:rgba(var(--ember-rgb),.14); border:1px solid rgba(var(--ember-rgb),.45);
+  color:var(--cream); font-size:.88rem; line-height:1.45;
+}

@@ -350,6 +350,7 @@
       if (Date.now() - swipedAt < 400) return;            // un trascinamento col mouse non è anche un click
       if (card.classList.contains("is-front") && !flipping) go(1);
     });
+    if (typeof Ordina !== "undefined") Ordina.decora(card, p);   // pre-ordine (pezzo staccato: ordina.js)
     return card;
   }
   function openCarousel(cat) {
