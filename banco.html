@@ -152,7 +152,8 @@ main{ display:grid; gap:14px; padding:16px; grid-template-columns:1fr; }
   font-size:1.2rem; font-weight:800; user-select:none;
   transition:background .25s ease, border-color .25s ease, color .25s ease;
 }
-.tv.libero{ border-color:rgba(52,211,153,.7); }
+.tv.libero{ border-color:rgba(52,211,153,.7); cursor:pointer; }
+.tv.bloccato{ cursor:pointer; }
 .tv.ordinato{ background:var(--giallo); color:#241b00; cursor:pointer; }
 .tv.preso{ background:var(--giallo); color:#241b00; cursor:pointer; opacity:.62; }
 .tv.subito{ background:var(--rosso); color:#fff; cursor:pointer; animation:battito 1.6s ease-in-out infinite; }
@@ -160,6 +161,8 @@ main{ display:grid; gap:14px; padding:16px; grid-template-columns:1fr; }
 .tv.bloccato{ border-color:var(--rosso); color:var(--rosso); opacity:.55; }
 .tv-segno{ position:absolute; top:2px; right:6px; font-size:.68rem; font-weight:700; }
 .sala-vuota{ color:var(--fioco); font-size:.86rem; }
+.sala-aiuto{ margin:-4px 0 12px; font-size:.75rem; color:var(--fioco); line-height:1.6; }
+.sala-aiuto b{ color:var(--testo); font-weight:700; }
 /* ---- uscire da qui: il menu, l'altra pagina, o via la password ---- */
 .indietro{
   display:inline-flex; align-items:center; gap:7px; padding:9px 13px;
@@ -246,9 +249,10 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
       <span><i class="lg-libero"></i>libero</span>
       <span><i class="lg-ordinato"></i>ha ordinato <b>✓</b>&nbsp;= preso in carico</span>
       <span><i class="lg-subito"></i>serve subito</span>
-      <span><i class="lg-occupato"></i>occupato · tocca per liberare</span>
+      <span><i class="lg-occupato"></i>occupato · niente da portare</span>
     </div>
   </div>
+  <p class="sala-aiuto">Tocca un tavolo: <b>verde</b> lo apri per i clienti nuovi · <b>giallo o rosso</b> ti porta alla comanda · <b>blu</b> lo liberi quando sparecchi</p>
   <div class="sala-griglia" id="sala-griglia"></div>
 </section>
 
@@ -580,16 +584,38 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     $("#n-occupati").textContent = occupati;
   }
 
-  /* Toccare un tavolo fa la cosa che serve in quel momento: se è blu si
-     libera (è il gesto di chi ha appena sparecchiato), altrimenti porta
-     alla sua scheda, dove c'è scritto cosa portare. */
+  /* Toccare un tavolo fa la cosa che serve in quel momento. Tre gesti soli,
+     quelli veri di una serata:
+       verde  si siedono clienti nuovi  → apri
+       blu    hai sparecchiato          → libera
+       giallo o rosso                   → vai a vedere cosa portare
+
+     L'apertura serve per una ragione precisa: quando chiudi un tavolo parte
+     un riposo di 15 minuti, che ferma il cliente appena uscito che vuole
+     fare lo scemo. Ma se al suo posto si siede qualcuno dopo cinque minuti,
+     quel riposo fermerebbe anche lui. Aprire lo azzera, e insieme toglie
+     l'eventuale blocco. */
+  async function rinfresca() {
+    firmaPrecedente = null;
+    await caricaTavoli();
+    aggiornaDati();
+  }
+
   async function tocca(numero, stato) {
+    if (stato === "libero") {
+      if (!confirm("Apro il tavolo " + numero + " per i clienti nuovi?\n\nServe se si siede qualcuno subito dopo che hai sparecchiato: senza, per un quarto d'ora il loro primo ordine verrebbe rifiutato.")) return;
+      await OrdiniStore.apriTavolo(numero);
+      return rinfresca();
+    }
+    if (stato === "bloccato") {
+      if (!confirm("Sblocco il tavolo " + numero + "?\n\nTorna subito ad accettare ordini.")) return;
+      await OrdiniStore.apriTavolo(numero);
+      return rinfresca();
+    }
     if (stato === "occupato") {
       if (!confirm("Libero il tavolo " + numero + "?\n\nSi chiude la sessione: da quel QR non si ordina più finché non si siede qualcun altro.")) return;
       await OrdiniStore.chiudiTavolo(numero);
-      firmaPrecedente = null;
-      aggiornaDati();
-      return;
+      return rinfresca();
     }
     const scheda = document.querySelector('.tavolo[data-tavolo="' + numero + '"]');
     if (scheda) scheda.scrollIntoView({ behavior: "smooth", block: "center" });
