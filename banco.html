@@ -109,6 +109,14 @@ main{ display:grid; gap:14px; padding:16px; grid-template-columns:1fr; }
 .b-conferma{ background:var(--verde); color:#05271c; }
 
 .vuoto{ padding:70px 20px; text-align:center; color:var(--fioco); grid-column:1/-1; }
+/* Un guasto va detto. "Nessun ordine" mentre la linea è rotta è la bugia
+   che fa perdere un servizio intero. */
+#guasto{ display:none; margin:14px 18px 0; padding:13px 16px; border-radius:12px;
+  border:1px solid var(--rosso); background:rgba(214,74,63,.10); color:var(--testo);
+  font-size:.9rem; line-height:1.55; }
+#guasto.acceso{ display:block; }
+#guasto b{ display:block; margin-bottom:3px; }
+
 .vuoto b{ display:block; font-size:1.2rem; color:var(--testo); margin-bottom:8px; }
 .fatti{ padding:0 18px; color:var(--fioco); font-size:.84rem; }
 
@@ -208,6 +216,8 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     <p class="porta-err" id="porta-err"></p>
   </div>
 </div>
+
+<div id="guasto"></div>
 
 <main id="tavoli"></main>
 <section id="aperti"></section>
@@ -386,9 +396,27 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     });
   }
 
+  /* --------------------------------------------------------------------------
+     QUANDO NON SI RIESCE A LEGGERE
+     Il banco deve distinguere "non ha ordinato nessuno" da "non riesco a
+     leggere". Sono due schermate diverse: la prima è normale, la seconda
+     è un cameriere che aspetta a vuoto.
+     ------------------------------------------------------------------------ */
+  function mostraGuasto(e) {
+    const box = $("#guasto");
+    if (!e) { box.classList.remove("acceso"); return; }
+    const pw = /password/i.test(e.message || "");
+    box.innerHTML = pw
+      ? "<b>Password non valida: non posso leggere gli ordini.</b>Se l'hai cambiata, premi <b>Esci</b> qui sopra e rientra con quella nuova."
+      : "<b>Non riesco a parlare con il server.</b>Controlla la linea. Riprovo da solo ogni due secondi.";
+    box.classList.add("acceso");
+  }
+
   let primaLettura = true;
   async function aggiornaDati() {
-    const ordini = await OrdiniStore.elenco();
+    let ordini;
+    try { ordini = await OrdiniStore.elenco(); mostraGuasto(null); }
+    catch (e) { mostraGuasto(e); return; }
 
     // suona quando arriva un ordine nuovo (ma non al primo caricamento)
     ordini.forEach(function (o) {
@@ -435,7 +463,9 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
      la sera stessa la porta si chiude comunque.
      ------------------------------------------------------------------------ */
   async function disegnaAperti() {
-    const t = await OrdiniStore.tavoliAperti();
+    let t;
+    try { t = await OrdiniStore.tavoliAperti(); }
+    catch (e) { return; }          // il guasto lo dice già aggiornaDati
     const box = $("#aperti");
     if (!t.length) { box.innerHTML = ""; return; }
     box.innerHTML = "<h2>Tavoli aperti</h2><div class='chips'></div>";

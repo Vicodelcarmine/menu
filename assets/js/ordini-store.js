@@ -143,12 +143,14 @@ const OrdiniStore = (function () {
       return l.filter(function (o) { return o.id === id; })[0] || null;
     },
 
+    /* Qui NON si ingoia l'errore, di proposito. Prima, se la lettura falliva
+       (password cambiata, linea caduta) tornava una lista vuota e il banco
+       scriveva "nessun ordine in attesa": il guasto peggiore che esista,
+       quello che sembra tutto a posto. Adesso l'errore esce e chi chiama
+       decide cosa scrivere in faccia al cameriere. */
     elenco: async function () {
-      if (suSupabase) {
-        try { return (await rpc("ordini_aperti", { pwd: passwordStaff }) || []).map(daRiga); }
-        catch (e) { return []; }
-      }
-      if (API) { try { return await dalServer("/ordini"); } catch (e) { return []; } }
+      if (suSupabase) return (await rpc("ordini_aperti", { pwd: passwordStaff }) || []).map(daRiga);
+      if (API) return await dalServer("/ordini");
       return tutti();
     },
 
@@ -181,8 +183,8 @@ const OrdiniStore = (function () {
        quando sparecchia, e spegnere il servizio li chiude tutti insieme.
        ------------------------------------------------------------------ */
     tavoliAperti: async function () {
-      if (suSupabase) { try { return await rpc("tavoli_aperti", { pwd: passwordStaff }) || []; } catch (e) { return []; } }
-      if (API) { try { return await dalServer("/tavoli"); } catch (e) { return []; } }
+      if (suSupabase) return (await rpc("tavoli_aperti", { pwd: passwordStaff })) || [];
+      if (API) return await dalServer("/tavoli");
       return [];
     },
     apriTavolo: async function (n) {
