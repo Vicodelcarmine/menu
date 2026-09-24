@@ -62,7 +62,13 @@ main{ display:grid; gap:14px; padding:16px; grid-template-columns:1fr; }
 .tavolo.attesa{ border-color:var(--giallo); }
 .tavolo.tardi{ border-color:var(--rosso); animation:battito 1.6s ease-in-out infinite; }
 @keyframes battito{ 0%,100%{ box-shadow:0 0 0 0 rgba(239,68,68,.45); } 50%{ box-shadow:0 0 0 12px rgba(239,68,68,0); } }
-.tavolo.preso{ border-color:var(--blu); }
+/* "preso" resta giallo, solo più spento con la spunta: il blu vuol dire
+   una cosa sola, tavolo occupato senza niente da portare. */
+.tavolo.preso{ border-color:var(--giallo); opacity:.78; }
+.t-preso{
+  display:inline-block; margin-top:5px; padding:2px 8px; border-radius:999px;
+  background:var(--carta); color:var(--fioco); font-size:.72rem; font-weight:700;
+}
 
 .t-testa{ display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--carta-2); }
 .t-num{
@@ -121,25 +127,39 @@ main{ display:grid; gap:14px; padding:16px; grid-template-columns:1fr; }
 .fatti{ padding:0 18px; color:var(--fioco); font-size:.84rem; }
 
 /* ---- i tavoli aperti: si chiudono quando si sparecchia ---- */
-#aperti{ padding:4px 18px 0; }
-#aperti h2{
-  margin:0 0 10px; font-size:.7rem; font-weight:700; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--fioco);
+/* ---- LA SALA: tutti i tavoli a colpo d'occhio ----
+   Quattro colori, un significato ciascuno, mai incrociati. Il libero è solo
+   un filo verde: ventinove quadrati pieni di verde urlerebbero "tutto a
+   posto" e i due tavoli che contano si perderebbero. Il colore pieno sta
+   dove c'è da lavorare. */
+#sala{ padding:14px 18px 4px; }
+.sala-testa{ display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:12px; }
+.sala-conta{ font-size:.86rem; color:var(--fioco); white-space:nowrap; }
+.sala-conta b{ color:var(--testo); font-size:1.1rem; font-weight:800; }
+.legenda{ display:flex; gap:13px; flex-wrap:wrap; font-size:.73rem; color:var(--fioco); }
+.legenda span{ display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+.legenda i{ width:12px; height:12px; border-radius:4px; flex:0 0 auto; }
+.lg-libero{ border:2px solid rgba(52,211,153,.7); }
+.lg-ordinato{ background:var(--giallo); }
+.lg-subito{ background:var(--rosso); }
+.lg-occupato{ background:var(--blu); }
+
+.sala-griglia{ display:grid; grid-template-columns:repeat(auto-fill,minmax(58px,1fr)); gap:9px; }
+.tv{
+  aspect-ratio:1/1; border-radius:12px; border:2px solid transparent;
+  display:flex; align-items:center; justify-content:center; position:relative;
+  background:var(--carta); color:var(--fioco);
+  font-size:1.2rem; font-weight:800; user-select:none;
+  transition:background .25s ease, border-color .25s ease, color .25s ease;
 }
-.chips{ display:flex; flex-wrap:wrap; gap:8px; }
-.chip{
-  display:flex; align-items:center; gap:8px; padding:8px 8px 8px 14px;
-  border-radius:999px; background:var(--carta); border:1px solid var(--filo);
-  font-weight:700; font-size:.95rem;
-}
-.chip.bloccato{ border-color:var(--rosso); color:var(--rosso); }
-.chip button{
-  width:26px; height:26px; border-radius:50%; border:0; cursor:pointer;
-  background:var(--carta-2); color:var(--fioco); font-size:.8rem; line-height:1;
-}
-.chip button:hover{ background:var(--rosso); color:#fff; }
-.chip small{ font-weight:500; font-size:.72rem; color:var(--fioco); }
-.niente-aperti{ color:var(--fioco); font-size:.84rem; }
+.tv.libero{ border-color:rgba(52,211,153,.7); }
+.tv.ordinato{ background:var(--giallo); color:#241b00; cursor:pointer; }
+.tv.preso{ background:var(--giallo); color:#241b00; cursor:pointer; opacity:.62; }
+.tv.subito{ background:var(--rosso); color:#fff; cursor:pointer; animation:battito 1.6s ease-in-out infinite; }
+.tv.occupato{ background:var(--blu); color:#06203f; cursor:pointer; }
+.tv.bloccato{ border-color:var(--rosso); color:var(--rosso); opacity:.55; }
+.tv-segno{ position:absolute; top:2px; right:6px; font-size:.68rem; font-weight:700; }
+.sala-vuota{ color:var(--fioco); font-size:.86rem; }
 /* ---- uscire da qui: il menu, l'altra pagina, o via la password ---- */
 .indietro{
   display:inline-flex; align-items:center; gap:7px; padding:9px 13px;
@@ -219,8 +239,20 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 
 <div id="guasto"></div>
 
+<section id="sala">
+  <div class="sala-testa">
+    <div class="sala-conta"><b id="n-liberi">0</b> liberi · <b id="n-occupati">0</b> occupati</div>
+    <div class="legenda">
+      <span><i class="lg-libero"></i>libero</span>
+      <span><i class="lg-ordinato"></i>ha ordinato <b>✓</b>&nbsp;= preso in carico</span>
+      <span><i class="lg-subito"></i>serve subito</span>
+      <span><i class="lg-occupato"></i>occupato · tocca per liberare</span>
+    </div>
+  </div>
+  <div class="sala-griglia" id="sala-griglia"></div>
+</section>
+
 <main id="tavoli"></main>
-<section id="aperti"></section>
 <p class="fatti" id="fatti"></p>
 
 <script src="assets/js/ordini-store.js"></script>
@@ -230,6 +262,7 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   const $ = function (s) { return document.querySelector(s); };
 
   const TARDI = 2 * 60 * 1000;      // dopo due minuti il tavolo diventa rosso e suona
+  const PRESO_TROPPO = 8 * 60 * 1000; // preso in carico ma mai confermato: torna rosso
   let suonoAcceso = false, actx = null;
   let giaVisti = {};                 // per suonare una volta sola per ordine
   let giaTardi = {};
@@ -298,11 +331,11 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     gruppi.forEach(function (g) {
       const attesa = Date.now() - g.daQuando;
       const preso = g.ordini.every(function (o) { return o.stato === "visto"; });
-      const tardi = !preso && attesa > TARDI;
+      const tardi = attesa > (preso ? PRESO_TROPPO : TARDI);
       visti[g.tavolo] = true;
 
       const d = document.createElement("section");
-      d.className = "tavolo " + (preso ? "preso" : tardi ? "tardi" : "attesa") +
+      d.className = "tavolo " + (tardi ? "tardi" : preso ? "preso" : "attesa") +
                     (tavoliGiaVisti[g.tavolo] ? "" : " nuovo");
       d.dataset.daQuando = g.daQuando;
       d.dataset.preso = preso ? "1" : "0";
@@ -331,6 +364,7 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
         '<div class="t-dett">' + g.coperti + " coperti · " + g.ordini.length +
         (g.ordini.length === 1 ? " invio" : " invii") + "</div>" +
         (g.chiamato ? '<span class="t-chiamato">🔔 ha chiamato il cameriere</span>' : "") +
+        (preso ? '<span class="t-preso">✓ preso in carico</span>' : "") +
         "</div></div>" +
         '<div class="t-corpo">' + corpo + "</div>" +
         '<div class="t-azioni">' +
@@ -387,13 +421,14 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
       const casella = d.querySelector(".t-tempo");
       const testo = mmss(attesa);
       if (casella.textContent !== testo) casella.textContent = testo;
-      const tardi = !preso && attesa > TARDI;
+      const tardi = attesa > (preso ? PRESO_TROPPO : TARDI);
       d.classList.toggle("tardi", tardi);
-      d.classList.toggle("attesa", !preso && !tardi);
-      d.classList.toggle("preso", preso);
+      d.classList.toggle("attesa", !tardi && !preso);
+      d.classList.toggle("preso", !tardi && preso);
       if (tardi && !giaTardi[d.dataset.tavolo]) { giaTardi[d.dataset.tavolo] = true; bipTardi(); }
       if (!tardi) delete giaTardi[d.dataset.tavolo];
     });
+    aggiornaSala();          // i colori della sala seguono il cronometro
   }
 
   /* --------------------------------------------------------------------------
@@ -427,20 +462,26 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     });
     primaLettura = false;
 
+    ultimiGruppi = perTavolo(ordini);
     const firma = firmaDi(ordini);
     if (firma !== firmaPrecedente) {
       firmaPrecedente = firma;
-      disegna(perTavolo(ordini));
+      disegna(ultimiGruppi);
     }
+
+    try {
+      const ap = await OrdiniStore.tavoliAperti();
+      ultimiAperti = {};
+      ap.forEach(function (x) { ultimiAperti[String(x.numero)] = true; });
+    } catch (e) { /* il guasto è già scritto sopra */ }
 
     const gruppi = document.querySelectorAll(".tavolo").length;
     const c = $("#conta");
-    c.textContent = gruppi + (gruppi === 1 ? " tavolo" : " tavoli");
+    c.textContent = gruppi + " da servire";
     c.classList.toggle("vivi", gruppi > 0);
     const fatti = ordini.filter(function (o) { return o.stato === "confermato"; }).length;
     $("#fatti").textContent = fatti ? "Confermati oggi: " + fatti : "";
     aggiornaTempi();
-    disegnaAperti();
   }
 
 
@@ -456,33 +497,104 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   });
 
   /* --------------------------------------------------------------------------
-     I TAVOLI APERTI
-     Un tavolo aperto accetta ordini. Si chiude con la ✕ quando si sparecchia:
-     è quello che impedisce a chi è appena uscito di ordinare per scherzo.
-     Spegnere il servizio li chiude tutti insieme, così se ci si dimentica
-     la sera stessa la porta si chiude comunque.
+     LA SALA
+     Un cameriere guarda la sala, non una lista. Qui ci sono TUTTI i tavoli,
+     anche quelli che non hanno ordinato, così si vede in un colpo quanti
+     sono liberi e soprattutto dove bisogna andare adesso.
+
+     Quattro colori, un significato ciascuno, mai incrociati:
+       filo verde   libero
+       giallo       ha ordinato   (spento con la ✓ = un cameriere ci sta andando)
+       rosso        serve subito  (ha chiamato, oppure aspetta da troppo)
+       blu          occupato, ordine confermato: si sparecchia e si libera
+
+     Il rosso vince sempre sugli altri: è l'unico colore che vuol dire
+     "muoviti", e non deve mai significare due cose diverse.
      ------------------------------------------------------------------------ */
-  async function disegnaAperti() {
-    let t;
-    try { t = await OrdiniStore.tavoliAperti(); }
-    catch (e) { return; }          // il guasto lo dice già aggiornaDati
-    const box = $("#aperti");
-    if (!t.length) { box.innerHTML = ""; return; }
-    box.innerHTML = "<h2>Tavoli aperti</h2><div class='chips'></div>";
-    const chips = box.querySelector(".chips");
-    t.forEach(function (x) {
-      const c = document.createElement("span");
-      c.className = "chip" + (x.bloccato ? " bloccato" : "");
-      c.innerHTML = x.numero + (x.bloccato ? " <small>bloccato</small>" : "") +
-                    '<button title="Chiudi il tavolo">✕</button>';
-      c.querySelector("button").addEventListener("click", async function () {
-        await OrdiniStore.chiudiTavolo(x.numero);
-        firmaPrecedente = null;
-        aggiornaDati();
-      });
-      chips.appendChild(c);
-    });
+  let tuttiITavoli = [];     // la pianta della sala: cambia una volta all'anno
+  let ultimiGruppi = [];     // gli ordini vivi, raggruppati per tavolo
+  let ultimiAperti = {};     // quali tavoli hanno una sessione aperta
+
+  function firmaTavoli(t) {
+    return (t || []).map(function (x) { return x.numero + (x.bloccato ? "!" : ""); }).join("|");
   }
+
+  async function caricaTavoli() {
+    let t;
+    try { t = await OrdiniStore.elencoTavoli(); }
+    catch (e) { return; }                  // il guasto lo dice già aggiornaDati
+    if (firmaTavoli(t) === firmaTavoli(tuttiITavoli)) return;
+    tuttiITavoli = t;
+    costruisciSala();
+  }
+
+  function costruisciSala() {
+    const g = $("#sala-griglia");
+    g.innerHTML = "";
+    if (!tuttiITavoli.length) {
+      g.innerHTML = '<p class="sala-vuota">Nessun tavolo. Aggiungili da <b>Tavoli e QR</b>.</p>';
+      return;
+    }
+    tuttiITavoli.forEach(function (t) {
+      const d = document.createElement("div");
+      d.className = "tv";
+      d.dataset.tav = t.numero;
+      d.innerHTML = t.numero + '<span class="tv-segno"></span>';
+      d.addEventListener("click", function () { tocca(t.numero, d.dataset.stato); });
+      g.appendChild(d);
+    });
+    aggiornaSala();
+  }
+
+  function statoTavolo(numero) {
+    const n = String(numero);
+    const t = tuttiITavoli.filter(function (x) { return String(x.numero) === n; })[0];
+    if (t && t.bloccato) return "bloccato";
+    const g = ultimiGruppi.filter(function (x) { return String(x.tavolo) === n; })[0];
+    if (g) {
+      const preso = g.ordini.every(function (o) { return o.stato === "visto"; });
+      const attesa = Date.now() - g.daQuando;
+      if (g.chiamato || attesa > (preso ? PRESO_TROPPO : TARDI)) return "subito";
+      return preso ? "preso" : "ordinato";
+    }
+    return ultimiAperti[n] ? "occupato" : "libero";
+  }
+
+  const SEGNO = { preso: "✓", bloccato: "🚫", subito: "!" };
+
+  /* Si tocca solo la casella, mai tutta la griglia: ridisegnare 29 quadrati
+     ogni secondo faceva ripartire le animazioni, lo stesso difetto delle
+     schede che avevamo già corretto. */
+  function aggiornaSala() {
+    let liberi = 0, occupati = 0;
+    document.querySelectorAll(".tv").forEach(function (d) {
+      const st = statoTavolo(d.dataset.tav);
+      if (st === "libero") liberi++;
+      else if (st !== "bloccato") occupati++;
+      if (d.dataset.stato === st) return;
+      d.dataset.stato = st;
+      d.className = "tv " + st;
+      d.querySelector(".tv-segno").textContent = SEGNO[st] || "";
+    });
+    $("#n-liberi").textContent = liberi;
+    $("#n-occupati").textContent = occupati;
+  }
+
+  /* Toccare un tavolo fa la cosa che serve in quel momento: se è blu si
+     libera (è il gesto di chi ha appena sparecchiato), altrimenti porta
+     alla sua scheda, dove c'è scritto cosa portare. */
+  async function tocca(numero, stato) {
+    if (stato === "occupato") {
+      if (!confirm("Libero il tavolo " + numero + "?\n\nSi chiude la sessione: da quel QR non si ordina più finché non si siede qualcun altro.")) return;
+      await OrdiniStore.chiudiTavolo(numero);
+      firmaPrecedente = null;
+      aggiornaDati();
+      return;
+    }
+    const scheda = document.querySelector('.tavolo[data-tavolo="' + numero + '"]');
+    if (scheda) scheda.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
 
   /* --------------------------------------------------------------------------
      Col database vero il banco legge gli ordini solo con la password: è quella
@@ -511,9 +623,11 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   $("#porta-pwd").addEventListener("keydown", function (e) { if (e.key === "Enter") entra(); });
 
   function avvia() {
+    caricaTavoli();
     aggiornaDati();
-    setInterval(aggiornaTempi, 1000);   // il cronometro
-    setInterval(aggiornaDati, 2000);    // i dati
+    setInterval(aggiornaTempi, 1000);   // il cronometro e i colori della sala
+    setInterval(aggiornaDati, 2000);    // gli ordini
+    setInterval(caricaTavoli, 60000);   // la pianta della sala: cambia una volta all'anno
   }
 
   if (OrdiniStore.suSupabase && !OrdiniStore.haPassword()) apriPorta();
