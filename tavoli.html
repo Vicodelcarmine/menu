@@ -121,20 +121,58 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 .dove.attenzione{ border-color:#d8a23a; }
 .dove.attenzione .titolo{ color:#d8a23a; font-weight:700; display:block; margin-bottom:3px; }
 
+/* Il testo che compare solo sul cartoncino stampato. */
+.tav-istruzioni{ display:none; }
+.stampa-nota{
+  margin:0 auto 18px; max-width:980px; padding:11px 15px;
+  border:1px solid var(--filo); border-radius:12px;
+  color:var(--fioco); font-size:.82rem; line-height:1.6;
+}
+.stampa-nota b{ color:var(--testo); }
+
 /* ---------------------------------------------------------------- STAMPA
-   Sul foglio restano solo i cartoncini: si ritagliano e si mettono sui tavoli. */
+   Biglietto da visita in verticale: 55 × 85 mm, tre per riga, tre righe,
+   nove cartoncini per foglio A4. In verticale il cartoncino sta in piedi
+   dentro un porta-biglietti da tavolo, e il numero può essere grosso:
+   si legge dall'altra parte della sala, che è quello che serve al cameriere.
+
+   Le misure sono in millimetri e non in pixel apposta. Nella finestra di
+   stampa la scala dev'essere 100% e non "adatta alla pagina", altrimenti
+   esce tutto più piccolo e non entra più nel porta-biglietti. */
+@page{ size:A4; margin:21mm 22mm; }
 @media print{
-  header, section.riquadro, #porta, .tav-azioni, .tav-stato, .indietro, .dove{ display:none !important; }
+  header, section.riquadro, #porta, .tav-azioni, .tav-stato, .indietro, .dove, .stampa-nota{ display:none !important; }
   html,body{ background:#fff; color:#000; }
-  .griglia{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; padding:0; }
+  body{ padding:0; }
+  .griglia{
+    display:grid; grid-template-columns:repeat(3,55mm); gap:0;
+    padding:0; justify-content:center;
+  }
   .tav{
-    background:#fff; border:1px dashed #999; border-radius:0; padding:14mm 4mm;
+    width:55mm; height:85mm; padding:5mm 3mm 3mm;
+    background:#fff; border:1px dashed #c9c9c9; border-radius:0;
+    display:grid; grid-template-rows:auto 1fr auto auto;
+    justify-items:center; text-align:center;
     break-inside:avoid; page-break-inside:avoid;
   }
-  .tav-num{ color:#000; font-size:22pt; }
-  .tav-num::before{ content:"TAVOLO "; font-size:9pt; letter-spacing:.2em; display:block; color:#555; margin-bottom:3mm; }
-  .tav-qr{ width:38mm; height:38mm; padding:0; }
-  .tav-ind{ color:#555; font-size:6.5pt; margin-top:3mm; }
+  .tav-num{ color:#000; font-size:54pt; line-height:.9; margin:0; letter-spacing:-.02em; }
+  .tav-num::before{
+    content:"TAVOLO"; display:block; font-size:8pt; font-weight:700;
+    letter-spacing:.26em; color:#6b6b6b; margin-bottom:2mm; letter-spacing:.26em;
+  }
+  .tav-qr{
+    align-self:center; width:36mm; height:36mm;
+    margin:0; padding:0; background:#fff; border-radius:0;
+  }
+  .tav-istruzioni{ display:block; width:100%; margin:0 0 1.5mm; color:#3a3a3a; font-size:8pt; line-height:1.4; }
+  .tav-istruzioni b{ display:block; font-size:10pt; color:#000; margin-bottom:.8mm; }
+  .tav-ind{ align-self:end; width:100%; color:#9a9a9a; font-size:5.2pt; margin:0; line-height:1.3; }
+
+  /* Un tavolo si può chiamare "A7" o "Veranda3". A 54pt una parola lunga
+     sfonderebbe il cartoncino: più caratteri ha, più piccolo si scrive. */
+  .tav-num[data-lung="3"]{ font-size:38pt; }
+  .tav-num[data-lung="4"]{ font-size:28pt; }
+  .tav-num[data-lung="5"]{ font-size:19pt; line-height:1.1; }
 }
 </style>
 </head>
@@ -171,6 +209,8 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   </div>
 </section>
 
+<p class="stampa-nota">I cartoncini escono in <b>formato biglietto da visita verticale</b>, 55 × 85 mm, nove per foglio A4. Nella finestra di stampa metti <b>A4</b> e scala <b>100%</b>: se lasci "adatta alla pagina" escono più piccoli e non entrano nei porta-biglietti.</p>
+
 <p class="dove" id="dove"></p>
 
 <div class="griglia" id="griglia"></div>
@@ -205,6 +245,9 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 
   function indirizzo(t) { return BASE + "?t=" + encodeURIComponent(t.numero) + "&k=" + encodeURIComponent(t.chiave); }
 
+  // il nome del locale finisce stampato sul cartoncino
+  const LOCALE = (document.querySelector("header h1 small") || {}).textContent || "";
+
   function disegnaQR(url) {
     const q = qrcode(0, "M");       // 0 = si dimensiona da solo
     q.addData(url);
@@ -226,9 +269,10 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
       const d = document.createElement("article");
       d.className = "tav" + (t.bloccato ? " bloccato" : t.aperto ? " aperto" : "");
       d.innerHTML =
-        '<div class="tav-num">' + t.numero + "</div>" +
+        '<div class="tav-num" data-lung="' + Math.min(5, String(t.numero).length) + '">' + t.numero + "</div>" +
         '<div class="tav-stato">' + (t.bloccato ? "bloccato" : t.aperto ? "aperto" : "libero") + "</div>" +
         '<div class="tav-qr">' + disegnaQR(url) + "</div>" +
+        '<div class="tav-istruzioni"><b>' + LOCALE + "</b>Inquadra il QR<br>e ordina dal tavolo</div>" +
         '<div class="tav-ind">' + url.replace(/^https?:\/\//, "") + "</div>" +
         '<div class="tav-azioni">' +
         '<button class="chiave">Nuova chiave</button>' +

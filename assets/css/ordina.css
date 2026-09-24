@@ -210,11 +210,21 @@ body.ord-bloccato{ overflow:hidden; }
   width:26px; height:26px; border-radius:50%; background:var(--muted);
   transition:transform .2s ease, background .2s ease;
 }
-.ord-tit.acceso .ord-tit-sw{ background:rgba(230,178,74,.25); border-color:var(--gold); }
-.ord-tit.acceso .ord-tit-pallina{ transform:translateX(28px); background:var(--gold); }
+.ord-tit-riga.acceso .ord-tit-sw{ background:rgba(230,178,74,.25); border-color:var(--gold); }
+.ord-tit-riga.acceso .ord-tit-pallina{ transform:translateX(28px); background:var(--gold); }
 .ord-tit-stato{ font-family:var(--font-head); text-transform:uppercase; letter-spacing:.1em; font-size:.9rem; color:var(--cream); }
-.ord-tit.acceso .ord-tit-stato{ color:var(--gold); }
+.ord-tit-riga.acceso .ord-tit-stato{ color:var(--gold); }
+.ord-tit-riga + .ord-tit-riga{ margin-top:16px; padding-top:16px; border-top:1px solid var(--line); }
 .ord-tit-spiega{ margin:14px 0 0; color:var(--muted); font-size:.82rem; line-height:1.5; }
+
+/* IL TOTALE NASCOSTO
+   Vedere il conto che sale frena la mano: c'è chi preferisce che il cliente
+   ordini e basta. I prezzi del menu restano — quello è un menu — sparisce
+   solo il conto della spesa nel foglio dell'ordine. Al banco arriva lo
+   stesso, perché al ristorante il totale serve. */
+body.ord-senza-totale .ord-tot,
+body.ord-senza-totale .ord-prezzo,
+body.ord-senza-totale .ord-barra-tot{ display:none !important; }
 .ord-tit-link{ display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
 .ord-tit-link a{
   flex:1 1 auto; text-align:center; padding:13px 14px; border-radius:12px;

@@ -114,6 +114,7 @@ const OrdiniStore = (function () {
           p_attivo: parziale.attivo === undefined ? null : parziale.attivo,
           p_aperto: parziale.aperto === undefined ? null : parziale.aperto,
           p_apertura_staff: parziale.aperturaStaff === undefined ? null : parziale.aperturaStaff,
+          p_mostra_totale: parziale.mostraTotale === undefined ? null : parziale.mostraTotale,
           pwd: passwordStaff,
         });
       }

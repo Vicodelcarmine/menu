@@ -177,6 +177,9 @@ const Ordina = (function () {
   function puoOrdinare() { return !!(tavolo && servizio.attivo && servizio.aperto); }
 
   function aggiornaCorpo() {
+    // Il totale si nasconde da CSS, non togliendo i numeri: il conto continua
+    // a essere calcolato e mandato al banco, semplicemente il cliente non lo vede.
+    document.body.classList.toggle("ord-senza-totale", servizio.mostraTotale === false);
     document.body.classList.toggle("puo-ordinare", puoOrdinare());
     document.body.classList.toggle("ha-carrello", puoOrdinare() && (carrello.length > 0 || !!ordineId));
   }
@@ -521,32 +524,58 @@ const Ordina = (function () {
     box.className = "ord-tit";
     box.innerHTML =
       '<p class="ord-tit-kick">📱 Ordine dal tavolo</p>' +
-      '<div class="ord-tit-riga">' +
+      '<div class="ord-tit-riga" data-sw="attivo">' +
       '<button type="button" class="ord-tit-sw" role="switch"><span class="ord-tit-pallina"></span></button>' +
       '<span class="ord-tit-stato"></span>' +
       "</div>" +
       '<p class="ord-tit-spiega">Quando è acceso, chi inquadra il QR del proprio tavolo può mandare l\'ordine. ' +
       "I QR vecchi, senza numero di tavolo, restano semplici menu e non possono ordinare.</p>" +
+      '<div class="ord-tit-riga" data-sw="totale">' +
+      '<button type="button" class="ord-tit-sw" role="switch"><span class="ord-tit-pallina"></span></button>' +
+      '<span class="ord-tit-stato"></span>' +
+      "</div>" +
+      '<p class="ord-tit-spiega">Il totale della spesa mentre il cliente ordina. ' +
+      "Spento, il cliente non vede quanto sta spendendo: c'è chi ordina di più. " +
+      "I prezzi del menu restano comunque visibili, e il totale arriva al banco lo stesso.</p>" +
       '<div class="ord-tit-link">' +
       '<a href="tavoli.html">🪑 Tavoli e QR</a>' +
       '<a href="banco.html">📋 Schermata del banco</a>' +
       "</div>";
     dentro.insertBefore(box, dentro.firstChild);
 
-    const sw = box.querySelector(".ord-tit-sw");
-    const etichetta = box.querySelector(".ord-tit-stato");
-    function mostra(acceso) {
-      box.classList.toggle("acceso", acceso);
-      sw.setAttribute("aria-checked", acceso ? "true" : "false");
-      etichetta.textContent = acceso ? "Acceso" : "Spento";
+    /* Due interruttori uguali, uno per riga. "acceso" sta sulla riga e non
+       sul riquadro, altrimenti il secondo accenderebbe anche il primo.
+       Il totale parte acceso: un database che non conosce ancora questa
+       colonna non deve far sparire il conto a nessuno. */
+    const ETICHETTE = {
+      attivo: ["Ordine dal tavolo acceso", "Ordine dal tavolo spento"],
+      totale: ["Il cliente vede il totale", "Totale nascosto al cliente"],
+    };
+    function leggi(st, quale) {
+      return quale === "attivo" ? !!st.attivo : st.mostraTotale !== false;
     }
-    OrdiniStore.stato().then(function (st) { mostra(!!st.attivo); });
-    sw.addEventListener("click", async function () {
-      const st = await OrdiniStore.stato();
-      const nuovo = await OrdiniStore.cambiaStato({ attivo: !st.attivo });
-      mostra(!!nuovo.attivo);
-      servizio = nuovo;
-      aggiornaCorpo();
+    function mostra(st) {
+      box.querySelectorAll(".ord-tit-riga").forEach(function (riga) {
+        const quale = riga.dataset.sw;
+        const acceso = leggi(st, quale);
+        riga.classList.toggle("acceso", acceso);
+        riga.querySelector(".ord-tit-sw").setAttribute("aria-checked", acceso ? "true" : "false");
+        riga.querySelector(".ord-tit-stato").textContent = ETICHETTE[quale][acceso ? 0 : 1];
+      });
+    }
+    OrdiniStore.stato().then(mostra);
+    box.querySelectorAll(".ord-tit-sw").forEach(function (sw) {
+      sw.addEventListener("click", async function () {
+        const quale = sw.parentNode.dataset.sw;
+        const st = await OrdiniStore.stato();
+        const parziale = quale === "attivo"
+          ? { attivo: !leggi(st, "attivo") }
+          : { mostraTotale: !leggi(st, "totale") };
+        const nuovo = await OrdiniStore.cambiaStato(parziale);
+        servizio = nuovo;
+        mostra(nuovo);
+        aggiornaCorpo();
+      });
     });
   }
   function sorvegliaEditor() {
