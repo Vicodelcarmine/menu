@@ -98,6 +98,12 @@ const Store = (function () {
     lastReadFromCache: function () { return fromCache; },
     saveOverrides: function (data, pwd) { return rpc("save_overrides", { new_data: data, pwd: pwd }); },
 
+    // Menu del Giorno: sta in una voce A PARTE ('giorno'), così scriverlo ogni
+    // mattina non tocca mai le modifiche ai piatti. Lo può salvare sia la
+    // password del titolare sia quella dei dipendenti (funzione save_giorno).
+    getGiorno: function () { return readContent("giorno"); },
+    saveGiorno: function (data, pwd) { return rpc("save_giorno", { new_data: data, pwd: pwd }); },
+
     // Carica una foto nel bucket 'foto' (ridimensionata+compressa) → indirizzo pubblico
     uploadPhoto: async function (file) {
       if (!configured) throw new Error("Supabase non configurato");

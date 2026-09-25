@@ -809,3 +809,116 @@ html[dir="rtl"] .feature{ text-align:right; }
 .dish-edit.special.frozen::before{ content:"❄️ NASCOSTO · ⭐ SPECIALITÀ"; }
 
 .field-search{ margin:0 0 14px; }
+
+/* ============================================================================
+   MENU DEL GIORNO
+   Il riquadro è verde basilico: è uno dei colori di Vico, e lo distingue a
+   colpo d'occhio dall'oro delle Specialità. Nessuna foto: cambia ogni mattina.
+   ========================================================================== */
+:root{
+  --day-bg:    linear-gradient(160deg, rgba(255,255,255,.04), transparent 55%), linear-gradient(160deg, #3d5526, #1f2d14);
+  --day-ink:   #f7f3e6;
+  --day-sub:   #cfe3a6;
+  --day-badge: linear-gradient(180deg, #b8dc7c, #7faa3f);
+  --day-badge-ink: #16210b;
+}
+
+/* il riquadro in cima alla home, sopra le Specialità */
+.feature.giorno{ background:var(--day-bg); border-color:rgba(134,182,74,.35); }
+.feature.giorno .feat-title{ color:var(--day-ink); }
+.feature.giorno .feat-sub{ color:var(--day-sub); text-transform:none; letter-spacing:.04em; }
+.feature.giorno .badge.open{
+  font-family:var(--font-head); text-transform:uppercase; letter-spacing:.08em;
+  font-size:.68rem; color:var(--day-badge-ink); white-space:nowrap;
+  background:var(--day-badge); padding:6px 10px; border-radius:999px;
+  box-shadow:0 0 16px rgba(134,182,74,.45);
+}
+.feature.giorno .lock{ font-size:1.3rem; }
+.feature.giorno.locked{ opacity:.62; filter:grayscale(.4); }         /* fuori orario: chiuso */
+.feature.giorno.locked .feat-title{ color:var(--day-ink); opacity:.8; }
+.feature.giorno.shake{ animation:giornoShake .5s; }
+@keyframes giornoShake{ 10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);} 30%,50%,70%{transform:translateX(-7px);} 40%,60%{transform:translateX(7px);} }
+@media (prefers-reduced-motion:reduce){ .feature.giorno.shake{ animation:none; } }
+
+/* il foglio che legge il cliente: pieno, sotto non si deve vedere niente */
+.overlay.giorno-sheet{
+  z-index:58;
+  background:radial-gradient(90% 60% at 50% 0%, rgba(134,182,74,.14), transparent 60%), var(--bg);
+}
+.giorno-head{ text-align:center; max-width:680px; margin:0 auto 22px; }
+.giorno-kicker{ font-family:var(--font-head); text-transform:uppercase; letter-spacing:.2em; font-size:.72rem; color:var(--day-sub); }
+.giorno-head h2{ font-family:var(--font-display); font-weight:800; font-size:2.3rem; margin:.15em 0 .12em; color:var(--cream); }
+.giorno-date{ font-family:var(--font-head); text-transform:capitalize; letter-spacing:.05em; color:var(--gold-soft); margin:0; font-size:1.02rem; }
+.giorno-note{
+  margin:12px auto 0; max-width:440px; font-size:.9rem; color:var(--cream);
+  background:rgba(230,178,74,.07); border:1px dashed var(--line);
+  border-radius:12px; padding:9px 13px;
+}
+.giorno-body{ max-width:680px; margin:0 auto; }
+.g-sec{ margin:0 0 22px; }
+.g-sec h3{
+  font-family:var(--font-head); text-transform:uppercase; letter-spacing:.14em;
+  font-size:1.02rem; color:var(--gold); margin:0 0 6px;
+  padding-bottom:8px; border-bottom:1px solid var(--line);
+}
+.g-sec ul{ list-style:none; margin:0; padding:0; }
+.g-sec li{ display:flex; justify-content:space-between; align-items:baseline; gap:14px; padding:8px 2px; border-bottom:1px dotted rgba(230,178,74,.14); }
+.g-name{ font-size:1.02rem; color:var(--cream); }
+.g-price{ font-family:var(--font-head); color:var(--gold-soft); white-space:nowrap; }
+
+/* --- nel menu segreto: il pannello, fatto come quello del pre-ordine --- */
+.gd-pan{
+  margin:0 0 22px; padding:18px;
+  border:1px solid rgba(134,182,74,.28); border-radius:16px; background:var(--bg-3);
+}
+.gd-kick{
+  margin:0 0 14px; font-family:var(--font-head); text-transform:uppercase;
+  letter-spacing:.18em; font-size:.72rem; color:var(--basil);
+}
+.gd-riga{ display:flex; align-items:center; gap:14px; }
+.gd-sw{
+  flex:0 0 auto; width:62px; height:34px; padding:3px; border-radius:999px;
+  border:1px solid var(--line); background:rgba(0,0,0,.35); cursor:pointer;
+  display:flex; align-items:center; transition:background .2s ease, border-color .2s ease;
+}
+.gd-sw:disabled{ opacity:.6; }
+.gd-pallina{ width:26px; height:26px; border-radius:50%; background:var(--muted); transition:transform .2s ease, background .2s ease; }
+.gd-pan.acceso .gd-sw{ background:rgba(134,182,74,.25); border-color:var(--basil); }
+.gd-pan.acceso .gd-pallina{ transform:translateX(28px); background:var(--basil); }
+html[dir="rtl"] .gd-pan.acceso .gd-pallina{ transform:translateX(-28px); }
+.gd-stato{ font-family:var(--font-head); text-transform:uppercase; letter-spacing:.08em; font-size:.86rem; color:var(--cream); }
+.gd-pan.acceso .gd-stato{ color:var(--basil); }
+.gd-info{ margin:12px 0 0; color:var(--muted); font-size:.82rem; }
+.gd-msg{ margin:10px 0 0; color:var(--ember-2); font-size:.84rem; line-height:1.45; }
+.gd-scrivi{ width:100%; margin-top:14px; }
+
+/* --- l'editor del giorno: un foglio SOPRA quello dei piatti --- */
+/* pieno, non velato: sta sopra l'editor dei piatti, e due fogli velati uno
+   sull'altro mescolano le scritte (visto nella prova) */
+.overlay.gd-edit{
+  z-index:57;
+  background:radial-gradient(90% 60% at 50% 0%, rgba(134,182,74,.12), transparent 60%), var(--bg);
+}
+.g-editsec{ margin:0 0 18px; background:var(--bg-2); border:1px solid var(--line); border-radius:16px; padding:16px; }
+.g-editsec h2{ font-family:var(--font-head); text-transform:uppercase; letter-spacing:.12em; font-size:1rem; color:var(--gold); margin:0 0 12px; }
+.g-rows{ display:flex; flex-direction:column; gap:8px; }
+.g-row{ display:flex; gap:8px; align-items:center; }
+.g-row .g-nome{ flex:1; min-width:0; }
+.g-row .g-prezzo{ width:86px; text-align:center; flex:0 0 auto; }   /* ci sta anche "a peso" */
+.row-del{ width:40px; height:40px; flex:0 0 auto; border-radius:10px; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; font-size:1rem; }
+.row-del:hover{ background:var(--brick); color:#fff; border-color:var(--brick); }
+.nota-label{ display:block; color:var(--muted); font-size:.85rem; margin:6px 2px 16px; }
+.nota-label small{ font-size:.74rem; opacity:.85; }
+.nota-label .field{ margin-top:6px; }
+.ed-avail{ background:var(--bg-2); border:1px solid var(--line); border-radius:16px; padding:16px; margin:4px 0 0; }
+.ed-avail h2{ font-family:var(--font-head); text-transform:uppercase; letter-spacing:.12em; font-size:1rem; color:var(--gold); margin:0 0 12px; }
+.day-toggles{ display:flex; flex-wrap:wrap; gap:8px; }
+.day-tog{
+  flex:1 1 0; min-width:52px; padding:12px 6px; border-radius:10px; border:1px solid var(--line);
+  background:transparent; color:var(--muted); font-family:var(--font-head); text-transform:uppercase;
+  letter-spacing:.04em; font-size:.85rem; cursor:pointer;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.day-tog.on{ background:linear-gradient(180deg, var(--gold), #cf9a2e); color:#1a1206; border-color:transparent; font-weight:600; }
+.time-row{ display:flex; gap:12px; margin-top:12px; }
+.time-row label{ flex:1; display:flex; flex-direction:column; gap:6px; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.08em; font-size:.72rem; color:var(--muted); }

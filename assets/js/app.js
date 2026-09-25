@@ -31,7 +31,7 @@
 
   // Versione del menu, scritta in fondo alla pagina: AGGIORNARLA A OGNI PUBBLICAZIONE.
   // Serve a capire al volo se il telefono sta mostrando l'ultima versione.
-  const APP_VERSION = "25.09.2026 · sfoglio leggero";
+  const APP_VERSION = "25.09.2026 · menu del giorno";
 
   const hasData = typeof MENU_DATA !== "undefined" && MENU_DATA;
   const categorie = (hasData && MENU_DATA.categorie) || [];
@@ -150,7 +150,7 @@
 
   /* --- utilità overlay --- */
   function updateScroll() {
-    const anyOpen = [overlay, specOverlay, $("#edit-overlay")].some((o) => o && o.classList.contains("open"));
+    const anyOpen = [overlay, specOverlay, $("#edit-overlay"), $("#giorno-overlay"), $("#giorno-edit")].some((o) => o && o.classList.contains("open"));
     document.body.style.overflow = anyOpen ? "hidden" : "";
     const lb = $("#lang-btn"); if (lb) lb.style.display = anyOpen ? "none" : "";
     if (anyOpen) closeLangPanel();
@@ -244,8 +244,152 @@
   /* ==========================================================================
      RIQUADRO SPECIALITÀ + GRIGLIA CATEGORIE
      ======================================================================== */
+  /* ==========================================================================
+     MENU DEL GIORNO
+     --------------------------------------------------------------------------
+     Riportato dal Vicolo (e dal campionario, dove era già adattato a questo
+     motore), con tre differenze pensate per Vico:
+
+     · si ACCENDE e si SPEGNE dal menu segreto. Spento, il riquadro sparisce
+       del tutto; e parte spento, così un menu vuoto non compare mai;
+     · sta in una voce a parte del database ('giorno'): scriverlo ogni
+       mattina non tocca mai le modifiche ai piatti ('overrides');
+     · la data si mette DA SOLA, ogni giorno e nella lingua del cliente. Al
+       Vicolo si scrive a mano, e se una mattina nessuno la cambia i clienti
+       leggono la data di ieri.
+
+     I nomi dei piatti del giorno restano come li scrivi (in italiano); i
+     titoli delle sezioni standard (Primi, Secondi…) si traducono prendendo
+     il nome della categoria corrispondente del menu.
+     ======================================================================== */
+  const ANTEPRIMA = /[?&]anteprima\b/.test(location.search);   // ?anteprima: si apre anche fuori orario
+  const GIORNO_BASE = { attivo: false, data: "", nota: "", sezioni: [], giorni: [1, 2, 3, 4, 5], apre: "12:00", chiude: "15:00" };
+  const GIORNO_SEZIONI = ["Primi", "Secondi", "Insalatone", "Contorni"];
+  let giorno = Object.assign({}, GIORNO_BASE);
+  let giornoLetto = false;     // true solo se è arrivato DAVVERO dal server: altrimenti non si salva
+  let giornoOverlay = null;
+
+  function escHtml(x) { return String(x == null ? "" : x).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function parseHM(x) { const p = String(x).split(":"); return (+p[0]) * 60 + (+p[1] || 0); }
+  function todayLabel() {
+    try { return new Date().toLocaleDateString(lang, { weekday: "long", day: "numeric", month: "long" }); }
+    catch (e) { return new Date().toLocaleDateString("it"); }
+  }
+  function shortDay(d) {   // 0 = domenica, nella lingua del cliente
+    try {
+      const x = new Date(Date.UTC(2024, 0, 7 + d, 12)).toLocaleDateString(lang, { weekday: "short" }).replace(/\.$/, "");
+      return x.charAt(0).toUpperCase() + x.slice(1);            // "lun" → "Lun", come al Vicolo
+    } catch (e) { return String(d); }
+  }
+  function giornoPiatti() {
+    return (giorno.sezioni || []).reduce(function (n, s) { return n + ((s && s.piatti) || []).length; }, 0);
+  }
+  function giornoVisibile() { return !!giorno.attivo && giornoPiatti() > 0; }
+  // Fuori dai giorni o dall'orario il riquadro resta, ma chiuso col lucchetto:
+  // il cliente capisce che il menu del giorno c'è, solo che è a pranzo.
+  function giornoStatus() {
+    if (ANTEPRIMA) return { open: true };
+    const d = new Date(), mins = d.getHours() * 60 + d.getMinutes(), g = giorno.giorni || [];
+    return { open: g.indexOf(d.getDay()) !== -1 && mins >= parseHM(giorno.apre) && mins < parseHM(giorno.chiude) };
+  }
+  function giorniLabel(arr) {
+    const a = (arr || []).slice().sort(function (x, y) { return x - y; });
+    const k = a.join();
+    if (k === "0,1,2,3,4,5,6") return t("dayEveryDay");
+    if (k === "1,2,3,4,5") return shortDay(1) + "–" + shortDay(5);
+    if (k === "1,2,3,4,5,6") return shortDay(1) + "–" + shortDay(6);
+    if (k === "0,6") return shortDay(6) + "–" + shortDay(0);
+    return a.map(shortDay).join(" · ");
+  }
+  function scheduleLabel() { return giorniLabel(giorno.giorni) + " · " + giorno.apre + "–" + giorno.chiude; }
+  function nomeSezione(nome) {
+    const k = String(nome || "").trim().toLowerCase();
+    if (!k || lang === "it") return nome;
+    const cat = MENU_DATA.categorie.filter(function (c) {
+      const it = String((c.nome && c.nome.it) || c.nome || "").toLowerCase();
+      return it === k || it.indexOf(k + " ") === 0;
+    })[0];
+    return cat ? catName(cat) : nome;
+  }
+  function prezzoGiorno(v) {
+    const x = String(v == null ? "" : v).trim();
+    if (!x) return "";
+    return /^\d+([.,]\d{1,2})?$/.test(x) ? fmtPrice(x) : x;    // "6/etto", "a peso"… restano come scritti
+  }
+
+  function buildGiornoOverlay() {
+    if (giornoOverlay) return giornoOverlay;
+    const o = document.createElement("div");
+    o.className = "overlay sheet giorno-sheet";
+    o.id = "giorno-overlay";
+    o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true");
+    o.innerHTML =
+      '<button class="ov-close" id="giorno-close" aria-label="Chiudi">✕</button>' +
+      '<div class="sheet-inner">' +
+      '<header class="giorno-head">' +
+      '<span class="giorno-kicker" id="giorno-kicker"></span>' +
+      '<h2 id="giorno-title"></h2>' +
+      '<p class="giorno-date" id="giorno-date"></p>' +
+      '<p class="giorno-note" id="giorno-note"></p>' +
+      "</header>" +
+      '<div class="giorno-body" id="giorno-body"></div>' +
+      "</div>";
+    document.body.appendChild(o);
+    o.querySelector("#giorno-close").addEventListener("click", closeGiorno);
+    o.addEventListener("click", function (e) { if (e.target === o) closeGiorno(); });
+    giornoOverlay = o;
+    return o;
+  }
+  function renderGiorno() {
+    $("#giorno-kicker").textContent = scheduleLabel();
+    $("#giorno-title").textContent = t("dayMenu");
+    $("#giorno-date").textContent = giorno.data || todayLabel();
+    const note = $("#giorno-note");
+    note.textContent = giorno.nota || "";
+    note.style.display = giorno.nota ? "" : "none";
+    const body = $("#giorno-body");
+    body.innerHTML = "";
+    (giorno.sezioni || []).forEach(function (sez) {
+      if (!sez || !(sez.piatti || []).length) return;
+      const sec = document.createElement("div");
+      sec.className = "g-sec";
+      let html = "<h3>" + escHtml(nomeSezione(sez.nome)) + "</h3><ul>";
+      sez.piatti.forEach(function (p) {
+        const pr = prezzoGiorno(p.prezzo);
+        html += '<li><span class="g-name">' + escHtml(p.nome) + "</span>" + (pr ? '<span class="g-price">' + escHtml(pr) + "</span>" : "") + "</li>";
+      });
+      sec.innerHTML = html + "</ul>";
+      body.appendChild(sec);
+    });
+  }
+  function openGiorno() { buildGiornoOverlay(); renderGiorno(); giornoOverlay.classList.add("open"); giornoOverlay.scrollTop = 0; updateScroll(); }
+  function closeGiorno() { if (giornoOverlay) giornoOverlay.classList.remove("open"); updateScroll(); }
+
+  function buildGiornoFeature(grid) {
+    if (!giornoVisibile()) return;          // spento, o ancora senza piatti: non esiste
+    const st = giornoStatus();
+    const g = document.createElement("button");
+    g.className = "feature giorno" + (st.open ? "" : " locked");
+    g.innerHTML =
+      '<span class="feat-ico">📋</span>' +
+      '<span class="feat-txt">' +
+      '<span class="feat-title">' + t("dayMenu") + "</span>" +
+      '<span class="feat-sub">' + escHtml(scheduleLabel()) + "</span>" +
+      "</span>" +
+      '<span class="feat-side">' +
+      (st.open ? '<span class="badge open">' + t("dayOpen") + "&nbsp;›</span>" : '<span class="lock">🔒</span>') +
+      "</span>";
+    g.addEventListener("click", function () {
+      if (giornoStatus().open) { openGiorno(); return; }
+      g.classList.remove("shake"); void g.offsetWidth; g.classList.add("shake");
+      showToast("🔒 " + t("dayOnlyAt") + " " + scheduleLabel());
+    });
+    grid.appendChild(g);
+  }
+
   function buildFeatures() {
     const grid = $("#grid");
+    buildGiornoFeature(grid);                // il Menu del Giorno sta sopra le Specialità
     if (!allSpecialsCat().piatti.length) return;
     const s = document.createElement("button");
     s.className = "feature specialita";
@@ -772,8 +916,10 @@
 
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
+      if (giornoEdit && giornoEdit.classList.contains("open")) { closeGiornoEditor(); return; }
       if (overlay.classList.contains("open")) closeCarousel();
       else if (specOverlay.classList.contains("open")) closeSpecialita();
+      else if (giornoOverlay && giornoOverlay.classList.contains("open")) closeGiorno();
       else if ($("#lang-panel").classList.contains("open")) closeLangPanel();
       return;
     }
@@ -912,8 +1058,156 @@
     inp.click();
   }
 
+  /* --------------------------------------------------------------------------
+     MENU DEL GIORNO nel menu segreto: l'interruttore e "scrivi il menu di oggi".
+     L'editor del giorno si apre in un foglio SOPRA quello dei piatti, non al
+     suo posto: se stavi cambiando un prezzo senza aver ancora pubblicato, non
+     perdi niente.
+     ------------------------------------------------------------------------ */
+  function inItaliano(fn) { const l = lang; lang = "it"; try { return fn(); } finally { lang = l; } }
+
+  function renderGiornoPanel(msg) {
+    const box = $("#gd-pan"); if (!box) return;
+    const acceso = !!giorno.attivo, n = giornoPiatti();
+    box.classList.toggle("acceso", acceso);
+    box.innerHTML =
+      '<p class="gd-kick">📋 Menu del Giorno</p>' +
+      '<div class="gd-riga">' +
+      '<button type="button" class="gd-sw" role="switch" aria-checked="' + acceso + '" aria-label="Menu del Giorno acceso o spento"><span class="gd-pallina"></span></button>' +
+      '<span class="gd-stato">' + (acceso ? "Acceso · i clienti lo vedono" : "Spento · nascosto ai clienti") + "</span>" +
+      "</div>" +
+      '<p class="gd-info">' + (n ? n + (n === 1 ? " piatto" : " piatti") + " · " + escHtml(inItaliano(scheduleLabel)) : "Nessun piatto scritto") + "</p>" +
+      (msg ? '<p class="gd-msg">' + escHtml(msg) + "</p>" : "") +
+      '<button type="button" class="btn gd-scrivi">✍️ Scrivi il menu di oggi</button>';
+    box.querySelector(".gd-sw").addEventListener("click", toggleGiorno);
+    box.querySelector(".gd-scrivi").addEventListener("click", openGiornoEditor);
+  }
+
+  async function toggleGiorno() {
+    if (!giornoLetto) return renderGiornoPanel("Non riesco a leggere il menu del giorno dal server: controlla la connessione e riapri il menu segreto.");
+    const nuovo = !giorno.attivo;
+    if (nuovo && !giornoPiatti()) return renderGiornoPanel("Prima scrivi i piatti di oggi, poi accendilo.");
+    const dati = Object.assign({}, giorno, { attivo: nuovo });
+    const sw = $("#gd-pan .gd-sw"); if (sw) sw.disabled = true;
+    try {
+      const ok = await Store.saveGiorno(dati, editorPwd);
+      if (!ok) return renderGiornoPanel("Password non valida.");
+      giorno = dati; rebuildGrid(); renderGiornoPanel();
+      showToast(nuovo ? "📋 Menu del Giorno acceso" : "📋 Menu del Giorno spento");
+    } catch (e) { renderGiornoPanel("Non sono riuscito a salvare: riprova."); }
+  }
+
+  let giornoEdit = null;
+  function buildGiornoEdit() {
+    if (giornoEdit) return giornoEdit;
+    const o = document.createElement("div");
+    o.className = "overlay sheet gd-edit"; o.id = "giorno-edit";
+    o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true");
+    o.innerHTML = '<button class="ov-close" id="gd-edit-close" aria-label="Chiudi">✕</button><div class="sheet-inner" id="gd-edit-inner"></div>';
+    document.body.appendChild(o);
+    o.querySelector("#gd-edit-close").addEventListener("click", closeGiornoEditor);
+    giornoEdit = o;
+    return o;
+  }
+  function closeGiornoEditor() { if (giornoEdit) giornoEdit.classList.remove("open"); updateScroll(); }
+
+  function giornoEdSection(nome, piatti) {
+    const sec = document.createElement("section");
+    sec.className = "g-editsec"; sec.dataset.nome = nome;
+    sec.innerHTML = "<h2></h2>" + '<div class="g-rows"></div>';
+    sec.querySelector("h2").textContent = nome;
+    const rows = sec.querySelector(".g-rows");
+    function addRow(p) {
+      const r = document.createElement("div"); r.className = "g-row";
+      r.innerHTML =
+        '<input class="field g-nome" placeholder="Piatto">' +
+        '<input class="field g-prezzo" inputmode="decimal" placeholder="€">' +
+        '<button type="button" class="row-del" aria-label="Togli questa riga">✕</button>';
+      r.querySelector(".g-nome").value = (p && p.nome) || "";
+      r.querySelector(".g-prezzo").value = (p && p.prezzo != null) ? p.prezzo : "";
+      r.querySelector(".row-del").addEventListener("click", function () { r.remove(); });
+      rows.appendChild(r);
+    }
+    (piatti || []).forEach(addRow);
+    addRow({}); addRow({});                      // due righe vuote sempre pronte
+    const add = document.createElement("button");
+    add.type = "button"; add.className = "btn btn-add"; add.textContent = "➕ Aggiungi riga";
+    add.addEventListener("click", function () { addRow({}); });
+    sec.appendChild(add);
+    return sec;
+  }
+
+  const GDAYS = [["Lun", 1], ["Mar", 2], ["Mer", 3], ["Gio", 4], ["Ven", 5], ["Sab", 6], ["Dom", 0]];
+  function openGiornoEditor() {
+    buildGiornoEdit();
+    const inner = $("#gd-edit-inner");
+    const toggles = GDAYS.map(function (d) {
+      return '<button type="button" class="day-tog' + ((giorno.giorni || []).indexOf(d[1]) !== -1 ? " on" : "") +
+             '" data-day="' + d[1] + '">' + d[0] + "</button>";
+    }).join("");
+    inner.innerHTML =
+      '<header class="admin-head"><p class="kick">✍️ Scrivi il menu di oggi</p><h1>Menu del Giorno</h1></header>' +
+      '<label class="nota-label">Data <small>· lasciala vuota e si mette da sola ogni giorno, nella lingua del cliente</small>' +
+      '<input type="text" id="gd-data" class="field" placeholder="' + escHtml(inItaliano(todayLabel)) + ' (automatica)"></label>' +
+      '<div id="gd-sezioni"></div>' +
+      '<label class="nota-label">Nota (facoltativa)<input type="text" id="gd-nota" class="field" placeholder="Es. Primo + Secondo + Contorno · 15€"></label>' +
+      '<section class="ed-avail"><h2>Quando è aperto</h2>' +
+      '<div class="day-toggles">' + toggles + "</div>" +
+      '<div class="time-row"><label>Apre<input type="time" id="gd-apre" class="field"></label>' +
+      '<label>Chiude<input type="time" id="gd-chiude" class="field"></label></div>' +
+      '<p class="hint-center">Fuori da questi giorni e orari il riquadro resta visibile ma chiuso col lucchetto.</p>' +
+      "</section>" +
+      '<button class="btn btn-primary btn-big" id="gd-save">Pubblica</button>' +
+      '<p class="hint-center" id="gd-edmsg">' +
+      (giorno.attivo ? "Va online subito per tutti i clienti." : "Il Menu del Giorno adesso è SPENTO: dopo aver pubblicato, accendilo dall'interruttore.") + "</p>";
+    $("#gd-data").value = giorno.data || "";
+    $("#gd-nota").value = giorno.nota || "";
+    $("#gd-apre").value = giorno.apre;
+    $("#gd-chiude").value = giorno.chiude;
+    inner.querySelectorAll(".day-tog").forEach(function (b) {
+      b.addEventListener("click", function () { b.classList.toggle("on"); });
+    });
+    // prima le sezioni del menu pubblicato, nel loro ordine; poi quelle standard che mancano
+    const wrap = $("#gd-sezioni");
+    const fatte = {};
+    (giorno.sezioni || []).forEach(function (sez) { fatte[sez.nome] = true; wrap.appendChild(giornoEdSection(sez.nome, sez.piatti)); });
+    GIORNO_SEZIONI.forEach(function (nome) { if (!fatte[nome]) wrap.appendChild(giornoEdSection(nome, [])); });
+    $("#gd-save").addEventListener("click", saveGiornoEditor);
+    giornoEdit.classList.add("open"); giornoEdit.scrollTop = 0; inner.scrollTop = 0; updateScroll();
+  }
+
+  async function saveGiornoEditor() {
+    const msg = function (x) { $("#gd-edmsg").textContent = x; };
+    if (!giornoLetto) return msg("Non riesco a leggere il menu del giorno dal server: non salvo, per non cancellare una versione più nuova. Controlla la connessione e riprova.");
+    const sezioni = [];
+    $("#gd-edit-inner").querySelectorAll(".g-editsec").forEach(function (sec) {
+      const piatti = [];
+      sec.querySelectorAll(".g-row").forEach(function (row) {
+        const nome = row.querySelector(".g-nome").value.trim();
+        const prezzo = row.querySelector(".g-prezzo").value.trim();
+        if (nome) piatti.push({ nome: nome, prezzo: prezzo });
+      });
+      if (piatti.length) sezioni.push({ nome: sec.dataset.nome, piatti: piatti });
+    });
+    if (!sezioni.length) return msg("Scrivi almeno un piatto.");
+    const giorni = [];
+    $("#gd-edit-inner").querySelectorAll(".day-tog.on").forEach(function (b) { giorni.push(parseInt(b.dataset.day, 10)); });
+    if (!giorni.length) return msg("Scegli almeno un giorno.");
+    const apre = $("#gd-apre").value || GIORNO_BASE.apre, chiude = $("#gd-chiude").value || GIORNO_BASE.chiude;
+    if (parseHM(chiude) <= parseHM(apre)) return msg("L'orario di chiusura dev'essere dopo quello di apertura.");
+    const dati = { attivo: !!giorno.attivo, data: $("#gd-data").value.trim(), nota: $("#gd-nota").value.trim(), sezioni: sezioni, giorni: giorni, apre: apre, chiude: chiude };
+    const btn = $("#gd-save"); btn.disabled = true; msg("Pubblico...");
+    try {
+      const ok = await Store.saveGiorno(dati, editorPwd);
+      if (!ok) { msg("Password non valida."); btn.disabled = false; return; }
+      giorno = dati; rebuildGrid(); renderGiornoPanel(); closeGiornoEditor();
+      showToast(dati.attivo ? "✅ Menu del Giorno pubblicato" : "✅ Pubblicato · è spento: accendilo dall'interruttore");
+    } catch (e) { msg("Non sono riuscito a salvare: riprova."); btn.disabled = false; }
+  }
+
   function openEditor() {
     editInner.innerHTML =
+      '<section class="gd-pan" id="gd-pan"></section>' +
       '<p class="me-kick">⭐ Modifica menu · prezzi · foto · piatti</p>' +
       '<p class="me-frozen" id="me-frozen" hidden>❄️ <b id="me-frozen-n">0</b> piatti nascosti ai clienti (congelati)</p>' +
       '<div class="me-nav">' +
@@ -924,6 +1218,7 @@
       '<div id="me-pager"></div>' +
       '<button class="btn btn-primary btn-big" id="me-save">Pubblica</button>' +
       '<p class="hint-center" id="me-msg">Le modifiche vanno online per tutti i clienti.</p>';
+    renderGiornoPanel();
     const pager = $("#me-pager");
     const pages = [];
     const removedSet = {};                          // "slug::nome" dei piatti-base eliminati
@@ -1101,6 +1396,15 @@
       overridesLoaded = !(Store.lastReadFromCache && Store.lastReadFromCache());
       if (ov && typeof ov === "object") { overrides = migrateOverrides(ov); rebuildGrid(); }
     } catch (e) { /* Supabase non raggiungibile: menu di base, e l'editor bloccherà il salvataggio */ }
+
+    // il Menu del Giorno. Si legge DOPO i piatti: la spia "arriva dalla copia sul
+    // telefono" è una sola, e leggerlo prima cancellerebbe quella dei piatti.
+    try {
+      const g = await Store.getGiorno();
+      giornoLetto = !(Store.lastReadFromCache && Store.lastReadFromCache());
+      if (g && typeof g === "object") giorno = Object.assign({}, GIORNO_BASE, g);
+      rebuildGrid();
+    } catch (e) { /* niente menu del giorno: il riquadro semplicemente non c'è */ }
   });
 
   // Service worker: app installabile + offline
