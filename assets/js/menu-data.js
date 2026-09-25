@@ -2023,9 +2023,6 @@ const MENU_DATA =
     }
   ],
   "note": {
-    "coperto": 2.5,
-    "aggiunte": 2.5,
-    "burrata_stracciatella": 5,
-    "impasti_speciali": 1.5
+    "coperto": 2.5
   }
 };

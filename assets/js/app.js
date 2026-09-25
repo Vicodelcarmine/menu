@@ -31,7 +31,7 @@
 
   // Versione del menu, scritta in fondo alla pagina: AGGIORNARLA A OGNI PUBBLICAZIONE.
   // Serve a capire al volo se il telefono sta mostrando l'ultima versione.
-  const APP_VERSION = "14.09.2026 · piega";
+  const APP_VERSION = "25.09.2026 · sfoglio leggero";
 
   const hasData = typeof MENU_DATA !== "undefined" && MENU_DATA;
   const categorie = (hasData && MENU_DATA.categorie) || [];
@@ -318,6 +318,7 @@
       if (Math.abs(d) > WINDOW) { el.style.display = "none"; el.classList.remove("is-front"); el.setAttribute("aria-hidden", "true"); return; }
       el.style.display = ""; el.style.visibility = "";
       el.style.zIndex = s.z; el.style.opacity = s.o; el.style.transform = s.t;
+      if (Math.abs(d) <= 2) preparaFoto(el);
       el.style.transitionDelay = stagger ? Math.max(0, d) * 70 + "ms" : "0ms";
       el.classList.toggle("is-front", d === 0);
       el.setAttribute("aria-hidden", d === 0 ? "false" : "true");
@@ -325,6 +326,35 @@
     countEl.textContent = (index + 1) + " / " + n;
     Array.prototype.forEach.call(dotsEl.children, function (dot, i) { dot.classList.toggle("active", i === index); });
   }
+  /* Una foto che non arriva al primo colpo NON si butta via. In sala il
+     segnale va e viene, e prima bastava un intoppo per lasciare il piatto
+     senza foto finché il cliente non ricaricava la pagina: sembrava che
+     metà dei piatti la foto non l'avesse. Adesso si riprova tre volte,
+     sempre con più calma, e poi ancora ogni volta che la pagina torna
+     davanti o vicina. */
+  function caricaFoto(card, img, url) {
+    let prove = 0;
+    function vai() { img.removeAttribute("src"); img.src = url; }
+    img.onload = function () { img.classList.add("loaded"); card.classList.remove("no-photo"); card._fotoKo = false; };
+    img.onerror = function () {
+      prove++;
+      if (prove <= 3) { setTimeout(vai, 1500 * prove); return; }
+      card._fotoKo = true;
+      card.classList.add("no-photo");
+    };
+    card._riprovaFoto = function () { if (card._fotoKo) { card._fotoKo = false; prove = 2; vai(); } };
+    img.src = url;
+  }
+  // Le pagine vicine si preparano PRIMA: foto scaricata e già "aperta", così
+  // quando la giri è pronta e non si vede il fondo marrone.
+  function preparaFoto(el) {
+    el.querySelectorAll(".photo img").forEach(function (im) {
+      if (im.loading !== "eager") im.loading = "eager";
+      if (im.decode) im.decode().catch(function () {});
+    });
+    if (el._riprovaFoto) el._riprovaFoto();
+  }
+
   function buildCard(p, fallbackIcon) {
     const card = document.createElement("article");
     card.className = "card" + (p.image ? "" : " no-photo") + (p.speciale ? " special" : "");
@@ -339,12 +369,13 @@
       '<div class="body">' + kick + '<div class="line"><h3>' + dishName(p) + "</h3>" + priceInline + "</div>" + descHtml + '<span class="seal">♦</span></div>';
     if (p.image) {
       const img = new Image();
-      img.alt = cleanName(p.nome); img.loading = "lazy";
-      img.onload = function () { img.classList.add("loaded"); };
-      img.onerror = function () { img.remove(); card.classList.add("no-photo"); };
-      img.src = p.image;
+      img.alt = cleanName(p.nome); img.loading = "lazy"; img.decoding = "async";
+      // Supabase manda le foto col permesso di essere conservate: chiederle
+      // "in chiaro" permette al telefono di tenerle in memoria davvero (sw.js)
+      if (/\.supabase\.co\//.test(p.image)) img.crossOrigin = "anonymous";
       const photo = card.querySelector(".photo");
       photo.insertBefore(img, photo.querySelector(".fallback").nextSibling);
+      caricaFoto(card, img, p.image);
     }
     card.addEventListener("click", function () {
       if (Date.now() - swipedAt < 400) return;            // un trascinamento col mouse non è anche un click
@@ -409,10 +440,10 @@
     cards.forEach(function (el, i) {
       const d = Math.abs(offset(i));
       el.style.transitionDelay = "0ms"; el.style.opacity = ""; el.style.transform = "";
-      if (d === 0) { el.style.display = ""; el.style.visibility = ""; el.style.zIndex = 2; }
+      if (d === 0) { el.style.display = ""; el.style.visibility = ""; el.style.zIndex = 2; preparaFoto(el); }
       else if (d <= 2) {   // pagine vicine: presenti ma invisibili, così la foto è già pronta quando si sfoglia
         el.style.display = ""; el.style.visibility = "hidden"; el.style.zIndex = 0;
-        el.querySelectorAll("img").forEach(function (im) { im.loading = "eager"; });
+        preparaFoto(el);
       } else { el.style.display = "none"; el.style.visibility = ""; el.style.zIndex = ""; }
       el.classList.toggle("is-front", d === 0);
       el.setAttribute("aria-hidden", d === 0 ? "false" : "true");
@@ -421,105 +452,63 @@
     Array.prototype.forEach.call(dotsEl.children, function (dot, i) { dot.classList.toggle("active", i === index); });
   }
 
-  /* --- SFOGLIO "A CARTA": la pagina si PIEGA mentre gira -------------------
-     La pagina viene divisa in strisce verticali affiancate: ognuna ruota un
-     po' piu' della precedente, cosi' il foglio si incurva invece di girare
-     rigido come un pannello. Su ogni striscia una velatura scura e una di
-     luce seguono l'inclinazione: e' l'ombreggiatura che fa "vedere" la piega.
+  /* --- SFOGLIO: la pagina intera gira sul dorso ---------------------------
+     Fino al 25/09 la pagina veniva copiata dieci volte, tagliata in strisce
+     che si piegavano una per una, e sopra due veli d'ombra venivano
+     ridisegnati da capo a ogni fotogramma. Era bello, ma pesante: dieci foto
+     da ridisegnare, e il telefono si inceppava per un decimo di secondo
+     proprio quando la pagina cominciava a muoversi, lasciando vedere il
+     marrone della carta fra le strisce.
+
+     Adesso gira la pagina VERA, tutta intera, sul dorso. Niente copie: la
+     foto è già disegnata e il telefono deve solo inclinarla. Le due ombre
+     (quella sulla pagina che gira e quella che cade sulla pagina sotto)
+     hanno un disegno fisso: a ogni fotogramma cambia solo quanto sono scure
+     e dove arrivano, che è il lavoro più leggero che un telefono possa fare.
      ---------------------------------------------------------------------- */
-  const FOLD_N = 10;        // in quante strisce dividiamo la pagina (piu' alto = curva piu' morbida, ma piu' peso)
-  const FOLD_BEND = 38;     // quanto si incurva la carta a meta' giro (gradi)
-  const FOLD_MS = 760;      // durata di uno sfoglio completo con tocco/frecce (era 380: ora il doppio)
+  const FOLD_MS = 760;      // durata di uno sfoglio completo con tocco/frecce
   const FOLD_P = 1500;      // profondita' prospettica: deve combaciare con il CSS (.overlay.pages .deck)
   let flipping = false, flip = null;   // flip = { dir, top, under, target, p }
-  let foldEl = null, shadeEl = null, sheenEl = null, foldStrips = [], foldRaf = 0;
+  let foldCard = null, veloEl = null, shadeEl = null, foldRaf = 0;
 
   function showPage(el, z) { el.style.display = ""; el.style.visibility = ""; el.style.opacity = ""; el.style.zIndex = z; }
   function lessMotion() { return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); }
 
-  // Costruisce le strisce copiando la pagina: ogni striscia mostra una fetta diversa.
   function buildFold(card) {
-    if (!foldEl) {
-      foldEl = document.createElement("div"); foldEl.className = "fold";
-      shadeEl = document.createElement("div"); shadeEl.className = "fold-shade";
-      sheenEl = document.createElement("div"); sheenEl.className = "fold-sheen";
+    if (!shadeEl) {
+      shadeEl = document.createElement("div"); shadeEl.className = "fold-shade";   // cade sulla pagina sotto
+      veloEl = document.createElement("div"); veloEl.className = "fold-velo";      // scurisce la pagina che gira
     }
-    // openCarousel svuota il contenitore delle carte: se serve li riattacco
-    if (foldEl.parentNode !== deckEl) { deckEl.appendChild(foldEl); deckEl.appendChild(shadeEl); deckEl.appendChild(sheenEl); }
-    const W = deckEl.clientWidth || window.innerWidth || 1;
-    const sw = W / FOLD_N;
-    foldEl.textContent = ""; foldStrips = [];
-    for (let i = 0; i < FOLD_N; i++) {
-      const strip = document.createElement("div");
-      strip.className = "fold-strip";
-      strip.style.left = (i * sw) + "px";
-      strip.style.width = (sw + 1) + "px";       // 1px di sovrapposizione: niente righine fra le strisce
-      const inner = document.createElement("div");
-      inner.className = "fold-inner";
-      inner.style.width = W + "px";
-      inner.style.left = (-i * sw) + "px";
-      const clone = card.cloneNode(true);
-      clone.classList.remove("is-front");
-      clone.removeAttribute("aria-hidden");
-      clone.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;transform:none;transition:none;display:block;visibility:visible;opacity:1;animation:none;";
-      inner.appendChild(clone);
-      strip.appendChild(inner);
-      foldEl.appendChild(strip);
-      foldStrips.push(strip);
-    }
-    foldEl.classList.add("on"); shadeEl.classList.add("on"); sheenEl.classList.add("on");
+    // openCarousel svuota il contenitore delle carte: se serve la riattacco
+    if (shadeEl.parentNode !== deckEl) deckEl.appendChild(shadeEl);
+    foldCard = card;
+    card.classList.add("turning");
+    card.appendChild(veloEl);
+    shadeEl.classList.add("on");
   }
 
-  // p = 0 pagina distesa · p = 1 pagina di taglio (sparita). Disegna la curva e la luce.
+  // p = 0 pagina distesa · p = 1 pagina di taglio (sparita).
   function renderFold(p) {
-    if (!foldStrips.length) return;
+    if (!foldCard) return;
     p = p < 0 ? 0 : p > 1 ? 1 : p;
     if (flip) flip.p = p;
-    const W = deckEl.clientWidth || window.innerWidth || 1;
-    const sw = W / FOLD_N, cx = W / 2;
-    const base = -90 * p;                               // la pagina intera ruota sul dorso
-    const bend = FOLD_BEND * Math.sin(Math.PI * p);     // ...e si incurva soprattutto a meta' giro
-    const ang = function (t) { return base - bend * Math.pow(t, 1.6); };   // il bordo libero corre avanti: e' la piega
-    // 1) posiziono le strisce nello spazio, accumulando la cerniera di ognuna
-    const sx = [0];                                     // x sullo schermo di ogni giuntura fra le strisce
-    let x = 0, z = 0;
-    for (let i = 0; i < FOLD_N; i++) {
-      const deg = ang((i + 0.5) / FOLD_N), rad = deg * Math.PI / 180;
-      foldStrips[i].style.transform =
-        "translate3d(" + (x - i * sw).toFixed(2) + "px,0," + z.toFixed(2) + "px) rotateY(" + deg.toFixed(2) + "deg)";
-      x += sw * Math.cos(rad);
-      z += -sw * Math.sin(rad);                         // la carta si solleva verso di noi
-      sx[i + 1] = cx + (x - cx) * (FOLD_P / (FOLD_P - z));   // piu' la carta si alza, piu' appare grande
-    }
-    // 2) ombra e luce come UN UNICO velo continuo sopra le strisce: cosi' la curva
-    //    si legge morbida, senza le bande che si vedrebbero velando ogni striscia.
-    const right = sx[FOLD_N];
-    if (right < 2) { shadeEl.style.opacity = "0"; sheenEl.style.opacity = "0"; return; }
-    shadeEl.style.opacity = "1"; sheenEl.style.opacity = "1";
-    let dark = "", light = "", prev = -1;
-    for (let i = 0; i <= FOLD_N; i++) {
-      const deg = ang(i / FOLD_N), rad = deg * Math.PI / 180;
-      const face = Math.cos(rad);
-      const d = 0.66 * (1 - (face > 0 ? face : 0));                                  // di taglio = buio
-      const g = (Math.abs(deg) - 34) / 15;
-      const l = 0.26 * Math.exp(-g * g);                                             // banda di luce stretta: scorre lungo la piega
-      const at = Math.max(prev, sx[i]); prev = at;                                   // le tappe non possono tornare indietro
-      dark += (i ? "," : "") + "rgba(8,5,3," + d.toFixed(3) + ") " + at.toFixed(1) + "px";
-      light += (i ? "," : "") + "rgba(255,243,222," + l.toFixed(3) + ") " + at.toFixed(1) + "px";
-    }
-    // coda: l'ombra che la pagina sollevata proietta su quella sotto
-    const cast = 0.52 * Math.sin(Math.PI * p), castTo = Math.min(W, right + W * 0.42);
-    dark += ",rgba(8,5,3," + cast.toFixed(3) + ") " + right.toFixed(1) + "px,rgba(8,5,3,0) " + castTo.toFixed(1) + "px";
-    light += ",rgba(255,243,222,0) " + right.toFixed(1) + "px";
-    shadeEl.style.backgroundImage = "linear-gradient(90deg," + dark + ")";
-    sheenEl.style.backgroundImage = "linear-gradient(90deg," + light + ")";
+    const deg = -90 * p, rad = -deg * Math.PI / 180;     // rad: quanto si è alzata, da 0 a 90 gradi
+    foldCard.style.transform = "rotateY(" + deg.toFixed(2) + "deg)";
+    const face = Math.cos(rad);                           // 1 distesa · 0 di taglio
+    veloEl.style.opacity = (1 - face).toFixed(3);         // alzandosi si allontana dalla luce
+    // dove cade sullo schermo il bordo libero della pagina, con la prospettiva
+    const W = deckEl.clientWidth || window.innerWidth || 1, cx = W / 2;
+    const z = W * Math.sin(rad);                          // il bordo si alza verso di noi
+    const bordo = cx + (W * face - cx) * (FOLD_P / (FOLD_P - z));
+    const fin = Math.max(0, Math.min(W, bordo)) + W * 0.38;
+    shadeEl.style.transform = "scaleX(" + (fin / W).toFixed(4) + ")";
+    shadeEl.style.opacity = (Math.sin(Math.PI * p) * 0.95).toFixed(3);
   }
   function clearFold() {
     cancelAnimationFrame(foldRaf); foldRaf = 0;
-    if (foldEl) { foldEl.classList.remove("on"); foldEl.textContent = ""; }
-    if (shadeEl) { shadeEl.classList.remove("on"); shadeEl.style.backgroundImage = ""; }
-    if (sheenEl) { sheenEl.classList.remove("on"); sheenEl.style.backgroundImage = ""; }
-    foldStrips = [];
+    if (foldCard) { foldCard.classList.remove("turning"); foldCard.style.transform = ""; foldCard = null; }
+    if (veloEl) { veloEl.style.opacity = "0"; if (veloEl.parentNode) veloEl.parentNode.removeChild(veloEl); }
+    if (shadeEl) { shadeEl.classList.remove("on"); shadeEl.style.opacity = "0"; shadeEl.style.transform = ""; }
   }
 
   const easeSoft = function (t) { return t * t * (3 - 2 * t); };              // partenza e arrivo morbidi (tocco)
@@ -548,8 +537,7 @@
     // indietro: la pagina precedente arriva dal bordo e si distende sopra la corrente
     flip = dir > 0 ? { dir: 1, top: cur, under: tgt, target: target, p: 0 } : { dir: -1, top: tgt, under: cur, target: target, p: 1 };
     showPage(flip.under, 1); showPage(flip.top, 2);
-    buildFold(flip.top);
-    flip.top.style.visibility = "hidden";     // al suo posto ora ci sono le strisce
+    buildFold(flip.top);                      // gira la pagina vera, niente copie
     renderFold(flip.p);
     deckEl.classList.add("touched");
     return true;
@@ -594,29 +582,140 @@
   try { muted = localStorage.getItem("vdc_mute") === "1"; } catch (e) {}
   function audioUnlock() {   // i telefoni sbloccano l'audio solo dentro un tocco dell'utente
     try {
-      if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+      if (!actx) { actx = new (window.AudioContext || window.webkitAudioContext)(); setTimeout(preparaFruscio, 0); }
       if (actx.state === "suspended") actx.resume();
     } catch (e) {}
+  }
+
+  /* --- IL FRUSCIO DELLA PAGINA -------------------------------------------
+     Prima erano due soffi di rumore centrati su una nota sola: "pff-pff",
+     finiti in 160 millisecondi, e suonavano finti. Una prima versione con
+     tanti scricchiolii di carta è stata scartata: troppo crepitio.
+
+     Adesso è un FRUSCIO: l'aria mossa dalla pagina, morbido e continuo,
+     che si muove come l'aria vera. Parte scuro, si apre mentre la pagina
+     accelera, si richiude quando rallenta e si posa; alla fine un piccolo
+     tonfo, e dentro, appena percepibili, pochi scricchiolii di carta.
+
+     Lo stesso algoritmo sta in un file di prova (fruscio.py) con cui sono
+     stati fatti gli esempi da ascoltare: quello che si sente là è quello
+     che suona qui.
+
+     Il suono non si calcola mentre la pagina gira (sarebbe lavoro rubato
+     all'animazione): se ne tengono pronti cinque, tutti un po' diversi, e
+     quello appena usato si rifà nuovo a pagina ferma. */
+  // lento: di quanto si stira il gesto · vol: volume medio · forma "onda": un solo rigonfiamento
+  // che sale piano, si arrotonda in cima (colmo, da 0 a 1) e scende piano · picco: la forza nel
+  // momento più forte (50 ms). La versione a folata ("morbido-ancora-piu-lento") spingeva troppo:
+  // saliva al massimo in 100 ms e ci restava piatta per 350.
+  const FRUSCI = {
+    "morbido-ancora-piu-lento": { dur: 0.62, lpLo: 900, lpHi: 3800, aria: 0.10, stacco: 18, volo: 6, posa: 22, crep: 0.14, tonfo: 0.34, posaT: 0.46, riposa: 0.45, lento: 1.45, vol: 0.021 },
+    "onda":                     { dur: 0.62, lpLo: 700, lpHi: 3000, aria: 0.05, stacco: 10, volo: 4, posa: 12, crep: 0.08, tonfo: 0.10, posaT: 0.50, riposa: 0,    lento: 1.45, forma: "onda", colmo: 0.40, picco: 0.021 },
+    "onda-piu-delicata":        { dur: 0.62, lpLo: 600, lpHi: 2500, aria: 0.03, stacco: 6,  volo: 2, posa: 8,  crep: 0.05, tonfo: 0.06, posaT: 0.50, riposa: 0,    lento: 1.45, forma: "onda", colmo: 0.38, picco: 0.016 },
+  };
+  const FRUSCIO_SCELTO = "onda-piu-delicata";   // scelta del titolare, 25/09
+
+  function liscia(a, b, x) { if (x <= a) return 0; if (x >= b) return 1; const t = (x - a) / (b - a); return t * t * (3 - 2 * t); }
+
+  function onda(x, colmo) {   // 0 all'inizio e alla fine, 1 in cima, sempre morbida
+    if (x <= 0 || x >= 1) return 0;
+    if (x < colmo) { const s = Math.sin(Math.PI / 2 * x / colmo); return s * s; }
+    const c = Math.cos(Math.PI / 2 * (x - colmo) / (1 - colmo)); return c * c;
+  }
+
+  function fruscio(sr, p) {
+    const L = p.lento || 1, n = Math.floor(sr * p.dur * L), out = new Float32Array(n);
+    let b0 = 0, b1 = 0, b2 = 0, hx = 0, hy = 0, l1 = 0, l2 = 0, ax = 0, ay = 0, ckx = 0, cky = 0, ckl = 0, e = 0, lp = 0;
+    const aH = Math.exp(-2 * Math.PI * 350 / sr);                                                  // via il rimbombo
+    const aA = Math.exp(-2 * Math.PI * 3000 / sr);                                                 // l'aria sottile in cima
+    const aCk = Math.exp(-2 * Math.PI * 1500 / sr), bCk = 1 - Math.exp(-2 * Math.PI * 5000 / sr);   // i pochi scricchiolii
+    const d = Math.exp(-1 / (sr * 0.0025));
+    const aLp = 1 - Math.exp(-2 * Math.PI * 480 / sr), posa = p.posaT;                             // il tonfo
+    for (let i = 0; i < n; i++) {
+      const t = i / sr, u = t / L, w = Math.random() * 2 - 1;   // u: il tempo del gesto, stirato; il suono dentro resta lo stesso
+      // la base: rumore rosa, più morbido del bianco
+      b0 = 0.99765 * b0 + w * 0.0990460; b1 = 0.96300 * b1 + w * 0.2965164; b2 = 0.57000 * b2 + w * 1.0526913;
+      const rosa = (b0 + b1 + b2 + w * 0.1848) * 0.18;
+      hy = aH * (hy + rosa - hx); hx = rosa;
+      // quanto va veloce la pagina: il fruscio si apre e si richiude con lei
+      const vel = p.forma === "onda" ? onda(u / p.dur, p.colmo * 0.9)     // si schiarisce appena prima del colmo
+                : liscia(0, 0.12, u) * (1 - liscia(posa * 0.55, posa + 0.05, u));
+      const k = 1 - Math.exp(-2 * Math.PI * (p.lpLo + (p.lpHi - p.lpLo) * vel) / sr);
+      l1 += k * (hy - l1); l2 += k * (l1 - l2);
+      ay = aA * (ay + w - ax); ax = w;
+      const env = p.forma === "onda" ? onda(u / p.dur, p.colmo)
+                : liscia(0, 0.08, u) * (1 - liscia(0.28, p.dur * 0.96, u))
+                  + p.riposa * liscia(posa - 0.06, posa, u) * (1 - liscia(posa, p.dur * 0.98, u));   // la pagina che si assesta
+      const soffio = (l2 * 2.2 + ay * p.aria * vel) * env;
+      // pochi scricchiolii, morbidi, allo stacco e alla posa
+      const rate = p.stacco * liscia(0, 0.02, u) * (1 - liscia(0.08, 0.16, u))
+                 + p.volo * liscia(0.06, 0.12, u) * (1 - liscia(posa - 0.06, posa, u))
+                 + p.posa * liscia(posa - 0.05, posa, u) * (1 - liscia(posa + 0.04, posa + 0.11, u));
+      if (Math.random() < rate / L / sr) e = Math.max(e, p.crep * (0.2 + 0.8 * Math.pow(Math.random(), 2)));
+      const w2 = Math.random() * 2 - 1;
+      cky = aCk * (cky + w2 - ckx); ckx = w2; ckl += bCk * (cky - ckl);
+      const crep = ckl * e * 2.0; e *= d;
+      // il tonfo della pagina che si posa
+      lp += aLp * (w - lp);
+      const tA = p.forma === "onda" ? 0.020 : 0.006, tD = p.forma === "onda" ? 0.090 : 0.05;   // nell'onda è una carezza, non un colpo
+      const dt = t - posa * L, envT = dt < 0 ? 0 : Math.min(1, dt / tA) * Math.exp(-dt / tD);
+      out[i] = soffio + crep + lp * envT * p.tonfo * 3.2;
+    }
+    // niente rimbombo, una saturazione morbida, e lo stesso volume del suono di prima
+    const a = Math.exp(-2 * Math.PI * 150 / sr);
+    let y = 0, x0 = 0, somma = 0, conta = 0;
+    for (let i = 0; i < n; i++) {
+      const x = out[i]; y = a * (y + x - x0); x0 = x;
+      const v = Math.tanh(y * 1.3) / 1.3; out[i] = v;
+      if (Math.abs(v) > 1e-4) { somma += v * v; conta++; }
+    }
+    let g;
+    if (p.picco) {
+      // l'onda si regola sul suo momento più forte, non sulla media: ha code lunghe e
+      // quiete, e regolandola sulla media il colmo finirebbe per spingere di più
+      const W = Math.floor(sr * 0.05); let forte = 0;
+      for (let k = 0; k + W <= n; k += W >> 1) {
+        let q = 0; for (let j = k; j < k + W; j++) q += out[j] * out[j];
+        forte = Math.max(forte, Math.sqrt(q / W));
+      }
+      g = p.picco / (forte || 1e-9);
+    } else g = (p.vol || 0.030) / (Math.sqrt(somma / Math.max(1, conta)) || 1e-9);
+    for (let i = 0; i < n; i++) out[i] *= g;
+    return out;
+  }
+
+  let frusci = [], fruscioUltimo = -1;
+  function bufferFruscio() {
+    const dati = fruscio(actx.sampleRate, FRUSCI[FRUSCIO_SCELTO]);
+    const b = actx.createBuffer(1, dati.length, actx.sampleRate);
+    b.getChannelData(0).set(dati);
+    return b;
+  }
+  // Uno alla volta, e mai mentre una pagina sta girando: su un telefono ogni
+  // fruscio costa qualche centesimo di secondo, che rubato all'animazione
+  // rimetterebbe lo scatto appena tolto.
+  function preparaFruscio() {
+    if (!actx || frusci.length >= 5) return;
+    if (flipping) { setTimeout(preparaFruscio, 300); return; }
+    try { frusci.push(bufferFruscio()); } catch (e) { return; }
+    setTimeout(preparaFruscio, 80);
+  }
+  function rifaiFruscio(k) {
+    (function fai() {
+      if (flipping) { setTimeout(fai, 300); return; }
+      try { frusci[k] = bufferFruscio(); } catch (e) {}
+    })();
   }
   function playFlip() {
     if (muted || !pageMode() || !actx || actx.state !== "running") return;
     try {
-      const t0 = actx.currentTime;
-      function burst(at, dur, freq, q, vol) {   // soffio di rumore filtrato con inviluppo rapido
-        const len = Math.max(1, Math.floor(actx.sampleRate * dur));
-        const buf = actx.createBuffer(1, len, actx.sampleRate), d = buf.getChannelData(0);
-        for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
-        const src = actx.createBufferSource(); src.buffer = buf;
-        const bp = actx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = freq; bp.Q.value = q;
-        const g = actx.createGain();
-        g.gain.setValueAtTime(0.0001, at);
-        g.gain.exponentialRampToValueAtTime(vol, at + 0.012);
-        g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
-        src.connect(bp); bp.connect(g); g.connect(actx.destination);
-        src.start(at); src.stop(at + dur + 0.02);
-      }
-      burst(t0, 0.16, 2600, 0.7, 0.35);          // la pagina si solleva
-      burst(t0 + 0.13, 0.11, 1400, 0.9, 0.22);   // la pagina si posa
+      if (!frusci.length) frusci.push(bufferFruscio());          // succede solo la primissima volta
+      let k = Math.floor(Math.random() * frusci.length);
+      if (k === fruscioUltimo && frusci.length > 1) k = (k + 1) % frusci.length;   // mai lo stesso due volte di fila
+      fruscioUltimo = k;
+      const src = actx.createBufferSource(); src.buffer = frusci[k];
+      src.connect(actx.destination); src.start();
+      setTimeout(function () { rifaiFruscio(k); }, 900);        // quello usato si rifà nuovo, a pagina ferma
     } catch (e) {}
   }
   function renderMute() { const b = $("#ov-mute"); if (b) { b.textContent = muted ? "🔇" : "🔊"; b.setAttribute("aria-pressed", muted ? "true" : "false"); } }
@@ -688,6 +787,11 @@
   function start(x, y) { sx = x; sy = y; st = Date.now(); dragging = true; dragDir = 0; }
   function end(x, y) {   // mouse (computer): scorrimento a scatto come prima
     if (!dragging) return; dragging = false;
+    // Una pagina non deve MAI restare ferma a metà giro. Se mentre il dito la
+    // sta girando arriva un clic da un'altra parte, prima il menu si
+    // dimenticava del dito e la pagina restava inclinata: adesso la finisce,
+    // avanti se era oltre metà, indietro se no.
+    if (flip) { flipEnd(flip.dir > 0 ? flip.p > 0.5 : flip.p < 0.5, true); dragDir = 0; return; }
     const dx = x - sx, dy = y - sy;
     if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) { swipedAt = Date.now(); go(dx < 0 ? 1 : -1); }
   }

@@ -508,20 +508,25 @@ html[dir="rtl"] .overlay.pages .ov-mute{ right:auto; left:68px; }
   border:none; box-shadow:none; transform:none; transition:none;
 }
 
-/* --- la pagina che si piega: strisce verticali che ruotano una piu' dell'altra --- */
-.fold{ position:absolute; inset:0; z-index:3; display:none; pointer-events:none; transform-style:preserve-3d; }
-.fold.on{ display:block; }
-.fold-strip{
-  position:absolute; top:0; height:100%; overflow:hidden;
-  transform-origin:left center; backface-visibility:hidden;
+/* --- la pagina che gira: una sola, intera, sul dorso ---
+   Prima erano dieci strisce copiate dalla pagina: troppo peso per un telefono.
+   Le due ombre hanno un disegno fisso; il codice cambia solo opacità e
+   larghezza, cioè il lavoro che la scheda grafica fa senza fatica. */
+.overlay.pages .card.turning{
+  transform-origin:left center; backface-visibility:hidden; will-change:transform;
 }
-.fold-inner{ position:absolute; top:0; height:100%; }
-/* ombra e luce: un unico velo continuo steso sopra le strisce, cosi' la curva
-   si legge morbida (velando una striscia alla volta si vedrebbero le bande) */
-.fold-shade, .fold-sheen{ position:absolute; inset:0; pointer-events:none; display:none; }
-.fold-shade.on, .fold-sheen.on{ display:block; }
-.fold-shade{ z-index:4; }
-.fold-sheen{ z-index:5; }
+/* sulla pagina che si alza: più scura verso il bordo libero, che si allontana dalla luce */
+.fold-velo{
+  position:absolute; inset:0; z-index:20; pointer-events:none; opacity:0; will-change:opacity;
+  background:linear-gradient(90deg, rgba(255,243,222,.07) 0%, rgba(8,5,3,.30) 40%, rgba(8,5,3,.82) 100%);
+}
+/* sulla pagina sotto: l'ombra che le proietta sopra quella che si sta alzando */
+.fold-shade{
+  position:absolute; inset:0; z-index:1; pointer-events:none; display:none; opacity:0;
+  transform-origin:left center; will-change:transform, opacity;
+  background:linear-gradient(90deg, rgba(8,5,3,.0) 0%, rgba(8,5,3,.62) 72%, rgba(8,5,3,0) 100%);
+}
+.fold-shade.on{ display:block; }
 .overlay.pages .card .photo, .overlay.pages .card.no-photo .photo{ position:absolute; inset:0; height:auto; }
 .overlay.pages .card .photo img{ transition:opacity .35s ease; }
 .overlay.pages .card .photo::after{ height:62%; background:linear-gradient(transparent, rgba(11,8,6,.5) 38%, rgba(11,8,6,.97)); }
@@ -566,7 +571,7 @@ html[dir="rtl"] .overlay.pages .ov-mute{ right:auto; left:68px; }
 }
 .overlay.pages .dots{ pointer-events:auto; }
 .overlay.pages .hint{ font-size:.62rem; color:rgba(247,239,226,.6); }
-@media (prefers-reduced-motion:reduce){ .fold, .fold-cast{ display:none !important; } }
+@media (prefers-reduced-motion:reduce){ .fold-shade, .fold-velo{ display:none !important; } }
 
 /* ============================================================================
    RIQUADRO SPECIALE: SPECIALITÀ
