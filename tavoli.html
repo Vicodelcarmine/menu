@@ -50,6 +50,13 @@ section.riquadro p.aiuto{ margin:0 0 16px; color:var(--fioco); font-size:.86rem;
   font-family:var(--font); font-size:1.05rem; font-weight:600;
 }
 .riga input.largo{ width:130px; }
+/* La risposta a "Aggiorna": prima la pagina non diceva niente, e un
+   intervallo che non cambiava nulla sembrava un tasto rotto. */
+.esito{ margin:12px 0 0; min-height:1.2em; font-size:.86rem; color:var(--fioco); line-height:1.5; }
+.esito.ok{ color:var(--verde); }
+.esito.no{ color:var(--rosso); }
+.riga-nome{ margin-top:16px; padding-top:16px; border-top:1px solid var(--filo); }
+.riga-nome label{ flex:1 0 100%; }
 
 .griglia{ display:grid; gap:12px; padding:0 16px; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); }
 .tav{ background:var(--carta); border:1px solid var(--filo); border-radius:16px; padding:14px; text-align:center; }
@@ -200,12 +207,18 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 </div>
 
 <section class="riquadro">
-  <h2>Aggiungi tavoli</h2>
-  <p class="aiuto">Un intervallo intero — "dal 1 al 24" — oppure un tavolo solo, anche con le lettere (A7, Veranda3). Ogni tavolo riceve una chiave sua, che finisce dentro il suo QR.</p>
+  <h2>I tuoi tavoli</h2>
+  <p class="aiuto">Scrivi da che numero a che numero vanno i tavoli della sala e premi <b>Aggiorna</b>: quelli che mancano vengono creati, quelli in più vengono tolti. Ogni tavolo ha una chiave sua, che finisce dentro il suo QR.</p>
   <div class="riga">
-    <label>dal</label><input id="da" value="1" class="largo">
-    <label>al</label><input id="a" value="24" class="largo">
-    <button class="cmd forte" id="aggiungi">Aggiungi</button>
+    <label>dal</label><input id="da" value="1" class="largo" inputmode="numeric">
+    <label>al</label><input id="a" value="" class="largo" inputmode="numeric">
+    <button class="cmd forte" id="aggiorna">Aggiorna</button>
+  </div>
+  <p class="esito" id="esito"></p>
+  <div class="riga riga-nome">
+    <label>Un tavolo con un nome</label>
+    <input id="nome" class="largo" placeholder="A7, Veranda3…">
+    <button class="cmd" id="aggiungi-nome">Aggiungi</button>
   </div>
 </section>
 
@@ -284,20 +297,97 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
       });
       d.querySelector(".togli").addEventListener("click", async function () {
         if (!confirm("Tolgo il tavolo " + t.numero + "?\n\nDa quel QR non si potrà più ordinare.")) return;
-        tavoli = await OrdiniStore.togliTavolo(t.numero); disegna();
+        tavoli = await OrdiniStore.togliTavolo(t.numero); disegna(); riempiIntervallo();
       });
       g.appendChild(d);
     });
   }
 
-  $("#aggiungi").addEventListener("click", async function () {
-    const da = $("#da").value.trim(), a = $("#a").value.trim();
-    if (!da) return;
-    this.disabled = true;
-    try { tavoli = await OrdiniStore.aggiungiTavoli(da, a); disegna(); }
-    catch (e) { alert("Non sono riuscito ad aggiungere: " + (e.message || "")); }
-    this.disabled = false;
+  /* --------------------------------------------------------------------------
+     QUANTI TAVOLI
+     Prima c'era solo "Aggiungi": con 29 tavoli, scrivere "dal 1 al 20" non
+     faceva niente — i primi venti c'erano già, e quelli in più non venivano
+     mai tolti. Adesso l'intervallo dice com'è fatta la sala: si crea quello
+     che manca e si toglie quello che avanza.
+
+     Solo i tavoli con un NUMERO fanno parte dell'intervallo. Quelli con un
+     nome (A7, Veranda3) si aggiungono e si tolgono uno per uno, e
+     l'intervallo non li tocca mai.
+     ------------------------------------------------------------------------ */
+  function soloNumeri() {
+    return tavoli.map(function (t) { return String(t.numero); })
+      .filter(function (n) { return /^[0-9]+$/.test(n); })
+      .map(Number).sort(function (x, y) { return x - y; });
+  }
+
+  // i campi mostrano la sala com'è davvero, non un "1-24" scritto a mano
+  function riempiIntervallo() {
+    const n = soloNumeri();
+    if (!n.length) { $("#da").value = "1"; $("#a").value = ""; return; }
+    $("#da").value = n[0];
+    $("#a").value = n[n.length - 1];
+  }
+
+  function esito(testo, tipo) {
+    const e = $("#esito");
+    e.textContent = testo;
+    e.className = "esito" + (tipo ? " " + tipo : "");
+  }
+
+  $("#aggiorna").addEventListener("click", async function () {
+    const da = parseInt($("#da").value, 10), a = parseInt($("#a").value, 10);
+    if (!(da >= 1) || !(a >= 1)) return esito("Scrivi due numeri: da che tavolo a che tavolo.", "no");
+    if (da > a) return esito("Il primo numero dev'essere più piccolo del secondo.", "no");
+    if (a - da > 300) return esito("Al massimo 300 tavoli in una volta.", "no");
+
+    const ci = soloNumeri();
+    const via = ci.filter(function (n) { return n < da || n > a; });
+    const mancano = [];
+    for (let i = da; i <= a; i++) if (ci.indexOf(i) < 0) mancano.push(i);
+
+    if (!via.length && !mancano.length) {
+      return esito("Hai già i tavoli dal " + da + " al " + a + ": non c'è niente da cambiare.", "ok");
+    }
+    if (via.length) {
+      const elenco = via.length > 12 ? via.slice(0, 12).join(", ") + " e altri " + (via.length - 12) : via.join(", ");
+      if (!confirm("Tolgo " + (via.length === 1 ? "il tavolo " : via.length + " tavoli: ") + elenco + "?\n\n" +
+                   "I loro cartoncini smettono di funzionare. Se un giorno li rimetti, vanno ristampati: ricevono una chiave nuova.")) return;
+    }
+
+    const b = this; b.disabled = true;
+    esito("Aggiorno…");
+    try {
+      for (const n of via) tavoli = await OrdiniStore.togliTavolo(n);
+      if (mancano.length) tavoli = await OrdiniStore.aggiungiTavoli(String(da), String(a));
+      disegna();
+      riempiIntervallo();
+      const pezzi = [];
+      if (mancano.length) pezzi.push(mancano.length === 1 ? "1 aggiunto" : mancano.length + " aggiunti");
+      if (via.length) pezzi.push(via.length === 1 ? "1 tolto" : via.length + " tolti");
+      esito("Fatto: adesso hai i tavoli dal " + da + " al " + a + " (" + pezzi.join(", ") + ").", "ok");
+    } catch (e) {
+      esito("Non ci sono riuscito: " + (e.message || "errore") + ". Riprova.", "no");
+      try { tavoli = await OrdiniStore.elencoTavoli(); disegna(); riempiIntervallo(); } catch (e2) {}
+    }
+    b.disabled = false;
   });
+
+  $("#aggiungi-nome").addEventListener("click", async function () {
+    const nome = $("#nome").value.trim();
+    if (!nome) return;
+    if (tavoli.some(function (t) { return String(t.numero).toLowerCase() === nome.toLowerCase(); })) {
+      return esito("Il tavolo " + nome + " c'è già.", "no");
+    }
+    const b = this; b.disabled = true;
+    try {
+      tavoli = await OrdiniStore.aggiungiTavoli(nome, "");
+      disegna(); riempiIntervallo();
+      $("#nome").value = "";
+      esito("Fatto: aggiunto il tavolo " + nome + ".", "ok");
+    } catch (e) { esito("Non ci sono riuscito: " + (e.message || "errore") + ".", "no"); }
+    b.disabled = false;
+  });
+  $("#nome").addEventListener("keydown", function (e) { if (e.key === "Enter") $("#aggiungi-nome").click(); });
 
   $("#stampa").addEventListener("click", function () { window.print(); });
 
@@ -323,7 +413,7 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     try {
       tavoli = await OrdiniStore.elencoTavoli();
       $("#porta").classList.remove("aperta"); $("#porta-err").textContent = "";
-      disegna();
+      disegna(); riempiIntervallo();
     } catch (e) {
       OrdiniStore.ricordaPassword(null);
       $("#porta-err").textContent = "Password non valida";
@@ -336,7 +426,7 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 
   (async function avvia() {
     if (OrdiniStore.suSupabase && !OrdiniStore.haPassword()) return apriPorta();
-    try { tavoli = await OrdiniStore.elencoTavoli(); disegna(); }
+    try { tavoli = await OrdiniStore.elencoTavoli(); disegna(); riempiIntervallo(); }
     catch (e) { apriPorta(); }
   })();
 })();
