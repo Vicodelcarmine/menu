@@ -31,7 +31,7 @@
 
   // Versione del menu, scritta in fondo alla pagina: AGGIORNARLA A OGNI PUBBLICAZIONE.
   // Serve a capire al volo se il telefono sta mostrando l'ultima versione.
-  const APP_VERSION = "25.09.2026 · menu del giorno";
+  const APP_VERSION = "05.10.2026 · elenco congelati";
 
   const hasData = typeof MENU_DATA !== "undefined" && MENU_DATA;
   const categorie = (hasData && MENU_DATA.categorie) || [];
@@ -1209,7 +1209,9 @@
     editInner.innerHTML =
       '<section class="gd-pan" id="gd-pan"></section>' +
       '<p class="me-kick">⭐ Modifica menu · prezzi · foto · piatti</p>' +
-      '<p class="me-frozen" id="me-frozen" hidden>❄️ <b id="me-frozen-n">0</b> piatti nascosti ai clienti (congelati)</p>' +
+      '<button type="button" class="me-frozen" id="me-frozen" hidden aria-expanded="false" aria-controls="me-frozen-lista">' +
+      '❄️ <b id="me-frozen-n">0</b> piatti nascosti ai clienti (congelati) <span class="me-frozen-freccia">▾</span></button>' +
+      '<div class="me-frozen-lista" id="me-frozen-lista" hidden></div>' +
       '<div class="me-nav">' +
       '<button type="button" class="me-arrow" id="me-prev" aria-label="‹">‹</button>' +
       '<div class="me-navlabel"><span id="me-catname"></span><small id="me-counter"></small></div>' +
@@ -1288,7 +1290,88 @@
     function updateFrozenCount() {
       const n = editInner.querySelectorAll(".de-congela-cb:checked").length;
       const el = $("#me-frozen"); if (el) { el.hidden = n === 0; $("#me-frozen-n").textContent = n; }
+      if (n === 0) chiudiCongelati();
+      else if (!$("#me-frozen-lista").hidden) disegnaCongelati();   // l'elenco aperto segue ogni ❄️ che metti o togli
     }
+
+    /* ------------------------------------------------------------------------
+       L'ELENCO DEI PIATTI CONGELATI
+       Il banner si tocca e apre l'elenco dei soli piatti congelati, così per
+       rimetterli nel menu non bisogna cercarli categoria per categoria.
+       "Rimetti nel menu" toglie il ❄️ alla STESSA casella che c'è nella
+       categoria: le due cose restano sempre d'accordo. Come tutto il resto
+       dell'editor, va online quando si pubblica.
+       ---------------------------------------------------------------------- */
+    function righeCongelate() {
+      return Array.prototype.filter.call(editInner.querySelectorAll(".dish-edit"), function (row) {
+        const cb = row.querySelector(".de-congela-cb"); return cb && cb.checked;
+      });
+    }
+    function paginaDi(row) {
+      for (let j = 0; j < pages.length; j++) if (pages[j].el.contains(row)) return j;
+      return -1;
+    }
+    function scongela(row) {
+      const cb = row.querySelector(".de-congela-cb");
+      cb.checked = false;
+      cb.dispatchEvent(new Event("change"));     // stessa strada della casella: riga, conteggio, elenco
+    }
+    function disegnaCongelati() {
+      const box = $("#me-frozen-lista");
+      const righe = righeCongelate();
+      box.innerHTML =
+        '<div class="mfl-testa"><span>❄️ Piatti congelati · <b>' + righe.length + "</b></span>" +
+        '<button type="button" class="mfl-chiudi" aria-label="Chiudi l\'elenco">✕</button></div>' +
+        '<ul class="mfl-elenco"></ul>' +
+        '<p class="mfl-aiuto">Tocca un nome per andare al piatto. I piatti tornano visibili ai clienti quando pubblichi.</p>' +
+        '<div class="mfl-piede">' +
+        (righe.length > 1 ? '<button type="button" class="btn mfl-tutti">Rimetti tutti nel menu</button>' : "") +
+        '<button type="button" class="btn btn-primary mfl-pubblica">Pubblica</button>' +
+        "</div>";
+      const ul = box.querySelector(".mfl-elenco");
+      righe.forEach(function (row) {
+        const j = paginaDi(row);
+        const li = document.createElement("li");
+        li.className = "mfl-voce";
+        li.innerHTML =
+          '<button type="button" class="mfl-nome"><span class="mfl-piatto"></span><small class="mfl-cat"></small></button>' +
+          '<button type="button" class="btn mfl-rimetti">Rimetti nel menu</button>';
+        li.querySelector(".mfl-piatto").textContent = cleanName(row.querySelector(".de-name-input").value) || "(senza nome)";
+        li.querySelector(".mfl-cat").textContent = j >= 0 ? pages[j].nome : "";
+        li.querySelector(".mfl-nome").addEventListener("click", function () { vaiAlPiatto(row); });
+        li.querySelector(".mfl-rimetti").addEventListener("click", function () { scongela(row); });
+        ul.appendChild(li);
+      });
+      box.querySelector(".mfl-chiudi").addEventListener("click", chiudiCongelati);
+      const tutti = box.querySelector(".mfl-tutti");
+      if (tutti) tutti.addEventListener("click", function () {
+        const r = righeCongelate();
+        if (!confirm("Rimetto nel menu tutti i " + r.length + " piatti congelati?\n\nTorneranno visibili ai clienti quando pubblichi.")) return;
+        r.forEach(scongela);
+      });
+      box.querySelector(".mfl-pubblica").addEventListener("click", function () { $("#me-save").click(); });
+    }
+    function apriCongelati() {
+      disegnaCongelati();
+      $("#me-frozen-lista").hidden = false;
+      $("#me-frozen").setAttribute("aria-expanded", "true");
+    }
+    function chiudiCongelati() {
+      const box = $("#me-frozen-lista"); if (!box) return;
+      box.hidden = true; box.innerHTML = "";
+      const b = $("#me-frozen"); if (b) b.setAttribute("aria-expanded", "false");
+    }
+    function vaiAlPiatto(row) {
+      const j = paginaDi(row);
+      chiudiCongelati();
+      if (j >= 0) show(j);
+      row.scrollIntoView({ block: "center", behavior: "smooth" });
+      row.classList.remove("me-evidenzia"); void row.offsetWidth; row.classList.add("me-evidenzia");
+      setTimeout(function () { row.classList.remove("me-evidenzia"); }, 2200);
+    }
+    $("#me-frozen").addEventListener("click", function () {
+      if ($("#me-frozen-lista").hidden) apriCongelati(); else chiudiCongelati();
+    });
     updateFrozenCount();
 
     let idx = 0;
