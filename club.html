@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1210" />
+  <title>Vico del Carmine</title>
+  <!-- Pagina da cui l'iPhone aggiunge il menu alla schermata Home CON la tessera del Club.
+       Sull'iPhone l'icona della Home ha una memoria tutta sua, separata da Safari: per questo
+       il manifest qui NON ha start_url, e l'icona riapre questo indirizzo con la chiave
+       (?k=…). Al primo avvio dalla Home la chiave si salva e si va dritti al menu. -->
+  <link rel="manifest" href="club.webmanifest" />
+  <link rel="icon" href="assets/icons/icon-192.png" sizes="192x192" type="image/png" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Vico del Carmine" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{ --bg:#1a1210; --bg-2:#241816; --gold:#e6b24a; --gold-soft:#edcf94; --cream:#f7efe2; --muted:#cbb49c; --line:rgba(230,178,74,.18); }
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; }
+    body{
+      font-family:"Poppins", system-ui, sans-serif; color:var(--cream); min-height:100vh;
+      background:radial-gradient(120% 70% at 50% -10%, rgba(230,178,74,.16), transparent 60%), var(--bg);
+      padding:calc(28px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom));
+    }
+    main{ max-width:420px; margin:0 auto; text-align:center; }
+    img.logo{ width:84px; height:84px; border-radius:20px; }
+    h1{ font-family:"Playfair Display", Georgia, serif; color:var(--gold-soft); font-size:1.6rem; margin:14px 0 6px; }
+    p{ color:var(--muted); line-height:1.5; margin:0; }
+    ol{ list-style:none; padding:0; margin:22px 0; text-align:left; }
+    li{ display:flex; gap:14px; align-items:center; padding:14px; margin:10px 0; border:1px solid var(--line); border-radius:16px; background:rgba(0,0,0,.22); }
+    li b{ color:var(--gold); }
+    .n{ flex:0 0 34px; height:34px; border-radius:50%; display:grid; place-items:center; font-weight:600; color:#2a1a08; background:var(--gold); }
+    .share{ display:inline-block; width:22px; height:22px; vertical-align:-5px; }
+    .giu{ font-size:2rem; animation:giu 1.2s ease-in-out infinite; margin-top:6px; }
+    @keyframes giu{ 50%{ transform:translateY(8px); } }
+    a.torna{ display:block; margin-top:18px; color:var(--cream); border:1px solid var(--line); border-radius:14px; padding:14px; text-decoration:none; font-weight:600; }
+  </style>
+</head>
+<body>
+  <main>
+    <img class="logo" src="assets/media/logo.jpg" alt="Vico del Carmine" />
+    <h1 id="tit">Aggiungi il menu alla Home</h1>
+    <p id="sub">Tre tocchi e la tua tessera del Club è sempre a portata di mano.</p>
+    <ol>
+      <li><span class="n">1</span><span id="p1">Tocca <b>Condividi</b>
+        <svg class="share" viewBox="0 0 24 24" fill="none" stroke="#e6b24a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>
+        nella barra di Safari</span></li>
+      <li><span class="n">2</span><span id="p2">Scorri e scegli <b>«Aggiungi alla schermata Home»</b></span></li>
+      <li><span class="n">3</span><span id="p3">Tocca <b>«Aggiungi»</b>. Poi apri <b>Vico del Carmine</b> dalla Home: la tua tessera c'è già</span></li>
+    </ol>
+    <div class="giu" aria-hidden="true">⬇️</div>
+    <a class="torna" id="torna" href="./">← Torna al menu</a>
+  </main>
+  <script>
+    (function () {
+      var k = new URLSearchParams(location.search).get("k");
+      var buona = k && /^[A-Za-z0-9]{16,40}$/.test(k);
+      var casa = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true;
+      if (buona) {
+        try {
+          localStorage.setItem("vdc_club", k);
+          localStorage.setItem("vdc_club_invito", localStorage.getItem("vdc_club_invito") || String(Date.now()));
+        } catch (e) {}
+      }
+      // aperta dall'icona sulla Home: la tessera è salvata, si va dritti al menu
+      if (casa) { location.replace("./"); return; }
+
+      var lang = "it";
+      try { lang = localStorage.getItem("vdc_lang") || (navigator.language || "it").slice(0, 2); } catch (e) {}
+      if (lang !== "it") {
+        document.documentElement.lang = "en";
+        document.getElementById("tit").textContent = "Add the menu to your Home Screen";
+        document.getElementById("sub").textContent = "Three taps and your Club card is always at hand.";
+        document.getElementById("p1").innerHTML = document.getElementById("p1").innerHTML
+          .replace("Tocca <b>Condividi</b>", "Tap <b>Share</b>").replace("nella barra di Safari", "in the Safari toolbar");
+        document.getElementById("p2").innerHTML = "Scroll down and choose <b>“Add to Home Screen”</b>";
+        document.getElementById("p3").innerHTML = "Tap <b>“Add”</b>. Then open <b>Vico del Carmine</b> from your Home Screen: your card is already there";
+        document.getElementById("torna").textContent = "← Back to the menu";
+      }
+      // si torna al menu da dov'era (anche col numero del tavolo), se possibile
+      document.getElementById("torna").addEventListener("click", function (e) {
+        if (history.length > 1 && document.referrer && document.referrer.indexOf(location.origin) === 0) { e.preventDefault(); history.back(); }
+      });
+    })();
+  </script>
+</body>
+</html>
