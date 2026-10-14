@@ -91,3 +91,30 @@ self.addEventListener("fetch", (e) => {
       .catch(() => caches.match(req).then((r) => r || (req.mode === "navigate" ? caches.match("index.html") : Response.error())))
   );
 });
+
+/* CLUB DEL VICO — gli avvisi sul telefono (offerte, regalo di compleanno).
+   Li manda la funzione Supabase "club-invia"; toccando l'avviso si apre il menu
+   con la tessera del Club (vedi assets/js/club.js). */
+self.addEventListener("push", (e) => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (_) { d = { body: e.data ? e.data.text() : "" }; }
+  e.waitUntil(self.registration.showNotification(d.title || "Vico del Carmine", {
+    body: d.body || "",
+    tag: d.tag || "club",
+    icon: "assets/icons/icon-192.png",
+    data: { url: d.url || "./?club=apri" },
+  }));
+});
+
+self.addEventListener("notificationclick", (e) => {
+  e.notification.close();
+  const url = new URL((e.notification.data && e.notification.data.url) || "./?club=apri", self.registration.scope).href;
+  e.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((finestre) => {
+    for (const f of finestre) {
+      if (f.url.indexOf(self.registration.scope) === 0 && "focus" in f) {
+        return f.focus().then((g) => (g && "navigate" in g ? g.navigate(url) : null)).catch(() => self.clients.openWindow(url));
+      }
+    }
+    return self.clients.openWindow(url);
+  }));
+});

@@ -40,6 +40,22 @@ const ClubPannello = (function () {
       esciConferma: "Esci dal Club? I tuoi dati e i tuoi premi vengono cancellati subito e non si possono recuperare.",
       esciFatto: "Fatto: i tuoi dati sono stati cancellati.", menu: "Torna al menu", ritrovata: "Tessera ritrovata 🎉",
       riprova: "Riprova", attendi: "Un attimo…",
+      compleannoGiorni: "Nella settimana del tuo compleanno ({d1} – {d2}) qui trovi un regalo per {n} persone, valido anche di sabato.",
+      avvisiTit: "🔔 Avvisi sul telefono", avvisiSub: "Ti avvisiamo quando c'è un'offerta per te e per il tuo compleanno. Niente spam: al massimo un'offerta ogni 15 giorni.",
+      avvisiBtn: "🔔 Attiva gli avvisi", avvisiOn: "🔔 Avvisi attivi su questo telefono", avvisiSpegni: "Spegni gli avvisi",
+      avvisiBloccati: "Le notifiche per questo sito sono bloccate nelle impostazioni del telefono: riattivale lì e torna qui.",
+      avvisiCasa: "Sull'iPhone gli avvisi arrivano solo se il menu è sulla schermata Home: aggiungilo qui sotto e aprilo da lì.",
+      avvisiDemo: "Nella prova le notifiche vere non partono: su un telefono vero qui arriverebbe la richiesta di permesso.",
+      avvisiErrore: "Non sono riuscito ad attivare gli avvisi: riprova fra poco.", avvisiFatto: "Avvisi attivi 🔔",
+      emailTit: "📧 Conferma la tua email", emailSub: "Ti abbiamo scritto a {email}: tocca il tasto nell'email. Così ricevi anche lì le offerte e il regalo di compleanno.",
+      emailRimanda: "Rimandami l'email", emailMandata: "Fatto: controlla la posta (anche lo spam).",
+      ritrovaLink: "Hai già la tessera? Ritrovala con la tua email",
+      ritrovaTitolare: "Hai già la tessera su un altro telefono? Chiedi al titolare: con un QR la ritrovi subito.",
+      ritrovaTit: "Ritrova la tua tessera", ritrovaSub: "Scrivi l'email che hai usato per iscriverti: ti mandiamo un codice di 6 cifre.",
+      mandaCodice: "Mandami il codice", codice: "Codice ricevuto per email", entra: "Entra",
+      codiceMandato: "Se l'email è nel Club, ti è appena arrivato un codice: controlla anche lo spam.",
+      e_codice: "Codice sbagliato: riprova", e_scaduto: "Codice scaduto o troppi tentativi: chiedine uno nuovo",
+      e_email_spente: "Le email del Club non sono ancora attive: chiedi al titolare.", indietro: "← Torna all'iscrizione",
     },
     en: {
       tit: "Vico Club", sub: "Join for free: it's our way of saying thank you.",
@@ -71,6 +87,22 @@ const ClubPannello = (function () {
       esciConferma: "Leave the Club? Your data and gifts are deleted right away and cannot be recovered.",
       esciFatto: "Done: your data has been deleted.", menu: "Back to the menu", ritrovata: "Card found 🎉",
       riprova: "Try again", attendi: "One moment…",
+      compleannoGiorni: "Around your birthday ({d1} – {d2}) you'll find a gift here for {n} people, Saturdays included.",
+      avvisiTit: "🔔 Phone alerts", avvisiSub: "We'll let you know when there's an offer for you and for your birthday. No spam: at most one offer every 15 days.",
+      avvisiBtn: "🔔 Turn on alerts", avvisiOn: "🔔 Alerts are on for this phone", avvisiSpegni: "Turn off alerts",
+      avvisiBloccati: "Notifications for this site are blocked in your phone settings: turn them back on there and come back.",
+      avvisiCasa: "On iPhone, alerts only arrive if the menu is on your Home Screen: add it below and open it from there.",
+      avvisiDemo: "This is a demo, so no real notifications: on a real phone you'd be asked for permission here.",
+      avvisiErrore: "I couldn't turn on the alerts: please try again shortly.", avvisiFatto: "Alerts on 🔔",
+      emailTit: "📧 Confirm your email", emailSub: "We wrote to {email}: tap the button in the email. That way you'll also get offers and your birthday gift there.",
+      emailRimanda: "Send the email again", emailMandata: "Done: check your inbox (and the spam folder).",
+      ritrovaLink: "Already have a card? Get it back with your email",
+      ritrovaTitolare: "Already have a card on another phone? Ask the owner: a QR code brings it back right away.",
+      ritrovaTit: "Get your card back", ritrovaSub: "Type the email you joined with: we'll send you a 6-digit code.",
+      mandaCodice: "Send me the code", codice: "Code from the email", entra: "Enter",
+      codiceMandato: "If that email is in the Club, a code is on its way: check the spam folder too.",
+      e_codice: "Wrong code: try again", e_scaduto: "Expired code or too many attempts: ask for a new one",
+      e_email_spente: "Club emails aren't active yet: please ask the owner.", indietro: "← Back to sign-up",
     },
   };
   function t(k) { return C.t(k, TESTI); }
@@ -171,7 +203,12 @@ const ClubPannello = (function () {
       '<label class="club-check"><input type="checkbox" name="promo"><span>' + esc(t("promo")) + "</span></label>" +
       '<p class="club-errore" hidden></p>' +
       '<button type="submit" class="club-btn club-btn-oro">' + esc(t("iscriviti")) + "</button></form>" +
+      (info && info.email
+        ? '<button type="button" class="club-link club-ritrova">' + esc(t("ritrovaLink")) + "</button>"
+        : '<p class="club-nota">' + esc(t("ritrovaTitolare")) + "</p>") +
       informativa();
+    const bRitrova = corpo.querySelector(".club-ritrova");
+    if (bRitrova) bRitrova.addEventListener("click", ritrova);
     const form = corpo.querySelector("form");
     corpo.querySelector(".club-apri-info").addEventListener("click", function (e) {
       e.preventDefault();
@@ -195,6 +232,7 @@ const ClubPannello = (function () {
       try {
         const r = await C.dati.iscriviti(d);
         C.salvaTessera(r.chiave, r);
+        if (info && info.email) C.dati.invia();     // l'email di benvenuto parte subito
         benvenuto(r);
       } catch (er) {
         btn.disabled = false; btn.textContent = t("iscriviti");
@@ -240,11 +278,13 @@ const ClubPannello = (function () {
       '<div class="club-testa club-festa"><div class="club-ico">🎉</div><h2>' + esc(t("benvenuto")) + ", " + esc(nome1) + "!</h2>" +
       "<p>" + esc(t("benvenutoSub")) + "</p></div>" +
       premi.map(schedaPremio).join("") +
+      '<div class="club-scheda club-avvisi"></div>' +
       schedaCasa() +
       '<button type="button" class="club-btn club-btn-vuoto club-al-menu">' + esc(t("menu")) + "</button>";
     coriandoli();
     legaPremi();
     legaCasa();
+    disegnaAvvisi(p);
     corpo.querySelector(".club-al-menu").addEventListener("click", chiudi);
   }
 
@@ -260,7 +300,9 @@ const ClubPannello = (function () {
       "<p>" + esc(t("tessera")) + "</p></div>" +
       (p.offline ? '<p class="club-avviso">' + esc(t("offline")) + "</p>" : "") +
       (aperti.length ? aperti.map(schedaPremio).join("") : '<p class="club-niente">' + esc(t("niente")) + "</p>") +
-      '<div class="club-scheda club-compleanno"><span>🎂</span><div><b>' + esc(data(p.nascita, true)) + "</b><br>" + esc(t("compleannoTesto")) + "</div></div>" +
+      '<div class="club-scheda club-avvisi"></div>' +
+      schedaEmail(p) +
+      '<div class="club-scheda club-compleanno"><span>🎂</span><div><b>' + esc(data(p.nascita, true)) + "</b><br>" + esc(testoCompleanno(p)) + "</div></div>" +
       schedaCasa() +
       (chiusi.length ? '<div class="club-scheda"><h3>' + esc(t("usati")) + '</h3><ul class="club-usati">' + chiusi.map(function (x) {
         return "<li><span>" + esc(x.emoji) + "</span><div>" + esc(C.nomePremio(x.nome)) + "<small>" +
@@ -273,6 +315,8 @@ const ClubPannello = (function () {
       '<button type="button" class="club-esci">' + esc(t("esci")) + "</button>";
     legaPremi();
     legaCasa();
+    disegnaAvvisi(p);
+    legaEmail();
     const sw = corpo.querySelector(".club-offerte");
     sw.addEventListener("change", async function () {
       const si = sw.checked;
@@ -344,6 +388,158 @@ const ClubPannello = (function () {
     document.body.appendChild(grande);
   }
   function chiudiQR() { if (grande) { grande.remove(); grande = null; } }
+
+  /* --- il regalo di compleanno: nei giorni intorno al prossimo compleanno --- */
+  function prossimoCompleanno(nascita, s) {
+    for (let k = 0; k <= 1; k++) {
+      const y = +s.slice(0, 4) + k;
+      let d = y + String(nascita).slice(4, 10);
+      if (d.slice(5) === "02-29" && !(y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0))) d = y + "-02-28";
+      if (d >= s) return d;
+    }
+    return s;
+  }
+  function testoCompleanno(p) {
+    const r = p.regole;
+    if (!r) return t("compleannoTesto");
+    const b = prossimoCompleanno(p.nascita, C.piuGiorni(C.sera(), -r.compleannoGiorni));
+    return t("compleannoGiorni").replace("{d1}", data(C.piuGiorni(b, -r.compleannoGiorni)))
+      .replace("{d2}", data(C.piuGiorni(b, r.compleannoGiorni))).replace("{n}", r.compleannoPersone);
+  }
+
+  /* --- gli avvisi sul telefono (notifiche) --- */
+  function pushPossibile() { return "serviceWorker" in navigator && "PushManager" in window && "Notification" in window; }
+  async function registrazione() {
+    let reg = await navigator.serviceWorker.getRegistration();
+    if (!reg) reg = await navigator.serviceWorker.register(C.base + "sw.js");
+    await navigator.serviceWorker.ready;
+    return reg;
+  }
+  async function iscrizioneAttuale() {
+    try { return await (await registrazione()).pushManager.getSubscription(); } catch (e) { return null; }
+  }
+  function chiaveApp(b64) {
+    const s = (b64 + "=".repeat((4 - b64.length % 4) % 4)).replace(/-/g, "+").replace(/_/g, "/");
+    return Uint8Array.from(atob(s), function (c) { return c.charCodeAt(0); });
+  }
+  async function disegnaAvvisi(p) {
+    const box = corpo.querySelector(".club-avvisi");
+    if (!box) return;
+    const testa = "<h3>" + esc(t("avvisiTit")) + "</h3>";
+    const bottone = testa + "<p>" + esc(t("avvisiSub")) + '</p><button type="button" class="club-btn club-btn-oro club-avvisi-si">' + esc(t("avvisiBtn")) + "</button>";
+    const acceso = '<p class="club-avvisi-on">' + esc(t("avvisiOn")) + '</p><button type="button" class="club-link club-avvisi-no">' + esc(t("avvisiSpegni")) + "</button>";
+    let html;
+    if (C.DEMO) html = p.notifiche > 0 ? acceso : bottone;
+    else if (!pushPossibile()) {
+      if (!(iPhone() && !standalone())) { box.remove(); return; }
+      html = testa + "<p>" + esc(t("avvisiCasa")) + "</p>";
+    } else if (Notification.permission === "denied") html = testa + "<p>" + esc(t("avvisiBloccati")) + "</p>";
+    else html = (p.notifiche > 0 && await iscrizioneAttuale()) ? acceso : bottone;
+    box.innerHTML = html;
+    const si = box.querySelector(".club-avvisi-si");
+    if (si) si.addEventListener("click", function () { accendiAvvisi(p, si); });
+    const no = box.querySelector(".club-avvisi-no");
+    if (no) no.addEventListener("click", function () { spegniAvvisi(p); });
+  }
+  async function accendiAvvisi(p, btn) {
+    btn.disabled = true;
+    try {
+      let sub = { endpoint: "https://demo.invalid/prova" };
+      if (C.DEMO) alert(t("avvisiDemo"));
+      else {
+        // il permesso va chiesto subito, dentro il tocco (l'iPhone lo vuole così)
+        const permesso = await Notification.requestPermission();
+        if (permesso !== "granted") { disegnaAvvisi(p); return; }
+        const reg = await registrazione();
+        let s = await reg.pushManager.getSubscription();
+        if (!s) s = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: chiaveApp(await C.dati.chiavePush()) });
+        sub = s.toJSON();
+      }
+      // chi chiede gli avvisi delle offerte le vuole: si accende anche il consenso alle offerte
+      if (!p.promo) await C.dati.promo(C.chiave(), true);
+      const r = await C.dati.salvaPush(C.chiave(), sub);
+      C.salvaTessera(C.chiave(), r);
+      C.avviso(t("avvisiFatto"));
+      tessera(r);
+    } catch (e) {
+      btn.disabled = false;
+      alert(t("avvisiErrore"));
+    }
+  }
+  async function spegniAvvisi(p) {
+    try {
+      let endpoint = "https://demo.invalid/prova";
+      if (!C.DEMO) {
+        const s = await iscrizioneAttuale();
+        if (s) { endpoint = s.endpoint; await s.unsubscribe().catch(function () {}); }
+      }
+      const r = await C.dati.togliPush(C.chiave(), endpoint);
+      C.salvaTessera(C.chiave(), r);
+      tessera(r);
+    } catch (e) { alert(t("e_rete")); }
+  }
+
+  /* --- l'email da confermare (solo quando le email del Club sono accese) --- */
+  function schedaEmail(p) {
+    if (!(p.regole && p.regole.email) || p.emailConfermata) return "";
+    return '<div class="club-scheda club-email"><h3>' + esc(t("emailTit")) + "</h3><p>" + esc(t("emailSub")).replace("{email}", "<b>" + esc(p.email) + "</b>") +
+      '</p><button type="button" class="club-btn club-btn-vuoto club-rimanda">' + esc(t("emailRimanda")) + "</button></div>";
+  }
+  function legaEmail() {
+    const b = corpo.querySelector(".club-rimanda");
+    if (!b) return;
+    b.addEventListener("click", async function () {
+      b.disabled = true;
+      try {
+        await C.dati.rimandaConferma(C.chiave());
+        C.dati.invia();
+        b.outerHTML = '<p class="club-nota">' + esc(t("emailMandata")) + "</p>";
+      } catch (e) { b.disabled = false; alert(TESTI.it["e_" + e.codice] ? t("e_" + e.codice) : t("e_rete")); }
+    });
+  }
+
+  /* --- "Ho cambiato telefono": la tessera torna con un codice via email --- */
+  function ritrova() {
+    corpo.innerHTML =
+      '<div class="club-testa"><div class="club-ico">🔑</div><h2>' + esc(t("ritrovaTit")) + "</h2><p>" + esc(t("ritrovaSub")) + "</p></div>" +
+      '<form class="club-form club-form-email" novalidate>' +
+      campo("email", "email", t("email"), 'autocomplete="email" inputmode="email" maxlength="120" autocapitalize="off" spellcheck="false"') +
+      '<button type="submit" class="club-btn club-btn-oro">' + esc(t("mandaCodice")) + "</button></form>" +
+      '<form class="club-form club-form-codice" novalidate hidden>' +
+      '<p class="club-nota">' + esc(t("codiceMandato")) + "</p>" +
+      campo("codice", "text", t("codice"), 'inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*"') +
+      '<button type="submit" class="club-btn club-btn-oro">' + esc(t("entra")) + "</button></form>" +
+      '<p class="club-errore" hidden></p>' +
+      '<button type="button" class="club-link club-indietro">' + esc(t("indietro")) + "</button>";
+    const fEmail = corpo.querySelector(".club-form-email"), fCodice = corpo.querySelector(".club-form-codice");
+    const err = corpo.querySelector(".club-errore");
+    const errore = function (k) { err.textContent = "⚠️ " + (TESTI.it[k] ? t(k) : t("e_rete")); err.hidden = false; };
+    corpo.querySelector(".club-indietro").addEventListener("click", iscrizione);
+    fEmail.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      err.hidden = true;
+      const email = fEmail.elements.email.value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(email)) { errore("e_email"); return; }
+      const b = fEmail.querySelector("button"); b.disabled = true;
+      try {
+        await C.dati.chiediCodice(email);
+        C.dati.invia();
+        fEmail.hidden = true; fCodice.hidden = false;
+        fCodice.elements.codice.focus();
+      } catch (er) { b.disabled = false; errore("e_" + er.codice); }
+    });
+    fCodice.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      err.hidden = true;
+      const b = fCodice.querySelector("button"); b.disabled = true;
+      try {
+        const r = await C.dati.usaCodice(fEmail.elements.email.value.trim(), fCodice.elements.codice.value);
+        if (r.errore) { b.disabled = false; errore("e_" + r.errore); return; }
+        C.salvaTessera(r.chiave, r);
+        tessera(r, { ritrovata: true });
+      } catch (er) { b.disabled = false; errore("e_" + er.codice); }
+    });
+  }
 
   /* --- tenere il menu sulla schermata Home --- */
   function standalone() {

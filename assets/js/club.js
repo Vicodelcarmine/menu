@@ -50,6 +50,8 @@ const Club = (function () {
       invitoCompleanno: "Un regalo per il tuo compleanno", invitoOfferte: "Offerte riservate agli iscritti",
       iscriviti: "Iscriviti gratis", nonOra: "Non ora", dopo: "Lo ritrovi quando vuoi nel tasto 🎁 Club in alto.",
       ritrovata: "Tessera del Club ritrovata 🎉",
+      confermata: "✅ Email confermata: grazie!", stop: "Fatto: non riceverai più le offerte del Club.",
+      linkKo: "Questo link non è più valido.",
     },
     en: {
       club: "Club", invitoTit: "Join the Vico Club", invitoSub: "Free, in one minute. It's our way of saying thank you.",
@@ -57,6 +59,8 @@ const Club = (function () {
       invitoCompleanno: "A gift for your birthday", invitoOfferte: "Members-only offers",
       iscriviti: "Join for free", nonOra: "Not now", dopo: "You'll always find it under the 🎁 Club button at the top.",
       ritrovata: "Club card found 🎉",
+      confermata: "✅ Email confirmed: thank you!", stop: "Done: you won't receive Club offers any more.",
+      linkKo: "This link is no longer valid.",
     },
   };
   function t(k, testi) {
@@ -125,6 +129,20 @@ const Club = (function () {
     if (!r.ok) throw errore((dati && dati.hint) || "server", (dati && dati.message) || "Errore del server (" + r.status + ")");
     return dati;
   }
+  // la funzione che manda gli avvisi (notifiche ed email)
+  async function funzione(corpo) {
+    let r;
+    try {
+      r = await fetch(SUPABASE_URL + "/functions/v1/club-invia", {
+        method: "POST",
+        headers: { apikey: SUPABASE_KEY, "Content-Type": "application/json" },
+        body: JSON.stringify(corpo),
+      });
+    } catch (e) { throw errore("rete", "Connessione assente"); }
+    const dati = await r.json().catch(function () { return {}; });
+    if (!r.ok) throw errore("server", dati.errore || "Avvisi non disponibili");
+    return dati;
+  }
 
   /* --- demo: stesse regole del database, nella memoria del browser --- */
   function demoLeggi() {
@@ -132,7 +150,8 @@ const Club = (function () {
     try { db = JSON.parse(localStorage.getItem(DB_DEMO)); } catch (e) {}
     db = db || { iscritti: [], premi: [] };
     db.impostazioni = Object.assign({ emoji: "🍹", nome: { it: "Spritz o dolce offerto", en: "Free spritz or dessert" },
-      persone: 2, sere: 14, giorniNo: [6], giorniChiusura: [] }, db.impostazioni);
+      persone: 2, sere: 14, giorniNo: [6], giorniChiusura: [], compleannoPer: 2, compleannoGiorni: 3, emailAttive: false },
+      db.impostazioni);
     return db;
   }
   function demoScrivi(db) { try { localStorage.setItem(DB_DEMO, JSON.stringify(db)); } catch (e) {} }
@@ -160,8 +179,11 @@ const Club = (function () {
     return "valido";
   }
   function demoVista(db, i) {
+    const imp = db.impostazioni;
     return {
       nome: i.nome, email: i.email, telefono: i.telefono, nascita: i.nascita, promo: i.promo, creato: i.creato,
+      emailConfermata: false, notifiche: i.notifiche || 0,
+      regole: { compleannoPersone: imp.persone * imp.compleannoPer, compleannoGiorni: imp.compleannoGiorni, email: !!imp.emailAttive },
       premi: db.premi.filter(function (p) { return p.iscritto === i.id && (!p.usato || p.usato > Date.now() - 60 * 864e5); })
         .map(function (p) {
           return { codice: p.codice, tipo: p.tipo, emoji: p.emoji, nome: p.nome, persone: p.persone, dal: p.dal, al: p.al,
@@ -188,7 +210,8 @@ const Club = (function () {
     info: function () {
       return attesa(function () {
         const imp = demoLeggi().impostazioni;
-        return { emoji: imp.emoji, nome: imp.nome, persone: imp.persone, sere: imp.sere, giorniNo: imp.giorniNo.concat(imp.giorniChiusura) };
+        return { emoji: imp.emoji, nome: imp.nome, persone: imp.persone, sere: imp.sere, giorniNo: imp.giorniNo.concat(imp.giorniChiusura),
+          compleannoPersone: imp.persone * imp.compleannoPer, email: !!imp.emailAttive };
       });
     },
     iscriviti: function (d) {
@@ -234,6 +257,20 @@ const Club = (function () {
         return true;
       });
     },
+    // nella prova le notifiche vere non partono: si segna solo che sono accese
+    chiavePush: function () { return Promise.reject(errore("demo", "Nella prova le notifiche non partono")); },
+    salvaPush: function (chiave) {
+      return attesa(function () { const db = demoLeggi(), i = demoIscritto(db, chiave); i.notifiche = 1; demoScrivi(db); return demoVista(db, i); });
+    },
+    togliPush: function (chiave) {
+      return attesa(function () { const db = demoLeggi(), i = demoIscritto(db, chiave); i.notifiche = 0; demoScrivi(db); return demoVista(db, i); });
+    },
+    invia: function () { return Promise.resolve({ inviati: 0 }); },
+    confermaEmail: function () { return attesa(function () { throw errore("token", "Link non valido"); }); },
+    stopOfferte: function () { return attesa(function () { throw errore("token", "Link non valido"); }); },
+    rimandaConferma: function () { return attesa(function () { throw errore("email_spente", "Le email del Club non sono ancora attive"); }); },
+    chiediCodice: function () { return attesa(function () { throw errore("email_spente", "Le email del Club non sono ancora attive"); }); },
+    usaCodice: function () { return attesa(function () { return { errore: "scaduto" }; }); },
   };
   const reale = {
     info: function () { return rpc("club_info"); },
@@ -244,6 +281,16 @@ const Club = (function () {
     profilo: function (chiave) { return rpc("club_profilo", { p_chiave: chiave }); },
     promo: function (chiave, si) { return rpc("club_promo", { p_chiave: chiave, p_promo: !!si }); },
     cancellami: function (chiave) { return rpc("club_cancellami", { p_chiave: chiave }); },
+    chiavePush: async function () { return (await funzione({ azione: "chiave" })).chiave; },
+    salvaPush: function (chiave, sub) { return rpc("club_salva_push", { p_chiave: chiave, p_sub: sub }); },
+    togliPush: function (chiave, endpoint) { return rpc("club_togli_push", { p_chiave: chiave, p_endpoint: endpoint }); },
+    // manda subito gli avvisi in coda (es. l'email di benvenuto o il codice); se non riesce ci pensa il giro dei 10 minuti
+    invia: function () { return funzione({ azione: "invia" }).catch(function () { return null; }); },
+    confermaEmail: function (token) { return rpc("club_conferma_email", { p_token: token }); },
+    stopOfferte: function (token) { return rpc("club_stop_offerte", { p_token: token }); },
+    rimandaConferma: function (chiave) { return rpc("club_rimanda_conferma", { p_chiave: chiave }); },
+    chiediCodice: function (email) { return rpc("club_chiedi_codice", { p_email: email }); },
+    usaCodice: function (email, codice) { return rpc("club_usa_codice", { p_email: email, p_codice: codice }); },
   };
   const dati = DEMO ? demo : reale;
 
@@ -390,22 +437,42 @@ const Club = (function () {
   let installa = null;
   window.addEventListener("beforeinstallprompt", function (e) { installa = e; });
 
+  /* --- un avviso che compare in basso e se ne va da solo --- */
+  function avviso(testo) {
+    const d = document.createElement("div");
+    d.className = "club-toast";
+    d.textContent = testo;
+    document.body.appendChild(d);
+    requestAnimationFrame(function () { d.classList.add("on"); });
+    setTimeout(function () { d.classList.remove("on"); setTimeout(function () { d.remove(); }, 400); }, 4200);
+  }
+
   /* ==========================================================================
      AVVIO
      ======================================================================== */
   function avvia() {
     agganciaOrdini();
     creaTasto();
-    // ?club=CHIAVE: tessera riaperta dal titolare (cambio telefono) o dall'icona sulla Home
+    // indirizzi speciali, che poi si tolgono dalla barra (il numero del tavolo resta):
+    //   ?club=CHIAVE     tessera riaperta dal titolare (cambio telefono) o dall'icona sulla Home
+    //   ?club=apri       si apre la tessera (avvisi sul telefono, link nelle email)
+    //   ?club_email=…    link "Conferma la tua email"
+    //   ?club_stop=…     link "Non voglio più le offerte"
     const q = new URLSearchParams(location.search);
-    const k = q.get("club");
-    if (k && /^[A-Za-z0-9]{16,40}$/.test(k)) {
-      q.delete("club");
+    const k = q.get("club"), conferma = q.get("club_email"), stop = q.get("club_stop");
+    if (k || conferma || stop) {
+      ["club", "club_email", "club_stop"].forEach(function (x) { q.delete(x); });
       const resto = q.toString();
       history.replaceState(null, "", location.pathname + (resto ? "?" + resto : "") + location.hash);
+    }
+    if (conferma) dati.confermaEmail(conferma).then(function () { avviso(t("confermata")); }, function () { avviso(t("linkKo")); });
+    if (stop) dati.stopOfferte(stop).then(function () { avviso(t("stop")); }, function () { avviso(t("linkKo")); });
+    if (k && /^[A-Za-z0-9]{16,40}$/.test(k)) {
       scrivi(CHIAVE, k);
       scrivi(INVITO, leggi(INVITO) || String(Date.now()));
       apri({ ritrovata: true });
+    } else if (k === "apri" && chiave()) {
+      apri();
     } else if (chiave()) {
       // tessera già sul telefono: aggiorno il pallino senza rallentare il menu
       setTimeout(function () { profilo().catch(function () {}); }, 2500);
@@ -425,6 +492,6 @@ const Club = (function () {
     caricaQR: caricaQR, installa: function () { return installa; }, consumaInstalla: function () { installa = null; },
     urlPremio: function (codice) { return new URL("../agenti/titolare/?c=" + codice, BASE).href; },
     urlCasa: function (k) { return new URL("club.html?k=" + k, BASE).href; },
-    apri: apri,
+    apri: apri, avviso: avviso, base: BASE,
   };
 })();

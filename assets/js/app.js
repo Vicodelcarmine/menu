@@ -31,7 +31,7 @@
 
   // Versione del menu, scritta in fondo alla pagina: AGGIORNARLA A OGNI PUBBLICAZIONE.
   // Serve a capire al volo se il telefono sta mostrando l'ultima versione.
-  const APP_VERSION = "14.10.2026 · club";
+  const APP_VERSION = "15.10.2026 · avvisi club";
 
   const hasData = typeof MENU_DATA !== "undefined" && MENU_DATA;
   const categorie = (hasData && MENU_DATA.categorie) || [];
