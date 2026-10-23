@@ -20,6 +20,54 @@
   background:var(--basil); border:2px solid var(--bg); box-shadow:0 0 0 3px rgba(134,182,74,.25);
 }
 html[dir="rtl"] .club-pill{ left:auto; right:14px; }
+
+/* chi non è ancora nel Club: tasto d'oro, più grande, che ogni 5 secondi salta,
+   dondola il regalo e manda un'onda dorata. Chi è socio lo vede salire solo
+   quando ha un premio da usare. Con "riduci movimento" del telefono sta fermo. */
+.club-pill.invita{
+  padding:10px 17px; gap:8px; font-size:1rem; font-weight:600; color:#2a1a08;
+  background:linear-gradient(135deg, #f3cd72, var(--gold) 45%, #c58f2b);
+  border-color:rgba(255,230,170,.85);
+  box-shadow:0 6px 22px rgba(230,178,74,.4);
+  transform-origin:25% 50%;
+  animation:club-salta 5s ease-in-out 1.5s infinite;
+}
+.club-pill.invita:hover{ border-color:#fff3d0; }
+.club-pill.invita .club-pill-ico{
+  display:inline-block; font-size:1.35rem; transform-origin:50% 85%;
+  animation:club-dondola 5s ease-in-out 1.5s infinite;
+}
+.club-pill.invita::after,
+.club-pill.premio::after{
+  content:""; position:absolute; inset:-2px; border-radius:inherit; border:2px solid var(--gold);
+  opacity:0; pointer-events:none;
+  animation:club-onda 5s ease-out 1.5s infinite;
+}
+.club-pill.premio{ border-color:var(--gold); transform-origin:25% 50%; animation:club-salta 5s ease-in-out 1.5s infinite; }
+.club-pill.premio .club-pill-ico{ display:inline-block; transform-origin:50% 85%; animation:club-dondola 5s ease-in-out 1.5s infinite; }
+@keyframes club-salta{
+  0%, 70%, 100% { transform:scale(1); }
+  76%           { transform:scale(1.2) rotate(-3deg); }
+  82%           { transform:scale(1.06) rotate(2deg); }
+  88%           { transform:scale(1.14); }
+  94%           { transform:scale(1); }
+}
+@keyframes club-dondola{
+  0%, 70%, 96%, 100% { transform:rotate(0); }
+  75% { transform:rotate(-20deg); }
+  80% { transform:rotate(16deg); }
+  85% { transform:rotate(-10deg); }
+  90% { transform:rotate(6deg); }
+}
+@keyframes club-onda{
+  0%, 74% { opacity:0; transform:scale(1); }
+  76%     { opacity:.9; transform:scale(1); }
+  100%    { opacity:0; transform:scale(1.35, 1.9); }
+}
+@media (prefers-reduced-motion: reduce){
+  .club-pill.invita, .club-pill.invita .club-pill-ico, .club-pill.invita::after,
+  .club-pill.premio, .club-pill.premio .club-pill-ico, .club-pill.premio::after{ animation:none; }
+}
 /* sparisce quando è aperto un piatto, un foglio d'ordine o il pannello stesso */
 body:has(.overlay.open) .club-pill,
 body:has(.ord-foglio.aperto) .club-pill,

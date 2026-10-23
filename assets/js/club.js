@@ -341,12 +341,16 @@ const Club = (function () {
     document.body.appendChild(tasto);
     aggiornaTasto(profiloSalvato());
   }
-  // il pallino si accende quando c'è un premio da usare stasera
+  // il pallino si accende quando c'è un premio da usare stasera.
+  // Chi non è ancora nel Club vede il tasto d'oro che ogni tanto salta (club.css → .invita);
+  // chi è socio lo vede tranquillo, e salta solo quando ha un premio da usare (.premio).
   function aggiornaTasto(p) {
     if (!tasto) return;
     tasto.querySelector(".club-pill-txt").textContent = t("club");
     const pronto = !!(p && p.premi && p.premi.some(function (x) { return x.stato === "valido"; }));
     tasto.querySelector(".club-pill-dot").hidden = !pronto;
+    tasto.classList.toggle("invita", !chiave());
+    tasto.classList.toggle("premio", !!chiave() && pronto);
   }
 
   /* ==========================================================================
