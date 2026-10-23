@@ -215,6 +215,13 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 .asp-nota{ margin:8px 0 0; color:var(--giallo); font-size:.9rem; }
 .asp-piede{ display:flex; justify-content:space-between; gap:10px; padding:10px 16px 14px; color:var(--fioco); font-size:.88rem; }
 .asp-piede a{ color:var(--testo); }
+.asp-chiusi{ margin-top:12px; color:var(--fioco); font-size:.9rem; }
+.asp-chiusi summary{ cursor:pointer; padding:6px 0; font-weight:700; }
+.asp-chiuso{ display:flex; align-items:center; gap:10px; padding:8px 0; border-top:1px solid var(--carta-2); }
+.asp-chiuso .cresce{ flex:1; min-width:0; }
+.asp-chiuso b{ color:var(--testo); }
+.asp-chiuso.annullato b{ text-decoration:line-through; }
+.asp-chiuso button{ flex:0 0 auto; padding:6px 10px; border-radius:10px; border:1px solid var(--carta-2); background:none; color:var(--testo); font:inherit; cursor:pointer; }
 .b-pronto{ background:var(--blu); color:#06213f; }
 
 /* ---- la password, chiesta una volta sola per dispositivo ---- */
@@ -529,7 +536,7 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
      in preparazione (blu) → pronto (verde) → ritirato (sparisce).
      Se l'asporto non è installato il banco va avanti come prima.
      ------------------------------------------------------------------------ */
-  let aspFirma = null, aspVisti = {}, aspPrima = true, aspVivi = 0;
+  let aspFirma = null, aspVisti = {}, aspPrima = true, aspVivi = 0, aspChiusiAperti = false;
   const ASP_PROSSIMO = { ricevuto: ["preparazione", "b-visto", "In preparazione"],
                          preparazione: ["pronto", "b-pronto", "Pronto"],
                          pronto: ["ritirato", "b-conferma", "Ritirato"] };
@@ -556,19 +563,20 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     aspPrima = false;
     const vivi = lista.filter(function (o) { return ASP_PROSSIMO[o.stato]; });
     aspVivi = vivi.length;
-    const firma = vivi.map(function (o) { return o.id + ":" + o.stato; }).join("|") + "#" + lista.length;
+    const firma = lista.map(function (o) { return o.id + ":" + o.stato; }).join("|");
     if (firma !== aspFirma) { aspFirma = firma; disegnaAsporto(vivi, lista); }
   }
   function disegnaAsporto(vivi, tutti) {
     const box = $("#asporto");
-    box.hidden = !vivi.length;
-    if (!vivi.length) { box.innerHTML = ""; return; }
+    box.hidden = !tutti.length;
+    if (!tutti.length) { box.innerHTML = ""; return; }
+    const chiusi = tutti.filter(function (o) { return !ASP_PROSSIMO[o.stato]; });
     const ritirati = tutti.filter(function (o) { return o.stato === "ritirato"; }).length;
     const pronti = vivi.filter(function (o) { return o.stato === "pronto"; }).length;
     const conti = [];
     if (vivi.length - pronti) conti.push((vivi.length - pronti) + " da preparare");
     if (pronti) conti.push(pronti + (pronti === 1 ? " pronto" : " pronti") + " da ritirare");
-    if (ritirati) conti.push(ritirati + " ritirati stasera");
+    if (ritirati) conti.push(ritirati + (ritirati === 1 ? " ritirato" : " ritirati") + " stasera");
     box.innerHTML = '<h2 class="asp-titolo">🛍️ Asporto<small>' + conti.join(" · ") + "</small></h2>" +
       '<div class="asp-griglia">' + vivi.map(function (o) {
         const dopo = ASP_PROSSIMO[o.stato];
@@ -587,12 +595,22 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
           '<div class="t-azioni"><button class="' + dopo[1] + '" data-stato="' + dopo[0] + '">' + dopo[2] + "</button></div>" +
           '<button class="t-blocca" data-stato="annullato">Annulla questo ordine</button>' +
           "</section>";
-      }).join("") + "</div>";
+      }).join("") + "</div>" +
+      // quelli già chiusi stasera: per controllare un ordine, o rimetterlo se "Ritirato" è stato premuto per sbaglio
+      (chiusi.length ? '<details class="asp-chiusi"' + (aspChiusiAperti ? " open" : "") + "><summary>Ritirati e annullati stasera (" +
+        chiusi.length + ")</summary>" + chiusi.map(function (o) {
+          return '<div class="asp-chiuso ' + esc(o.stato) + '" data-id="' + esc(o.id) + '" data-ritiro="' + esc(o.ritiro) + '">' +
+            '<div class="cresce"><b>' + esc(o.ritiro) + " · " + esc(o.nome) + "</b> · " + esc(o.codice) + " · " + esc(euroDi(o.totale)) +
+            "<br>" + (o.righe || []).map(function (r) { return esc(r.qta) + "× " + esc(r.nome); }).join(", ") + "</div>" +
+            (o.stato === "ritirato" ? '<button data-stato="pronto">↺ Rimetti pronto</button>' : "<span>annullato</span>") + "</div>";
+        }).join("") + "</details>" : "");
+    const d = box.querySelector(".asp-chiusi");
+    if (d) d.addEventListener("toggle", function () { aspChiusiAperti = d.open; });
   }
   $("#asporto").addEventListener("click", async function (e) {
     const b = e.target.closest("button[data-stato]");
     if (!b) return;
-    const card = b.closest(".asp-card");
+    const card = b.closest("[data-id]");
     if (b.dataset.stato === "annullato" &&
         !confirm("Annullo l'ordine da asporto delle " + card.dataset.ritiro + "? Il cliente lo vede annullato sul telefono.")) return;
     b.disabled = true;
