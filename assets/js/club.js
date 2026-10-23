@@ -477,6 +477,10 @@ const Club = (function () {
       apri({ ritrovata: true });
     } else if (k === "apri" && chiave()) {
       apri();
+    } else if (k === "apri") {
+      // chi non è ancora socio (es. dal gioco "Tenta la Fortuna"): l'iscrizione, appena finita l'intro
+      scrivi(INVITO, leggi(INVITO) || String(Date.now()));
+      const giro = setInterval(function () { if (menuLibero()) { clearInterval(giro); apri(); } }, 300);
     } else if (chiave()) {
       // tessera già sul telefono: aggiorno il pallino senza rallentare il menu
       setTimeout(function () { profilo().catch(function () {}); }, 2500);

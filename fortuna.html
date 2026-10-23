@@ -113,10 +113,10 @@ footer a{color:var(--gold)}
   <div class="info">
     <p>
       📍 Via Pisana 40/r — San Frediano, Firenze<br>
-      🕖 Stasera dalle 19:00 alle 23:30<br>
+      🕖 Stasera dalle 19:00 alle 00:30<br>
       📸 <a href="https://www.instagram.com/vico.del.carmine/" target="_blank">@vico.del.carmine</a> · 
       📘 <a href="https://www.facebook.com/vicodelcarmineFi" target="_blank">Facebook</a><br>
-      📱 <a href="https://wa.me/393514002503?text=Ciao!%20Vorrei%20prenotare" target="_blank">Prenota su WhatsApp</a><br><br>
+      📅 <a href="https://vicodelcarmine.it/#prenota" target="_blank">Prenota online</a><br><br>
       🍕 La nostra pizza è ricca e digeribile — lievitazione naturale di 72 ore!<br>
       Cucina della tradizione italiana: pasta fresca, pesce, carne alla griglia e dolci fatti in casa.
     </p>
@@ -293,6 +293,7 @@ function checkAlreadyPlayed() {
         <div style="font-size:1.2em">🍽️</div>
         <p style="font-size:.85em;color:var(--gold-light);line-height:1.4;margin:4px 0 0">Il premio ti aspetta a tavola!<br>Valido con consumazione al ristorante.</p>
       </div>
+      ${clubBox()}
     `;
     return true;
   }
@@ -402,18 +403,7 @@ function spin() {
           <p>Il premio ti aspetta a tavola!<br>Valido con consumazione al ristorante.</p>
         </div>
         <div class="cta">Mostra questo codice al cameriere per riscattare il premio</div>
-        <div class="email-box" style="margin:20px 0 8px;padding:16px;background:rgba(200,149,108,.1);border:1px solid rgba(200,149,108,.25);border-radius:12px">
-          <p style="font-size:.85em;color:var(--gold-light);margin-bottom:10px">📬 Ricevi il tuo premio su WhatsApp e sblocca offerte extra!</p>
-          <input type="tel" id="phone-input" placeholder="Il tuo numero WhatsApp" 
-            style="width:100%;padding:12px 16px;border-radius:25px;border:1px solid rgba(200,149,108,.3);background:#0a0604;color:var(--cream);font-size:.95em;font-family:'Lato',sans-serif;outline:none;text-align:center;margin-bottom:10px"
-            onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(200,149,108,.3)'">
-          <input type="email" id="email-input" placeholder="La tua email (opzionale)" 
-            style="width:100%;padding:12px 16px;border-radius:25px;border:1px solid rgba(200,149,108,.3);background:#0a0604;color:var(--cream);font-size:.95em;font-family:'Lato',sans-serif;outline:none;text-align:center"
-            onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='rgba(200,149,108,.3)'">
-          <button onclick="saveContact('${fullCode}')" 
-            style="margin-top:10px;background:var(--gold);color:var(--dark);border:none;padding:10px 28px;border-radius:25px;font-weight:700;font-family:'Lato',sans-serif;cursor:pointer;font-size:.9em">RICEVI PREMIO</button>
-          <p id="contact-thanks" style="display:none;color:var(--gold);font-size:.85em;margin-top:8px">✅ Grazie! Ti abbiamo inviato un messaggio!</p>
-        </div>
+        ${clubBox()}
         <button class="show-staff" onclick="document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();this.style.display='none'">📱 MOSTRA AL CAMERIERE</button>
       `;
       
@@ -447,34 +437,22 @@ function spin() {
 // Check on load
 checkAlreadyPlayed();
 
-// Save contact function
-function saveContact(code) {
-  const phoneInput = document.getElementById('phone-input');
-  const emailInput = document.getElementById('email-input');
-  const phone = phoneInput.value.trim();
-  const email = emailInput.value.trim();
-  
-  if (!phone && !email) {
-    phoneInput.style.borderColor = '#e74c3c';
-    return;
-  }
-  
-  // Send to Telegram bot (lightweight webhook)
-  fetch('https://api.telegram.org/bot8697095945:AAGnbdjMFvEOnGm5bZapz1lYHVSnPNOMNxU/sendMessage', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: '1300371958',
-      text: '🎰 Nuova vincita registrata!\n\n📱 WhatsApp: ' + (phone || 'N/A') + '\n📧 Email: ' + (email || 'N/A') + '\n🎰 Premio: ' + code + '\n📅 ' + new Date().toLocaleString('it-IT')
-    })
-  }).catch(() => {});
-  
-  // UI feedback
-  document.getElementById('contact-thanks').style.display = 'block';
-  phoneInput.style.display = 'none';
-  emailInput.style.display = 'none';
-  document.querySelector('.email-box button').style.display = 'none';
-  document.querySelector('.email-box p:first-child').textContent = '📬 Contatto salvato con successo!';
+// Il Club del Vico: chi vince entra nel Club dal menu (stesso sito, quindi la tessera
+// resta sul telefono). Prima qui c'era un box telefono/email che mandava i contatti a un
+// bot Telegram con la chiave scritta nella pagina: tolto.
+function clubBox() {
+  const it = userLang === 'it';
+  let socio = false;
+  try { socio = !!localStorage.getItem('vdc_club'); } catch (e) {}
+  const testo = socio
+    ? (it ? '🎁 Sei già nel Club del Vico: i tuoi premi sono nella tessera.' : '🎁 You are already in the Vico Club: your gifts are in your card.')
+    : (it ? '🎁 Entra gratis nel Club del Vico: un regalo di benvenuto, uno per il compleanno e le offerte riservate ai soci.'
+          : '🎁 Join the Vico Club for free: a welcome gift, a birthday gift and members-only offers.');
+  const bottone = socio ? (it ? 'APRI LA TESSERA' : 'OPEN YOUR CARD') : (it ? 'ENTRA NEL CLUB' : 'JOIN THE CLUB');
+  return '<div class="club-box" style="margin:20px 0 8px;padding:16px;background:rgba(200,149,108,.1);border:1px solid rgba(200,149,108,.25);border-radius:12px">' +
+    '<p style="font-size:.9em;color:var(--gold-light);margin-bottom:12px;line-height:1.5">' + testo + '</p>' +
+    '<a href="./?club=apri" style="display:inline-block;background:var(--gold);color:var(--dark);padding:12px 28px;border-radius:25px;font-weight:900;font-family:\'Lato\',sans-serif;text-decoration:none;font-size:.9em;letter-spacing:1px">' + bottone + '</a>' +
+    '</div>';
 }
 </script>
 </body>
