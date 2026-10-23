@@ -297,6 +297,13 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   function bipNuovo() { bip(880, 0.14); setTimeout(function () { bip(1180, 0.16); }, 150); }
   function bipTardi() { bip(440, 0.25); setTimeout(function () { bip(440, 0.25); }, 320); }
 
+  // tutto quello che arriva dai clienti (nomi, note) si scrive come testo, mai come codice
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
   function mmss(ms) {
     const s = Math.max(0, Math.floor(ms / 1000));
     return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
@@ -354,18 +361,18 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
       Object.keys(numeri).sort(function (a, b) { return a - b; }).forEach(function (n) {
         corpo += '<div class="portata"><div class="portata-testa"><span class="portata-n">' + n + "</span>" + n + "ª portata</div>";
         numeri[n].forEach(function (r) {
-          corpo += '<div class="piatto"><span class="p-qta">' + r.qta + '×</span><span class="p-nome">' + r.nome +
-                   (r.nota ? '<span class="p-nota">' + r.nota + "</span>" : "") + "</span></div>";
+          corpo += '<div class="piatto"><span class="p-qta">' + esc(r.qta) + '×</span><span class="p-nome">' + esc(r.nome) +
+                   (r.nota ? '<span class="p-nota">' + esc(r.nota) + "</span>" : "") + "</span></div>";
         });
         corpo += "</div>";
       });
 
       d.innerHTML =
         '<div class="t-testa">' +
-        '<div class="t-num">' + g.tavolo + "</div>" +
+        '<div class="t-num">' + esc(g.tavolo) + "</div>" +
         '<div class="t-info">' +
         '<div class="t-tempo">' + mmss(attesa) + "</div>" +
-        '<div class="t-dett">' + g.coperti + " coperti · " + g.ordini.length +
+        '<div class="t-dett">' + esc(g.coperti) + " coperti · " + g.ordini.length +
         (g.ordini.length === 1 ? " invio" : " invii") + "</div>" +
         (g.chiamato ? '<span class="t-chiamato">🔔 ha chiamato il cameriere</span>' : "") +
         (preso ? '<span class="t-preso">✓ preso in carico</span>' : "") +
@@ -543,7 +550,7 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
       const d = document.createElement("div");
       d.className = "tv";
       d.dataset.tav = t.numero;
-      d.innerHTML = t.numero + '<span class="tv-segno"></span>';
+      d.innerHTML = esc(t.numero) + '<span class="tv-segno"></span>';
       d.addEventListener("click", function () { tocca(t.numero, d.dataset.stato); });
       g.appendChild(d);
     });
