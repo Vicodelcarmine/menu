@@ -113,6 +113,9 @@ html.club-aperto .club-pill{ display:none; }
 .club-vantaggi li > span{ font-size:1.6rem; line-height:1; flex:0 0 auto; }
 .club-vantaggi b{ color:var(--gold); }
 .club-vantaggi small{ display:block; color:var(--muted); font-size:.8rem; }
+/* il premio vinto a Tenta la Fortuna, in cima: si riscatta iscrivendosi */
+.club-vantaggi li.club-fortuna{ border-color:var(--gold); background:rgba(230,178,74,.14); box-shadow:0 0 0 3px rgba(230,178,74,.12); }
+.club-vantaggi li.club-fortuna small{ color:var(--cream); }
 
 /* --- il pannello a tutto schermo --- */
 html.club-aperto, html.club-aperto body{ overflow:hidden; }

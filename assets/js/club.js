@@ -26,6 +26,7 @@ const Club = (function () {
   const PROFILO = "vdc_club_profilo";     // l'ultima tessera letta: si vede anche senza rete
   const INVITO = "vdc_club_invito";       // l'invito è già comparso
   const DISP = "vdc_club_disp";           // numero a caso del telefono (contro le iscrizioni a raffica)
+  const FORTUNA = "vdc_fortuna";          // il premio vinto a Tenta la Fortuna (fortuna.html), finché non è nella tessera
   const DB_DEMO = "vdcclub_demo_v1";
 
   const $ = function (s) { return document.querySelector(s); };
@@ -269,11 +270,29 @@ const Club = (function () {
     confermaEmail: function () { return attesa(function () { throw errore("token", "Link non valido"); }); },
     stopOfferte: function () { return attesa(function () { throw errore("token", "Link non valido"); }); },
     rimandaConferma: function () { return attesa(function () { throw errore("email_spente", "Le email del Club non sono ancora attive"); }); },
+    // Tenta la Fortuna: stesse regole di fortuna_riscatta (supabase/14-fortuna.sql)
+    fortunaRiscatta: function (segreto, k) {
+      return attesa(function () {
+        const db = demoLeggi(), i = demoIscritto(db, k), f = fortunaInSospeso();
+        if (!f || f.segreto !== segreto) throw errore("nonc", "Giocata non trovata");
+        if (f.sera !== sera()) throw errore("scaduto", "Il premio valeva solo quella sera");
+        if (db.premi.some(function (p) { return p.iscritto === i.id && p.tipo === "fortuna" && p.dal === f.sera; })) {
+          throw errore("gia", "Stasera hai già riscattato un premio della Fortuna");
+        }
+        let codice;
+        do { codice = casuale(7); } while (db.premi.some(function (p) { return p.codice === codice; }));
+        db.premi.push({ codice: codice, iscritto: i.id, tipo: "fortuna", emoji: f.emoji, nome: f.nome, persone: f.persone,
+          dal: f.sera, al: f.sera, giorniNo: [], creato: Date.now(), usato: null, seraUso: null });
+        demoScrivi(db);
+        return { codice: codice, premio: { codice: codice } };
+      });
+    },
     chiediCodice: function () { return attesa(function () { throw errore("email_spente", "Le email del Club non sono ancora attive"); }); },
     usaCodice: function () { return attesa(function () { return { errore: "scaduto" }; }); },
   };
   const reale = {
     info: function () { return rpc("club_info"); },
+    fortunaRiscatta: function (segreto, k) { return rpc("fortuna_riscatta", { p_segreto: segreto, p_chiave: k }); },
     iscriviti: function (d) {
       return rpc("club_iscriviti", { p_nome: d.nome, p_email: d.email, p_telefono: d.telefono, p_nascita: d.nascita,
         p_promo: !!d.promo, p_lingua: lingua(), p_dispositivo: dispositivo() });
@@ -311,6 +330,24 @@ const Club = (function () {
   }
   function dimenticaTessera() { scrivi(CHIAVE, null); scrivi(PROFILO, null); aggiornaTasto(null); }
   function profiloSalvato() { try { return JSON.parse(leggi(PROFILO)); } catch (e) { return null; } }
+
+  // Tenta la Fortuna: il premio vinto aspetta qui finché sul telefono c'è una tessera,
+  // poi va nella tessera (vale solo la sera in cui è uscito). Torna null se non c'era niente da fare.
+  function fortunaInSospeso() { try { return JSON.parse(leggi(FORTUNA)); } catch (e) { return null; } }
+  async function riscattaFortuna() {
+    const f = fortunaInSospeso(), k = chiave();
+    if (!f || !f.segreto || f.codice || !k) return null;
+    try {
+      const r = await dati.fortunaRiscatta(f.segreto, k);
+      f.codice = (r.premio && r.premio.codice) || r.codice || true;
+      scrivi(FORTUNA, JSON.stringify(f));
+      return r;
+    } catch (e) {
+      // giocata sparita, già presa, scaduta o già riscattata stasera: non c'è più niente da riscattare
+      if (["nonc", "preso", "scaduto", "gia"].indexOf(e.codice) >= 0) scrivi(FORTUNA, null);
+      return null;
+    }
+  }
   // legge la tessera dal server; senza rete ripiega sull'ultima copia (il QR si mostra lo stesso)
   async function profilo() {
     const k = chiave();
@@ -431,7 +468,7 @@ const Club = (function () {
   }
   let caricamento = null;
   function apri(opzioni) {
-    if (!caricamento) caricamento = caricaScript("assets/js/club-pannello.js?v=1").catch(function (e) { caricamento = null; throw e; });
+    if (!caricamento) caricamento = caricaScript("assets/js/club-pannello.js?v=2").catch(function (e) { caricamento = null; throw e; });
     return caricamento.then(function () { ClubPannello.apri(opzioni || {}); })
       .catch(function () { alert(inItaliano() ? "Connessione assente: riprova fra poco." : "No connection: please try again shortly."); });
   }
@@ -475,15 +512,18 @@ const Club = (function () {
       scrivi(CHIAVE, k);
       scrivi(INVITO, leggi(INVITO) || String(Date.now()));
       apri({ ritrovata: true });
-    } else if (k === "apri" && chiave()) {
-      apri();
     } else if (k === "apri") {
-      // chi non è ancora socio (es. dal gioco "Tenta la Fortuna"): l'iscrizione, appena finita l'intro
+      // la tessera, o l'iscrizione per chi non è ancora socio (es. dal gioco "Tenta la Fortuna"),
+      // quando l'intro è sparita del tutto; dal gioco, prima il premio va nella tessera
       scrivi(INVITO, leggi(INVITO) || String(Date.now()));
-      const giro = setInterval(function () { if (menuLibero()) { clearInterval(giro); apri(); } }, 300);
+      const pronto = riscattaFortuna();
+      const giro = setInterval(function () {
+        const intro = $("#intro");
+        if ((!intro || intro.style.display === "none") && menuLibero()) { clearInterval(giro); pronto.then(function () { apri(); }); }
+      }, 250);
     } else if (chiave()) {
       // tessera già sul telefono: aggiorno il pallino senza rallentare il menu
-      setTimeout(function () { profilo().catch(function () {}); }, 2500);
+      setTimeout(function () { riscattaFortuna().then(profilo).catch(function () {}); }, 2500);
     }
     // la lingua si può cambiare dal menu: il tasto la segue
     new MutationObserver(function () { aggiornaTasto(profiloSalvato()); })
@@ -497,6 +537,7 @@ const Club = (function () {
     DEMO: DEMO, dati: dati, t: t, esc: esc, nomePremio: nomePremio, lingua: lingua, inItaliano: inItaliano,
     sera: sera, piuGiorni: piuGiorni, giornoSettimana: giornoSettimana,
     chiave: chiave, salvaTessera: salvaTessera, dimenticaTessera: dimenticaTessera, profilo: profilo, profiloSalvato: profiloSalvato,
+    fortunaInSospeso: fortunaInSospeso, riscattaFortuna: riscattaFortuna,
     caricaQR: caricaQR, installa: function () { return installa; }, consumaInstalla: function () { installa = null; },
     urlPremio: function (codice) { return new URL("../agenti/titolare/?c=" + codice, BASE).href; },
     urlCasa: function (k) { return new URL("club.html?k=" + k, BASE).href; },

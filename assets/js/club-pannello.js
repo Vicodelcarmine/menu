@@ -30,6 +30,9 @@ const ClubPannello = (function () {
       dal: "Valido dal", al: "al", nonVale: "non vale di", e: "e",
       mostra: "Mostralo al titolare appena arrivi", tocca: "Tocca il QR per ingrandirlo", chiudiQR: "Tocca per chiudere",
       tipo_benvenuto: "Premio di benvenuto", tipo_compleanno: "Regalo di compleanno", tipo_promo: "Offerta del Club",
+      tipo_fortuna: "Premio della Fortuna",
+      fortunaVinta: "L'hai vinto a Tenta la Fortuna: vale solo stasera",
+      benvenutoFortuna: "Il premio della Fortuna vale stasera: mostra il suo QR al cameriere. Quello di benvenuto ti aspetta alla prossima visita.",
       compleannoTesto: "Per il tuo compleanno ti aspetta un regalo: lo troverai qui.",
       casaTit: "Tieni il menu sul telefono", casaSub: "Così ritrovi tessera e premi con un tocco, anche quando non sei al ristorante.",
       casaIos: "📲 Aggiungi alla schermata Home", casaAndroid: "📲 Installa l'app del menu",
@@ -77,6 +80,9 @@ const ClubPannello = (function () {
       dal: "Valid from", al: "to", nonVale: "not valid on", e: "and",
       mostra: "Show it to the owner as soon as you arrive", tocca: "Tap the QR code to enlarge it", chiudiQR: "Tap to close",
       tipo_benvenuto: "Welcome gift", tipo_compleanno: "Birthday gift", tipo_promo: "Club offer",
+      tipo_fortuna: "Lucky prize",
+      fortunaVinta: "You won it at Try Your Luck: valid tonight only",
+      benvenutoFortuna: "Your lucky prize is valid tonight: show its QR code to the waiter. Your welcome gift is waiting for your next visit.",
       compleannoTesto: "A gift is waiting for your birthday: you'll find it here.",
       casaTit: "Keep the menu on your phone", casaSub: "Your card and gifts one tap away, even when you're not at the restaurant.",
       casaIos: "📲 Add to Home Screen", casaAndroid: "📲 Install the menu app",
@@ -182,13 +188,20 @@ const ClubPannello = (function () {
       '<input name="' + nome + '" type="' + tipo + '" ' + (extra || "") + ">" +
       (aiuto ? "<small>" + esc(aiuto) + "</small>" : "") + "</label>";
   }
+  // Tenta la Fortuna: il premio vinto e non ancora nella tessera, in cima ai vantaggi
+  function liFortuna() {
+    const f = C.fortunaInSospeso && C.fortunaInSospeso();
+    if (!f || !f.segreto || f.codice || f.sera !== C.sera()) return "";
+    return '<li class="club-fortuna"><span>' + esc(f.emoji) + "</span><div><b>" + esc(C.nomePremio(f.nome)) + "</b>" +
+      "<small>" + esc(t("fortunaVinta")) + "</small></div></li>";
+  }
   async function iscrizione() {
     attesa();
     let info = null;
     try { info = await C.dati.info(); } catch (e) {}
     corpo.innerHTML =
       '<div class="club-testa"><div class="club-ico">🎁</div><h2>' + esc(t("tit")) + "</h2><p>" + esc(t("sub")) + "</p></div>" +
-      '<ul class="club-vantaggi">' +
+      '<ul class="club-vantaggi">' + liFortuna() +
       (info ? "<li><span>" + esc(info.emoji) + "</span><div><b>" + esc(C.nomePremio(info.nome)) + "</b> " + esc(t("per")) + " " +
         persone(info.persone) + "<small>" + esc(t("allaProssima")) + "</small></div></li>" : "") +
       "<li><span>🎂</span><div>" + esc(t("compleanno")) + "</div></li>" +
@@ -233,7 +246,11 @@ const ClubPannello = (function () {
         const r = await C.dati.iscriviti(d);
         C.salvaTessera(r.chiave, r);
         if (info && info.email) C.dati.invia();     // l'email di benvenuto parte subito
-        benvenuto(r);
+        // dal gioco Tenta la Fortuna: il premio vinto va subito nella tessera
+        let p = r;
+        const fortuna = await C.riscattaFortuna();
+        if (fortuna) { try { p = (await C.profilo()) || r; } catch (e2) {} }
+        benvenuto(p, !!fortuna);
       } catch (er) {
         btn.disabled = false; btn.textContent = t("iscriviti");
         mostraErrore(form, er.codice, er.message);
@@ -271,12 +288,12 @@ const ClubPannello = (function () {
   /* ==========================================================================
      APPENA ISCRITTO
      ======================================================================== */
-  function benvenuto(p) {
+  function benvenuto(p, fortuna) {
     const nome1 = String(p.nome || "").split(/\s+/)[0];
     const premi = p.premi.filter(function (x) { return !x.usato; });
     corpo.innerHTML =
       '<div class="club-testa club-festa"><div class="club-ico">🎉</div><h2>' + esc(t("benvenuto")) + ", " + esc(nome1) + "!</h2>" +
-      "<p>" + esc(t("benvenutoSub")) + "</p></div>" +
+      "<p>" + esc(t(fortuna ? "benvenutoFortuna" : "benvenutoSub")) + "</p></div>" +
       premi.map(schedaPremio).join("") +
       '<div class="club-scheda club-avvisi"></div>' +
       schedaCasa() +
@@ -349,7 +366,8 @@ const ClubPannello = (function () {
     const no = nonVale(x.giorniNo);
     return '<div class="club-premio st-' + esc(x.stato) + '">' +
       '<div class="club-premio-testa"><span class="club-premio-emo">' + esc(x.emoji) + "</span><div><b>" + esc(C.nomePremio(x.nome)) +
-      "</b><small>" + esc(t("per")) + " " + persone(x.persone) + " · " + esc(t("tipo_" + x.tipo)) + "</small></div></div>" +
+      "</b><small>" + (x.persone > 0 ? esc(t("per")) + " " + persone(x.persone) + " · " : "") +
+      esc(t("tipo_" + x.tipo)) + "</small></div></div>" +
       '<div class="club-premio-stato">' + esc(statoPremio(x)) + "</div>" +
       '<button type="button" class="club-qr" data-codice="' + esc(x.codice) + '" aria-label="QR"></button>' +
       '<div class="club-codice">' + esc(x.codice.slice(0, 3) + " " + x.codice.slice(3)) + "</div>" +
