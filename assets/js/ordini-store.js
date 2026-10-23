@@ -230,6 +230,99 @@ const OrdiniStore = (function () {
       return [];
     },
 
+    /* --------------------------------------------------------------------
+       ASPORTO — ordine dal menu aperto dal sito (menu/?asporto=1), ritiro al
+       locale e pagamento al ritiro. Funzioni SQL asp_* (vico-agenti/supabase/
+       12-asporto.sql). Senza Supabase compilato lavora nella memoria del
+       dispositivo, come il resto di questo file: menu e banco si vedono.
+       ------------------------------------------------------------------ */
+    asporto: (function () {
+      const PROVA = "vdc_asporto_prova";
+      // come rpc(), ma l'errore porta il codice che il database mette in "hint"
+      async function rpcCodice(funzione, corpo) {
+        let r;
+        try {
+          r = await fetch(SUPABASE_URL + "/rest/v1/rpc/" + funzione, {
+            method: "POST",
+            headers: { apikey: SUPABASE_KEY, "Content-Type": "application/json" },
+            body: JSON.stringify(corpo || {}),
+          });
+        } catch (e) { const x = new Error("rete"); x.codice = "rete"; throw x; }
+        const testo = await r.text();
+        let d = null;
+        try { d = testo ? JSON.parse(testo) : null; } catch (e) {}
+        if (!r.ok) {
+          const x = new Error((d && d.message) || ("database " + r.status));
+          x.codice = (d && d.hint) || "server";
+          throw x;
+        }
+        return d;
+      }
+      function provaTutti() { return leggi(PROVA, []); }
+      function oraDi(d) { return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); }
+      function orariProva() {
+        const l = [];
+        for (let m = 19 * 60; m <= 22 * 60 + 30; m += 15) {
+          l.push(String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0"));
+        }
+        return l;
+      }
+      function casuale(n) { let s = ""; while (s.length < n) s += "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random() * 32)]; return s; }
+      const NON_CONTANO = ["dolci", "birre", "cocktail", "bevande", "vini"];
+      function pezzi(righe) {
+        return righe.reduce(function (s, r) { return s + (NON_CONTANO.indexOf(r.slug) >= 0 ? 0 : r.qta); }, 0);
+      }
+      return {
+        info: async function () {
+          if (suSupabase) return rpcCodice("asp_info");
+          const l = provaTutti(), adesso = oraDi(new Date(Date.now() + 30 * 60000));
+          return { attive: true, aperto: true, dalle: "19:00", alle: "22:30", nonContano: NON_CONTANO,
+            orari: orariProva().filter(function (o) { return o >= adesso; }).map(function (o) {
+              const presi = l.filter(function (x) { return x.ritiro === o && x.stato !== "annullato"; })
+                .reduce(function (s, x) { return s + x.pezzi; }, 0);
+              return { ora: o, liberi: Math.max(0, 15 - presi) };
+            }) };
+        },
+        manda: async function (d) {
+          if (suSupabase) {
+            return rpcCodice("asp_nuovo", {
+              p_ritiro: d.ritiro, p_righe: d.righe, p_totale: d.totale, p_nota: d.nota || "", p_chiave: d.chiave || "",
+              p_nome: d.nome || "", p_email: d.email || "", p_telefono: d.telefono || "", p_nascita: d.nascita || "",
+              p_promo: !!d.promo, p_lingua: d.lingua || "it", p_dispositivo: d.dispositivo || "",
+            });
+          }
+          const o = { id: "a" + casuale(8), codice: casuale(4), segreto: casuale(24), ritiro: d.ritiro, righe: d.righe,
+            pezzi: pezzi(d.righe), totale: d.totale, nota: d.nota || "", nome: d.nome || "Prova", telefono: d.telefono || "",
+            stato: "ricevuto", creato: new Date().toISOString(), nuovo: !d.chiave, chiave: d.chiave ? null : casuale(24) };
+          const l = provaTutti(); l.push(o); scrivi(PROVA, l);
+          return attendi(300, o);
+        },
+        leggi: async function (segreto) {
+          if (suSupabase) return rpcCodice("asp_ordine", { p_segreto: segreto });
+          return provaTutti().filter(function (o) { return o.segreto === segreto; })[0] || null;
+        },
+        annulla: async function (segreto) {
+          if (suSupabase) return rpcCodice("asp_annulla", { p_segreto: segreto });
+          const l = provaTutti();
+          l.forEach(function (o) { if (o.segreto === segreto && o.stato === "ricevuto") o.stato = "annullato"; });
+          scrivi(PROVA, l);
+          return true;
+        },
+        // per il banco
+        elenco: async function () {
+          if (suSupabase) return (await rpcCodice("asp_aperti", { pwd: passwordStaff })) || [];
+          return provaTutti();
+        },
+        segna: async function (id, stato) {
+          if (suSupabase) return rpcCodice("asp_segna", { p_id: id, p_stato: stato, pwd: passwordStaff });
+          const l = provaTutti();
+          l.forEach(function (o) { if (o.id === id) o.stato = stato; });
+          scrivi(PROVA, l);
+          return true;
+        },
+      };
+    })(),
+
     svuota: async function () {
       if (suSupabase) return true;              // sul database non si cancella da qui
       if (API) return dalServer("/svuota", {});

@@ -42,6 +42,36 @@ const Ordina = (function () {
       altro: "Altro", portata: "Portata", portataN: "ª portata",
       spostaUno: "Tocca un numero: ne sposta una sola",
       sequenza: "Il numero dice quando lo vuoi: 1 arriva per primo. Si cambia con un tocco, piatto per piatto.",
+      // asporto
+      asporto: "Asporto", asportoTitolo: "Il tuo ordine da asporto",
+      aspBanner: "🛍️ Asporto · scegli i piatti e passa a ritirare stasera",
+      aspChiuso: "🛍️ Stasera l'asporto è chiuso: il menu si può solo sfogliare",
+      ritiro: "A che ora passi a ritirare?", ritiroAiuto: "Stasera · paghi al ritiro, alla cassa",
+      pieno: "pieno", dati: "I tuoi dati", socio: "Ordini come {nome}.", nonSeiTu: "Non sei tu?",
+      nome: "Nome e cognome", telefono: "Telefono", email: "Email",
+      nascita: "Data di nascita", nascitaPerche: "per il regalo di compleanno",
+      privacy: "Ho letto l'informativa privacy", privacyTitolo: "Informativa privacy",
+      privacyTesto: "<p><b>Chi raccoglie i dati:</b> il ristorante Vico del Carmine, Via Pisana 40/r, Firenze (titolare del trattamento). Per qualsiasi richiesta: vicodelcarmine1@gmail.com.</p><p><b>Quali dati:</b> nome, email, telefono, data di nascita, i tuoi ordini e i premi del Club.</p><p><b>Perché:</b> per preparare il tuo ordine e gestire la tua tessera del Club del Vico, in cui entri ordinando (premio di benvenuto e regalo di compleanno). Solo se metti la spunta sulle offerte, anche per mandarti le offerte del Club, al massimo una ogni 15 giorni. Non cediamo i dati a nessuno.</p><p><b>Dove e per quanto:</b> su un database protetto (Supabase), finché resti nel Club. Puoi uscire quando vuoi dalla tua tessera.</p><p><b>I tuoi diritti:</b> puoi vedere, correggere o cancellare i tuoi dati in ogni momento; puoi anche rivolgerti al Garante per la protezione dei dati personali.</p>",
+      promo: "Voglio ricevere le offerte del Club (email e notifiche)",
+      club: "Ordinando entri nel Club del Vico, con il premio di benvenuto e il regalo di compleanno.",
+      notaOrdine: "Nota per l'ordine (facoltativa)", notaOrdineEs: "es. citofono, posate, tagliata a spicchi",
+      mandaAsp: "Manda l'ordine", pagaRitiro: "Paghi al ritiro",
+      asp_ricevuto: "Ordine ricevuto", asp_ricevutoSub: "La cucina lo sta guardando",
+      asp_preparazione: "In preparazione", asp_preparazioneSub: "Lo stiamo preparando",
+      asp_pronto: "Pronto da ritirare!", asp_prontoSub: "Ti aspettiamo al banco",
+      asp_ritirato: "Ritirato. Buon appetito!", asp_annullato: "Ordine annullato",
+      codice: "Il tuo codice da dire al banco", ritiroAlle: "Ritiro stasera alle {ora}",
+      annullaOrdine: "Annulla l'ordine", annullaChiedi: "Annullo l'ordine?",
+      e_rete: "Connessione assente: riprova tra poco.", e_server: "Qualcosa non ha funzionato: riprova o chiamaci.",
+      e_nome: "Scrivi nome e cognome.", e_telefono: "Scrivi un numero di telefono valido.",
+      e_email: "Scrivi un'email valida.", e_nascita: "Scrivi la tua data di nascita.",
+      e_privacy: "Per ordinare serve la spunta sull'informativa privacy.",
+      e_ritiro: "Scegli a che ora passi a ritirare.", e_pieno: "A quell'ora la cucina è piena: scegli un altro orario.",
+      e_tardi: "A quell'ora non facciamo più in tempo: scegli un orario più tardi.",
+      e_chiuso: "Stasera l'asporto è chiuso.", e_grande: "Per un ordine così grande chiamaci.",
+      e_troppi: "Troppi ordini: chiamaci.", e_tanti: "Hai già 2 ordini in corso stasera: chiamaci.",
+      e_gia: "Questa email o questo numero sono già nel Club con altri dati: scrivili come quando ti sei iscritto.",
+      e_vuoto: "Il carrello è vuoto.", e_stato: "È già in preparazione: chiamaci per cambiarlo.",
     },
     en: {
       aggiungi: "Add", aggiunto: "Added", ordine: "Your order",
@@ -67,6 +97,36 @@ const Ordina = (function () {
       altro: "Other", portata: "Course", portataN: " course",
       spostaUno: "Tap a number: it moves one portion only",
       sequenza: "The number says when you want it: 1 comes first. One tap to change it, dish by dish.",
+      // takeaway
+      asporto: "Takeaway", asportoTitolo: "Your takeaway order",
+      aspBanner: "🛍️ Takeaway · pick your dishes and collect them tonight",
+      aspChiuso: "🛍️ Takeaway is closed tonight: you can still browse the menu",
+      ritiro: "What time will you collect it?", ritiroAiuto: "Tonight · you pay when you collect",
+      pieno: "full", dati: "Your details", socio: "Ordering as {nome}.", nonSeiTu: "Not you?",
+      nome: "First and last name", telefono: "Phone", email: "Email",
+      nascita: "Date of birth", nascitaPerche: "for your birthday gift",
+      privacy: "I have read the privacy notice", privacyTitolo: "Privacy notice",
+      privacyTesto: "<p><b>Who collects the data:</b> Vico del Carmine restaurant, Via Pisana 40/r, Florence, Italy (data controller). For any request: vicodelcarmine1@gmail.com.</p><p><b>What data:</b> name, email, phone, date of birth, your orders and your Club gifts.</p><p><b>Why:</b> to prepare your order and manage your Vico Club card, which you join by ordering (welcome gift and birthday gift). Only if you tick the offers box, also to send you Club offers, at most one every 15 days. We never share your data.</p><p><b>Where and how long:</b> in a protected database (Supabase), as long as you stay in the Club. You can leave at any time from your card.</p><p><b>Your rights:</b> you can see, correct or delete your data at any time; you can also contact the Italian Data Protection Authority (Garante).</p>",
+      promo: "Send me the Club offers (email and notifications)",
+      club: "Ordering makes you a member of the Vico Club, with a welcome gift and a birthday gift.",
+      notaOrdine: "Note for the order (optional)", notaOrdineEs: "e.g. cutlery, sliced pizza",
+      mandaAsp: "Send the order", pagaRitiro: "Pay when you collect",
+      asp_ricevuto: "Order received", asp_ricevutoSub: "The kitchen is looking at it",
+      asp_preparazione: "Being prepared", asp_preparazioneSub: "We are making it now",
+      asp_pronto: "Ready to collect!", asp_prontoSub: "See you at the counter",
+      asp_ritirato: "Collected. Enjoy!", asp_annullato: "Order cancelled",
+      codice: "Your code for the counter", ritiroAlle: "Collect tonight at {ora}",
+      annullaOrdine: "Cancel the order", annullaChiedi: "Cancel the order?",
+      e_rete: "No connection: try again shortly.", e_server: "Something went wrong: try again or call us.",
+      e_nome: "Please enter your first and last name.", e_telefono: "Please enter a valid phone number.",
+      e_email: "Please enter a valid email.", e_nascita: "Please enter your date of birth.",
+      e_privacy: "Please tick the privacy notice box to order.",
+      e_ritiro: "Choose when you will collect it.", e_pieno: "The kitchen is full at that time: please choose another.",
+      e_tardi: "We can't make it by then: please choose a later time.",
+      e_chiuso: "Takeaway is closed tonight.", e_grande: "For such a large order please call us.",
+      e_troppi: "Too many orders: please call us.", e_tanti: "You already have 2 orders in progress tonight: please call us.",
+      e_gia: "This email or number is already in the Club with different details: type them as when you joined.",
+      e_vuoto: "Your cart is empty.", e_stato: "It's already being prepared: call us to change it.",
     },
   };
   function t(k) {
@@ -115,6 +175,11 @@ const Ordina = (function () {
 
   /* --- stato --- */
   let tavolo = null, chiave = null;
+  // ASPORTO: il menu aperto dal sito con ?asporto=1. Stesso carrello, niente tavolo:
+  // ora di ritiro di stasera e dati del Club; si paga al ritiro.
+  let asporto = false;
+  let aspInfo = null;           // { attive, aperto, orari:[{ora, liberi}], nonContano }
+  const aspDati = { ritiro: null, nome: "", telefono: "", email: "", nascita: "", privacy: false, promo: false, nota: "" };
   let servizio = { attivo: false, aperto: true, messaggio: "" };
   let carrello = [];            // { id, nome, prezzo, qta, nota }
   let ordineId = null;          // ordine in corso
@@ -122,19 +187,22 @@ const Ordina = (function () {
 
   const MEM = "vdc_carrello";
   const MEM_ORD = "vdc_ordine_in_corso";
+  const MEM_ASP = "vdc_carrello_asporto";      // l'asporto ha il suo carrello…
+  const MEM_ASP_ORD = "vdc_asporto_ordine";    // …e il suo ordine, che resta anche chiudendo il browser
   const ATTESA_CHIAMATA = 4 * 60 * 1000;   // dopo 4 minuti compare "chiama il cameriere"
 
   function ricorda() {
     try {
-      sessionStorage.setItem(MEM, JSON.stringify({ righe: carrello }));
-      if (ordineId) sessionStorage.setItem(MEM_ORD, ordineId); else sessionStorage.removeItem(MEM_ORD);
+      sessionStorage.setItem(asporto ? MEM_ASP : MEM, JSON.stringify({ righe: carrello }));
+      const dove = asporto ? localStorage : sessionStorage, k = asporto ? MEM_ASP_ORD : MEM_ORD;
+      if (ordineId) dove.setItem(k, ordineId); else dove.removeItem(k);
     } catch (e) {}
   }
   function ripesca() {
     try {
-      const m = JSON.parse(sessionStorage.getItem(MEM) || "{}");
+      const m = JSON.parse(sessionStorage.getItem(asporto ? MEM_ASP : MEM) || "{}");
       carrello = m.righe || [];
-      ordineId = sessionStorage.getItem(MEM_ORD) || null;
+      ordineId = (asporto ? localStorage.getItem(MEM_ASP_ORD) : sessionStorage.getItem(MEM_ORD)) || null;
     } catch (e) { carrello = []; ordineId = null; }
   }
 
@@ -173,15 +241,23 @@ const Ordina = (function () {
     const n = (q.get("t") || q.get("tavolo") || "").trim();
     tavolo = /^[A-Za-z0-9-]{1,8}$/.test(n) ? n : null;
     chiave = (q.get("k") || "").trim() || null;
+    asporto = !tavolo && q.get("asporto") === "1";
   }
-  function puoOrdinare() { return !!(tavolo && servizio.attivo && servizio.aperto); }
+  function puoOrdinare() {
+    // in asporto serve anche almeno un orario di ritiro ancora possibile stasera
+    if (asporto) return !!(aspInfo && aspInfo.attive && aspInfo.aperto && aspInfo.orari && aspInfo.orari.length);
+    return !!(tavolo && servizio.attivo && servizio.aperto);
+  }
 
   function aggiornaCorpo() {
     // Il totale si nasconde da CSS, non togliendo i numeri: il conto continua
     // a essere calcolato e mandato al banco, semplicemente il cliente non lo vede.
     document.body.classList.toggle("ord-senza-totale", servizio.mostraTotale === false);
     document.body.classList.toggle("puo-ordinare", puoOrdinare());
-    document.body.classList.toggle("ha-carrello", puoOrdinare() && (carrello.length > 0 || !!ordineId));
+    // un ordine da asporto già mandato si segue anche se intanto l'asporto ha chiuso
+    const conOrdine = asporto ? !!ordineId : (puoOrdinare() && !!ordineId);
+    document.body.classList.toggle("ha-carrello", (puoOrdinare() && carrello.length > 0) || conOrdine);
+    if (asporto) bannerAsporto();
   }
 
   /* ==========================================================================
@@ -219,7 +295,7 @@ const Ordina = (function () {
     const riga = carrello.filter(function (r) { return r.id === id && r.portata === dove && !r.nota; })[0];
     if (riga) riga.qta += 1;
     else carrello.push({ id: id, nome: nome, prezzo: p.prezzo, qta: 1, nota: "",
-                        portata: dove, categoria: categoriaDi(id) });
+                        portata: dove, categoria: categoriaDi(id), slug: slugDi(id) });
     ricorda(); aggiornaCorpo(); disegnaBarra();
   }
   // Attenzione: si lavora sulla RIGA, non sul piatto. Lo stesso piatto può
@@ -278,7 +354,7 @@ const Ordina = (function () {
       barra.classList.add("ord-barra-stato");
       barra.innerHTML =
         '<span class="ord-barra-n">✓</span>' +
-        '<span class="ord-barra-txt">' + (statoCorrente ? t(statoCorrente) : t("inCorso")) + "</span>" +
+        '<span class="ord-barra-txt">' + (statoCorrente ? t(asporto ? "asp_" + statoCorrente : statoCorrente) : t("inCorso")) + "</span>" +
         '<span class="ord-barra-tot">' + t("tocca") + "</span>";
     }
   }
@@ -321,6 +397,7 @@ const Ordina = (function () {
   }
   function disegnaFoglio() {
     if (!foglio || !foglio.classList.contains("aperto")) return;
+    if (asporto) return disegnaFoglioAsporto();
     foglio.querySelector(".ord-tavolo").textContent = t("tavolo") + " " + tavolo;
     foglio.querySelector(".ord-titolo").textContent = t("ordine");
     foglio.querySelector(".ord-lab").textContent = t("coperti");
@@ -403,6 +480,7 @@ const Ordina = (function () {
      MANDARE L'ORDINE E SEGUIRLO
      ======================================================================== */
   async function manda() {
+    if (asporto) return mandaAsporto();
     if (!carrello.length || !puoOrdinare()) return;
     const bottone = foglio.querySelector(".ord-manda");
     bottone.disabled = true; bottone.textContent = t("mando");
@@ -471,15 +549,16 @@ const Ordina = (function () {
     document.body.classList.remove("ord-bloccato");
   }
   function apriStato() {
-    if (!pannello) creaPannello();
+    if (!pannello) { if (asporto) creaPannelloAsporto(); else creaPannello(); }
     pannello.classList.add("aperto");
     document.body.classList.add("ord-bloccato");
     daQuando = Date.now();
     aggiornaStato();
     clearInterval(timerStato);
-    timerStato = setInterval(aggiornaStato, 2000);
+    timerStato = setInterval(aggiornaStato, asporto ? 5000 : 2000);
   }
   async function aggiornaStato() {
+    if (asporto) return aggiornaStatoAsporto();
     if (!ordineId) return;
     const o = await OrdiniStore.leggiOrdine(ordineId);
     const stato = (o && o.stato) || "inviato";
@@ -508,6 +587,266 @@ const Ordina = (function () {
     chiama.style.display = (quale < 1 && Date.now() - daQuando > ATTESA_CHIAMATA) ? "" : "none";
     pannello.querySelector(".ord-ancora").textContent = t("nuovo");
     if (stato === "confermato") { clearInterval(timerStato); timerStato = null; }
+  }
+
+  /* ==========================================================================
+     ASPORTO — stesso carrello, niente tavolo né portate: ora di ritiro e dati
+     del Club. Chi ha già la tessera su questo telefono non riscrive niente.
+     ======================================================================== */
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function riempi(testo, v) { return String(testo).replace(/\{(\w+)\}/g, function (_, k) { return v[k] != null ? v[k] : ""; }); }
+  function clubPronto() { return typeof Club !== "undefined" && Club && typeof Club.chiave === "function"; }
+  function chiaveClub() { try { return clubPronto() ? Club.chiave() : null; } catch (e) { return null; } }
+  function nomeClub() {
+    try {
+      const p = clubPronto() && Club.profiloSalvato();
+      return p && p.nome ? String(p.nome).split(/\s+/)[0] : "";
+    } catch (e) { return ""; }
+  }
+  function dispositivo() {
+    try {
+      let d = localStorage.getItem("vdc_disp_asporto");
+      if (!d) { d = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem("vdc_disp_asporto", d); }
+      return d;
+    } catch (e) { return ""; }
+  }
+  // i piatti che pesano sulla cucina (bevande e dolci no): servono a scegliere un orario con posto
+  function pezziCucina() {
+    const no = (aspInfo && aspInfo.nonContano) || [];
+    return carrello.reduce(function (s, r) { return s + (no.indexOf(r.slug || slugDi(r.id)) >= 0 ? 0 : r.qta); }, 0);
+  }
+
+  // una striscia in basso, finché il carrello è vuoto: si capisce subito che si può ordinare
+  function bannerAsporto() {
+    let b = $(".ord-asp-banner");
+    if (!b) {
+      b = document.createElement("div");
+      b.className = "ord-asp-banner";
+      document.body.appendChild(b);
+    }
+    b.textContent = puoOrdinare() ? t("aspBanner") : t("aspChiuso");
+  }
+
+  function disegnaFoglioAsporto() {
+    foglio.classList.add("asporto");
+    foglio.querySelector(".ord-tavolo").textContent = "🛍️ " + t("asporto");
+    foglio.querySelector(".ord-titolo").textContent = t("asportoTitolo");
+    const bottone = foglio.querySelector(".ord-manda");
+    bottone.textContent = t("mandaAsp");
+    bottone.disabled = false;
+    const vecchio = foglio.querySelector(".ord-rifiuto");
+    if (vecchio) vecchio.remove();
+    foglio.querySelector(".ord-tot").textContent = prezzoTesto(totale()) + " · " + t("pagaRitiro");
+
+    const cont = foglio.querySelector(".ord-righe");
+    cont.innerHTML = "";
+    if (!carrello.length) {
+      cont.innerHTML = '<p class="ord-vuoto">' + t("vuoto") + "</p>";
+      partiAsporto(false);
+      return;
+    }
+    carrello.forEach(function (r) {
+      const d = document.createElement("div");
+      d.className = "ord-riga";
+      d.innerHTML =
+        '<div class="ord-riga-alto">' +
+        '<span class="ord-qta">' + r.qta + "×</span>" +
+        '<span class="ord-nome">' + esc(r.nome) + "</span>" +
+        '<span class="ord-prezzo">' + prezzoTesto(r.prezzo) + "</span>" +
+        "</div>" +
+        '<div class="ord-riga-basso">' +
+        '<button type="button" class="ord-meno">−</button>' +
+        '<button type="button" class="ord-piu">+</button>' +
+        "</div>" +
+        '<input class="ord-nota" type="text" maxlength="120" placeholder="' + esc(t("notaEs")) + '" value="' + esc(r.nota || "") + '">';
+      d.querySelector(".ord-meno").addEventListener("click", function () { togli(r); });
+      d.querySelector(".ord-piu").addEventListener("click", function () {
+        r.qta += 1; ricorda(); disegnaBarra(); disegnaFoglio();
+      });
+      d.querySelector(".ord-nota").addEventListener("input", function (e) { r.nota = e.target.value; ricorda(); });
+      cont.appendChild(d);
+    });
+    partiAsporto(true);
+  }
+
+  // ora di ritiro, dati del Club e nota: si ridisegnano senza perdere quello che è già scritto
+  function campoAsporto(c, tipo, auto) {
+    return '<label class="ord-campo"><span>' + esc(t(c)) + '</span><input data-c="' + c + '" type="' + tipo +
+      '" autocomplete="' + auto + '"' + (tipo === "tel" ? ' inputmode="tel"' : "") + ' value="' + esc(aspDati[c]) + '"></label>';
+  }
+  let cercoNome = false;
+  function partiAsporto(mostra) {
+    let box = foglio.querySelector(".ord-asp");
+    if (!box) {
+      box = document.createElement("div");
+      box.className = "ord-asp";
+      foglio.querySelector(".ord-foglio-int").insertBefore(box, foglio.querySelector(".ord-tot"));
+      box.addEventListener("click", function (e) {
+        const b = e.target.closest("button");
+        if (!b || b.disabled) return;
+        if (b.dataset.ora) { aspDati.ritiro = b.dataset.ora; partiAsporto(true); }
+        else if (b.classList.contains("ord-non-io")) {
+          try { Club.dimenticaTessera(); } catch (er) {}
+          partiAsporto(true);
+        }
+      });
+      const scrivi = function (e) {
+        const c = e.target.dataset && e.target.dataset.c;
+        if (c) aspDati[c] = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      };
+      box.addEventListener("input", scrivi);
+      box.addEventListener("change", scrivi);
+    }
+    if (!mostra) { box.innerHTML = ""; return; }
+    const servono = Math.max(1, pezziCucina());
+    const orari = (aspInfo && aspInfo.orari) || [];
+    if (aspDati.ritiro && !orari.some(function (o) { return o.ora === aspDati.ritiro && o.liberi >= servono; })) aspDati.ritiro = null;
+    const socio = chiaveClub();
+    // tessera senza nome salvato (es. appena iscritto qui): lo chiediamo una volta al Club
+    if (socio && !nomeClub() && !cercoNome) {
+      cercoNome = true;
+      Club.profilo().then(function () {
+        if (nomeClub() && foglio.classList.contains("aperto")) partiAsporto(true);
+      }).catch(function () {});
+    }
+    box.innerHTML =
+      '<p class="ord-lab">' + esc(t("ritiro")) + "</p>" +
+      '<p class="ord-aiuto">' + esc(t("ritiroAiuto")) + "</p>" +
+      '<div class="ord-orari">' + orari.map(function (o) {
+        const ok = o.liberi >= servono;
+        return '<button type="button" class="ord-ora' + (o.ora === aspDati.ritiro ? " scelto" : "") + '" data-ora="' + esc(o.ora) + '"' +
+          (ok ? "" : " disabled") + ">" + esc(o.ora) + (ok ? "" : "<small>" + esc(t("pieno")) + "</small>") + "</button>";
+      }).join("") + "</div>" +
+      '<p class="ord-lab ord-lab-dati">' + esc(t("dati")) + "</p>" +
+      (socio
+        ? '<p class="ord-socio">' + esc(riempi(t("socio"), { nome: nomeClub() || "…" })) +
+          ' <button type="button" class="ord-link ord-non-io">' + esc(t("nonSeiTu")) + "</button></p>"
+        : campoAsporto("nome", "text", "name") + campoAsporto("telefono", "tel", "tel") + campoAsporto("email", "email", "email") +
+          '<label class="ord-campo"><span>' + esc(t("nascita")) + " <small>· " + esc(t("nascitaPerche")) + "</small></span>" +
+          '<input data-c="nascita" type="date" autocomplete="bday" value="' + esc(aspDati.nascita) + '"></label>' +
+          '<label class="ord-spunta"><input type="checkbox" data-c="privacy"' + (aspDati.privacy ? " checked" : "") + "><span>" + esc(t("privacy")) + "</span></label>" +
+          '<details class="ord-privacy"><summary>' + esc(t("privacyTitolo")) + "</summary>" + t("privacyTesto") + "</details>" +
+          '<label class="ord-spunta"><input type="checkbox" data-c="promo"' + (aspDati.promo ? " checked" : "") + "><span>" + esc(t("promo")) + "</span></label>" +
+          '<p class="ord-club">' + esc(t("club")) + "</p>") +
+      '<label class="ord-campo"><span>' + esc(t("notaOrdine")) + '</span><textarea data-c="nota" rows="2" maxlength="300" placeholder="' +
+        esc(t("notaOrdineEs")) + '">' + esc(aspDati.nota) + "</textarea></label>";
+  }
+
+  async function mandaAsporto() {
+    if (!carrello.length || !puoOrdinare()) return;
+    const bottone = foglio.querySelector(".ord-manda");
+    const socio = chiaveClub();
+    const no = function (k) { mostraRifiuto(t(k)); };
+    if (!aspDati.ritiro) return no("e_ritiro");
+    if (!socio) {
+      if (aspDati.nome.trim().length < 2) return no("e_nome");
+      if (aspDati.telefono.replace(/\D/g, "").length < 8) return no("e_telefono");
+      if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(aspDati.email.trim())) return no("e_email");
+      if (!aspDati.nascita) return no("e_nascita");
+      if (!aspDati.privacy) return no("e_privacy");
+    }
+    bottone.disabled = true; bottone.textContent = t("mando");
+    try {
+      const o = await OrdiniStore.asporto.manda({
+        ritiro: aspDati.ritiro, totale: totale(), nota: aspDati.nota.trim(), chiave: socio || "",
+        righe: carrello.map(function (r) {
+          return { id: r.id, nome: r.nome, prezzo: r.prezzo, qta: r.qta, nota: r.nota || "",
+                   categoria: r.categoria, slug: r.slug || slugDi(r.id) };
+        }),
+        nome: aspDati.nome.trim(), telefono: aspDati.telefono.trim(), email: aspDati.email.trim(),
+        nascita: aspDati.nascita, promo: aspDati.promo, lingua: document.documentElement.lang || "it",
+        dispositivo: dispositivo(),
+      });
+      // chi è appena entrato nel Club si ritrova la tessera nel menu (il regalo 🎁 in alto)
+      if (o.chiave && clubPronto()) {
+        try { Club.salvaTessera(o.chiave); Club.profilo().catch(function () {}); } catch (er) {}
+      }
+      ordineId = o.segreto; statoCorrente = null;
+      carrello = []; aspDati.ritiro = null; aspDati.nota = "";
+      ricorda(); aggiornaCorpo(); disegnaBarra();
+      chiudiFoglio();
+      apriStato();
+    } catch (e) {
+      // la tessera salvata non vale più (es. uscito dal Club): si torna ai dati da scrivere
+      if (e.codice === "telefono" && socio) { try { Club.dimenticaTessera(); } catch (er) {} }
+      if (e.codice === "pieno" || e.codice === "tardi" || e.codice === "telefono") {
+        try { aspInfo = await OrdiniStore.asporto.info(); } catch (er) {}
+        partiAsporto(true);
+      }
+      const k = "e_" + (e.codice || "server");
+      mostraRifiuto(TESTI.it[k] ? t(k) : t("e_server"));
+      bottone.disabled = false; bottone.textContent = t("mandaAsp");
+    }
+  }
+
+  function creaPannelloAsporto() {
+    pannello = document.createElement("div");
+    pannello.className = "ord-stato ord-stato-asp";
+    pannello.innerHTML =
+      '<div class="ord-stato-int">' +
+      '<button type="button" class="ord-chiudi" aria-label="Chiudi">✕</button>' +
+      '<p class="ord-asp-cod-lab"></p><p class="ord-asp-cod"></p><p class="ord-asp-ritiro"></p>' +
+      '<div class="ord-passi">' + ["ricevuto", "preparazione", "pronto"].map(function (p) {
+        return '<div class="ord-passo" data-p="' + p + '"><span class="ord-pallino"></span><b></b><small></small></div>';
+      }).join("") + "</div>" +
+      '<p class="ord-asp-fine"></p>' +
+      '<button type="button" class="ord-asp-annulla"></button>' +
+      '<button type="button" class="ord-ancora"></button>' +
+      "</div>";
+    document.body.appendChild(pannello);
+    pannello.querySelector(".ord-chiudi").addEventListener("click", chiudiStato);
+    pannello.addEventListener("click", function (e) { if (e.target === pannello) chiudiStato(); });
+    pannello.querySelector(".ord-ancora").addEventListener("click", chiudiStato);
+    pannello.querySelector(".ord-asp-annulla").addEventListener("click", async function () {
+      if (!confirm(t("annullaChiedi"))) return;
+      const b = this;
+      b.disabled = true;
+      try { await OrdiniStore.asporto.annulla(ordineId); }
+      catch (e) { alert(TESTI.it["e_" + e.codice] ? t("e_" + e.codice) : t("e_server")); }
+      b.disabled = false;
+      aggiornaStatoAsporto();
+    });
+  }
+
+  async function aggiornaStatoAsporto() {
+    if (!ordineId) return;
+    let o = null;
+    try { o = await OrdiniStore.asporto.leggi(ordineId); } catch (e) { return; }
+    if (!o) { ordineId = null; ricorda(); aggiornaCorpo(); return; }
+    if (o.stato !== statoCorrente) { statoCorrente = o.stato; disegnaBarra(); }
+    const finito = o.stato === "ritirato" || o.stato === "annullato";
+    if (finito) {
+      clearInterval(timerStato); timerStato = null;
+      if (!timerFine) {
+        timerFine = setTimeout(function () {
+          ordineId = null; statoCorrente = null; timerFine = null;
+          ricorda(); aggiornaCorpo(); chiudiStato();
+        }, 30000);
+      }
+    }
+    if (!pannello) return;
+    pannello.querySelector(".ord-asp-cod-lab").textContent = t("codice");
+    pannello.querySelector(".ord-asp-cod").textContent = o.codice;
+    pannello.querySelector(".ord-asp-ritiro").textContent = riempi(t("ritiroAlle"), { ora: o.ritiro });
+    const passi = ["ricevuto", "preparazione", "pronto"];
+    const quale = o.stato === "ritirato" ? 3 : passi.indexOf(o.stato);
+    pannello.querySelectorAll(".ord-passo").forEach(function (el, i) {
+      const p = el.dataset.p;
+      el.querySelector("b").textContent = t("asp_" + p);
+      el.querySelector("small").textContent = t("asp_" + p + "Sub");
+      el.classList.toggle("fatto", i <= quale);
+      el.classList.toggle("adesso", i === quale);
+    });
+    pannello.querySelector(".ord-passi").style.display = o.stato === "annullato" ? "none" : "";
+    pannello.querySelector(".ord-asp-fine").textContent = finito ? t("asp_" + o.stato) : "";
+    const annulla = pannello.querySelector(".ord-asp-annulla");
+    annulla.textContent = t("annullaOrdine");
+    annulla.style.display = o.stato === "ricevuto" ? "" : "none";
+    pannello.querySelector(".ord-ancora").textContent = finito ? t("chiudi") : t("nuovo");
   }
 
   /* ==========================================================================
@@ -593,10 +932,15 @@ const Ordina = (function () {
     leggiIndirizzo();
     costruisciIndice();
     ripesca();
-    try { servizio = await OrdiniStore.stato(); } catch (e) {}
+    if (asporto) {
+      document.body.classList.add("ord-asporto");
+      try { aspInfo = await OrdiniStore.asporto.info(); } catch (e) { aspInfo = null; }
+    } else {
+      try { servizio = await OrdiniStore.stato(); } catch (e) {}
+    }
     sorvegliaEditor();          // l'interruttore del titolare vive nel menu segreto
     aggiornaCorpo();
-    if (!puoOrdinare()) return;
+    if (!puoOrdinare() && !(asporto && ordineId)) return;
     disegnaBarra();
     // se il motore ha già costruito delle carte prima di noi, le decoriamo adesso
     document.querySelectorAll("#deck .card, #spec-cards .card").forEach(function (c) {
@@ -605,7 +949,7 @@ const Ordina = (function () {
     if (ordineId) {                      // ordine già in viaggio: lo seguiamo dalla
       aggiornaStato();                   // barra, senza sbattere il pannello in faccia
       clearInterval(timerStato);
-      timerStato = setInterval(aggiornaStato, 2000);
+      timerStato = setInterval(aggiornaStato, asporto ? 5000 : 2000);
     }
   }
   document.addEventListener("DOMContentLoaded", avvia);

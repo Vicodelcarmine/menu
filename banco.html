@@ -194,6 +194,29 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 }
 .t-blocca:hover{ color:var(--rosso); }
 
+/* ---- asporto: a parte dai tavoli, in ordine di ora di ritiro ---- */
+#asporto{ padding:16px 16px 0; }
+.asp-titolo{ margin:0 0 12px; font-size:1.15rem; }
+.asp-titolo small{ margin-left:8px; color:var(--fioco); font-size:.85rem; font-weight:600; }
+.asp-griglia{ display:grid; gap:14px; grid-template-columns:1fr; }
+@media (min-width:720px){ .asp-griglia{ grid-template-columns:1fr 1fr; } }
+@media (min-width:1180px){ .asp-griglia{ grid-template-columns:1fr 1fr 1fr; } }
+.asp-card{ background:var(--carta); border:2px solid var(--blu); border-radius:18px; overflow:hidden; }
+.asp-card.st-ricevuto{ border-color:var(--giallo); }
+.asp-card.st-pronto{ border-color:var(--verde); }
+.asp-card.tardi{ border-color:var(--rosso); }
+.asp-testa{ display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--carta-2); }
+.asp-ora{ font-size:1.6rem; font-weight:800; }
+.asp-chi{ flex:1; min-width:0; }
+.asp-chi b{ display:block; font-size:1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.asp-chi small{ color:var(--fioco); font-size:.8rem; }
+.asp-cod{ padding:4px 10px; border-radius:10px; background:var(--bg); font-weight:800; letter-spacing:.14em; }
+.asp-corpo{ padding:8px 16px 4px; }
+.asp-nota{ margin:8px 0 0; color:var(--giallo); font-size:.9rem; }
+.asp-piede{ display:flex; justify-content:space-between; gap:10px; padding:10px 16px 14px; color:var(--fioco); font-size:.88rem; }
+.asp-piede a{ color:var(--testo); }
+.b-pronto{ background:var(--blu); color:#06213f; }
+
 /* ---- la password, chiesta una volta sola per dispositivo ---- */
 #porta{
   position:fixed; inset:0; z-index:50; display:none;
@@ -255,6 +278,8 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   <p class="sala-aiuto">Tocca un tavolo: <b>verde</b> lo apri per i clienti nuovi · <b>giallo o rosso</b> ti porta alla comanda · <b>blu</b> lo liberi quando sparecchi</p>
   <div class="sala-griglia" id="sala-griglia"></div>
 </section>
+
+<section id="asporto" hidden></section>
 
 <main id="tavoli"></main>
 <p class="fatti" id="fatti"></p>
@@ -440,6 +465,7 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
       if (!tardi) delete giaTardi[d.dataset.tavolo];
     });
     aggiornaSala();          // i colori della sala seguono il cronometro
+    aggiornaTempiAsporto();
   }
 
   /* --------------------------------------------------------------------------
@@ -486,15 +512,104 @@ header .azioni{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
       ap.forEach(function (x) { ultimiAperti[String(x.numero)] = true; });
     } catch (e) { /* il guasto è già scritto sopra */ }
 
+    await aggiornaAsporto();
     const gruppi = document.querySelectorAll(".tavolo").length;
     const c = $("#conta");
-    c.textContent = gruppi + " da servire";
-    c.classList.toggle("vivi", gruppi > 0);
+    c.textContent = gruppi + " da servire" + (aspVivi ? " · " + aspVivi + " asporto" : "");
+    c.classList.toggle("vivi", gruppi > 0 || aspVivi > 0);
     const fatti = ordini.filter(function (o) { return o.stato === "confermato"; }).length;
     $("#fatti").textContent = fatti ? "Confermati oggi: " + fatti : "";
     aggiornaTempi();
   }
 
+
+  /* --------------------------------------------------------------------------
+     ASPORTO — ordini dal menu aperto dal sito: niente tavolo, un'ora di
+     ritiro. Stanno sopra i tavoli, in ordine di ora: ricevuto (giallo) →
+     in preparazione (blu) → pronto (verde) → ritirato (sparisce).
+     Se l'asporto non è installato il banco va avanti come prima.
+     ------------------------------------------------------------------------ */
+  let aspFirma = null, aspVisti = {}, aspPrima = true, aspVivi = 0;
+  const ASP_PROSSIMO = { ricevuto: ["preparazione", "b-visto", "In preparazione"],
+                         preparazione: ["pronto", "b-pronto", "Pronto"],
+                         pronto: ["ritirato", "b-conferma", "Ritirato"] };
+  function euroDi(n) {
+    const v = Number(n);
+    return isNaN(v) || n == null ? "" : "€ " + v.toFixed(2).replace(".", ",");
+  }
+  // quanto manca al ritiro (ora di questo dispositivo, che sta al banco)
+  function traQuanto(ritiro) {
+    const p = String(ritiro).split(":"), d = new Date();
+    d.setHours(+p[0], +p[1], 0, 0);
+    const min = Math.round((d.getTime() - Date.now()) / 60000);
+    return { min: min, testo: min > 0 ? "tra " + min + " min" : min === 0 ? "adesso" : "da " + (-min) + " min" };
+  }
+  async function aggiornaAsporto() {
+    if (!OrdiniStore.asporto) return;
+    let lista;
+    try { lista = await OrdiniStore.asporto.elenco(); } catch (e) { return; }
+    lista.forEach(function (o) {
+      if (o.stato !== "ricevuto" || aspVisti[o.id]) return;
+      aspVisti[o.id] = true;
+      if (!aspPrima) bipNuovo();
+    });
+    aspPrima = false;
+    const vivi = lista.filter(function (o) { return ASP_PROSSIMO[o.stato]; });
+    aspVivi = vivi.length;
+    const firma = vivi.map(function (o) { return o.id + ":" + o.stato; }).join("|") + "#" + lista.length;
+    if (firma !== aspFirma) { aspFirma = firma; disegnaAsporto(vivi, lista); }
+  }
+  function disegnaAsporto(vivi, tutti) {
+    const box = $("#asporto");
+    box.hidden = !vivi.length;
+    if (!vivi.length) { box.innerHTML = ""; return; }
+    const ritirati = tutti.filter(function (o) { return o.stato === "ritirato"; }).length;
+    const pronti = vivi.filter(function (o) { return o.stato === "pronto"; }).length;
+    const conti = [];
+    if (vivi.length - pronti) conti.push((vivi.length - pronti) + " da preparare");
+    if (pronti) conti.push(pronti + (pronti === 1 ? " pronto" : " pronti") + " da ritirare");
+    if (ritirati) conti.push(ritirati + " ritirati stasera");
+    box.innerHTML = '<h2 class="asp-titolo">🛍️ Asporto<small>' + conti.join(" · ") + "</small></h2>" +
+      '<div class="asp-griglia">' + vivi.map(function (o) {
+        const dopo = ASP_PROSSIMO[o.stato];
+        const tq = traQuanto(o.ritiro);
+        return '<section class="asp-card st-' + esc(o.stato) + (o.stato !== "pronto" && tq.min < 0 ? " tardi" : "") +
+          '" data-id="' + esc(o.id) + '" data-ritiro="' + esc(o.ritiro) + '" data-stato="' + esc(o.stato) + '">' +
+          '<div class="asp-testa"><span class="asp-ora">' + esc(o.ritiro) + "</span>" +
+          '<div class="asp-chi"><b>' + esc(o.nome) + "</b><small class=\"asp-tra\">" + esc(tq.testo) + "</small></div>" +
+          '<span class="asp-cod">' + esc(o.codice) + "</span></div>" +
+          '<div class="asp-corpo">' + (o.righe || []).map(function (r) {
+            return '<div class="piatto"><span class="p-qta">' + esc(r.qta) + '×</span><span class="p-nome">' + esc(r.nome) +
+              (r.nota ? '<span class="p-nota">' + esc(r.nota) + "</span>" : "") + "</span></div>";
+          }).join("") + (o.nota ? '<p class="asp-nota">📝 ' + esc(o.nota) + "</p>" : "") + "</div>" +
+          '<div class="asp-piede"><a href="tel:' + esc(o.telefono) + '">📞 ' + esc(o.telefono) + "</a>" +
+          "<span>" + esc(euroDi(o.totale)) + " · paga al ritiro</span></div>" +
+          '<div class="t-azioni"><button class="' + dopo[1] + '" data-stato="' + dopo[0] + '">' + dopo[2] + "</button></div>" +
+          '<button class="t-blocca" data-stato="annullato">Annulla questo ordine</button>' +
+          "</section>";
+      }).join("") + "</div>";
+  }
+  $("#asporto").addEventListener("click", async function (e) {
+    const b = e.target.closest("button[data-stato]");
+    if (!b) return;
+    const card = b.closest(".asp-card");
+    if (b.dataset.stato === "annullato" &&
+        !confirm("Annullo l'ordine da asporto delle " + card.dataset.ritiro + "? Il cliente lo vede annullato sul telefono.")) return;
+    b.disabled = true;
+    try { await OrdiniStore.asporto.segna(card.dataset.id, b.dataset.stato); }
+    catch (er) { alert("Non sono riuscito a salvare: riprova."); }
+    aspFirma = null;
+    aggiornaDati();   // ridisegna anche il conteggio in alto
+  });
+  // ogni secondo: solo "tra 10 min" / "da 5 min" e il rosso se è in ritardo
+  function aggiornaTempiAsporto() {
+    document.querySelectorAll(".asp-card").forEach(function (c) {
+      const tq = traQuanto(c.dataset.ritiro);
+      const casella = c.querySelector(".asp-tra");
+      if (casella && casella.textContent !== tq.testo) casella.textContent = tq.testo;
+      c.classList.toggle("tardi", c.dataset.stato !== "pronto" && tq.min < 0);
+    });
+  }
 
   /* --------------------------------------------------------------------------
      USCIRE. "Esci" dimentica la password su QUESTO dispositivo: serve sul

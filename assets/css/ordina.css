@@ -249,3 +249,59 @@ body.ha-carrello .ord-barra.ord-barra-stato{ background:linear-gradient(180deg, 
   background:rgba(var(--ember-rgb),.14); border:1px solid rgba(var(--ember-rgb),.45);
   color:var(--cream); font-size:.88rem; line-height:1.45;
 }
+
+/* ===========================================================================
+   ASPORTO — il menu aperto dal sito con ?asporto=1
+   ======================================================================== */
+/* la striscia in basso finché il carrello è vuoto */
+.ord-asp-banner{ display:none; }
+body.ord-asporto:not(.ha-carrello) .ord-asp-banner{
+  display:block; position:fixed; left:12px; right:12px; bottom:calc(12px + env(safe-area-inset-bottom)); z-index:60;
+  padding:12px 16px; border-radius:14px; text-align:center;
+  background:linear-gradient(180deg, var(--bg-3), var(--bg-2)); border:1px solid var(--gold);
+  color:var(--cream); font-family:var(--font-body); font-size:.88rem; line-height:1.35;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+.ord-foglio.asporto .ord-coperti{ display:none; }
+.ord-asp{ margin-top:18px; }
+.ord-asp .ord-lab{ margin-top:18px; }
+.ord-asp .ord-lab:first-child{ margin-top:0; }
+.ord-orari{ display:grid; grid-template-columns:repeat(4, 1fr); gap:7px; margin-top:12px; }
+.ord-ora{
+  min-height:46px; border-radius:12px; border:1px solid var(--line); background:transparent;
+  color:var(--cream); font-family:var(--font-head); font-weight:600; font-size:.98rem; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.1;
+}
+.ord-ora small{ font-size:.62rem; font-weight:400; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+.ord-ora.scelto{ background:var(--gold); border-color:var(--gold); color:#241206; }
+.ord-ora:disabled{ opacity:.35; cursor:default; }
+.ord-campo{ display:block; margin-top:12px; }
+.ord-campo span{ display:block; margin-bottom:5px; color:var(--muted); font-size:.8rem; }
+.ord-campo small{ font-size:inherit; opacity:.8; }
+.ord-campo input, .ord-campo textarea{
+  width:100%; min-height:46px; padding:10px 12px; border-radius:12px;
+  border:1px solid var(--line); background:var(--bg-3); color:var(--cream);
+  font-family:var(--font-body); font-size:16px; -webkit-appearance:none; appearance:none;
+}
+.ord-campo input[type=date]{ color-scheme:dark; }
+.ord-campo textarea{ min-height:64px; resize:vertical; }
+.ord-spunta{ display:flex; gap:10px; align-items:flex-start; margin-top:14px; color:var(--cream); font-size:.88rem; cursor:pointer; }
+.ord-spunta input{ width:20px; height:20px; margin:1px 0 0; accent-color:var(--gold); flex:none; }
+.ord-privacy{ margin:6px 0 0 30px; color:var(--muted); font-size:.78rem; line-height:1.45; }
+.ord-privacy summary{ cursor:pointer; color:var(--gold-soft); text-decoration:underline; }
+.ord-privacy p{ margin:6px 0 0; }
+.ord-club{ margin:12px 0 0; color:var(--gold-soft); font-size:.84rem; line-height:1.4; }
+.ord-socio{ margin:10px 0 0; color:var(--cream); }
+.ord-link{ background:none; border:0; padding:0; color:var(--gold-soft); text-decoration:underline; font:inherit; cursor:pointer; }
+
+/* lo stato dell'ordine da asporto */
+.ord-asp-cod-lab{ margin:0; text-align:center; font-family:var(--font-head); text-transform:uppercase; letter-spacing:.18em; font-size:.7rem; color:var(--gold); }
+.ord-asp-cod{ margin:4px 0 0; text-align:center; font-family:var(--font-head); font-weight:700; font-size:2.6rem; letter-spacing:.24em; color:var(--cream); }
+.ord-asp-ritiro{ margin:2px 0 14px; text-align:center; color:var(--gold-soft); }
+.ord-asp-fine{ margin:0 0 14px; text-align:center; color:var(--cream); font-size:1.1rem; }
+.ord-asp-fine:empty{ display:none; }
+.ord-asp-annulla{
+  width:100%; padding:13px; margin-bottom:10px; border-radius:14px; border:1px solid var(--line);
+  background:transparent; color:var(--muted); font-family:var(--font-head); text-transform:uppercase;
+  letter-spacing:.1em; font-size:.8rem; cursor:pointer;
+}
