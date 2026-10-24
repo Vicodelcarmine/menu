@@ -14,7 +14,7 @@ const ClubPannello = (function () {
       tit: "Club del Vico", sub: "Iscriviti gratis: è il nostro modo di dirti grazie.",
       allaProssima: "alla tua prossima visita", per: "per", persone: "persone", persona: "persona",
       compleanno: "Un regalo per il tuo compleanno", offerte: "Offerte riservate agli iscritti, al massimo una ogni 15 giorni",
-      nome: "Nome", email: "Email", telefono: "Telefono", telefonoAiuto: "Se il numero non è italiano, scrivi il prefisso (es. +44)",
+      nome: "Nome", email: "Email (facoltativa)", telefono: "Telefono", telefonoAiuto: "Se il numero non è italiano, scrivi il prefisso (es. +44)",
       nascita: "Data di nascita", nascitaAiuto: "Ci serve per farti un regalo al compleanno",
       privacy: "Ho letto l'", informativa: "informativa privacy", promo: "Voglio ricevere le offerte del Club (email e notifiche)",
       iscriviti: "Iscriviti e ricevi il premio", iscrivo: "Ti iscrivo…",
@@ -64,7 +64,7 @@ const ClubPannello = (function () {
       tit: "Vico Club", sub: "Join for free: it's our way of saying thank you.",
       allaProssima: "on your next visit", per: "for", persone: "people", persona: "person",
       compleanno: "A gift for your birthday", offerte: "Members-only offers, at most one every 15 days",
-      nome: "Name", email: "Email", telefono: "Phone", telefonoAiuto: "If it's not an Italian number, add the country code (e.g. +44)",
+      nome: "Name", email: "Email (optional)", telefono: "Phone", telefonoAiuto: "If it's not an Italian number, add the country code (e.g. +44)",
       nascita: "Date of birth", nascitaAiuto: "So we can give you a birthday gift",
       privacy: "I have read the ", informativa: "privacy notice", promo: "Send me the Club offers (email and notifications)",
       iscriviti: "Join and get your gift", iscrivo: "Joining…",
@@ -235,7 +235,7 @@ const ClubPannello = (function () {
       const d = { nome: f.nome.value.trim(), email: f.email.value.trim(), telefono: f.telefono.value.trim(),
         nascita: f.nascita.value, promo: f.promo.checked };
       const sbaglio = d.nome.length < 2 ? "nome"
-        : !/^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(d.email) ? "email"
+        : d.email && !/^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(d.email) ? "email"
         : d.telefono.replace(/\D/g, "").length < 8 ? "telefono"
         : !/^\d{4}-\d{2}-\d{2}$/.test(d.nascita) || d.nascita > oggiMeno(14) || d.nascita < oggiMeno(110) ? "nascita"
         : !f.privacy.checked ? "privacy" : null;
@@ -270,7 +270,7 @@ const ClubPannello = (function () {
     if (C.inItaliano()) {
       return '<details class="club-informativa"><summary>Informativa privacy</summary>' +
         "<p><b>Chi raccoglie i dati:</b> il ristorante Vico del Carmine, Via Pisana 40/r, Firenze (titolare del trattamento). Per qualsiasi richiesta: vicodelcarmine1@gmail.com.</p>" +
-        "<p><b>Quali dati:</b> nome, email, telefono, data di nascita e i premi che ricevi e usi.</p>" +
+        "<p><b>Quali dati:</b> nome, telefono, data di nascita, email (se la metti) e i premi che ricevi e usi.</p>" +
         "<p><b>Perché:</b> per gestire la tua tessera del Club e i tuoi premi (benvenuto e compleanno). Solo se metti la spunta sulle offerte, anche per mandarti le offerte del Club via email e notifica, al massimo una ogni 15 giorni. Non cediamo i dati a nessuno e non li usiamo per altro.</p>" +
         "<p><b>Dove:</b> su un database protetto (Supabase), usato solo dal ristorante.</p>" +
         "<p><b>Per quanto:</b> finché resti nel Club. Puoi uscire quando vuoi da questa pagina: i dati si cancellano subito.</p>" +
@@ -278,7 +278,7 @@ const ClubPannello = (function () {
     }
     return '<details class="club-informativa"><summary>Privacy notice</summary>' +
       "<p><b>Who collects the data:</b> Vico del Carmine restaurant, Via Pisana 40/r, Florence, Italy (data controller). For any request: vicodelcarmine1@gmail.com.</p>" +
-      "<p><b>What data:</b> name, email, phone, date of birth and the gifts you receive and use.</p>" +
+      "<p><b>What data:</b> name, phone, date of birth, email (if you give it) and the gifts you receive and use.</p>" +
       "<p><b>Why:</b> to manage your Club card and gifts (welcome and birthday). Only if you tick the offers box, also to send you Club offers by email and notification, at most one every 15 days. We never share your data and never use it for anything else.</p>" +
       "<p><b>Where:</b> in a protected database (Supabase), used only by the restaurant.</p>" +
       "<p><b>How long:</b> as long as you stay in the Club. You can leave at any time from this page: your data is deleted right away.</p>" +

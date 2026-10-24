@@ -48,10 +48,10 @@ const Ordina = (function () {
       aspChiuso: "🛍️ Stasera l'asporto è chiuso: il menu si può solo sfogliare",
       ritiro: "A che ora passi a ritirare?", ritiroAiuto: "Stasera · paghi al ritiro, alla cassa",
       pieno: "pieno", dati: "I tuoi dati", socio: "Ordini come {nome}.", nonSeiTu: "Non sei tu?",
-      nome: "Nome e cognome", telefono: "Telefono", email: "Email",
+      nome: "Nome e cognome", telefono: "Telefono", email: "Email (facoltativa)",
       nascita: "Data di nascita", nascitaPerche: "per il regalo di compleanno",
       privacy: "Ho letto l'informativa privacy", privacyTitolo: "Informativa privacy",
-      privacyTesto: "<p><b>Chi raccoglie i dati:</b> il ristorante Vico del Carmine, Via Pisana 40/r, Firenze (titolare del trattamento). Per qualsiasi richiesta: vicodelcarmine1@gmail.com.</p><p><b>Quali dati:</b> nome, email, telefono, data di nascita, i tuoi ordini e i premi del Club.</p><p><b>Perché:</b> per preparare il tuo ordine e gestire la tua tessera del Club del Vico, in cui entri ordinando (premio di benvenuto e regalo di compleanno). Solo se metti la spunta sulle offerte, anche per mandarti le offerte del Club, al massimo una ogni 15 giorni. Non cediamo i dati a nessuno.</p><p><b>Dove e per quanto:</b> su un database protetto (Supabase), finché resti nel Club. Puoi uscire quando vuoi dalla tua tessera.</p><p><b>I tuoi diritti:</b> puoi vedere, correggere o cancellare i tuoi dati in ogni momento; puoi anche rivolgerti al Garante per la protezione dei dati personali.</p>",
+      privacyTesto: "<p><b>Chi raccoglie i dati:</b> il ristorante Vico del Carmine, Via Pisana 40/r, Firenze (titolare del trattamento). Per qualsiasi richiesta: vicodelcarmine1@gmail.com.</p><p><b>Quali dati:</b> nome, telefono, data di nascita, email (se la metti), i tuoi ordini e i premi del Club.</p><p><b>Perché:</b> per preparare il tuo ordine e gestire la tua tessera del Club del Vico, in cui entri ordinando (premio di benvenuto e regalo di compleanno). Solo se metti la spunta sulle offerte, anche per mandarti le offerte del Club, al massimo una ogni 15 giorni. Non cediamo i dati a nessuno.</p><p><b>Dove e per quanto:</b> su un database protetto (Supabase), finché resti nel Club. Puoi uscire quando vuoi dalla tua tessera.</p><p><b>I tuoi diritti:</b> puoi vedere, correggere o cancellare i tuoi dati in ogni momento; puoi anche rivolgerti al Garante per la protezione dei dati personali.</p>",
       promo: "Voglio ricevere le offerte del Club (email e notifiche)",
       club: "Ordinando entri nel Club del Vico, con il premio di benvenuto e il regalo di compleanno.",
       notaOrdine: "Nota per l'ordine (facoltativa)", notaOrdineEs: "es. citofono, posate, tagliata a spicchi",
@@ -70,7 +70,7 @@ const Ordina = (function () {
       e_tardi: "A quell'ora non facciamo più in tempo: scegli un orario più tardi.",
       e_chiuso: "Stasera l'asporto è chiuso.", e_grande: "Per un ordine così grande chiamaci.",
       e_troppi: "Troppi ordini: chiamaci.", e_tanti: "Hai già 2 ordini in corso stasera: chiamaci.",
-      e_gia: "Questa email o questo numero sono già nel Club con altri dati: scrivili come quando ti sei iscritto.",
+      e_gia: "Questa email è già nel Club con un altro numero: lasciala vuota o scrivi quella giusta.",
       e_vuoto: "Il carrello è vuoto.", e_stato: "È già in preparazione: chiamaci per cambiarlo.",
     },
     en: {
@@ -103,10 +103,10 @@ const Ordina = (function () {
       aspChiuso: "🛍️ Takeaway is closed tonight: you can still browse the menu",
       ritiro: "What time will you collect it?", ritiroAiuto: "Tonight · you pay when you collect",
       pieno: "full", dati: "Your details", socio: "Ordering as {nome}.", nonSeiTu: "Not you?",
-      nome: "First and last name", telefono: "Phone", email: "Email",
+      nome: "First and last name", telefono: "Phone", email: "Email (optional)",
       nascita: "Date of birth", nascitaPerche: "for your birthday gift",
       privacy: "I have read the privacy notice", privacyTitolo: "Privacy notice",
-      privacyTesto: "<p><b>Who collects the data:</b> Vico del Carmine restaurant, Via Pisana 40/r, Florence, Italy (data controller). For any request: vicodelcarmine1@gmail.com.</p><p><b>What data:</b> name, email, phone, date of birth, your orders and your Club gifts.</p><p><b>Why:</b> to prepare your order and manage your Vico Club card, which you join by ordering (welcome gift and birthday gift). Only if you tick the offers box, also to send you Club offers, at most one every 15 days. We never share your data.</p><p><b>Where and how long:</b> in a protected database (Supabase), as long as you stay in the Club. You can leave at any time from your card.</p><p><b>Your rights:</b> you can see, correct or delete your data at any time; you can also contact the Italian Data Protection Authority (Garante).</p>",
+      privacyTesto: "<p><b>Who collects the data:</b> Vico del Carmine restaurant, Via Pisana 40/r, Florence, Italy (data controller). For any request: vicodelcarmine1@gmail.com.</p><p><b>What data:</b> name, phone, date of birth, email (if you give it), your orders and your Club gifts.</p><p><b>Why:</b> to prepare your order and manage your Vico Club card, which you join by ordering (welcome gift and birthday gift). Only if you tick the offers box, also to send you Club offers, at most one every 15 days. We never share your data.</p><p><b>Where and how long:</b> in a protected database (Supabase), as long as you stay in the Club. You can leave at any time from your card.</p><p><b>Your rights:</b> you can see, correct or delete your data at any time; you can also contact the Italian Data Protection Authority (Garante).</p>",
       promo: "Send me the Club offers (email and notifications)",
       club: "Ordering makes you a member of the Vico Club, with a welcome gift and a birthday gift.",
       notaOrdine: "Note for the order (optional)", notaOrdineEs: "e.g. cutlery, sliced pizza",
@@ -125,7 +125,7 @@ const Ordina = (function () {
       e_tardi: "We can't make it by then: please choose a later time.",
       e_chiuso: "Takeaway is closed tonight.", e_grande: "For such a large order please call us.",
       e_troppi: "Too many orders: please call us.", e_tanti: "You already have 2 orders in progress tonight: please call us.",
-      e_gia: "This email or number is already in the Club with different details: type them as when you joined.",
+      e_gia: "This email is already in the Club with another number: leave it empty or type the right one.",
       e_vuoto: "Your cart is empty.", e_stato: "It's already being prepared: call us to change it.",
     },
   };
@@ -745,7 +745,7 @@ const Ordina = (function () {
     if (!socio) {
       if (aspDati.nome.trim().length < 2) return no("e_nome");
       if (aspDati.telefono.replace(/\D/g, "").length < 8) return no("e_telefono");
-      if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(aspDati.email.trim())) return no("e_email");
+      if (aspDati.email.trim() && !/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(aspDati.email.trim())) return no("e_email");   // facoltativa
       if (!aspDati.nascita) return no("e_nascita");
       if (!aspDati.privacy) return no("e_privacy");
     }

@@ -221,10 +221,10 @@ const Club = (function () {
         const nome = String(d.nome || "").trim().slice(0, 60), email = String(d.email || "").trim().toLowerCase();
         const tel = demoTelefono(d.telefono);
         if (nome.length < 2) throw errore("nome", "Scrivi il tuo nome");
-        if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(email)) throw errore("email", "Email non valida");
+        if (email && !/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(email)) throw errore("email", "Email non valida");   // facoltativa
         if (!tel) throw errore("telefono", "Numero di telefono non valido");
         if (!/^\d{4}-\d{2}-\d{2}$/.test(d.nascita || "")) throw errore("nascita", "Data di nascita non valida");
-        if (db.iscritti.some(function (i) { return i.email === email || i.telefono === tel; })) {
+        if (db.iscritti.some(function (i) { return (email && i.email === email) || i.telefono === tel; })) {
           throw errore("gia", "Questa email o questo numero sono già nel Club");
         }
         const i = { id: "c" + casuale(8), chiave: casuale(24), nome: nome, email: email, telefono: tel, nascita: d.nascita,
@@ -468,7 +468,7 @@ const Club = (function () {
   }
   let caricamento = null;
   function apri(opzioni) {
-    if (!caricamento) caricamento = caricaScript("assets/js/club-pannello.js?v=2").catch(function (e) { caricamento = null; throw e; });
+    if (!caricamento) caricamento = caricaScript("assets/js/club-pannello.js?v=3").catch(function (e) { caricamento = null; throw e; });
     return caricamento.then(function () { ClubPannello.apri(opzioni || {}); })
       .catch(function () { alert(inItaliano() ? "Connessione assente: riprova fra poco." : "No connection: please try again shortly."); });
   }
