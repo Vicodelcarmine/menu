@@ -31,7 +31,7 @@
 
   // Versione del menu, scritta in fondo alla pagina: AGGIORNARLA A OGNI PUBBLICAZIONE.
   // Serve a capire al volo se il telefono sta mostrando l'ultima versione.
-  const APP_VERSION = "15.10.2026 · avvisi club";
+  const APP_VERSION = "16.11.2026 · torna al menu";
 
   const hasData = typeof MENU_DATA !== "undefined" && MENU_DATA;
   const categorie = (hasData && MENU_DATA.categorie) || [];
@@ -226,6 +226,10 @@
 
     // hint carosello + skip intro
     $("#ov-hint").textContent = t("swipeHint");
+    document.querySelectorAll(".ov-back").forEach(function (b) {      // tasto "Torna al menu"
+      b.setAttribute("aria-label", t("backMenu"));
+      const s = b.querySelector(".ov-back-txt"); if (s) s.textContent = t("backMenu");
+    });
     const skip = $("#intro-skip"); if (skip) skip.textContent = t("skipIntro");
     $("#hero-logo").alt = "Vico del Carmine";
     $("#f-ver").textContent = "v " + APP_VERSION;
@@ -324,7 +328,7 @@
     o.id = "giorno-overlay";
     o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true");
     o.innerHTML =
-      '<button class="ov-close" id="giorno-close" aria-label="Chiudi">✕</button>' +
+      '<button class="ov-close ov-back" id="giorno-close" aria-label="' + t("backMenu") + '"><span class="ov-back-txt">' + t("backMenu") + "</span></button>" +
       '<div class="sheet-inner">' +
       '<header class="giorno-head">' +
       '<span class="giorno-kicker" id="giorno-kicker"></span>' +
@@ -362,7 +366,7 @@
       body.appendChild(sec);
     });
   }
-  function openGiorno() { buildGiornoOverlay(); renderGiorno(); giornoOverlay.classList.add("open"); giornoOverlay.scrollTop = 0; updateScroll(); }
+  function openGiorno() { navSegna(); buildGiornoOverlay(); renderGiorno(); giornoOverlay.classList.add("open"); giornoOverlay.scrollTop = 0; updateScroll(); }
   function closeGiorno() { if (giornoOverlay) giornoOverlay.classList.remove("open"); updateScroll(); }
 
   function buildGiornoFeature(grid) {
@@ -553,6 +557,7 @@
     });
 
     deckEl.classList.remove("touched");
+    navSegna();
     overlay.classList.add("open");
     updateScroll();
 
@@ -565,6 +570,18 @@
     staggerTimer = setTimeout(function () { cards.forEach(function (el) { el.style.transitionDelay = "0ms"; }); }, n * 70 + 700);
   }
   function closeCarousel() { cancelFlip(); overlay.classList.remove("open"); updateScroll(); }
+
+  /* --- Tasto "indietro" del telefono (o lo scorrimento dal bordo su iPhone) ---
+     Senza questo, chi preme "indietro" mentre guarda i piatti esce dal menu.
+     Aprendo una categoria lascio un segno nella cronologia: "indietro" torna
+     su quel segno e io chiudo la schermata, riportando al menu principale. */
+  function navSegna() {
+    try { if (!(history.state && history.state.vdcOv)) history.pushState({ vdcOv: 1 }, ""); } catch (e) {}
+  }
+  window.addEventListener("popstate", function () {
+    if (overlay.classList.contains("open")) closeCarousel();
+    if (giornoOverlay && giornoOverlay.classList.contains("open")) closeGiorno();
+  });
   function go(dir) {
     if (!n) return;
     if (pageMode()) { flipTo((index + dir + n) % n, dir); return; }
